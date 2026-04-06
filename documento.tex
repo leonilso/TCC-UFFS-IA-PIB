@@ -1,0 +1,191 @@
+\documentclass[        
+a4paper,          
+12pt,             
+chapter=TITLE,   
+section=Title,    
+subsection=Title,
+oneside,          
+english,          
+spanish,          
+brazil,           
+fleqn            
+]{lib/abntex2}
+\input{lib/preambulo}
+\usepackage{pdfpages}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{pdflscape}
+\usepackage{ragged2e}
+%\usepackage{acro}
+%\input{1-pre-textuais/lista-de-abreviaturas-e-siglas}
+% Configurações do modelo 
+\removerbordasdohyperlink{sim}
+%\cordohyperlink{nao} 
+%\citeoption{abnt-full-initials=yes}
+
+% Comando para citar no padrão ABNT
+% Capa
+
+\begin{document}
+    \begin{capa}
+            \begin{center}
+                \includegraphics[width=2cm]{LOGO_UFFS.png}\\[0.5cm]
+                \textbf{UNIVERSIDADE FEDERAL DA FRONTEIRA SUL}\\
+                \textbf{CAMPUS LARANJEIRAS DO SUL}\\
+                \textbf{CIÊNCIAS ECONÔMICAS}\\[4cm]
+                
+                \textbf{LEONILSO FANDRES WRUBLAK}\\[4cm]
+                
+                \textbf{AS MÁQUINAS ECONÔMICAS: PREDIÇÃO DO PIB BRASILEIRO UTILIZANDO INTELIGÊNCIA ARTIFICIAL}\\[7cm]
+%                Título provisório
+                
+                \textbf{LARANJEIRAS DO SUL - PR}\\
+                \textbf{2026}
+            \end{center}
+        \end{capa}
+        \setcounter{page}{1}
+        \begin{folhaderosto}
+            \begin{center}
+                \textbf{LEONILSO FANDRES WRUBLAK}\\[4cm]
+                
+                \textbf{AS MÁQUINAS ECONÔMICAS: PREDIÇÃO DO PIB BRASILEIRO UTILIZANDO INTELIGÊNCIA ARTIFICIAL}\\[3cm]
+            \end{center}
+            
+            \vspace*{\fill}
+            \hfill
+            \parbox{8cm}{
+                Trabalho de Conclusão de Curso apresentado ao Curso de Ciências Econômicas da
+                Universidade Federal da Fronteira Sul (UFFS), como requisito para obtenção do
+                título de Bacharel em Ciências Econômicas.}
+            
+            \vspace*{2cm}
+            
+            \begin{center}
+                Orientador: Prof. Dr. Alexandre Manoel dos Santos (UFFS)\\[2cm]
+                LARANJEIRAS DO SUL - PR\\
+                2026
+            \end{center}
+        \end{folhaderosto}
+        
+        % Comandos para incluir ficha e folha após aprovação 
+        % \includepdf[pages=1]{}
+        % \includepdf[pages=1, fitpaper=true]{}
+
+        % --- Modelo para Folha de Aprovação ---
+        \begin{folhadeaprovacao}
+            
+            \begin{center}
+                {\textbf{LEONILSO FANDRES WRUBLAK}}
+                
+                \vspace*{2cm}
+                
+                {\textbf{AS MÁQUINAS ECONÔMICAS:}}\\
+                \vspace{0.5cm}
+                {PREDIÇÃO DO PIB BRASILEIRO UTILIZANDO INTELIGÊNCIA ARTIFICIAL}
+            \end{center}
+            
+            \vspace{2cm}
+            
+            \hfill
+            \parbox{8cm}{
+                Trabalho de Conclusão de Curso apresentado ao Curso de Ciências Econômicas da
+                Universidade Federal da Fronteira Sul (UFFS), como requisito para obtenção do
+                título de Bacharel em Ciências Econômicas.}
+            
+            \vspace{1.5cm}
+            
+            \noindent
+            \begin{center}
+                        Este trabalho foi defendido e aprovado pela banca em DD/MM/AAAA.
+            \end{center}
+                    
+            \vspace{2cm}
+            
+            \begin{center}
+                BANCA EXAMINADORA
+            \end{center}
+            
+            \vspace{1.5cm}
+            
+            \noindent
+            \begin{center}
+                \begin{tabular}{c}
+                    \rule{10cm}{0.4pt}\\
+                    Prof. Dr. Alexandre Manoel dos Santos - UFFS\\
+                    Orientador
+                \end{tabular}
+            \end{center}
+            
+            \vspace{1.5cm}
+            
+            \noindent
+            \begin{center}
+                \begin{tabular}{c}
+                    \rule{10cm}{0.4pt}\\
+                    Professor(a) 1\\
+                    Avaliador
+                \end{tabular}
+            \end{center}
+            
+            \vspace{1.5cm}
+            
+            \noindent
+            \begin{center}
+                \begin{tabular}{c}
+                    \rule{10cm}{0.4pt}\\
+                    Professor(a) 2\\
+                    Avaliador
+                \end{tabular}
+            \end{center}
+            
+        \end{folhadeaprovacao}
+
+    % imprimir dedicatória e agradecimentos funcionam bem com a norma da universidade
+    \imprimirdedicatoria{1-pre-textuais/dedicatoria}
+	\imprimiragradecimentos{1-pre-textuais/agradecimentos}
+
+    % O epigrafo fica bugado com o modelo portanto estou usando formatação manual
+
+    \begin{epigrafe} 
+	    \vspace*{\fill}
+        \begin{flushright}
+            \parbox{0.6\textwidth}{ 
+                \input{1-pre-textuais/epigrafe} 
+            }
+        \end{flushright}
+	\end{epigrafe}
+
+    % Resumo e Abstract
+    \imprimirresumo{1-pre-textuais/resumo}
+	\imprimirabstract{1-pre-textuais/abstract}
+
+    % Listas
+    \newpage
+	\listoffigures*
+	\newpage
+	\listoftables*
+	\newpage
+	\printacronyms[name={LISTA DE SIGLAS}] % Nome modificado para a formatação da UFFS
+	\newpage
+
+    \tableofcontents*
+
+    \newpage
+	\textual
+    \input{2-textuais/1-introducao}
+    \input{2-textuais/2-fundamentacao-teorica}
+    \input{2-textuais/3-metodologia}
+    \input{2-textuais/4-resultados}
+    \input{2-textuais/5-conclusao}
+    \bibliography{3-pos-textuais/referencias}
+
+	
+
+
+
+
+
+
+\end{document}

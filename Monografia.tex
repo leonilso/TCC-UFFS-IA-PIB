@@ -1,0 +1,478 @@
+\documentclass[12pt]{article}%
+\usepackage[T1]{fontenc}%
+\usepackage[utf8]{inputenc}%
+\usepackage{changepage}
+\usepackage{lmodern}%
+\usepackage{textcomp}%
+\usepackage{lastpage}%
+\usepackage{geometry}%
+\usepackage{amsmath}%
+\usepackage{hyperref}%
+%\usepackage{natbib}
+\usepackage{mathptmx}
+\usepackage{setspace}
+\usepackage[alf]{abntex2cite}
+\usepackage{setspace} % para controlar espaçamento
+\usepackage{adjustbox} % para ajustar margens
+\usepackage{ragged2e} % para justificar texto
+\usepackage{indentfirst} % indentar o section
+\usepackage{lipsum}
+\usepackage{xurl}
+\usepackage[brazilian]{babel}
+\usepackage{xstring}
+\usepackage{float}
+\usepackage{acro}
+\setcounter{secnumdepth}{4} % permite numerar até \paragraph
+\setcounter{tocdepth}{4}    % inclui até \paragraph no sumário
+\input{acronimos}
+
+
+%\makeatletter
+%\renewcommand{\cite}[1]{%
+%	\StrLowerCase{#1}[\temp]%
+%	\expandafter\MakeUppercase\expandafter{\expandafter\@car\temp\@nil}\expandafter\@gobble\temp
+%}
+%\makeatother
+
+\newcommand{\AutorCite}[1]{%
+	\StrLeft{#1}{1}[\First]%
+	\StrGobbleLeft{#1}{1}[\Rest]%
+	\MakeUppercase{\First}\MakeLowercase{\Rest}%
+}
+
+\newcommand{\citem}[2][]{%
+	(\citeauthoronline{#2}, \citeyear{#2}%
+	\ifx#1\empty\else, #1\fi%
+	)%
+}
+%\bibliographystyle{abbrvnat}
+%\setcitestyle{authoryear,open={(},close={)}}
+\onehalfspacing 
+
+%\newenvironment{ABNTQuote}
+%{\begin{adjustwidth}{4cm}{0cm}\fontsize{10pt}{12pt}\selectfont\justifying\singlespacing}
+%	{\end{adjustwidth}}
+
+\newenvironment{ABNTQuote}
+{\begin{adjustwidth}{4cm}{0cm}\fontsize{10pt}{12pt}\selectfont\justifying\singlespacing}
+	{\end{adjustwidth}\par\normalfont\normalsize\justifying}
+
+
+\begin{document}
+	\begin{center}
+		\thispagestyle{empty}
+		\large
+		\textbf{UNIVERSIDADE FEDERAL DA FRONTEIRA SUL -- UFSS}\\
+		\vspace{7cm}
+		LEONILSO FANDRES WRUBLAK\\
+		\textbf{Orientador}: Dr. Alexandre Manoel dos Santos (UFFS)\\
+		\vspace{3cm}
+		\textbf{Trabalho de Conclusão de Curso}\\
+		\vspace{5cm}
+		NOVA LARANJEIRAS, PR\\
+		2025
+	\end{center}
+	
+	\section*{\centering Resumo}
+	A incerteza é um desafio grande na vida dos gestores, sejam eles públicos ou privados, e o combate a incerteza se da pela busca de informações, o risco é inversamente proporcional ao conhecimento que temos sobre determinado assunto,e o conhecimento só se da pela interpretação das informações obtidas através de um processo de mineração de dados, quando falamos de poucos dados, os modelos tradicionais de previsão conseguem acertar com um determinado nível de precisão, mas quando queremos resultados mais precisos, ou que nossos dados são mais complexos, evento cada vez mais comum na era do \textit{big-data}, os modelos tradicionais de previsão encontram limitações, nesse sentido a presente monografia busca responder em que medida modelos preditivos baseados em \ac{ia} conseguem estimar o PIB brasileiro com maior precisão do que os modelos tradicionais VAR, ARIMA, DFM e MIDAS? Para isso se utilizará de métodos quantitativos visando estimar a acurácia, custo computacional e interpretabilidade dos modelos testados, para enfim determinar se modelos de IA conseguem reduzir a incerteza.
+	
+
+	\newpage
+	\section*{\centering Abstract}
+	Uncertainty is a major challenge for managers, whether public or private, and combating it involves seeking information. Risk is inversely proportional to one's knowledge about a given subject, and knowledge only comes from interpreting the information obtained through data mining. When we're dealing with limited data, traditional forecasting models can achieve a certain level of accuracy. However, when we want more accurate results or when our data is more complex—an increasingly common occurrence in the era of big data—traditional forecasting models encounter limitations. In this sense, this monograph seeks to answer the question of how predictive models based on artificial intelligence (AI) can estimate Brazilian GDP with greater accuracy than traditional VAR, ARIMA, DFM, and MIDAS models. Quantitative methods will be used to estimate the accuracy, computational cost, and interpretability of the models tested, ultimately determining whether AI models can reduce uncertainty.
+	\newpage
+
+	\printacronyms
+	\newpage
+	
+	\tableofcontents
+	
+	\newpage
+	\section{Introdução}
+	Para onde vamos? uma das questões fundamentais da natureza humana, estudada pelas mais diferentes ciências, desde exatas às sociais. Dentre as ciências que buscam a resposta do para onde iremos, temos a economia, uma ciência que encontra-se no meio termo, a chamada social aplicada. Inicialmente pode parecer estranho, mas boa parte do trabalho de um economista é entender os fatos passados e presentes para predizer (ou tentar) o  futuro, mas a pergunta que fica é por quê a economia se preocupa tanto com o futuro?
+	
+	Para \citeonline[p. 1]{mankiw2025introduccao} "a economia é o estudo de como a sociedade administra seus recursos escassos", é essa escassez \footnote{escassez:  natureza limitada dos recursos da sociedade \citem[p. 1]{mankiw2025introduccao}} que é o motivador para a preocupação com o futuro, afinal se tivéssemos recursos ilimitados não haveria motivo para estudar economia. Mas este não é o caso, existe limitação de recursos, e devemos saber qual é a melhor maneira de alocar esses recursos.
+	
+	Para um melhor enfoque, a economia se subdivide em duas grandes áreas, a microeconomia, voltada para o estudo da firma (empresas), e a macroeconomia, que estuda os agregados econômicos \citem{Vasconcelos}
+	
+	No presente trabalho nos voltaremos para a macroeconomia, área da economia que surge no inicio do século XX, devido as intensas mudanças sociais, políticas e econômicas que ocorreram no período, a principal obra referência da macroeconomia é o livro de John Maynard Keynes: \textit{Teoria Geral do Emprego, do Juro e da Moeda} \citeyear{KEYNES1936}, onde o autor traz os principais fundamentos da macroeconomia que é estudada hoje na academia e executada nos governos.
+	
+	
+	Um desses conceitos fundamentais que Keynes aborda é a noção de incerteza
+	\begin{ABNTQuote}
+	De fato, sabemos muito pouco sobre o futuro. A base real para formar expectativas sobre o rendimento futuro de um investimento é extremamente frágil. Nossas decisões de investimento [...] dependem de um estado de confiança. Muitas vezes, sabemos que não sabemos; mas mesmo assim temos que agir. \citem[p. 161]{KEYNES1936}
+	\end{ABNTQuote}
+	Com essa noção de incerteza definida por Keynes podemos relacionar com aquela nossa questão fundamental, gestores mundiais, sejam eles públicos ou privados, buscam maneiras de observar dados históricos e com um certo intervalo de confiança tentar "prever o futuro", para justamente, combater a incerteza.
+	
+	
+	A incerteza 
+%	traz desconfiança, e a desconfiança, por sua vez, 
+	gera perguntas, e encontrar as respostas para essas perguntas vai muito além da impressão pessoal
+%	\textit{feeling}
+%	\footnote{\textit{feeling}: impressão, sentimento, pressentimento}
+	do gestor. Os gestores precisam de informação para suas decisões, e para \citeonline{laudon2022sistemas} os sistemas de informação são essenciais para alcançar objetivos estratégicos dos negócios. Na era digital, o grande volume de dados gerados pelos sistemas de informação podem ser usados como fontes, praticamente inesgotáveis de dados.
+	
+	Esses grandes volumes de dados, gerados pelos sistemas de informação, são chamados de \textit{big data}. Para \citem[p. 9]{vasconcelos2017poder}  "O \textit{big data} caracterizado por grandes bases de dados com um número elevado de preditores relativos às observações disponíveis". Contudo, somente ter os dados não é o suficiente, e converter esse grande volume de dados em informações não é uma tarefa simples, e exige técnicas sofisticadas de coleta, tratamento e modelagem. Os processos de coleta e tratamento, apesar de fundamentais, serão usados somente como passos anteriores ao da modelagem, que é o enfoque  desse texto.  
+	
+	% gostaria de trazer um autor sobre modelos econometricos, porém fiquei indeciso
+	
+	
+	 
+
+	
+
+	
+	
+	
+	
+	
+	
+	
+%	Nesse processo a estatística e a ciência de dados trazem o aporte teórico para o tratamento, coleta e transformação desses dados em informações uteis. 
+	
+	
+%	Adicioanar a definição de IA, Machine Learning na Introdução não esquecer
+	
+	
+	\subsection{Problema de pesquisa}
+	
+	Avaliar modelos na previsão de variáveis econômicas não é um processo novo, muitos autores já usaram diversas vezes esses modelos.
+	
+	Em sua dissertação, \citeonline{azevedo2020modelagem} usou o modelo modelo de vetores auto-regressivos (VAR) para análise de séries temporais com variáveis macroeconômicas.
+	Já \citeonline{fialho2024incerteza} usaram o VAR para entender a dinâmica entre 
+	incerteza, spread bancário, crédito, consumo, rendimento e taxa de desocupação. 
+	
+	\citeonline{ciquini2023modelo} avaliou o uso do modelo auto-regressivo de médias móveis (do inglês \textit{AutoRegressive Integrated Moving Average} - ARIMA) para tomada de decisões econômicas. Agora \citeonline{Silva_Clericuzi_Carvalho_2025} apoiaram-se no ARIMA para a predição do PIB brasileiro. 
+	
+	\citeonline{alves2009nucleo} em sua dissertação de mestrado abordou modelos de fatores dinâmicos (do inglês  \textit{Dynamic Factor Models} - DFM) para entender o núcleo da inflação brasileira. Por outro lado \citeonline{moura2020fragilidade} avaliou os ciclos econômicos brasileiros usando uma combinação entre o DFM e o VAR.
+	
+	\citeonline{castelli2022modelo} abordou o uso do modelo de amostragem de dados mistos (do inglês \textit{Mixed Data Sampling} - MIDAS) para predizer o PIB com a pesquisa industrial mensal. Assim como \citeonline{micheletti2024avaliaccao} usou modelos de \textit{ensemble stacking} \footnote{\textit{ensemble stacking}: modelos combinados} (dentre eles o MIDAS) para prever o PIB.
+	
+	A maioria desses autores trabalharam com o que se chamam modelos tradicionais de predição, esses modelos se baseiam em variáveis e proposições bem definidas, o que pode não ser o caso na era do \textit{big data}. Nesse contexto, em que os modelos tradicionais encontram-se limitados, que a inovação surge, nesse caso o uso de técnicas de IA para modelar variáveis econômicas.
+	
+	Diante do disso a presente pesquisa tende a seguir os passos de \citeonline{kava2022alem} e de \citeonline{rebelo2022interpretabilidade} que comparam, em suas dissertações, modelos de IA com os chamados modelos tradicionais. Contudo, a nossa pesquisa se diferencia dos trabalhos produzidos por testar outros modelos e focar especificamente no PIB brasileiro, para isso norteia-se pela seguinte pergunta: Em que medida modelos preditivos baseados em \ac{ia}, comparados aos modelos tradicionais VAR, ARIMA, DFM e MIDAS, conseguem estimar o PIB brasileiro?
+	
+	\subsection{Objetivos}
+	\subsubsection{Objetivo Geral}
+	Analisar em que medida modelos preditivos baseados em \ac{ia}, comparados aos modelos tradicionais VAR, ARIMA, DFM e MIDAS, conseguem estimar o PIB brasileiro.
+	
+	\subsubsection{Objetivos Específicos}
+	\begin{itemize}
+		\item[a)] Caracterizar os modelos econométricos tradicionais (VAR, ARIMA, DFM e MIDAS) e de IA para a predição do PIB;
+		\item[b)] Identificar as diferentes variáveis determinantes na estimativa do PIB;
+		\item[c)] Aplicar diferentes modelos econométricos tradicionais e de IA para a predição do PIB; 
+		\item[d)] Comparar o desempenho dos modelos de IA e econométricos tradicionais usando diferentes métricas, como desempenho computacional, precisão e interpretabilidade.
+	\end{itemize}
+	
+
+	
+	\subsection{Justificativa} 
+	O presente trabalho justifica-se empiricamente, pois permite que gestores, sejam eles públicos ou privados, utilizem-se de ferramentas estatísticas para tomarem decisões fundamentadas. "A  tomada  de  decisões  empresariais  é  uma  tarefa  complexa  e  fundamental  para  a  sobrevivência de uma organização" \citem[p. 3]{santana2023aprimorando}.
+	
+	Portanto, a tomada de decisões pode ser fundamentada através dos modelos. Os modelos, mesmo que sejam uma simplificação da realidade, podem aumentar a confiança dos agentes. Segundo \citeonline{KEYNES1936}, essa confiança é um fator que afeta as decisões de investimento.
+	
+	Já contribuição teórica desse trabalho está alinhada com a avaliação dos diferentes modelos estatísticos para a predição econômica, além é claro, de explorar as novas fronteiras da ciência, com a avaliação de modelos inovadores como os que usam a IA. 
+	
+	
+	O presente trabalho busca mesclar diferentes modelos, ranqueando seu desempenho, e possibilitando a identificação dos modelos mais adequados para previsão econômica. Para isso é necessário a avaliação métricas estatísticas comuns, semelhante ao que \citeonline{castelli2022modelo} fez, ao comparar modelos de IA com modelos tradicionais, aplicando métricas como coeficiente de determinação ($R^2$), Erro Médio Absoluto (MAE), Erro Quadrático Médio (MSE) para classificar os modelos.
+	\newpage
+	
+	\section{Revisão de literatura}
+	\label{sec:revisaodeliteratura}
+	A presente sessão busca avaliar os estudos até então construídos que perpassam sobre as temáticas correlatas, a evolução dos modelos preditivos, o uso de modelos preditivos em variáveis macroeconômicas, por fima a avaliação e comparação de modelos preditivos.
+	
+	Dado esse contexto, a presente revisão de literatura se estruturará da seguinte forma, primeiramente iremos tratar sobre predição econômica de um modo geral e seus principais autores, posteriormente classificaremos os modelos em tradicionais e não-tradicionais, onde será descrito cada modelo o conceito, o histórico, o modelo matemático e a aplicação do mesmo no contexto de predição do PIB. Após essa conceituação será analisado as métricas de comparação dos modelos, e como elas vem sendo aplicadas. Após a conceituação e análise das métricas de avaliação, serão abordados os trabalhos acadêmicos que já compararam modelos tradicionais e não tradicionais. 
+	
+	\subsection{Estudos Anteriores}
+%	\subsection{Predição Econômica}
+	
+	
+	A predição de variáveis econômicas não é uma tarefa nova, na realidade  estipular o comportamento de variáveis econômicas ao decorrer do tempo é um desejo dos economistas desde o início do século XX. Em seu artigo,  \citeonline{FrischSTATIKKOD} \footnote{Frisch é considerado um dos fundadores da econometria moderna, é a ele atribuído a formulação do termo econometria} trata do conceito da teoria dinâmica, que se subdivide em analítica e histórica, a primeira lida com as leis que regem as flutuações das variáveis, já a segunda trata de aplicar as leis para descrever/prever as variáveis. Essa conceituação teórica de \citeonline{FrischSTATIKKOD} é justamente o que hoje é considerado como econometria, e foi a base para os futuros modelos econométricos e suas aplicações.
+	
+	Contudo, a economia ficou mais complexa desde 1929, conforme \citeonline{almeida_2001} a economia do início século XX passou por sua fase madura de industrialização incorporou uma grande quantidade de inovações tecnológicas advindos da Segunda Revolução Industrial. Ainda segundo o autor, "a estrutura da produção foi radicalmente transformada pelas mudanças introduzidas nos padrões de trabalho (especialização) e pelos avanços tecnológicos, que aumentaram dramaticamente o produto per capita."\citem[p. 2]{almeida_2001}.
+	
+	Esse processo se repetiu durante a Terceira Revolução Industrial, \citeonline{junior_2017} aponta que esse processo não foi hegemônico, mas foi  caracterizado por uma revolução  tecno-científica,  não só nas fábricas como na maioria das atividades sócio-econômicas. Durante esse período houve intensas mudanças na atividade produtiva, contudo alguns autores apontam que a humanidade passou por mais uma revolução.
+	% Citar autor que confirma a complexidade da economia
+	
+	O termo industria 4.0\footnote{ Industria 4.0: é a transformação digital na indústria, onde a mesma integra tecnologias como a própria Inteligência Artificial  } é citado pela primeira vez na feira de Hannover como uma nova política Alemã para industrialização \citem{kagermann2013recommendations}. Um dos autores defensores de uma nova fase da industria é \citeonline{martins2021industria}, onde ele argumenta que a Indústria 4.0 traz muitas mudanças no contexto onde ela é aplicada, como novos modelos de negócio e mercados cada vez mais exigentes.
+	
+	Mas não somente a economia ficou mais complexa, o advento da indústria 4.0  
+	% Trazer algum autor sobre a industria 4.0
+	trouxe a possibilidade de coletar e processar grandes volumes de dados através do que chamamos de sistemas de informação. Que para \citem{laudon2022sistemas} são essenciais para alcançar objetivos estratégicos dos negócios. 
+%	Na era digital, o grande volume de dados gerados pelos sistemas de informação pode ser usada como uma fonte, praticamente inesgotável de informações para tomadas de decisões. 
+	
+	Deste modo, chegamos a um momento de inflexão. Complexidade sistêmica combinada ao grande volume de dados pode fazer com que modelos econométricos tradicionais\footnote{No presente trabalho trataremos que os modelos econométricos tradicionais são aqueles baseados na linearidade das variáveis, ausência de multicolinearidade, homocedasticidade e normalidade dos resíduos} 
+%	Traz um autor sobre modelos tradicionais 
+	não consigam representar a realidade, pois, até que ponto uma simplificação pode representar realmente o comportamento econômico.
+	
+	Dessa forma, se o tradicional não tem o comportamento esperado recorre-se ao inovador.
+%	, conforme .
+%	Cabe um Shumpeter aqui
+	Essa inovação, no contexto dos modelos econométricos, vem através da incorporação de modelos estatísticos que suportam a complexidade econômica, além de tecnologias computacionais que conseguem tratar esse volume de dados gerados pelos sistemas de informação.
+	
+	\subsection{Modelos preditivos}
+	
+	Antes de partirmos para inovação devemos entender o que de fato são esses modelos tradicionais e os modelos de \ac{ia}. O modelos tradicionais, são modelos simples, geralmente associados a métodos lineares de aprendizado de máquina "tem esse nome porque assumem que a função que define $E(Y|X)$ é linear nos preditores $X1, X2,... , Xp$." \citem[p. 14]{vasconcelos2017poder}. \citeonline{rebelo2022interpretabilidade} ainda aponta que os modelos chamados tradicionais possuem uma interpretabilidade natural, e não possuem a necessidade de um método de interpretação adicional.
+	
+	Já os modelos, que chamamos de \ac{ia}, são na realidade modelos não-lineares modernos\footnote{pois existem modelos considerados tradicionais não-lineares como as árvores de decisão, porém sua interpretabilidade é natural}, estes não assumem a linearidade nos parâmetros dos preditores do modelo, isso ocasiona implicações na interpretabilidade dos modelos \citem[p. 22]{vasconcelos2017poder}. Os modelos de IA "utilizam funções específicas que permitem realizar previsões mediante a atribuição de pesos, que são medidos e alterados por uma função de ativação que busca diminuir o erro de um modelo, que tende a ser muito mais preditivo do que analítico." \citem[p.10]{carmo2023modelagem}
+	
+	Entendido a classificação dos modelos partiremos para a definição de cada modelo, seu histórico sua construção matemática, por fim a aplicação desses modelos na predição do PIB. 
+	
+%	Para atendermos esses pontos e concluir nossos objetivos deveríamos seguir algum tipo de sequência lógica para apresentar tais modelos, a mais simples seria abordá-los em uma sequência temporal de surgimento, contudo muito modelos complexos surgiram antes de versões mais simplificadas.
+	
+	
+%	\subsubsection{Modelos Tradicionais}
+%	
+%	\paragraph{ARIMA}\mbox{}\par
+%	\citeonline{ciquini2023modelo} avaliou o uso do modelo ARIMA  para tomada de decisões econômicas. Agora \citeonline{Silva_Clericuzi_Carvalho_2025} apoiaram-se no ARIMA para a predição do PIB brasileiro. 
+%	
+%	\paragraph{VAR}\mbox{}\par
+%	Em sua dissertação, \citeonline{azevedo2020modelagem} usou o modelo modelo de vetores auto-regressivos (VAR) para análise de séries temporais com variáveis macroeconômicas.
+%	Já \citeonline{fialho2024incerteza} usaram o VAR para entender a dinâmica entre 
+%	incerteza, spread bancário, crédito, consumo, rendimento e taxa de desocupação. 
+%	
+%	\paragraph{DFM}\mbox{}\par
+%	\citeonline{alves2009nucleo} em sua dissertação de mestrado abordou modelos de fatores dinâmicos (do inglês  \textit{Dynamic Factor Models} - DFM) para entender o núcleo da inflação brasileira. Por outro lado \citeonline{moura2020fragilidade} avaliou os ciclos econômicos brasileiros usando uma combinação entre o DFM e o VAR.
+%	
+%	
+%	\paragraph{MIDAS}\mbox{}\par
+%	\citeonline{castelli2022modelo} abordou o uso do modelo de amostragem de dados mistos (do inglês \textit{Mixed Data Sampling} - MIDAS) para predizer o PIB com a pesquisa industrial mensal. Assim como \citeonline{micheletti2024avaliaccao} usou modelos de \textit{ensemble stacking} \footnote{\textit{ensemble stacking}: modelos combinados} (dentre eles o MIDAS) para prever o PIB.
+%	
+%%	\subsubsection{Modelos Tradicionais}
+%%	
+%	\subsubsection{Modelos de \ac{ia}}
+%	
+%	\paragraph{Redes Neurais}\mbox{}\par
+%	
+%	As redes neurais tem a capacidade de estimar associações
+%	não lineares em seu processo preditivo \citem{vasconcelos2017poder}. Esses modelos se baseiam no aprendizado por 
+%	
+%	\paragraph{Florestas Aleatórias}\mbox{}\par
+%	
+%	\citeonline{kava2022alem} e de \citeonline{rebelo2022interpretabilidade} que
+%	
+%	Diante desse contexto optamos por apresentar os modelos de uma maneira didática, do mais "fácil" ao mais "difícil", isso é um juízo de valor bem subjetivo, contudo para construção de uma sequência lógica possível de acompanhar, descrever os modelos em grau de complexidade, parece ser uma boa alternativa para um texto compreensível.
+%	
+%	Certamente o grau de complexidade de um modelo está relacionado a quantidade de variáveis usadas, assim como o quão trabalhoso é para se aplicar esse modelo, nesse sentido o ARIMA, talvez seja um dos modelos preditivos mais simples.
+%	
+%	O ARIMA, ou em português, modelo auto-regressivo de médias móveis, é um modelo que utiliza da pr
+	
+	
+	
+%	\subsection{Comparação entre modelos}
+
+	
+%	\citem{laudon2022sistemas} sistemas de informação são essenciais para alcançar objetivos estratégicos dos negócios. Na era digital, o grande volume de dados gerados pelos sistemas de informação pode ser usada como uma fonte, praticamente inesgotável de informações para tomadas de decisões. 
+	
+%	Rever trabalhos sobre uso dessas técnicas para predição
+%	\subsection{Modelo Autorregressivo Vetorial (VAR)}
+%	\subsection{Modelo Auto-regressivo Integrado de Médias Móveis (ARIMA)}
+%	\subsection{Modelo de Fator Dinâmico (DFM)}
+%	\subsection{Modelo de Amostragem de Dados Mistas (MIDAS)}
+%	\subsection{IA}
+	\newpage
+	\section{Metodologia}
+	\subsection{Delineamento de pesquisa}
+	Com base nos objetivos da presente pesquisa, a mesma se classifica como explicativa. Esse tipo de pesquisa "têm como preocupação central identificar os fatores que determinam ou que contribuem para a ocorrência dos fenômenos." \citem[p. 87]{Gil}. Ao analisarmos o desempenho dos diferentes modelos econométricos voltados para a predição do PIB brasileiro, estamos buscando identificar e compreender os diferentes fatores que explicam esse desempenho, enquadrando-a como explicativa.
+	
+	Sobre os procedimentos de coleta de dados, a presente pesquisa se enquadra como documental, por utilizar-se de dados que não receberam um tratamento e estão dispostos em repositórios digitais de dados. Segundo \citeonline{Gil} a pesquisa documental apropria-se de diversas fontes, não somente material impresso em bibliotecas, onde os documentos utilizados podem ter um tratamento analítico ou não.
+	
+	Por fim, ao se tratar de uma pesquisa que compara diferentes modelos econométricos, assim como avalia o desempenho dos mesmos, seguindo o rigor matemático e estatístico, ela se enquadra como uma pesquisa predominantemente quantitativa onde apropria-se do método comparativo e estatístico. Para \citeonline{LAKATOSMARCONI} o método estatístico trata-se da redução dos fenômenos a termos quantitativos e a manipulação estatística, onde possibilita a generalizações sobre sua natureza, ocorrência ou significado. Já "o método comparativo é usado tanto para comparações de grupos." \citem[p. 107, 108]{LAKATOSMARCONI}.
+
+	
+%	Aqui eu tenho que falar sobre os objetivos
+%	O procedimento de coleta
+%	Quanto a abordagem as questões de Pesquisa
+	\subsection{Procedimento de coleta de dados}
+	
+	As variáveis foram escolhidas baseadas na dissertação de \citeonline{rebelo2022interpretabilidade}, descritas mais evidentemente na sessão \ref{sec:revisaodeliteratura}. As variáveis escolhidas podem ser verificadas na tabela \ref{tab:fontes_dados}. Os dados utilizados na pesquisa foram extraídos de duas APIs (\textit{Application Programming Interface}, no português, Interface de programação de aplicações). A relação variável - Fonte - URL da API pode ser vericada na mesma tabela.
+	
+	A primeira fonte foi a API de dados agregados do IBGE, onde nela existem informações econômicas, sociais e demográficas do Brasil. 
+	
+	
+	\begin{ABNTQuote}
+		O IBGE possui uma Application Program Interface (API) de serviços de dados abertos que disponibiliza dados processáveis por máquina para qualquer cidadão ou sistema, permitindo a interoperabilidade e o enriquecimento a partir dos dados abertos disponibilizados. \citem[p. 2]{silva2024dados}.
+	\end{ABNTQuote}
+
+	A segunda API utilizada foi a API do BACEN (Banco Central do Brasil), onde foram extraídos dados financeiros. Segundo o próprio \citeonline{bcb_dados_abertos} o "catálogo de dados, permite que os usuários encontrem os conjuntos de informações de seu interesse, entendam sua estrutura e suas limitações, e tenham acesso ao caminho para os dados."
+	
+	O período analisado foi de 2007 à 2022, devido a disponibilidade de datas nas bases de dados. 
+	
+	\begin{table}
+		\centering
+		\caption{Fontes de dados utilizadas nas APIs do IBGE e BACEN}
+		\label{tab:fontes_dados}
+		\resizebox{\textwidth}{!}{
+			\begin{tabular}{p{4cm} p{2cm} p{9cm}}
+				\hline
+				\textbf{Indicador} & \textbf{Fonte} & \textbf{URL / Endpoint da API} \\
+				\hline
+				PIB & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/6784/periodos/-20/variaveis/9808?localidades=N1[all]} \\
+				Deflator do PIB & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/6784/periodos/-20/variaveis/9811?localidades=N1[all]} \\
+				população (milhões) & IBGE & \small \url{Ainda nao coletado} \\
+				índice de direitos de propriedade & IBGE & \small \url{Ainda nao coletado} \\
+				índice de eficiência jurídica & IBGE & \small \url{Ainda nao coletado} \\
+				índice de integridade governamental & IBGE & \small \url{Ainda nao coletado} \\
+				índice de despesa governamental  & IBGE & \small \url{Ainda nao coletado} \\
+				despesa pública em educação (\% PIB) & IBGE & \small \url{Ainda nao coletado} \\
+				despesa pública em saúde (\% PIB) & IBGE & \small \url{Ainda nao coletado} \\
+				despesa pública em proteção ambiental (\% PIB) & IBGE & \small \url{Ainda nao coletado} \\
+				índice de carga fiscal & IBGE & \small \url{Ainda nao coletado} \\
+				índice de saúde fiscal  & IBGE & \small \url{Ainda nao coletado} \\
+				dívida publica (\% PIB) & IBGE & \small \url{Ainda nao coletado} \\
+				índice de liberdade empresarial & IBGE & \small \url{Ainda nao coletado} \\
+				índice de liberdade laboral & IBGE & \small \url{Ainda nao coletado} \\
+				taxa de desemprego & IBGE & \small \url{Ainda nao coletado} \\
+				índice de liberdade monetária  & IBGE & \small \url{Ainda nao coletado} \\
+				taxa de inflação  & IBGE & \small \url{Ainda nao coletado} \\
+				índice de liberdade comercial & IBGE & \small \url{Ainda nao coletado} \\
+				balança corrente  & IBGE & \small \url{Ainda nao coletado} \\
+				Taxa aduaneira & IBGE & \small \url{Ainda nao coletado} \\
+				índice de liberdade investimento  & IBGE & \small \url{Ainda nao coletado} \\
+				investimento direto estrangeiro (\% PIB) & IBGE & \small \url{Ainda nao coletado} \\
+				índice de liberdade financeira & IBGE & \small \url{Ainda nao coletado} \\
+				\hline
+			\end{tabular}
+		}
+	\end{table}
+	
+
+	
+	
+	\subsection{Procedimento de análise de dados}
+	
+	A análise dos dados é um processo muito importante ao usar modelos matemáticos, conforme \citeonline{MoniqueGIGO} a qualidade das respostas depende diretamente dos dados usados 
+	\footnote{O termo coloquial em inglês para essa situação se chama GIGO ou \textit{Garbage In Garbage Out}, que em tradução livre - lixo entra lixo sai.}.
+	Ou seja, não basta ter fontes confiáveis como o \citem{bcb_dados_abertos} e o \citem{ibge_api}, é necessário um procedimento confiável de ponta a ponta.
+	Para esse processamento dos dados, foi utilizado a linguagem de programação \textit{Python}
+	\footnote{Python é amplamente utilizado em computação científica e numérica \citem{python}}
+	e suas bibliotecas.
+	
+	
+	O primeiro processo de tratamento foi a conversão dos tipos nativos das APIs para um formato adequado para análise com Python, isso foi feito através da biblioteca Pandas. "Pandas é uma biblioteca de Python de estruturas de dados e ferramentas estatísticas, inicialmente desenvolvida para aplicações de finanças quantitativas." \citem[p. 1, \textit{tradução nossa}]{mckinney2010pandas}.
+	
+	O segundo passo de tratamento foi a inflação dos dados para 2022, último ano da série, isso foi feito através de um índice de preços, que pode verificado na equação \ref{eq:inflacao}. O \citeonline{ibge_pib_series} traz a definição de deflator do PIB, porém que se aplica as demais variáveis, em que um deflator é a variação do valor corrente da variável no tempo $(t)$ em relação ao valor da varável do ano $(t)$ a preços do ano anterior, ou seja a variação percentual em relação ao mesmo período do ano anterior.
+	\begin{equation}
+		\label{eq:inflacao}
+		\text{Valor real} = \frac{\text{Valor Nominal}}{\text{índice de Preços}} \times 100
+	\end{equation}
+	
+	O terceiro passo de tratamento foi o treinamento dos modelos. Nesse passo foram utilizados as bibliotecas Scikit-learn e Tensorflow, os modelos foram treinados com dados de 2007 à 2017, totalizando 10 anos na série histórica (dados de treinamento), e deixando os últimos 5 anos (2017 à 2022) para a testagem dos resultados do modelo. Para \citeonline{santos2022previsao} as eficácias dos modelos nos dados de treinamento não são importantes, o que é relevante é como o modelo se sai com os dados de teste, ou seja, se o modelo consegue ser extensivo no período fora da amostra.
+	
+	O último passo foi o cálculo das métricas de avaliação dos modelos, para esse passo foram avaliadas três dimensões: acurácia, interpretabilidade e custo computacional.
+	
+	Para a acurácia foram escolhidas as métricas que foram utilizadas por \citeonline{rebelo2022interpretabilidade}: o  Erro Quadrático Médio (EQM) descrito na equação \ref{eq:EQM}; Erro Absoluto Médio (EAM) descrito na equação \ref{eq:EAM}; a Raiz do Erro Quadrático Médio (REQM) descrito na equação \ref{eq:REQM}; e por fim, o erro percentual absoluto médio (EPAM) descrito na equação \ref{eq:EPAM}.
+	
+	\begin{equation}
+		\label{eq:EQM}
+		\text{EQM} = \frac{1}{n}\sum_{i=1}^{n}(y_i \hat{y_i})^2
+	\end{equation}
+	
+	\begin{equation}
+		\label{eq:EAM}
+		\text{EQM} = \frac{1}{n}\sum_{i=1}^{n}|y_i \hat{y_i}|
+	\end{equation}
+	
+	\begin{equation}
+		\label{eq:REQM}
+		\text{REQM} = \sqrt{\text{EQM}}
+	\end{equation}
+	
+	\begin{equation}
+		\label{eq:EPAM}
+		\text{EPAM} = \frac{1}{n}\sum_{i=1}^{n}|\frac{y_i \hat{y_i}}{y_i}| \times 100
+	\end{equation}
+	
+	Para \citeonline{kava2022alem} a interpretabilidade está diretamente relacionada a facilidade que um ser humano tem de entender os resultados de um modelo. Para essa dimensão foram usadas as métricas: Efeitos Locais Acumulados (ELA) descrito na equação \ref{eq:ELA}; e a interação ente preditores através da estatística-H, descrita na equação \ref{eq:H}, ambas descritas por \citeonline{kava2022alem}.
+	
+	\begin{equation}
+		\label{eq:ELA}
+		\tilde{f}_j,\text{ELA}(x) = \sum_{k=1}^{k_j(x)}\frac{1}{n_k(k)} \sum_{i:X_j \in N_j(k)}[\hat{f}(z_{k,j},x_j^{(i)})-\hat{f}(z_{k-1,j},x_j^{(i)})]
+	\end{equation}
+	
+	\begin{equation}
+		\label{eq:H}
+		H_j^2 = \frac{ \sum_{i=1}^{n}[\hat{f}(x^{(i)})-PD_J(X_J^{(I)})-PD_{-J}(X_{-J}^{(I)})]^2}{\sum_{i=1}^{n}\hat{f^2}(x^{(i)})}
+	\end{equation}
+	
+	A última dimensão é o custo computacional, essa se baseará principalmente no tempo de execução dos modelos, e na contagem de operações com ponto flutuantes - FLOPs (do inglês, FLOating Point Operations) em ambas as métricas, quanto mais alto o valor, maior é o custo computacional.
+	
+	
+	\subsection{Constructo da pesquisa}
+	A estrutura do constructo pode ser verificado na tabela \ref{tab:Constructo}
+%	\begin{table}
+%		\centering
+%		\caption{Constructo da pesquisa}
+%		\label{tab:Constructo}
+%		\begin{tabular}{p{2cm} p{4cm} p{9cm}}
+%			\hline
+%			\textbf{Objetivo} & \textbf{Onde analisar} & \textbf{Como analisar}\\
+%			a & Revisão de literatura & Levantar na literatura os principais modelos econométricos tradicionais (VAR, ARIMA, DFM e MIDAS) e de IA aplicados à predição do PIB \\ 
+%			a & Revisão de literatura & Descrever cada modelo identificado, apresentando suas formulações algébricas e funcionais \\ 
+%			b & Revisão de literatura & Identificar na literatura as variáveis determinantes na estimativa do PIB \\ 
+%			b & Metodologia & Selecionar e justificar as variáveis que serão utilizadas, bem como suas respectivas fontes de dados \\ 
+%			c & Análise e Discussão dos resultados & Aplicar os modelos econométricos e de IA utilizando as variáveis selecionadas para estimar o PIB \\ 
+%			c & Análise e Discussão dos resultados & Calcular as métricas de desempenho (acurácia, interpretabilidade e custo computacional) de cada modelo \\ 
+%			d & Análise e Discussão dos resultados & Comparar os resultados obtidos entre os modelos de IA e os modelos econométricos tradicionais \\ 
+%			d & Conclusão & Discutir criticamente o desempenho dos modelos e destacar suas vantagens e limitações em cada dimensão de avaliação \\ 
+%			\hline
+%		\end{tabular}
+%	\end{table}
+	\begin{table}[H]
+		\centering
+		\caption{Constructo da pesquisa}
+		\label{tab:Constructo}
+		\begin{tabular}{p{14.5cm}}
+			\hline
+			\textbf{Pergunta de Pesquisa} \\
+			\hline
+			Em que medida modelos preditivos baseados em \ac{ia}, comparados aos modelos tradicionais VAR, ARIMA, DFM e MIDAS, conseguem estimar o PIB brasileiro? \\
+			\hline
+			\textbf{Objetivo Geral} \\
+			\hline
+			Analisar em que medida modelos preditivos baseados em \ac{ia}, comparados aos modelos tradicionais VAR, ARIMA, DFM e MIDAS, conseguem estimar o PIB brasileiro.
+		\end{tabular}
+		\resizebox{\textwidth}{!}{
+		\begin{tabular}{p{4cm} p{5.0cm} p{3.5cm} p{4.6cm}}
+			\hline
+			\textbf{Objetivos específicos} & \textbf{variáveis/dados à coletar} & \textbf{Como analisar} & \textbf{Fonte}. \\
+			\hline
+			Caracterizar os modelos econométricos tradicionais (VAR, ARIMA, DFM e MIDAS) e de IA para a predição do PIB. & Modelos econométrico com capacidade de predizer séries temporais. & Buscar através da literatura modelos já utilizados com esses fins. & \citeonline{castelli2022modelo}, \citeonline{azevedo2020modelagem}, \citeonline{azevedo2020modelagem}, \citeonline{ciquini2023modelo}, \citeonline{silva2024dados}, \citeonline{alves2009nucleo}, \citeonline{moura2020fragilidade} e \citeonline{micheletti2024avaliaccao}. \\
+			\hline
+			Identificar as diferentes variáveis determinantes na estimativa do PIB. & Variáveis com possível influência no PIB com facilidade de coleta e atualização recorrente. & Procurar na literatura quais variáveis são utilizadas para a predição do PIB. & \citeonline{rebelo2022interpretabilidade}, \citeonline{ibge_api} e \citeonline{bcb_dados_abertos}. \\
+			\hline
+			Aplicar diferentes modelos econométricos tradicionais e de IA para a predição do PIB. & Modelos econométricos e variáveis encontradas nos primeiros dois objetivos. & treinar os diferentes modelos usando os dados coletados através da linguagem de programação Python e suas bibliotecas de estatística.  & \citeonline{castelli2022modelo}, \citeonline{azevedo2020modelagem}, \citeonline{azevedo2020modelagem}, \citeonline{ciquini2023modelo}, \citeonline{silva2024dados}, \citeonline{alves2009nucleo}, \citeonline{moura2020fragilidade} e \citeonline{micheletti2024avaliaccao}.\\
+			\hline
+			Comparar o desempenho dos modelos de IA e econométricos tradicionais usando diferentes métricas, como desempenho computacional, precisão e interpretabilidade. & erro Quadrático Médio (EQM), Erro Absoluto Médio (EAM), a Raiz do Erro Quadrático Médio (REQM), erro percentual absoluto médio (EPAM), Efeitos Locais Acumulados (ELA), estatística-H, tempo de execução e FLOPs  & Submeter os modelos a testes nas métricas de acurácia, interpretabilidade e custo computacional. & \citeonline{rebelo2022interpretabilidade} e \citeonline{kava2022alem}.\\
+			\hline 
+		\end{tabular}
+	}
+	\end{table}
+
+
+	
+	
+	
+%	O presente trabalho busca avaliar os diferentes modelos estatísticos e analisar seu desempenho, portanto se classifica como uma pesquisa de modelagem estatística predominantemente quantitativa.
+	
+	\section{Análise e Discussão de resultados}
+%	\subsection{Modelo VAR}
+%	\subsection{Modelo ARIMA}
+%	\subsection{Modelo DFM}
+%	\subsection{Modelo MIDAS}
+%	\subsection{IA}
+%	\subsection{Modelos Mistos}
+%	\subsubsection{IA \& VAR}
+%	\subsubsection{IA \& ARIMA}
+%	\subsubsection{IA \& DFM}
+%	\subsubsection{IA \& MIDAS}
+	
+	
+%	\cite{cavalheiro2022tcc}
+	
+	
+	
+	\newpage
+	\bibliography{biblio}
+	
+\end{document}

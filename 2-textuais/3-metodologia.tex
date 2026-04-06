@@ -1,0 +1,181 @@
+\chapter{Metodologia}
+\label{chap:metodologia}
+
+\section{Delineamento de pesquisa}
+Com base nos objetivos da presente pesquisa, a mesma se classifica como explicativa. Esse tipo de pesquisa "têm como preocupação central identificar os fatores que determinam ou que contribuem para a ocorrência dos fenômenos." \citem[p. 87]{Gil}. Ao analisarmos o desempenho dos diferentes modelos econométricos voltados para a predição do PIB brasileiro, estamos buscando identificar e compreender os diferentes fatores que explicam esse desempenho, enquadrando-a como explicativa.
+
+Sobre os procedimentos de coleta de dados, a presente pesquisa se enquadra como documental, por utilizar-se de dados que não receberam um tratamento e estão dispostos em repositórios digitais de dados. Segundo \citeonline{Gil} a pesquisa documental apropria-se de diversas fontes, não somente material impresso em bibliotecas, onde os documentos utilizados podem ter um tratamento analítico ou não.
+
+Por fim, ao se tratar de uma pesquisa que compara diferentes modelos econométricos, assim como avalia o desempenho dos mesmos, seguindo o rigor matemático e estatístico, ela se enquadra como uma pesquisa predominantemente quantitativa onde apropria-se do método comparativo e estatístico. Para \citeonline{LAKATOSMARCONI} o método estatístico trata-se da redução dos fenômenos a termos quantitativos e a manipulação estatística, onde possibilita a generalizações sobre sua natureza, ocorrência ou significado. Já "o método comparativo é usado tanto para comparações de grupos." \citem[p. 107, 108]{LAKATOSMARCONI}.
+
+
+%	Aqui eu tenho que falar sobre os objetivos
+%	O procedimento de coleta
+%	Quanto a abordagem as questões de Pesquisa
+\section{Procedimento de coleta de dados}
+
+As variáveis foram escolhidas baseadas na dissertação de \citeonline{rebelo2022interpretabilidade}, descritas mais evidentemente na sessão \ref{cap:revisao-literatura}. As variáveis escolhidas podem ser verificadas na tabela \ref{tab:fontes_dados}. Os dados utilizados na pesquisa foram extraídos de duas APIs (\textit{Application Programming Interface}, no português, Interface de programação de aplicações). A relação variável - Fonte - URL da API pode ser vericada na mesma tabela.
+
+A primeira fonte foi a API de dados agregados do IBGE, onde nela existem informações econômicas, sociais e demográficas do Brasil. 
+
+
+\begin{citacao}
+	O IBGE possui uma Application Program Interface (API) de serviços de dados abertos que disponibiliza dados processáveis por máquina para qualquer cidadão ou sistema, permitindo a interoperabilidade e o enriquecimento a partir dos dados abertos disponibilizados. \citem[p. 2]{silva2024dados}.
+\end{citacao}
+
+A segunda API utilizada foi a API do BACEN (Banco Central do Brasil), onde foram extraídos dados financeiros. Segundo o próprio \citeonline{bcb_dados_abertos} o "catálogo de dados, permite que os usuários encontrem os conjuntos de informações de seu interesse, entendam sua estrutura e suas limitações, e tenham acesso ao caminho para os dados."
+
+O período analisado foi de 2007 à 2022, devido a disponibilidade de datas nas bases de dados. 
+
+\begin{table}
+	\centering
+	\caption{Fontes de dados utilizadas nas APIs do IBGE e BACEN}
+	\label{tab:fontes_dados}
+	\resizebox{\textwidth}{!}{
+		\begin{tabular}{p{4cm} p{2cm} p{9cm}}
+			\hline
+			\textbf{Indicador} & \textbf{Fonte} & \textbf{URL / Endpoint da API} \\
+			\hline
+			PIB & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/6784/periodos/-20/variaveis/9808?localidades=N1[all]} \\
+			Deflator do PIB & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/6784/periodos/-20/variaveis/9811?localidades=N1[all]} \\
+			população (milhões) & IBGE & \small \url{Ainda nao coletado} \\
+			índice de direitos de propriedade & IBGE & \small \url{Ainda nao coletado} \\
+			índice de eficiência jurídica & IBGE & \small \url{Ainda nao coletado} \\
+			índice de integridade governamental & IBGE & \small \url{Ainda nao coletado} \\
+			índice de despesa governamental  & IBGE & \small \url{Ainda nao coletado} \\
+			despesa pública em educação (\% PIB) & IBGE & \small \url{Ainda nao coletado} \\
+			despesa pública em saúde (\% PIB) & IBGE & \small \url{Ainda nao coletado} \\
+			despesa pública em proteção ambiental (\% PIB) & IBGE & \small \url{Ainda nao coletado} \\
+			índice de carga fiscal & IBGE & \small \url{Ainda nao coletado} \\
+			índice de saúde fiscal  & IBGE & \small \url{Ainda nao coletado} \\
+			dívida publica (\% PIB) & IBGE & \small \url{Ainda nao coletado} \\
+			índice de liberdade empresarial & IBGE & \small \url{Ainda nao coletado} \\
+			índice de liberdade laboral & IBGE & \small \url{Ainda nao coletado} \\
+			taxa de desemprego & IBGE & \small \url{Ainda nao coletado} \\
+			índice de liberdade monetária  & IBGE & \small \url{Ainda nao coletado} \\
+			taxa de inflação  & IBGE & \small \url{Ainda nao coletado} \\
+			índice de liberdade comercial & IBGE & \small \url{Ainda nao coletado} \\
+			balança corrente  & IBGE & \small \url{Ainda nao coletado} \\
+			Taxa aduaneira & IBGE & \small \url{Ainda nao coletado} \\
+			índice de liberdade investimento  & IBGE & \small \url{Ainda nao coletado} \\
+			investimento direto estrangeiro (\% PIB) & IBGE & \small \url{Ainda nao coletado} \\
+			índice de liberdade financeira & IBGE & \small \url{Ainda nao coletado} \\
+			\hline
+		\end{tabular}
+	}
+\end{table}
+
+
+
+
+\section{Procedimento de análise de dados}
+
+A análise dos dados é um processo muito importante ao usar modelos matemáticos, conforme \citeonline{MoniqueGIGO} a qualidade das respostas depende diretamente dos dados usados 
+\footnote{O termo coloquial em inglês para essa situação se chama GIGO ou \textit{Garbage In Garbage Out}, que em tradução livre - lixo entra lixo sai.}.
+Ou seja, não basta ter fontes confiáveis como o \citem{bcb_dados_abertos} e o \citem{ibge_api}, é necessário um procedimento confiável de ponta a ponta.
+Para esse processamento dos dados, foi utilizado a linguagem de programação \textit{Python}
+\footnote{Python é amplamente utilizado em computação científica e numérica \citem{python}}
+e suas bibliotecas.
+
+
+O primeiro processo de tratamento foi a conversão dos tipos nativos das APIs para um formato adequado para análise com Python, isso foi feito através da biblioteca Pandas. "Pandas é uma biblioteca de Python de estruturas de dados e ferramentas estatísticas, inicialmente desenvolvida para aplicações de finanças quantitativas." \citem[p. 1, \textit{tradução nossa}]{mckinney2010pandas}.
+
+O segundo passo de tratamento foi a inflação dos dados para 2022, último ano da série, isso foi feito através de um índice de preços, que pode verificado na equação \ref{eq:inflacao}. O \citeonline{ibge_pib_series} traz a definição de deflator do PIB, porém que se aplica as demais variáveis, em que um deflator é a variação do valor corrente da variável no tempo $(t)$ em relação ao valor da varável do ano $(t)$ a preços do ano anterior, ou seja a variação percentual em relação ao mesmo período do ano anterior.
+\begin{equation}
+	\label{eq:inflacao}
+	\text{Valor real} = \frac{\text{Valor Nominal}}{\text{índice de Preços}} \times 100
+\end{equation}
+
+O terceiro passo de tratamento foi o treinamento dos modelos. Nesse passo foram utilizados as bibliotecas Scikit-learn e Tensorflow, os modelos foram treinados com dados de 2007 à 2017, totalizando 10 anos na série histórica (dados de treinamento), e deixando os últimos 5 anos (2017 à 2022) para a testagem dos resultados do modelo. Para \citeonline{santos2022previsao} as eficácias dos modelos nos dados de treinamento não são importantes, o que é relevante é como o modelo se sai com os dados de teste, ou seja, se o modelo consegue ser extensivo no período fora da amostra.
+
+O último passo foi o cálculo das métricas de avaliação dos modelos, para esse passo foram avaliadas três dimensões: acurácia, interpretabilidade e custo computacional.
+
+Para a acurácia foram escolhidas as métricas que foram utilizadas por \citeonline{rebelo2022interpretabilidade}: o  Erro Quadrático Médio (EQM) descrito na equação \ref{eq:EQM}; Erro Absoluto Médio (EAM) descrito na equação \ref{eq:EAM}; a Raiz do Erro Quadrático Médio (REQM) descrito na equação \ref{eq:REQM}; e por fim, o erro percentual absoluto médio (EPAM) descrito na equação \ref{eq:EPAM}.
+
+\begin{equation}
+	\label{eq:EQM}
+	\text{EQM} = \frac{1}{n}\sum_{i=1}^{n}(y_i \hat{y_i})^2
+\end{equation}
+
+\begin{equation}
+	\label{eq:EAM}
+	\text{EQM} = \frac{1}{n}\sum_{i=1}^{n}|y_i \hat{y_i}|
+\end{equation}
+
+\begin{equation}
+	\label{eq:REQM}
+	\text{REQM} = \sqrt{\text{EQM}}
+\end{equation}
+
+\begin{equation}
+	\label{eq:EPAM}
+	\text{EPAM} = \frac{1}{n}\sum_{i=1}^{n}|\frac{y_i \hat{y_i}}{y_i}| \times 100
+\end{equation}
+
+Para \citeonline{kava2022alem} a interpretabilidade está diretamente relacionada a facilidade que um ser humano tem de entender os resultados de um modelo. Para essa dimensão foram usadas as métricas: Efeitos Locais Acumulados (ELA) descrito na equação \ref{eq:ELA}; e a interação ente preditores através da estatística-H, descrita na equação \ref{eq:H}, ambas descritas por \citeonline{kava2022alem}.
+
+\begin{equation}
+	\label{eq:ELA}
+	\tilde{f}_j,\text{ELA}(x) = \sum_{k=1}^{k_j(x)}\frac{1}{n_k(k)} \sum_{i:X_j \in N_j(k)}[\hat{f}(z_{k,j},x_j^{(i)})-\hat{f}(z_{k-1,j},x_j^{(i)})]
+\end{equation}
+
+
+
+\begin{equation}
+	\label{eq:H}
+	H_j^2 = \frac{ \sum_{i=1}^{n}[\hat{f}(x^{(i)})-PD_J(X_J^{(I)})-PD_{-J}(X_{-J}^{(I)})]^2}{\sum_{i=1}^{n}\hat{f^2}(x^{(i)})}
+\end{equation}
+
+A última dimensão é o custo computacional, essa se baseará principalmente no tempo de execução dos modelos, e na contagem de operações com ponto flutuantes - FLOPs (do inglês, FLOating Point Operations) em ambas as métricas, quanto mais alto o valor, maior é o custo computacional.
+
+
+\section{Constructo da pesquisa}
+A estrutura do constructo pode ser verificado na tabela \ref{tab:Constructo}
+%	\begin{table}
+	%		\centering
+	%		\caption{Constructo da pesquisa}
+	%		\label{tab:Constructo}
+	%		\begin{tabular}{p{2cm} p{4cm} p{9cm}}
+		%			\hline
+		%			\textbf{Objetivo} & \textbf{Onde analisar} & \textbf{Como analisar}\\
+		%			a & Revisão de literatura & Levantar na literatura os principais modelos econométricos tradicionais (VAR, ARIMA, DFM e MIDAS) e de IA aplicados à predição do PIB \\ 
+		%			a & Revisão de literatura & Descrever cada modelo identificado, apresentando suas formulações algébricas e funcionais \\ 
+		%			b & Revisão de literatura & Identificar na literatura as variáveis determinantes na estimativa do PIB \\ 
+		%			b & Metodologia & Selecionar e justificar as variáveis que serão utilizadas, bem como suas respectivas fontes de dados \\ 
+		%			c & Análise e Discussão dos resultados & Aplicar os modelos econométricos e de IA utilizando as variáveis selecionadas para estimar o PIB \\ 
+		%			c & Análise e Discussão dos resultados & Calcular as métricas de desempenho (acurácia, interpretabilidade e custo computacional) de cada modelo \\ 
+		%			d & Análise e Discussão dos resultados & Comparar os resultados obtidos entre os modelos de IA e os modelos econométricos tradicionais \\ 
+		%			d & Conclusão & Discutir criticamente o desempenho dos modelos e destacar suas vantagens e limitações em cada dimensão de avaliação \\ 
+		%			\hline
+		%		\end{tabular}
+	%	\end{table}
+\begin{table}[H]
+	\centering
+	\caption{Constructo da pesquisa}
+	\label{tab:Constructo}
+	\begin{tabular}{p{14.5cm}}
+		\hline
+		\textbf{Pergunta de Pesquisa} \\
+		\hline
+		Em que medida modelos preditivos baseados em \ac{ia}, comparados aos modelos tradicionais VAR, ARIMA, DFM e MIDAS, conseguem estimar o PIB brasileiro? \\
+		\hline
+		\textbf{Objetivo Geral} \\
+		\hline
+		Analisar em que medida modelos preditivos baseados em \ac{ia}, comparados aos modelos tradicionais VAR, ARIMA, DFM e MIDAS, conseguem estimar o PIB brasileiro.
+	\end{tabular}
+	\resizebox{\textwidth}{!}{
+		\begin{tabular}{p{4cm} p{5.0cm} p{3.5cm} p{4.6cm}}
+			\hline
+			\textbf{Objetivos específicos} & \textbf{variáveis/dados à coletar} & \textbf{Como analisar} & \textbf{Fonte}. \\
+			\hline
+			Caracterizar os modelos econométricos tradicionais (VAR, ARIMA, DFM e MIDAS) e de IA para a predição do PIB. & Modelos econométrico com capacidade de predizer séries temporais. & Buscar através da literatura modelos já utilizados com esses fins. & \citeonline{castelli2022modelo}, \citeonline{azevedo2020modelagem}, \citeonline{azevedo2020modelagem}, \citeonline{ciquini2023modelo}, \citeonline{silva2024dados}, \citeonline{alves2009nucleo}, \citeonline{moura2020fragilidade} e \citeonline{micheletti2024avaliaccao}. \\
+			\hline
+			Identificar as diferentes variáveis determinantes na estimativa do PIB. & Variáveis com possível influência no PIB com facilidade de coleta e atualização recorrente. & Procurar na literatura quais variáveis são utilizadas para a predição do PIB. & \citeonline{rebelo2022interpretabilidade}, \citeonline{ibge_api} e \citeonline{bcb_dados_abertos}. \\
+			\hline
+			Aplicar diferentes modelos econométricos tradicionais e de IA para a predição do PIB. & Modelos econométricos e variáveis encontradas nos primeiros dois objetivos. & treinar os diferentes modelos usando os dados coletados através da linguagem de programação Python e suas bibliotecas de estatística.  & \citeonline{castelli2022modelo}, \citeonline{azevedo2020modelagem}, \citeonline{azevedo2020modelagem}, \citeonline{ciquini2023modelo}, \citeonline{silva2024dados}, \citeonline{alves2009nucleo}, \citeonline{moura2020fragilidade} e \citeonline{micheletti2024avaliaccao}.\\
+			\hline
+			Comparar o desempenho dos modelos de IA e econométricos tradicionais usando diferentes métricas, como desempenho computacional, precisão e interpretabilidade. & erro Quadrático Médio (EQM), Erro Absoluto Médio (EAM), a Raiz do Erro Quadrático Médio (REQM), erro percentual absoluto médio (EPAM), Efeitos Locais Acumulados (ELA), estatística-H, tempo de execução e FLOPs  & Submeter os modelos a testes nas métricas de acurácia, interpretabilidade e custo computacional. & \citeonline{rebelo2022interpretabilidade} e \citeonline{kava2022alem}.\\
+			\hline 
+		\end{tabular}
+	}
+\end{table}

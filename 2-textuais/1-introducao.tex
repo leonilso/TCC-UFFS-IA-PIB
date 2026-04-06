@@ -1,0 +1,93 @@
+\chapter{Introdução}
+\label{cap:introducao}
+
+	Para onde vamos? uma das questões fundamentais da natureza humana, estudada pelas mais diferentes ciências, desde exatas às sociais. Dentre as ciências que buscam a resposta do para onde iremos, temos a economia, uma ciência que encontra-se no meio termo, a chamada social aplicada. Inicialmente pode parecer estranho, mas boa parte do trabalho de um economista é entender os fatos passados e presentes para predizer (ou tentar) o  futuro, mas a pergunta que fica é por quê a economia se preocupa tanto com o futuro?
+
+Para \citeonline[p. 1]{mankiw2025introduccao} "a economia é o estudo de como a sociedade administra seus recursos escassos", é essa escassez \footnote{escassez:  natureza limitada dos recursos da sociedade \citem[p. 1]{mankiw2025introduccao}} que é o motivador para a preocupação com o futuro, afinal se tivéssemos recursos ilimitados não haveria motivo para estudar economia. Mas este não é o caso, existe limitação de recursos, e devemos saber qual é a melhor maneira de alocar esses recursos.
+
+Para um melhor enfoque, a economia se subdivide em duas grandes áreas, a microeconomia, voltada para o estudo da firma (empresas), e a macroeconomia, que estuda os agregados econômicos \citem{Vasconcelos}
+
+No presente trabalho nos voltaremos para a macroeconomia, área da economia que surge no inicio do século XX, devido as intensas mudanças sociais, políticas e econômicas que ocorreram no período, a principal obra referência da macroeconomia é o livro de John Maynard Keynes: \textit{Teoria Geral do Emprego, do Juro e da Moeda} \citeyear{KEYNES1936}, onde o autor traz os principais fundamentos da macroeconomia que é estudada hoje na academia e executada nos governos.
+
+
+Um desses conceitos fundamentais que Keynes aborda é a noção de incerteza
+\begin{citacao}
+	De fato, sabemos muito pouco sobre o futuro. A base real para formar expectativas sobre o rendimento futuro de um investimento é extremamente frágil. Nossas decisões de investimento [...] dependem de um estado de confiança. Muitas vezes, sabemos que não sabemos; mas mesmo assim temos que agir. \citem[p. 161]{KEYNES1936}
+\end{citacao}
+Com essa noção de incerteza definida por Keynes podemos relacionar com aquela nossa questão fundamental, gestores mundiais, sejam eles públicos ou privados, buscam maneiras de observar dados históricos e com um certo intervalo de confiança tentar "prever o futuro", para justamente, combater a incerteza.
+
+
+A incerteza 
+%	traz desconfiança, e a desconfiança, por sua vez, 
+gera perguntas, e encontrar as respostas para essas perguntas vai muito além da impressão pessoal
+%	\textit{feeling}
+%	\footnote{\textit{feeling}: impressão, sentimento, pressentimento}
+do gestor. Os gestores precisam de informação para suas decisões, e para \citeonline{laudon2022sistemas} os sistemas de informação são essenciais para alcançar objetivos estratégicos dos negócios. Na era digital, o grande volume de dados gerados pelos sistemas de informação podem ser usados como fontes, praticamente inesgotáveis de dados.
+
+Esses grandes volumes de dados, gerados pelos sistemas de informação, são chamados de \textit{big data}. Para \citem[p. 9]{vasconcelos2017poder}  "O \textit{big data} caracterizado por grandes bases de dados com um número elevado de preditores relativos às observações disponíveis". Contudo, somente ter os dados não é o suficiente, e converter esse grande volume de dados em informações não é uma tarefa simples, e exige técnicas sofisticadas de coleta, tratamento e modelagem. Os processos de coleta e tratamento, apesar de fundamentais, serão usados somente como passos anteriores ao da modelagem, que é o enfoque  desse texto.  
+
+% gostaria de trazer um autor sobre modelos econometricos, porém fiquei indeciso
+
+
+
+
+
+
+
+
+
+
+
+
+
+%	Nesse processo a estatística e a ciência de dados trazem o aporte teórico para o tratamento, coleta e transformação desses dados em informações uteis. 
+
+
+%	Adicioanar a definição de IA, Machine Learning na Introdução não esquecer
+
+
+\section{Problema de pesquisa}
+
+Avaliar modelos na previsão de variáveis econômicas não é um processo novo, muitos autores já usaram diversas vezes esses modelos.
+
+Em sua dissertação, \citeonline{azevedo2020modelagem} usou o modelo modelo de vetores auto-regressivos (VAR) para análise de séries temporais com variáveis macroeconômicas.
+Já \citeonline{fialho2024incerteza} usaram o VAR para entender a dinâmica entre 
+incerteza, spread bancário, crédito, consumo, rendimento e taxa de desocupação. 
+
+\citeonline{ciquini2023modelo} avaliou o uso do modelo auto-regressivo de médias móveis (do inglês \textit{AutoRegressive Integrated Moving Average} - ARIMA) para tomada de decisões econômicas. Agora \citeonline{Silva_Clericuzi_Carvalho_2025} apoiaram-se no ARIMA para a predição do PIB brasileiro. 
+
+\citeonline{alves2009nucleo} em sua dissertação de mestrado abordou modelos de fatores dinâmicos (do inglês  \textit{Dynamic Factor Models} - DFM) para entender o núcleo da inflação brasileira. Por outro lado \citeonline{moura2020fragilidade} avaliou os ciclos econômicos brasileiros usando uma combinação entre o DFM e o VAR.
+
+\citeonline{castelli2022modelo} abordou o uso do modelo de amostragem de dados mistos (do inglês \textit{Mixed Data Sampling} - MIDAS) para predizer o PIB com a pesquisa industrial mensal. Assim como \citeonline{micheletti2024avaliaccao} usou modelos de \textit{ensemble stacking} \footnote{\textit{ensemble stacking}: modelos combinados} (dentre eles o MIDAS) para prever o PIB.
+
+A maioria desses autores trabalharam com o que se chamam modelos tradicionais de predição, esses modelos se baseiam em variáveis e proposições bem definidas, o que pode não ser o caso na era do \textit{big data}. Nesse contexto, em que os modelos tradicionais encontram-se limitados, que a inovação surge, nesse caso o uso de técnicas de IA para modelar variáveis econômicas.
+
+Diante do disso a presente pesquisa tende a seguir os passos de \citeonline{kava2022alem} e de \citeonline{rebelo2022interpretabilidade} que comparam, em suas dissertações, modelos de IA com os chamados modelos tradicionais. Contudo, a nossa pesquisa se diferencia dos trabalhos produzidos por testar outros modelos e focar especificamente no PIB brasileiro, para isso norteia-se pela seguinte pergunta: Em que medida modelos preditivos baseados em \ac{ia}, comparados aos modelos tradicionais VAR, ARIMA, DFM e MIDAS, conseguem estimar o PIB brasileiro?
+
+%Como desenvolver um modelo preditivo baseado em IA para efetivamente estimar i]o PIB brasileiro, considerando as diferenças e semlhanças significativas entre os modelos tradicionais VAR, ARIMA, DFM e MIDAS.
+
+\section{Objetivos}
+\subsection{Objetivo Geral}
+Analisar em que medida modelos preditivos baseados em \ac{ia}, comparados aos modelos tradicionais VAR, ARIMA, DFM e MIDAS, conseguem estimar o PIB brasileiro.
+
+\subsection{Objetivos Específicos}
+\begin{itemize}
+	\item[a)] Caracterizar os modelos econométricos tradicionais (VAR, ARIMA, DFM e MIDAS) e de IA para a predição do PIB;
+	\item[b)] Identificar as diferentes variáveis determinantes na estimativa do PIB;
+	\item[c)] Desenvolver um ciclo de vida para a produção de um novo modelo econométrico de IA para a predição do PIB; 
+	\item[d)] Comparar o desempenho dos modelos de IA e econométricos tradicionais usando diferentes métricas, como desempenho computacional, precisão e interpretabilidade.
+\end{itemize}
+
+
+
+\section{Justificativa} 
+O presente trabalho justifica-se empiricamente, pois permite que gestores, sejam eles públicos ou privados, utilizem-se de ferramentas estatísticas para tomarem decisões fundamentadas. "A  tomada  de  decisões  empresariais  é  uma  tarefa  complexa  e  fundamental  para  a  sobrevivência de uma organização" \citem[p. 3]{santana2023aprimorando}.
+
+Portanto, a tomada de decisões pode ser fundamentada através dos modelos. Os modelos, mesmo que sejam uma simplificação da realidade, podem aumentar a confiança dos agentes. Segundo \citeonline{KEYNES1936}, essa confiança é um fator que afeta as decisões de investimento.
+
+Já contribuição teórica desse trabalho está alinhada com a avaliação dos diferentes modelos estatísticos para a predição econômica, além é claro, de explorar as novas fronteiras da ciência, com a avaliação de modelos inovadores como os que usam a IA. 
+
+
+O presente trabalho busca mesclar diferentes modelos, ranqueando seu desempenho, e possibilitando a identificação dos modelos mais adequados para previsão econômica. Para isso é necessário a avaliação métricas estatísticas comuns, semelhante ao que \citeonline{castelli2022modelo} fez, ao comparar modelos de IA com modelos tradicionais, aplicando métricas como coeficiente de determinação ($R^2$), Erro Médio Absoluto (MAE), Erro Quadrático Médio (MSE) para classificar os modelos.
+
+	

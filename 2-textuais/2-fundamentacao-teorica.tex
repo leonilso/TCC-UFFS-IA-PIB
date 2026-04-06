@@ -1,0 +1,162 @@
+\chapter{Revisão de Literatura}
+\label{cap:revisao-literatura}
+
+A presente sessão busca avaliar os estudos até então construídos que perpassam sobre as temáticas correlatas, a evolução dos modelos preditivos, o uso de modelos preditivos em variáveis macroeconômicas, por fim a avaliação e comparação de modelos preditivos.
+
+Dado esse contexto, a presente revisão de literatura se estruturará da seguinte forma, primeiramente iremos tratar sobre predição econômica de um modo geral e seus principais autores, posteriormente classificaremos os modelos em tradicionais e não-tradicionais, onde será descrito cada modelo o conceito, o histórico, o modelo matemático e a aplicação do mesmo no contexto de predição do PIB. Após essa conceituação será analisado as métricas de comparação dos modelos, e como elas vem sendo aplicadas. Após a conceituação e análise das métricas de avaliação, serão abordados os trabalhos acadêmicos que já compararam modelos tradicionais e não tradicionais. 
+
+%\section{Estudos Anteriores}
+\section{Predição Econômica do PIB}
+
+
+A predição de variáveis econômicas não é uma tarefa nova, na realidade  estipular o comportamento de variáveis econômicas ao decorrer do tempo é um desejo dos economistas desde o início do século XX. Em seu artigo,  \citeonline{FrischSTATIKKOD} \footnote{Frisch é considerado um dos fundadores da econometria moderna, é a ele atribuído a formulação do termo econometria} trata do conceito da teoria dinâmica, que se subdivide em analítica e histórica, a primeira lida com as leis que regem as flutuações das variáveis, já a segunda trata de aplicar as leis para descrever/prever as variáveis. Essa conceituação teórica de \citeonline{FrischSTATIKKOD} é justamente o que hoje é considerado como econometria, e foi a base para os futuros modelos econométricos e suas aplicações.
+
+Contudo, a economia ficou mais complexa desde 1929, conforme \citeonline{almeida_2001} a economia do início século XX passou por sua fase madura de industrialização incorporou uma grande quantidade de inovações tecnológicas advindos da Segunda Revolução Industrial. Ainda segundo o autor, "a estrutura da produção foi radicalmente transformada pelas mudanças introduzidas nos padrões de trabalho (especialização) e pelos avanços tecnológicos, que aumentaram dramaticamente o produto per capita."\citem[p. 2]{almeida_2001}.
+
+Esse processo se repetiu durante a Terceira Revolução Industrial, \citeonline{junior_2017} aponta que esse processo não foi hegemônico, mas foi  caracterizado por uma revolução  tecno-científica,  não só nas fábricas como na maioria das atividades sócio-econômicas. Durante esse período houve intensas mudanças na atividade produtiva, contudo alguns autores apontam que a humanidade passou por mais uma revolução.
+% Citar autor que confirma a complexidade da economia
+
+O termo industria 4.0\footnote{ Industria 4.0: é a transformação digital na indústria, onde a mesma integra tecnologias como a própria Inteligência Artificial  } é citado pela primeira vez na feira de Hannover como uma nova política Alemã para industrialização \citem{kagermann2013recommendations}. Um dos autores defensores de uma nova fase da industria é \citeonline{martins2021industria}, onde ele argumenta que a Indústria 4.0 traz muitas mudanças no contexto onde ela é aplicada, como novos modelos de negócio e mercados cada vez mais exigentes.
+
+Mas não somente a economia ficou mais complexa, o advento da indústria 4.0  
+% Trazer algum autor sobre a industria 4.0
+trouxe a possibilidade de coletar e processar grandes volumes de dados através do que chamamos de sistemas de informação. Que para \citeonline{laudon2022sistemas} são essenciais para alcançar objetivos estratégicos dos negócios. 
+%	Na era digital, o grande volume de dados gerados pelos sistemas de informação pode ser usada como uma fonte, praticamente inesgotável de informações para tomadas de decisões. 
+
+Deste modo, chegamos a um momento de inflexão. Complexidade sistêmica combinada ao grande volume de dados pode fazer com que modelos econométricos tradicionais\footnote{No presente trabalho trataremos que os modelos econométricos tradicionais são aqueles baseados na linearidade das variáveis, ausência de multicolinearidade, homocedasticidade e normalidade dos resíduos} 
+%	Traz um autor sobre modelos tradicionais 
+não consigam representar a realidade, pois, até que ponto uma simplificação pode representar realmente o comportamento econômico.
+
+Dessa forma, se o tradicional não tem o comportamento esperado recorre-se ao inovador.
+%	, conforme .
+%	Cabe um Shumpeter aqui
+Essa inovação, no contexto dos modelos econométricos, vem através da incorporação de modelos estatísticos que suportam a complexidade econômica, além de tecnologias computacionais que conseguem tratar esse volume de dados gerados pelos sistemas de informação.
+
+\section{Modelos preditivos}
+
+Antes de partirmos para inovação devemos entender o que de fato são esses modelos preditivos. Tomando como princípio o texto de \citeonline{FrischSTATIKKOD} a econometria surge justamente para aplicar as leis que regem a economia, a teoria dinâmica histórica, busca evidenciar as relações entre as variáveis, não por suposição cega, mas sim, baseando-se em séries temporais já existentes.  \citeonline{FrischSTATIKKOD} trata do que ainda viria se tornar a econometria moderna, ademais, existem diversos tipos de modelos econométricos, e os modelos preditivos fazem parte desse conjunto. Portanto se faz necessário identificar exatamente do que se tratam esses modelos.
+
+Para \citeonline[p. 8]{assunccao2012estrategias} esses modelos "correspondem a uma equação (ou regra) na qual através de informações históricas ou atuais predize-se um determinado evento futuro a respeito de um indivíduo". Deste modo, a partir do conceito de \citeonline{assunccao2012estrategias} entendemos que independente do modelo: Sempre haverá uma entrada (\textit{input}) de variáveis, sejam elas históricas ou contemporâneas; Haverá também, um processamento desses dados pelo modelo, seja por uma equação matemática ou um preceito estabelecido; E sempre ocasionará em uma saída (\textit{output}), e no caso de modelos preditivos, essa saída terá por objetivo estipular uma variável no tempo futuro.
+
+Com essa definição, retomamos nossos objetivos, como desejamos estimar o PIB nossa saída sempre será um valor numérico que estimará como o PIB brasileiro se comporta. Portanto as únicas variações possíveis nos modelos são: a estrutura; e as variáveis de entrada. Durante a explanação dos modelos trataremos especificamente sobre suas estruturas e estradas, e poderemos nos debruçar melhor sobre o que diferencia cada modelo preditivo.
+
+Entendido o que são modelos preditivos partiremos para diferenciar modelos tradicionais dos de IA, assim como a explanação específica de cada modelo usado no presente estudo, seu histórico, sua construção matemática, por fim a aplicação desses modelos na predição do PIB. Para atendermos esses pontos e concluir nossos objetivos deveríamos seguir algum tipo de sequência lógica para apresentar tais modelos, a abordagem mais simples seria em uma sequência temporal de surgimento, contudo, muitos modelos complexos surgiram antes de versões mais simplificadas. Dessa forma optamos por apresentar os modelos em uma sequência didática, primeiro tratando dos modelos tradicionais, em seguida os que são baseados em IA, de um forma que julgamos facilitar o entendimento.
+
+
+\subsection{Modelos Tradicionais: Uma explanação}
+
+Os modelos tradicionais, são modelos simples, geralmente associados a métodos lineares de aprendizado de máquina "tem esse nome porque assumem que a função que define $E(Y|X)$ é linear nos preditores $X1, X2,... , Xp$." \citem[p. 14]{vasconcelos2017poder}. \citeonline{rebelo2022interpretabilidade} ainda aponta que os modelos chamados tradicionais possuem uma interpretabilidade natural\footnote{A definição de \citeonline{rebelo2022interpretabilidade} de certa forma é mais precisa, pois modelos não-lineares como árvores de decisão são classificadas como modelos tradicionais pela sua interpretabilidade.}, e não possuem a necessidade de um método de interpretação adicional.
+
+Segundo \citeonline{braga2025forecasting} os modelos tradicionais dominaram o mundo, quando o assunto era predição de variáveis durante muitos anos. Entretanto conforme a complexidade econômica aumentava, novas alternativas foram surgindo, para a autora "Apesar da eficácia desses modelos tradicionais em determinados cenários, os avanços computacionais e a crescente disponibilidade de dados favorecem o desenvolvimento de abordagens mais sofisticadas" \citem[p. 12]{braga2025forecasting}.
+
+Dado o tempo em que os modelos tradicionais eram as únicas opções, essas técnicas ganharam muitas variações, algumas mais sofisticadas, outras mais simplificadas, dessa forma, para o presente estudo nos limitaremos a abordar quatro modelos tradicionais, um modelo temporal univariado (ARIMA), um modelo temporal multivariado (VAR), um modelo baseado em fatores (DFM) e um modelo misto (MIDAS). A escolha desses modelos se deve a diferença entre como eles processam as entradas, sendo excelente para apresentar como métodos diferentes se comportam na previsão de uma variável macroeconômica como o PIB.
+
+\subsubsection{ARIMA}
+
+Seguindo a proposta didática, começaremos pelo ARIMA, no sentido de simplicidade de interpretação e complexidade em geral, o ARIMA é o modelo mais simples que será tratado nesse trabalho, a sigla ARIMA vem do inglês \textit{AutoRegressive Integrated Moving Average} que significa Média Móvel Integrada Autorregressiva, a sua simplicidade se deve ao fato que ele tenta predizer a variável estudada usando sua própria série histórica. Nesse caso usaremos a série histórica do PIB para prever o possível valor futuro do mesmo. 
+
+O modelo ARIMA nos servirá como um ótimo parâmetro de comparação, por se tratar de um modelo simples, com baixo custo computacional e alta interpretabilidade, ele poderá ser usado para avaliar outros modelos testados. Se um modelo complexo com alto custo computacional e interpretabilidade baixa, se sair pior ou semelhante ao ARIMA na previsão do PIB, poderá ser um indicador que aquele modelo não apresenta uma relação custo-benefício favorável, levando a crer que o modelo não é adequado\footnote{Isso parte de um pressuposto simples, porém para descartar completamente o modelo, seriam necessários outros testes, com outros dados para efetivar com clareza essa suposição, porém isso fugiria do escopo do nosso trabalho.} para a predição do PIB.
+
+Segundo \citeonline{braga2025forecasting} o modelo ARIMA é sistematizado em 1970 no livro de \citeonline{box1970time}. Neste livro os autores afirmam que os modelos do tipo ARIMA fazem parte do conjunto a cujo a $d$-ésima diferença da série é um processo estacionário misto autorregressivo de média móvel \citem{box1970time}. Além disso os autores apontam a necessidade desses modelos em aplicações reais.
+
+\begin{citacao}
+	Muitas séries temporais empíricas (por exemplo, séries de preços de ações) se comportam como se não tivessem uma média fixa. No entanto, elas exibem homogeneidade no sentido de que, além do nível local, ou talvez nível local e tendência, uma parte da série se comporta de forma muito semelhante a qualquer outra parte. Modelos que descrevem tal comportamento não estacionário homogêneo podem ser obtidos assumindo que alguma diferença adequada do processo é estacionária. \citem[p. 88, tradução nossa] {box1970time}
+\end{citacao}
+
+No sentido de definição e contexto para nosso trabalho, o modelo ARIMA tem um grande potencial para a predição do PIB, pois o comportamento sazonal\footnote{Observaremos as variações do PIB nos nossos resultados.} do PIB, torna ele uma variável parecida com a descrita no exemplo de \citeonline{box1970time}, sem uma média fixa aparente, mas uma certa homogeneidade de nível local e tendência, semelhante ao decorrer da série. Contudo \citeonline{box1970time} não somente descreveram em que caso o modelo ARIMA seria adequado, mas também sua formulação matemática e metodologia de aplicação. 
+
+O modelo ARIMA(p,d,q) pode ser representado pela seguinte forma geral \citem[p. 94]{box1970time}:
+\begin{equation}
+	\label{eq:ARIMA_model}
+	\varphi(B)z_t = \phi(B)\nabla^dz_t = 0_0 + 0(B)a_t
+\end{equation}
+onde
+\begin{align*}
+	&\phi(B) = 1 - \phi_1B - \phi_2B^2-\cdots-\phi_pB^p \\
+	&O(B) = 1 - 0_1B - 0_2B^2-\cdots-0_pB^p
+\end{align*}
+Em que:
+\begin{itemize}
+	\item[a)] $\phi(B)$ operador autorregressivo (AR)\footnote{Assume-se que é estacionário.}
+	\item[b)] $\varphi(B) = \phi(B)\nabla^d$ operador autorregressivo generalizado
+	\item[c)] $0(B)$ operador de média móvel
+\end{itemize}
+
+Desse modo utilizaremos a formulação de \citeonline{box1970time} para a predição do PIB, assim como os testes que comprovam a aplicabilidade do ARIMA no contexto do PIB. Todavia o trabalho de submeter a predição do PIB ao modelo ARIMA já foi realizado por outros autores.  
+
+Nesse sentido, revisaremos o trabalho de  \citeonline{Silva_Clericuzi_Carvalho_2025} que apoiaram-se no ARIMA para a predição do PIB brasileiro, no trabalho foi analisado a série histórica do PIB brasileiro de 1990 até 2023\footnote{Enquanto o recorte de \citeonline{Silva_Clericuzi_Carvalho_2025} foi de cerca de 33 anos (1990-2023), o nosso será relativamente menor, de 2007 à 2022 (15 anos), devido a disponibilidades de outras variáveis que não somente o PIB.} sendo uma fonte metodológica e comparativa para nossa pesquisa.
+
+O primeiro passo dos autores na aplicação do modelo foi uma análise visual da série temporal, os autores consideraram o comportamento de volatilidade do PIB, com crescimentos e decrescimentos, propondo a possibilidade de uso do modelo ARIMA. 
+Para confirmar essa hipótese eles aplicaram o teste \ac{adf}\footnote{A fim de organizar nossa pesquisa trataremos de forma compilada todos os testes na sessão \ref{sec:testes}, nela esmiuçaremos os testes que comprovam a utilização dos modelos, assim como os testes que serão usados para comparar os diferentes modelos.} em que evidenciou-se \ac{adf}= -0.848 e o Valor-p= 0.804, como o Valor-p é superior ao valor crítico de 0.05, indica-se que não se pode rejeitar a hipótese nula de que a série possui uma raiz unitária, indicando que a série não é estacionária no estado original.
+
+A partir do resultados da não estacionaridade seria necessária a diferenciação da série original para tornar a série estacionária, isso implica no uso do modelo ARIMA (p, d, q) com d = 1. Após a primeira diferenciação os autores obtiveram um teste \ac{adf} e um Valor-p\footnote{A fim de curiosidade os valores dos teste foram: teste \ac{adf} (Série Diferenciada): -3.771 e um Valor-p: 0.00321.} que configuram uma série estacionária confirmando a abertura para utilização do modelo ARIMA.
+
+Após a confirmação do uso do modelo ARIMA, os autores utilizaram a metodologia Box-Jenkins, essa metodologia é "um processo sistemático de identificar, estimar e diagnosticar modelos de séries temporais ARIMA"\citem[p. 6]{Silva_Clericuzi_Carvalho_2025}. São quatro passos para aplicação dessa metodologia: identificação, estimação, diagnóstico e previsão. 
+
+Na fase de identificação os autores usam a \ac{fac} e a \ac{facp} para determinar a estrutura do modelo. A seleção do modelo é feita a partir de critérios de informação, como o \ac{aic} e \ac{bic}. Para a avaliação dos resíduos\footnote{Os autores apresentam que o comportamento dos resíduos devem ser independentes, não podem apresentar uma autocorrelação significante e idealmente devem apresentar uma distribuição normal.} usaram o teste Ljung-Box e o teste Jarque-Bera. O último passo é a previsão, passo esse que os autores fizeram uma extrapolação de 6 anos\footnote{De 2024 à 2029.} e compararam com a estimativa do PIB realizada pelo \ac{fmi}.
+
+Na fase de identificação os testes \ac{fac} e \ac{facp} apresentaram ambos com um pico no lag 1, com um decaimento nos lags seguintes. O pico no lag 1 no teste \ac{fac} apresenta um comportamento de \ac{ma}  fora do intervalo de confiança, assim apresentam que o parâmetro $(q)$ da \ac{ma} seria igual a 1. Já no teste \ac{facp} o pico no lag 1, sugere um comportamento de \ac{ar} de ordem 1, ou seja $(p=1)$. Configurando o modelo obtido sendo ARIMA(1,1,1).
+
+Contudo os autores não somente estimaram o modelo ARIMA(1,1,1). No processo de estimativa, os atores testaram outros quatro modelos com $p-value < 0.05$. Contudo dentre esses que foram testados, o modelo ARIMA(1,1,1) obteve os resultados mais competitivos, quanto menor melhor, nos critérios \ac{aic} e \ac{bic}\footnote{A fim de curiosidade os valores dos testes são: \ac{aic}=1.878.932 e \ac{bic}=1.884.038.}
+
+No sentido dos resíduos os autores aplicaram o teste de Ljung-Box\footnote{estatística de Ljung-Box = 10,69, valor-p = 0,38}, onde foi confirmado a ausência de autocorreção significativa, além disso foi aplicado o teste de Jarque-Bera para verificar a distribuição dos resíduos, contudo o teste indicou que os resíduos não seguem uma distribuição normal, o que por si só não é um problema, que apesar de preferível, a não normalidade dos resíduos não descarta o modelo ARIMA(1,1,1). A partir da análise gráfica e da Função de Autocorrelação dos Resíduos (\ac{fac}) os autores chegaram a conclusão que o modelo ARIMA ajustado foi eficiente para remover a estrutura de autocorrelação dos dados, restando somente um ruído branco.
+
+Para validar o modelo os autores compararam a projeção do ARIMA(1,1,1) para os 6 anos seguintes com a projeção feita pelo \ac{fmi}, como justificava para tal comparação os autores elencaram como o \ac{fmi} utiliza em sua projeções mais variáveis, com complexidade maior. Dessa forma, o modelo ARIMA apresentou uma capacidade satisfatória para capturar a estrutura temporal do PIB brasileiro. Porém os autores ainda elencam possíveis falhas do modelo, como as limitações ao modelar choques econômicos e o viés potencialmente otimista do ARIMA em comparação as projeções do \ac{fmi}.
+
+Os autores apontam que
+
+\begin{citacao}
+	Apesar da utilidade do ARIMA como ferramenta inicial para análise e previsão de séries temporais econômicas, suas estimativas devem ser interpretadas com cautela e, preferencialmente, complementadas por métodos qualitativos e modelos econométricos que considerem o amplo espectro de variáveis que afetam o crescimento do PIB. Essa integração entre abordagens quantitativas e qualitativas potencializa a confiabilidade das projeções e contribui para decisões mais fundamentadas no âmbito da política econômica. \citem[p. 15]{Silva_Clericuzi_Carvalho_2025}
+\end{citacao}
+
+A conclusão dos autores vai de encontro com o objetivo que propomos para o ARIMA no presente trabalho: atuar como um modelo inicial e de comparação com os modelos seguintes, como uma métrica de simplicidade e eficiência em comparar os padrões do PIB no decorrer do tempo.
+
+
+
+
+
+
+
+\subsubsection{VAR}
+Em sua dissertação, \citeonline{azevedo2020modelagem} usou o modelo modelo de vetores auto-regressivos (VAR) para análise de séries temporais com variáveis macroeconômicas.
+Já \citeonline{fialho2024incerteza} usaram o VAR para entender a dinâmica entre 
+incerteza, spread bancário, crédito, consumo, rendimento e taxa de desocupação. 
+
+
+\subsubsection{DFM}
+\citeonline{alves2009nucleo} em sua dissertação de mestrado abordou modelos de fatores dinâmicos (do inglês  \textit{Dynamic Factor Models} - DFM) para entender o núcleo da inflação brasileira. Por outro lado \citeonline{moura2020fragilidade} avaliou os ciclos econômicos brasileiros usando uma combinação entre o DFM e o VAR.
+
+\subsubsection{MIDAS}
+\citeonline{castelli2022modelo} abordou o uso do modelo de amostragem de dados mistos (do inglês \textit{Mixed Data Sampling} - MIDAS) para predizer o PIB com a pesquisa industrial mensal. Assim como \citeonline{micheletti2024avaliaccao} usou modelos de \textit{ensemble stacking} \footnote{\textit{ensemble stacking}: modelos combinados} (dentre eles o MIDAS) para prever o PIB.
+
+\subsection{Modelos de \ac{ia}: Uma explanação}
+
+Os modelos que chamamos de \ac{ia}, são na realidade modelos não-lineares modernos\footnote{Existem modelos considerados tradicionais não-lineares como as árvores de decisão, porém sua interpretabilidade é natural}, estes não assumem a linearidade nos parâmetros dos preditores do modelo, isso ocasiona implicações na interpretabilidade dos modelos \citem[p. 22]{vasconcelos2017poder}. Os modelos de IA "utilizam funções específicas que permitem realizar previsões mediante a atribuição de pesos, que são medidos e alterados por uma função de ativação que busca diminuir o erro de um modelo, que tende a ser muito mais preditivo do que analítico." \citem[p.10]{carmo2023modelagem}
+
+\subsubsection{Redes Neurais}
+
+As redes neurais tem a capacidade de estimar associações
+não lineares em seu processo preditivo \citem{vasconcelos2017poder}. Esses modelos se baseiam no aprendizado por 
+
+\subsubsection{Florestas Aleatórias}
+
+%\citeonline{kava2022alem} e de \citeonline{rebelo2022interpretabilidade} que
+
+%Diante desse contexto optamos por apresentar os modelos de uma maneira didática, do mais "fácil" ao mais "difícil", isso é um juízo de valor bem subjetivo, contudo para construção de uma sequência lógica possível de acompanhar, descrever os modelos em grau de complexidade, parece ser uma boa alternativa para um texto compreensível.
+%
+%Certamente o grau de complexidade de um modelo está relacionado a quantidade de variáveis usadas, assim como o quão trabalhoso é para se aplicar esse modelo, nesse sentido o ARIMA, talvez seja um dos modelos preditivos mais simples.
+
+%O ARIMA, ou em português, modelo auto-regressivo de médias móveis, é um modelo que utiliza da pr
+
+
+
+\section{Testes: Comprovar e comparar modelos}
+\label{sec:testes}
+
+
+%	\citem{laudon2022sistemas} sistemas de informação são essenciais para alcançar objetivos estratégicos dos negócios. Na era digital, o grande volume de dados gerados pelos sistemas de informação pode ser usada como uma fonte, praticamente inesgotável de informações para tomadas de decisões. 
+%
+%	Rever trabalhos sobre uso dessas técnicas para predição
+
+
+\section{IA vs Tradicional: Uma perspectiva Acadêmica}

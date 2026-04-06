@@ -1,0 +1,22 @@
+população (milhões) & IBGE & \small \url{Ainda nao coletado} \\
+índice de direitos de propriedade & IBGE & \small \url{Ainda nao coletado} \\
+índice de eficiência jurídica & IBGE & \small \url{Ainda nao coletado} \\
+índice de integridade governamental & IBGE & \small \url{Ainda nao coletado} \\
+índice de despesa governamental  & IBGE & \small \url{Ainda nao coletado} \\
+despesa pública em educação (% PIB) & IBGE & \small \url{Ainda nao coletado} \\
+despesa pública em saúde (% PIB) & IBGE & \small \url{Ainda nao coletado} \\
+despesa pública em proteção ambiental (% PIB) & IBGE & \small \url{Ainda nao coletado} \\
+índice de carga fiscal & IBGE & \small \url{Ainda nao coletado} \\
+índice de saúde fiscal  & IBGE & \small \url{Ainda nao coletado} \\
+dívida publica (% PIB) & IBGE & \small \url{Ainda nao coletado} \\
+índice de liberdade empresarial & IBGE & \small \url{Ainda nao coletado} \\
+índice de liberdade laboral & IBGE & \small \url{Ainda nao coletado} \\
+taxa de desemprego & IBGE & \small \url{Ainda nao coletado} \\
+índice de liberdade monetária  & IBGE & \small \url{Ainda nao coletado} \\
+taxa de inflação  & IBGE & \small \url{Ainda nao coletado} \\
+índice de liberdade comercial & IBGE & \small \url{Ainda nao coletado} \\
+balança corrente  & IBGE & \small \url{Ainda nao coletado} \\
+Taxa aduaneira & IBGE & \small \url{Ainda nao coletado} \\
+índice de liberdade investimento  & IBGE & \small \url{Ainda nao coletado} \\
+investimento direto estrangeiro (% PIB) & IBGE & \small \url{Ainda nao coletado} \\
+índice de liberdade financeira & IBGE & \small \url{Ainda nao coletado} \\
