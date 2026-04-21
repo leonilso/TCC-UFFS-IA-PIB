@@ -140,14 +140,73 @@ Assim como apontado por \citeonline{Silva_Clericuzi_Carvalho_2025} o modelo ARIM
 
 De todo modo, podemos confirmar o ARIMA como o candidato perfeito como modelo de teste, configurado com um baixo custo computacional, desempenho formidável e relativa aplicação simplificada. O modelo ARIMA será utilizado em nosso trabalho como modelo comparativo. Veremos mais sobre a aplicação do ARIMA no capítulo \ref{chap:resultados} onde veremos o desempenho do mesmo semelhante ao olhar de \citeonline{Silva_Clericuzi_Carvalho_2025}, mas com o princípio comparativo de \citeonline{li2024forecasting}.
 
-
-
-
-
-
-
+O modelo ARIMA, e no geral todos os modelos univariados têm um problema, a limitação estrutural do modelo. Afinal variáveis complexas, como o próprio PIB, sofrem de influências de diferentes variáveis - e de todas as naturezas, desde dados intimamente ligados a variável escolhida, até dados que parecem não ter relação alguma. Entretanto para afirmar ou rejeitar essa disposição, são necessários testes de correlação e modelos que realmente suportem indicar um certo grau de predição usando relações que não são univariadas. Esses modelos serão tratados a partir desse ponto no presente estudo.
 
 \subsubsection{VAR}
+
+O modelo VAR é o primeiro modelo multivariado que nos debruçaremos em sua composição, utilização e aplicabilidade à predição do PIB. Seguindo nossa trilha didática, 
+%e de certa forma uma intuição da construção da redação,
+espera-se que o modelo VAR seja naturalmente mais complexo que modelos univariados - como o ARIMA. E de certa forma é isso que acontece, mas não quer dizer que a interpretabilidade do modelo, no sentido natural, se altere. Muito pelo contrário o VAR continua sendo um modelo intuitivo e explicável no âmbito das relações entre variáveis.
+
+
+Nesse sistema complexo de relações, há uma infinidade de variáveis podem ser aplicadas, e modelos que conseguem identificar essas relações, mesmo que de forma limitada\footnote{Ao aplicar o VAR não é possível lidar com a "infinidade" de variáveis, somente com algumas dezenas no máximo, contudo existem modelos mais avançados - ainda tradicionais - que lidam bem com centenas de variáveis, veremos esses em breve.}, são essenciais, não se trata mais de modelar a relação da variável e sua série temporal, mas sim identificar a relação de diferentes variáveis umas com as outras e com o tempo.
+
+Entendido onde os modelos multivariados se encaixam na predição estatística, falaremos sobre o modelo escolhido, o VAR. O acrônimo VAR vem de \textit{Vector Autoregression} trata-se de um modelo estatístico descrito pela primeira vez  por \citeonline{sims1980macroeconomics}, surgindo da necessidade de modelar sistemas multivariados reais\footnote{Inclusive surge em um contexto de modelar variáveis macroeconômicas - como o PIB - afinal o título do ensaio de \citeonline{sims1980macroeconomics} é justamente Macroeconomia e Realidade}, não em situações puramente hipotéticas e teóricas.
+
+\citeonline{sims1980macroeconomics} ajustou séries temporais trimestrais do período pós-guerra dos \ac{eua} e da Alemanha Ocidental sobre dinheiro, \ac{pnb}\footnote{O PNB diferencia-se do \ac{pib}, pois o PNB leva em conta renda líquida enviada e recebida do exterior, ou seja para nações com muitas multinacionais a tendencia é PNB > PIB, já em nações dependentes de empresas estrangeiras em solo nacional a tendência é o PIB > PNB}, taxa de desemprego, nível de preços e índice de preços de importação, usando uma autoregressão vetorial sem restrições.
+
+Esse trabalho nos forneceu a metodologia para aplicar o VAR sem as restrições teóricas fortes de identificação estrutural de modelos anteriores. A partir dessa aplicação \citeonline{sims1980macroeconomics} apresentou as características do que hoje chamamos de VAR. Trata-se de um sistema de equações multivariadas que evita impor conhecimentos a \textit{priori}, ou seja, o modelo trata todas as variáveis como endógenas\footnote{Variáveis endógenas são aquelas determinadas dentro do próprio sistema de equações.}.
+
+\citeonline{sims1980macroeconomics} discorre sobre a aplicabilidade do VAR, e aponta que modelos anteriores, mesmo os multivariados, assumem a exogeneidade das variáveis. Segundo o autor esses modelos dificultam capturar interdependências dinâmicas entre variáveis como as interações entre o lado real (produção) e o lado monetário da economia (inflação dos preços).
+
+O modelo VAR descrito por \citeonline{sims1980macroeconomics} apesar de conceitualmente definido, ainda sofreu modificações, o modelo atual que usaremos pode ser visualizado pelas equações \ref{eq:VAR} e \ref{eq:VAR_p}, em suas variações com menor e maior defasagem, consultadas de \cite{rstudio_var_tutorial}.
+
+Uma série temporal multivariada
+	$\mathbf{r_t} = (r_{1t}, r_{2t},...,r_{kt})' $
+ composta por $k$ componentes no tempo $t$ é um processo VAR(1), que segue o modelo:
+
+\begin{align}
+	\label{eq:VAR}
+	r_t = \phi_0 + \varPhi r_{t-1} + a_t
+\end{align}
+
+onde
+\begin{itemize}
+	\item[a)] $\phi_0$ é um vetor de dispersão $k$;
+	\item[b)] $\varPhi$ é uma matriz $ k \times k$; e
+	\item[c)] $a_t$ é um ruído branco formado por uma sequência de vetores aleatórios independentes, distribuídos de forma idêntica, com média 0 e matriz de covariância $\sum a$.
+\end{itemize}
+
+
+
+Já para modelos com uma defasagem maior, usá-se o VAR($p$), nele uma série temporal multivariada
+$\mathbf{r_t} = (r_{1t}, r_{2t},...,r_{kt})' $ com $p>0$:
+
+\begin{align}
+	\label{eq:VAR_p}
+	r_t = \phi_0 + \varPhi_1 r_{t-1} +...+ \varPhi_p r_{t-p} + a_t
+\end{align}
+onde
+\begin{itemize}
+	\item[a)] $\phi_0$ é um vetor de dispersão $k$;
+	\item[b)] $\varPhi$ são matrizes $ k \times k$ para $j=1,...,p$; e
+	\item[c)] $a_t$ é um ruído branco formado por uma sequência de vetores aleatórios independentes, distribuídos de forma idêntica, com média 0 e matriz de covariância $\sum a$.
+\end{itemize}
+
+Com o contexto de surgimento do VAR e sua definição matemática, partiremos para a aplicação do VAR na literatura, ao contrário do que fizemos no ARIMA de analisar somente o \ac{pib}, referente ao Brasil, e o \ac{gdp} referente aos \ac{eua}. No modelo VAR buscaremos uma análise um pouco mais detalhada com diferentes variáveis em outros contextos.
+
+% Cao o professor esteja vendo esse texto au ainda não montei os bibtex do parágrafo abaixo assim que montar já referencio
+
+Trataremos da relação entre variáveis reais e monetárias, além da expectativa com a noção de incerteza com texto de Fialho. Observaremos o PIB per capita sob uma análise regional brasileira do ponto de vista de Oliveira e Junior. Notaremos o impacto internacional no PIB brasileiro através das medidas tarifárias pela perspectiva de Domingues. Por último recorreremos a literatura internacional, para observar como uma variação do modelo VAR é utilizada para estimar o crescimento do \ac{gdp} estadunidense proposto por Koo.
+
+
+
+
+ 
+ 
+
+
+
 Em sua dissertação, \citeonline{azevedo2020modelagem} usou o modelo modelo de vetores auto-regressivos (VAR) para análise de séries temporais com variáveis macroeconômicas.
 Já \citeonline{fialho2024incerteza} usaram o VAR para entender a dinâmica entre 
 incerteza, spread bancário, crédito, consumo, rendimento e taxa de desocupação. 
