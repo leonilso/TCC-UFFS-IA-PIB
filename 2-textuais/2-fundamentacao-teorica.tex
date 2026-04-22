@@ -195,14 +195,31 @@ onde
 
 Com o contexto de surgimento do VAR e sua definição matemática, partiremos para a aplicação do VAR na literatura, ao contrário do que fizemos no ARIMA de analisar somente o \ac{pib}, referente ao Brasil, e o \ac{gdp} referente aos \ac{eua}. No modelo VAR buscaremos uma análise um pouco mais detalhada com diferentes variáveis em outros contextos.
 
-% Cao o professor esteja vendo esse texto au ainda não montei os bibtex do parágrafo abaixo assim que montar já referencio
+Trataremos da relação entre variáveis reais, monetárias e da com texto de \citeonline{fialho2024incerteza}. Observaremos o PIB per capita sob uma análise regional brasileira do ponto de vista de \citeonline{oliveira2024gastos}. Notaremos o impacto internacional no PIB brasileiro através das medidas tarifárias pela perspectiva de \citeonline{domingues2025projeccoes}. Por último recorreremos a literatura internacional, para observar como uma variação do modelo VAR é utilizada para estimar o crescimento do \ac{gdp} estadunidense proposto por \citeonline{koop2025monthly}.
 
-Trataremos da relação entre variáveis reais e monetárias, além da expectativa com a noção de incerteza com texto de Fialho. Observaremos o PIB per capita sob uma análise regional brasileira do ponto de vista de Oliveira e Junior. Notaremos o impacto internacional no PIB brasileiro através das medidas tarifárias pela perspectiva de Domingues. Por último recorreremos a literatura internacional, para observar como uma variação do modelo VAR é utilizada para estimar o crescimento do \ac{gdp} estadunidense proposto por Koo.
+No primeiro trabalho abordado, a proposta dos autores é investigar "a causalidade de Granger entre incerteza, spread bancário e consumo das famílias no Brasil, utilizando um modelo VAR com dados mensais de janeiro de 2013 a janeiro de 2024" \citem[p. 1]{fialho2024incerteza}. Nesse trabalho foram selecionadas 6 séries de variáveis, dentre elas: Consumo Aparente - produção doméstica acrecida de importações e deduzido as exportações; Spread Médio para Pessoa Física - diferença entre a taxa média de juros de novas operações de crédito e o custo de captação referencial médio; Incerteza - índice de Incerteza da Política Econômica (EPU); Rendimento - rendimento bruto real médio, recebido no mês de referência, a série foi deflacionada usando o (IPCA); Concessão de Crédito pessoa física - valor das novas operações de crédito realizadas no período de referência; Taxa de desocupação - Percentual de pessoas economicamente ativas que estavam procurando trabalho, percentual de pessoas desocupadas em relação as pessoas na força de trabalho.
 
+Segundo \citeonline{fialho2024incerteza} as variáveis foram submetidas ao modelo VAR devido a capacidade do modelo de lidar com múltiplas variáveis pertencentes a séries temporais, e considerando as mesmas como endógenas. Justamente vem de encontro com a proposta de \citeonline{sims1980macroeconomics}, confirmando a aplicação do modelo. A metodologia justifica-se pela possibilidade de modelar a interação entre variáveis reais e monetárias, não com uma teoria a \textit{priori}, mas sim buscando investir a interação entre as variáveis. 
+Para confirmar a adequação estatística dos dados, foram aplicados dois testes: Dickey-Fuller e Phillips-Perron para verificar a estacionariedade.
 
+Para os autores
 
+\begin{citacao}
+	VAR é um modelo com n variáveis e n equações que expressa cada variável como uma função linear de seus próprios valores passados, dos valores defasados das demais variáveis empregadas e de um termo de erro serialmente não  correlacionado. \citem[p. 6]{fialho2024incerteza}.
+\end{citacao}
+O conceito exposto por \citeonline{fialho2024incerteza} segue a mesma equação \ref{eq:VAR} apresentada anteriormente.
 
- 
+Para o prosseguimento da utilização do modelo VAR é necessário que as variáveis sejam estacionárias, o que foi testado utilizando a estatística Dickey-Fuller. A um nível de significância de 10\% quatro variáveis não são estacionárias: spred médio pessoa física  (p = 0.6054); incerteza ( p = 0.0844); concessão de crédito pessoa física (p=0.7486 e taxa de desocupação (p= 0.6635). Para testar a hipótese nula em que as séries possuem raízes unitárias, foi utilizado o teste Phillips-Perron, que apresentou spred médio pessoa física (p =0.4832); incerteza (p = 0.0583);  concessão de crédito pessoa física (p=0.9137) e taxa de desocupação (p=0.6320). Com esses resultados, o próximo passo foi realizar o mesmo teste com as variáveis defasadas\footnote{A fim de curiosidade todos os testes tiveram um p-valor de 0 ao utilizar as variáveis defasadas}, o que implicou no cumprimento da suposição de  estacionariedade e de inexistência de raiz unitária para as variáveis.
+
+Com o cumprimento das suposições estatísticas, seria necessário determinar o número de defasagens para o modelo, afinal se "forem muito pequenas o modelo terá problemas de sobrespecificação e, caso sejam muito grandes, perdem-se graus de liberdade"\citem[p. 7]{fialho2024incerteza}. Pelos critérios Akaike, Schwartz e Hannan-Quinn o número ideal de defasagens seria 2. Os resultados obtidos demonstram que que o modelo satisfaz a estabilidade do VAR, pois todas as raízes pertencem ao círculo unitário (são menores que 1). No diagnóstico dos resíduos, a partir do Multiplicado de Lagrange, com a hipótese nula de não autocorrelação,s endo comprovada a 1\% de significância. Os resíduos apresentados oscilam em torno de zero no tempo, indicando a inexistência de uma tendência sistemática nos resíduos. A partir desses expostos, foi confirmado que o modelo VAR estimado é adequado para a análise proposta.
+
+Os resultados obtidos apontam que 
+
+\begin{citacao}
+	Os resultados obtidos demonstram que o rendimento, o crédito e o spread bancário têm um impacto com significância no consumo das famílias. Especificamente, as variáveis rendimento e crédito mostraram-se positivamente correlacionadas com o consumo, enquanto o spread bancário teve um efeito negativo. A incerteza, embora também afete o consumo, exerce uma influência menos pronunciada comparada às variáveis financeiras. Da mesma forma, a taxa de desocupação mostrou-se negativamente correlacionada com o consumo, embora de forma menos significativa. \citem[p. 11-12]{fialho2024incerteza}.
+\end{citacao}
+
+No sentido de utilização para o nosso trabalho já é possível obter-se uma ideia de como as variáveis devem se relacionar. Contudo o maior significado do estudo de \citeonline{fialho2024incerteza} certamente é a demonstração de como diferentes variáveis, sejam elas reais ou monetárias, interagem entre si. Essa relação é fundamental para entender a dinâmica econômica. A partir desses pressupostos, absorveremos esses resultados para nosso trabalho: a capacidade do VAR de tratar da interdependência de diversas variáveis. 
  
 
 
