@@ -253,7 +253,21 @@ Com essas relações foi possível simular um choque nos gastos e observar o com
 
 \citeonline{oliveira2024gastos} concluíram o trabalho levando a consideração da heterogeneidade das regiões brasileiras, trazendo como medidas em diferentes setores podem trazer impactos significantes, ou não, para a renda da região. A partir desse artigo e conectando com nosso objetivo da presente pesquisa notamos uma vantagem do VAR, e dos modelos tradicionais multivariados no geral, a explicabilidade, enquanto modelos como ARIMA conseguem identificar tendências e estimar o comportamento de uma única variável no futuro, modelo como o VAR conseguem estimar o impacto da dinâmica entre as variáveis, nesse caso sendo uma ferramenta poderosa para a tomada de decisão.
 
-Na mesma linha de \citeonline{oliveira2024gastos}, \citeonline{koop2025monthlygdpgrowthestimates} usaram o VAR para a estimar a renda, porém a renda estadunidense. Contudo o modelo proposto pelos autores é uma versão mais robusta do VAR, o chamado Bayesian \textit{Bayesian Mixed-frequency} VAR \footnote{Vetor Autorregressivo de frequência misturada Bayesiano, trata-se de um modelo com capacidade de modelar diversas variáveis, com frequências de observações diferentes} ou MF-VAR. Não entraremos a fundo na metodologia de \citeonline{koop2025monthlygdpgrowthestimates}, apesar de mais complexa, ainda seguirá alguns pressupostos do modelo VAR, contudo já encontramos uma das limitações desse modelo
+Na mesma linha de \citeonline{oliveira2024gastos}, \citeonline{koop2025monthlygdpgrowthestimates} usaram o VAR para a estimar a renda, porém a renda estadunidense. Contudo o modelo proposto pelos autores é uma versão mais robusta do VAR, o chamado \textit{Bayesian Mixed-frequency} VAR \footnote{Vetor Autorregressivo de frequência misturada Bayesiano, trata-se de um modelo com capacidade de modelar diversas variáveis, com frequências de observações diferentes} ou MF-VAR. Não entraremos a fundo na metodologia de \citeonline{koop2025monthlygdpgrowthestimates}, apesar de mais complexa, ainda seguirá alguns pressupostos do modelo VAR vistos anteriormente.
+
+Contudo, em outros aspectos será completamente diferente, talvez o mais explicito deles seja o tamanho do modelo, enquanto um modelo VAR tradicional terá poucos parâmetros - tentando evitar a hiper-parametrização, perca de graus de liberdade e a possível multicolinearidade. O modelo proposto por \ac{eua} \citeonline{koop2025monthlygdpgrowthestimates} de predição em tempo real do PIB estadual tem 50 equações. Outro ponto relevante é a frequência dos dados, como no exemplo constatado pelos autores "O crescimento do PIB estadual (estadunidense) está disponível em frequência anual até 2004, antes do \ac{bea}\footnote{Departamento de Análise Econômica, trata-se do órgão que fornece indicadores macroeconômicos dos Estados Unidos} começar a produzir estimativas trimestrais a partir de 2005." \citem[p. 6, tradução nossa]{koop2025monthlygdpgrowthestimates}. Entretanto vale ressaltar que esse comportamento é recorrente. Tanto em variáveis de natureza distintas - como financeiras e reais - assim como variáveis que trocam de frequência com o decorrer da série temporal. Isso pode ser explicado por mudança metodológica na coleta de dados, ou pela simples melhoria na capacidade de coleta de dados pelos órgãos responsáveis, de uma frequência anual para trimestral, como a ocorrida.
+
+Isso conversa com ideia inicial de nosso trabalho, um modelo capaz de estimar o PIB brasileiro, contudo é importante compreender as limitações de coleta que existem, apesar de vivermos a era da \textit{big-data}, nem sempre foi assim. Portanto não se pode esperar séries históricas completas, sem erros de coleta, ou mudanças metodológicas. Isso é válido para economias desenvolvidas pelo mundo, como a estadunidense, ou para economias emergentes como a brasileira. 
+
+Outra ressalva no trabalho de \citeonline{koop2025monthlygdpgrowthestimates} é a mudança de paradigma, enquanto o trabalho original de  \citeonline{sims1980macroeconomics} e as aplicações de \citeonline{oliveira2024gastos} e \citeonline{fialho2024incerteza} são frequentistas, baseadas na estatística tradicional. \citeonline{koop2025monthlygdpgrowthestimates} precisaram utilizar uma abordagem Bayesiana, em que pressupostos a prior sobre a distribuição dos parâmetros antes dos dados são exigidos\footnote{Não discutiremos sobre qual abordagem é melhor, dentro da estatística e econometria do séc. XXI ambas abordagens são relevantes e se complementam na resolução de problemas quantitativos reais}. No trabalho de \citeonline{koop2025monthlygdpgrowthestimates} para conseguirem estimar um modelo VAR com essa quantidade de equações, chamados de grandes VAR, o poder computacional e o tempo de execução começam a se tornar um fator relevante na escolha de um modelo. Para a modelagem computacional, os autores utilizaram o \ac{mcmc}, que é frequentemente utilizada como algoritmo para modelos Bayesianos, contudo o \ac{mcmc} tradicional, com a quantidade de parâmetros e frequências distintas presentes, seria muito lento para a previsão do \ac{pib} em tempo real, os autores então adaptaram o algoritmo tradicional para a modelagem específica do VAR proposto.
+
+Entretanto, mesmo com todas essas restrições e adaptações, o modelo de \citeonline{koop2025monthlygdpgrowthestimates} conseguiu estimar o PIB mensal dos estados estadunidense, com um certo grau de precisão. Para avaliação do modelo, os autores utilizaram o \ac{rmse} dos valores estimados comparado aos valores medidos trimestralmente pelo próprio \ac{bea}. Vale ressaltar que para os erros dos três primeiros meses a média dos estados foi de m1 = 1.71, m2 =  1.71 e m3 = 1.48. Esse resultado indica uma boa capacidade de estimar o crescimento do PIB estadual dado as circunstâncias. Mas, a qualidade desse trabalho mais evidente é a capacidade interpretativa e possibilidade de estimar choques no espaço - devido a dinâmica estadual estar contida dentro do modelo. Esse grau de modelagem não seria possível em um modelo VAR tradicional.
+
+Nesse contexto, nota-se que o modelo VAR pesquisado por \citeonline{koop2025monthlygdpgrowthestimates} tem qualidades evidentes. Tendo isso em mente, vale ressaltar que a utilização do VAR com uma abordagem Bayesiana não se restringe a economia americana. Na realidade muitos estudos já utilizaram essa abordagem para modelagem macroeconômica brasileira. Como os estudos de \citeonline{azevedo2020modelagem}, \citeonline{serrano2014impacto}, \citeonline{borges2018ensaios}, \citeonline{rosa2025efeito}.
+
+Tal perspectiva reflete como o VAR e suas variações são modelos robustos para a predição de variáveis macroeconômicas, o modelo tradicional com suas limitações e suas vantagens de modelagem e rápida execução. E suas variações que suportam um maior número de variáveis e distintas frequências temporais.
+
+Todavia, para utilizar-se do VAR nesse contexto foi necessário adaptações no paradigma estatístico para a modelagem do problema, a seguir veremos dois modelos que lidam com isso naturalmente o DFM que foi idealizado para lidar com grande quantitativo de variáveis e o MIDAS que suporta diferentes frequências nas séries temporais, com isso concluiremos a sessão de modelos tradicionais e partiremos para os modelos baseados em \ac{ia}
 
 %E de KOOP Monthly GDP Growth Estimates for the U.S.States
  
@@ -261,17 +275,19 @@ Na mesma linha de \citeonline{oliveira2024gastos}, \citeonline{koop2025monthlygd
 % Tem o texto de Azevedo que da para olhar e ver se encaixa
 
 
+%
+%Em sua dissertação, \citeonline{azevedo2020modelagem} usou o modelo modelo de vetores auto-regressivos (VAR) para análise de séries temporais com variáveis macroeconômicas.
+%Já \citeonline{fialho2024incerteza} usaram o VAR para entender a dinâmica entre 
+%incerteza, spread bancário, crédito, consumo, rendimento e taxa de desocupação. 
 
-Em sua dissertação, \citeonline{azevedo2020modelagem} usou o modelo modelo de vetores auto-regressivos (VAR) para análise de séries temporais com variáveis macroeconômicas.
-Já \citeonline{fialho2024incerteza} usaram o VAR para entender a dinâmica entre 
-incerteza, spread bancário, crédito, consumo, rendimento e taxa de desocupação. 
 
+\subsubsection{MIDAS}
+\citeonline{castelli2022modelo} abordou o uso do modelo de amostragem de dados mistos (do inglês \textit{Mixed Data Sampling} - MIDAS) para predizer o \ac{pib} com a pesquisa industrial mensal. Assim como \citeonline{micheletti2024avaliaccao} usou modelos de \textit{ensemble stacking} \footnote{\textit{ensemble stacking}: modelos combinados} (dentre eles o MIDAS) para prever o \ac{pib}.
 
 \subsubsection{DFM}
 \citeonline{alves2009nucleo} em sua dissertação de mestrado abordou modelos de fatores dinâmicos (do inglês  \textit{Dynamic Factor Models} - DFM) para entender o núcleo da inflação brasileira. Por outro lado \citeonline{moura2020fragilidade} avaliou os ciclos econômicos brasileiros usando uma combinação entre o DFM e o VAR.
 
-\subsubsection{MIDAS}
-\citeonline{castelli2022modelo} abordou o uso do modelo de amostragem de dados mistos (do inglês \textit{Mixed Data Sampling} - MIDAS) para predizer o \ac{pib} com a pesquisa industrial mensal. Assim como \citeonline{micheletti2024avaliaccao} usou modelos de \textit{ensemble stacking} \footnote{\textit{ensemble stacking}: modelos combinados} (dentre eles o MIDAS) para prever o \ac{pib}.
+
 
 \subsection{Modelos de \ac{ia}: Uma explanação}
 
