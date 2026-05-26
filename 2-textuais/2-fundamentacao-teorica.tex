@@ -8,6 +8,8 @@ Dado esse contexto, a presente revisão de literatura se estruturará da seguint
 %\section{Estudos Anteriores}
 \section{Predição Econômica: O PIB}
 
+% BC CVM FEBRABAM
+
 
 A predição de variáveis econômicas não é uma tarefa nova, na realidade  estipular o comportamento de variáveis econômicas ao decorrer do tempo é um desejo dos economistas desde o início do século XX. Em seu artigo,  \citeonline{FrischSTATIKKOD} \footnote{Frisch é considerado um dos fundadores da econometria moderna, é a ele atribuído a formulação do termo econometria} trata do conceito da teoria dinâmica, que se subdivide em analítica e histórica, a primeira lida com as leis que regem as flutuações das variáveis, já a segunda trata de aplicar as leis para descrever/prever as variáveis. Essa conceituação teórica de \citeonline{FrischSTATIKKOD} é justamente o que hoje é considerado como econometria, e foi a base para os futuros modelos econométricos e suas aplicações.
 
@@ -29,7 +31,7 @@ Na realidade o \ac{pib} funciona como um termômetro da atividade econômica, e 
 
 % Colocar mais complexidade na definição do PIB
 
-
+E a predição do PIB é algo que é estudado por diversos pesquisadores, muitos dos quais veremos no decorrer dessa revisão de literatura, mas também de órgãos e instituições públicas e privadas, como é o caso do \ac{ipea} que pontua a importância da predição do PIB "para a definição dos parâmetros para o planejamento fiscal e orçamentário do setor público, bem como para a formação de expectativas no setor privado." \citem[p. 6]{santos2022previsao}.
 
 Dado toda essa evolução, é natural perceber a complexificação desse indicador, e fenômenos complexos implicam que métodos tradicionais de predição podem não conseguir descrever a realidade com a mesma precisão da época da qual foram elaborados.
 
@@ -291,12 +293,22 @@ Todavia, para utilizar-se do VAR nesse contexto foi necessário adaptações no 
 
 \subsection{Modelos de \ac{ia}: Uma explanação}
 
-Os modelos que chamamos de \ac{ia}, são na realidade modelos não-lineares modernos\footnote{Existem modelos considerados tradicionais não-lineares como as árvores de decisão, porém sua interpretabilidade é natural}, estes não assumem a linearidade nos parâmetros dos preditores do modelo, isso ocasiona implicações na interpretabilidade dos modelos \citem[p. 22]{vasconcelos2017poder}. Os modelos de IA "utilizam funções específicas que permitem realizar previsões mediante a atribuição de pesos, que são medidos e alterados por uma função de ativação que busca diminuir o erro de um modelo, que tende a ser muito mais preditivo do que analítico." \citem[p.10]{carmo2023modelagem}
+Os modelos que chamamos de \ac{ia}, são na realidade modelos não-lineares modernos\footnote{Existem modelos considerados tradicionais não-lineares como as árvores de decisão, porém sua interpretabilidade é natural}, estes não assumem a linearidade nos parâmetros dos preditores do modelo, isso ocasiona implicações na interpretabilidade dos modelos \citem[p. 22]{vasconcelos2017poder}. Apesar do termo Inteligência Artificial ter seu uso mais evidente pelos algoritmos baseados em redes neurais e aprendizado profundo, ainda existem modelos que não tem a mesma notoriedade popular que tais algoritmos\footnote{O uso do termo  Inteligência Artificial se popularizou com os modelos grandes de linguagem - LLM (do inglês, \textit{Large Language Models}), mas os algoritmos de IA surgem anteriormente a esses modelos. O nome vem justamente da ideia que essa classe de algoritmos tenta simular o comportamento humano, porém seu funcionamento não poderia ser mais diferente, como veremos na presente sessão. Outro fator que influência o nome IA, é a representação visual do Percéptron, menor unidade das redes neurais, em que seu diagrama lembra a forma de um neurônio humano, que propriamente inspirou o nome redes neurais, e consequentemente, ajudou a popularizar o termo Inteligência Artificial}, mas que podem ser tratados como IA, por possuírem características de falta interpretabilidade natural e não linearidade nos preditores, como é o exemplo do Random Forest que trataremos nesse trabalho.
+
+De uma maneira técnica os modelos de IA "utilizam funções específicas que permitem realizar previsões mediante a atribuição de pesos, que são medidos e alterados por uma função de ativação que busca diminuir o erro de um modelo, que tende a ser muito mais preditivo do que analítico." \citem[p.10]{carmo2023modelagem}. A partir da definição de \citeonline{carmo2023modelagem} e de \citeonline{vasconcelos2017poder} já entendemos o contexto onde esses modelos se encaixam, são modelos que buscam estimar a variável escolhida com maior precisão, mas para isso o pesquisador sacrifica a interpretabilidade natural do modelo, e de certa forma, também seu poder decisivo. 
+
+O poder preditivo de um modelo de IA permite que modelos possuam muitas variáveis, e captarem um comportamento dinâmico e entrelaçado das observações, algo que a simples análise humana e pressupostos lineares não seriam capazes de observar. Por outro lado, a decisão de utilizar ou não uma variável, dos pesos que cada valor possuí e da interpretação após treinamento foge do controle do pesquisador, sendo de certa forma, atribuído ao modelo essa tarefa. Assim fica evidente onde modelos de IA tem maior possibilidade: problemas complexos, com muitas variáveis, diversos fatores dinâmicos, com alto grau de correlação e que a interpretação é menos importante que a capacidade preditiva.
+
+Usando um exemplo prático, estimar o PIB é um ótimo candidato a modelos de IA, muitas variáveis podem ser usada como preditoras, dinamismo frequente e auto grau de correlação entre elas, se trata de um problema complexo, onde de certa forma pouco interessa a relação interna entre as variáveis, mas muito se interessa o desempenho do próprio PIB. Por outro lado, um modelo para estimar o grau de encadeamentos de uma economia, apesar de ter uma complexidade tremenda e uma grande quantidade de preditores, o que importa nesse tipo de modelo é sua interpretabilidade, e nesse sentido, modelos tradicionais no aspecto da interpretação, provavelmente atenderiam melhor os requisitos dado a natureza do problema. 
 
 \subsubsection{Redes Neurais}
 
 As redes neurais tem a capacidade de estimar associações
 não lineares em seu processo preditivo \citem{vasconcelos2017poder}. Esses modelos se baseiam no aprendizado por 
+
+Um rede neural trata-se de uma modelo baseado em rede composto por diversas camadas, cada camada é composta por nós, e cada nó é calculado usando os nós da camada anterior, e a saída é calculada usando os nós da última camada oculta. Naturalmente, não existe interpretação natural para esses nós, que são computados usando retropropagação \citem{ghosh2023machine}.
+
+Para as redes neurais são utilizadas "para replicar o funcionamento do pensamento humano artificialmente e encontrar respostas ou hipóteses tal qual um humano faria, porém, evitando seus erros e agilizando processos que podem demorar muito tempo quando biologicamente realizados." \citem[p. 8]{carmo2023modelagem}
 
 \subsubsection{Florestas Aleatórias}
 
