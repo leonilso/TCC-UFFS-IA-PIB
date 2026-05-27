@@ -303,12 +303,50 @@ Usando um exemplo prático, estimar o PIB é um ótimo candidato a modelos de IA
 
 \subsubsection{Redes Neurais}
 
-As redes neurais tem a capacidade de estimar associações
-não lineares em seu processo preditivo \citem{vasconcelos2017poder}. Esses modelos se baseiam no aprendizado por 
+%As redes neurais tem a capacidade de estimar associações
+%não lineares em seu processo preditivo \citem{vasconcelos2017poder}. Esses modelos se baseiam no aprendizado por 
 
-Um rede neural trata-se de uma modelo baseado em rede composto por diversas camadas, cada camada é composta por nós, e cada nó é calculado usando os nós da camada anterior, e a saída é calculada usando os nós da última camada oculta. Naturalmente, não existe interpretação natural para esses nós, que são computados usando retropropagação \citem{ghosh2023machine}.
+Os modelos baseado em redes neurais são naturalmente complexos, mas tentaremos explicar de uma forma descomplicada como esses modelos surgiram, as inspirações, a aplicação teórica e aplicações práticas para a predição econômica.
 
-Para as redes neurais são utilizadas "para replicar o funcionamento do pensamento humano artificialmente e encontrar respostas ou hipóteses tal qual um humano faria, porém, evitando seus erros e agilizando processos que podem demorar muito tempo quando biologicamente realizados." \citem[p. 8]{carmo2023modelagem}
+Por definição rede neural trata-se de uma modelo baseado em rede composto por diversas camadas, cada camada é composta por nós, e cada nó é calculado usando os nós da camada anterior, e a saída é calculada usando os nós da última camada oculta. Não existe interpretação para esses nós, que são computados usando retropropagação \citem{ghosh2023machine}.
+
+Todavia, redes, nós e retropropagação são conceitos avançados para entender de fato que são redes neurais, de uma maneira mais humanas, redes neurais são utilizadas "para replicar o funcionamento do pensamento humano artificialmente e encontrar respostas ou hipóteses tal qual um humano faria, porém, evitando seus erros e agilizando processos que podem demorar muito tempo quando biologicamente realizados." \citem[p. 8]{carmo2023modelagem}. A replicação do pensamento humano não ocorre tentando simular as reações físico químicas que acontecem em nossos cérebros, na realidade trata-se de uma abstração do pensamento humano através de funções matemáticas, uma sequência de combinações lineares que conseguem resolver problemas não-lineares.
+
+Dessa forma o objetivo desse tipo de modelo é justamente "extrair combinações lineares por meio das covariáveis e então modelar a variável que se deseja prever como uma função não linear destas covariáveis." \citem[p. 40-41]{kava2022alem}. Isso ocorre por meio da união de pequenos modelos preditivos simples. Esses modelos chamados de neurônios artificiais, são os responsáveis por essa predição. O primeiro neurônio artificial, ou também chamado de perceptron foi descrito inicialmente por \citem{rosenblatt1958perceptron}. A representação visual pode ser verificada na figura \ref{fig:perceptron}. Esse modelo consistia em modelo que soma as entradas, obtendo um valor intermediário chamado de z, que passa por uma função de ativação, o perceptron utiliza uma função sinal como ativação, mas outros tipos de modelos utilizam outras funções de ativação \citem{ekman2021learning}.
+
+A representação matemática de um perceptron é definida por:
+
+\begin{align}
+	\label{eq:perceptron}
+	f(x) = \sum_{i=0}^{n}w_ix_i
+\end{align}
+
+com 
+
+\begin{align*}
+	x_0 = 1 (\text{bias})
+\end{align*}
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Perceptron}
+	\label{fig:perceptron}
+	\includegraphics[width=1.0\textwidth]{images/perceptron.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+Contudo um perceptron por si só, não consegue resolver problemas não-lineares, afinal a combinação de entradas e saídas realizando uma operação linear não pode ter uma resposta para um problema não-linear. Mas a verdadeira solução para problemas não-lineares começa a partir da combinação de dois perceptrons. Intuitivamente, um perceptron é um classificador linear simples, mas combinando os resultados das respostas de dois perceptrons, que são lineares, com um terceiro neurônio combinando essas respostas, consegue resolver problemas não-lineares. Nesse contexto surge a ideia de redes.
+
+Retomando o conceito de \citeonline{ghosh2023machine} entendemos o que são as redes, e o que são os nós, se tratam dos neurônios conectados e os pesos calculados de cada um. Contudo um conceito relevante que ainda não foi discutido, é a retropropagação, que é justamente o que permite o aprendizado nessa arquitetura.
+
+
+
+
+
 
 \subsubsection{Florestas Aleatórias}
 
