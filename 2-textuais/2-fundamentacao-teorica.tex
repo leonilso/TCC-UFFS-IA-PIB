@@ -463,8 +463,6 @@ Podemos usar o conceito da derivada para encontramos os valores de $\hat{y}$ que
 		\begin{axis}[
 			xlabel={Erro ($e=y-\hat{y}$)},
 			ylabel={$E(e)$},
-			xmin=-9, xmax=9,
-			ymin=-5, ymax=35,
 			grid=major,
 			width=15cm,
 			height=7cm,
@@ -509,6 +507,10 @@ Porém a função de erro de uma rede neural não é uma simples função quadr�
 
 \begin{figure}[htb]
 	\centering
+	\captionsetup{justification=centering}
+	\caption{Superfície de erro}
+	\label{fig:superficie_erro}
+	\vspace{5pt}
 	
 	\begin{tikzpicture}
 		\begin{axis}[
@@ -535,8 +537,7 @@ Porém a função de erro de uma rede neural não é uma simples função quadr�
 		\end{axis}
 	\end{tikzpicture}
 	
-	\caption{Superfície de erro}
-	\label{fig:superficie_erro}
+
 	\vspace{0.2cm}
 	\footnotesize Fonte: Elaborado pelo autor (2026).
 	
