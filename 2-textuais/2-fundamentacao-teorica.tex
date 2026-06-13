@@ -310,21 +310,24 @@ Os modelos baseado em redes neurais são naturalmente complexos, mas tentaremos 
 
 Por definição rede neural trata-se de uma modelo baseado em rede composto por diversas camadas, cada camada é composta por nós, e cada nó é calculado usando os nós da camada anterior, e a saída é calculada usando os nós da última camada oculta. Não existe interpretação para esses nós, que são computados usando retropropagação \citem{ghosh2023machine}.
 
-Todavia, redes, nós e retropropagação são conceitos avançados para entender de fato que são redes neurais, de uma maneira mais humanas, redes neurais são utilizadas "para replicar o funcionamento do pensamento humano artificialmente e encontrar respostas ou hipóteses tal qual um humano faria, porém, evitando seus erros e agilizando processos que podem demorar muito tempo quando biologicamente realizados." \citem[p. 8]{carmo2023modelagem}. A replicação do pensamento humano não ocorre tentando simular as reações físico químicas que acontecem em nossos cérebros, na realidade trata-se de uma abstração do pensamento humano através de funções matemáticas, uma sequência de combinações lineares que conseguem resolver problemas não-lineares.
+Todavia, redes, nós e retropropagação são conceitos avançados para entender de fato que são redes neurais, de uma maneira mais humana, redes neurais são utilizadas "para replicar o funcionamento do pensamento humano artificialmente e encontrar respostas ou hipóteses tal qual um humano faria, porém, evitando seus erros e agilizando processos que podem demorar muito tempo quando biologicamente realizados." \citem[p. 8]{carmo2023modelagem}. A replicação do pensamento humano não ocorre tentando simular as reações físico químicas que acontecem em nossos cérebros, na realidade trata-se de uma abstração do pensamento humano através de funções matemáticas, uma sequência de combinações lineares que conseguem resolver problemas não-lineares.
 
-Dessa forma o objetivo desse tipo de modelo é justamente "extrair combinações lineares por meio das covariáveis e então modelar a variável que se deseja prever como uma função não linear destas covariáveis." \citem[p. 40-41]{kava2022alem}. Isso ocorre por meio da união de pequenos modelos preditivos simples. Esses modelos chamados de neurônios artificiais, são os responsáveis por essa predição. O primeiro neurônio artificial, ou também chamado de perceptron foi descrito inicialmente por \citem{rosenblatt1958perceptron}. A representação visual pode ser verificada na figura \ref{fig:perceptron}. Esse modelo consistia em modelo que soma as entradas, obtendo um valor intermediário chamado de z, que passa por uma função de ativação, o perceptron utiliza uma função sinal como ativação, mas outros tipos de modelos utilizam outras funções de ativação \citem{ekman2021learning}.
+Dessa forma o objetivo desse tipo de modelo é justamente "extrair combinações lineares por meio das covariáveis e então modelar a variável que se deseja prever como uma função não linear destas covariáveis." \citem[p. 40-41]{kava2022alem}. Isso ocorre por meio da união de pequenos modelos preditivos simples. Esses modelos chamados de neurônios artificiais, são os responsáveis por essa predição. O primeiro neurônio artificial, ou também chamado de perceptron foi descrito inicialmente por \citeonline{rosenblatt1958perceptron}. A representação visual pode ser verificada na figura \ref{fig:perceptron}. Esse modelo consistia em modelo que soma as entradas, obtendo um valor intermediário chamado de z, que passa por uma função de ativação, o perceptron utiliza uma função sinal como ativação, mas outros tipos de modelos utilizam outras funções de ativação \citem{ekman2021learning}.
 
 A representação matemática de um perceptron é definida por:
 
 \begin{align}
 	\label{eq:perceptron}
-	f(x) = \sum_{i=0}^{n}w_ix_i
+	f(x) = \phi \left(  \sum_{i=0}^{n}w_ix_i \right) 
 \end{align}
 
 com 
 
 \begin{align*}
-	x_0 = 1 (\text{bias})
+	x_0 &= 1 (\text{Bias ou viés}) \\
+	x_i &= \text{Entrada}\\
+	w_i &= \text{Pesos}\\
+	\phi &= \text{Função de ativação}
 \end{align*}
 
 \begin{figure}[h]
@@ -341,7 +344,220 @@ com
 
 Contudo um perceptron por si só, não consegue resolver problemas não-lineares, afinal a combinação de entradas e saídas realizando uma operação linear não pode ter uma resposta para um problema não-linear. Mas a verdadeira solução para problemas não-lineares começa a partir da combinação de dois perceptrons. Intuitivamente, um perceptron é um classificador linear simples, mas combinando os resultados das respostas de dois perceptrons, que são lineares, com um terceiro neurônio combinando essas respostas, consegue resolver problemas não-lineares. Nesse contexto surge a ideia de redes.
 
-Retomando o conceito de \citeonline{ghosh2023machine} entendemos o que são as redes, e o que são os nós, se tratam dos neurônios conectados e os pesos calculados de cada um. Contudo um conceito relevante que ainda não foi discutido, é a retropropagação, que é justamente o que permite o aprendizado nessa arquitetura.
+Retomando o conceito de \citeonline{ghosh2023machine} entendemos o que são as redes, e o que são os nós, se tratam dos neurônios conectados e os pesos calculados de cada um. Contudo um conceito relevante que ainda não foi discutido, justamente esse conceito que permitiu a evolução do modelo de \citeonline{rosenblatt1958perceptron} para as redes multicamadas que existem hoje. O nome desse conceito é a retropropagação, conhecido também como \textit{backpropagation} que é justamente o que permite o aprendizado nessa arquitetura.
+
+Após a invenção do perceptron havia ainda um espaço grande entre as redes neurais multicamadas e um único neurônio. O perceptron tem uma limitação relevante já citada, só consegue resolver problemas que são linearmente separáveis, isso acontece pela maneira como o aprendizado do modelo de \citeonline{rosenblatt1958perceptron} funciona. As entradas do perceptron eram multiplicadas com o peso e somadas com o viés, passada a uma função sinal ou degrau \footnote{A diferença dessas duas funções está na interpretação do 0, enquanto a função sinal tem a seguinte relação $sgn(x) \{-1\text{ se }x < 0; 0 \text{ se } x = 0; \text{ e } 1 \text{ se } x > 0$. Já a função degrau considera o 0 como um valor positivo $H(x) \{-1 \text{ se } x < 0; \text{ e } 1 se x >= 0$, ambas podem ser usadas no perceptron e ambas tem o mesmo problema que discutiremos no decorrer do texto} que resultava na saída. O aprendizado ocorria da seguinte forma: se a saída fosse igual a saída esperada, nenhum peso era alterado, se a saída fosse diferente da saída esperada os pesos eram modificados, até o modelo se ajustar a saída esperada.
+
+Intuitivamente a limitação é explicita, mas para ficar mais evidente suponhamos o problema clássico das redes neurais, resolver o problema do ou-exclusivo, o XOR. A característica do XOR é que quando as entradas binárias são diferentes o resultado é 1, e quando as entradas são iguais o resultado é 0, conforme a tabela verdade: 
+
+\begin{table}[htb]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Tabela verdade da operação XOR}
+	\label{tab:xor}
+	\begin{tabular}{ccc}
+		\hline
+		A & B & $A \oplus B$ \\
+		\hline
+		0 & 0 & 0 \\
+		0 & 1 & 1 \\
+		1 & 0 & 1 \\
+		1 & 1 & 0 \\
+		\hline
+	\end{tabular}
+	\\[0.2cm]
+	\footnotesize Fonte: Elaboração própria.
+\end{table}
+
+\citeonline{minsky1969introduction} provaram que o perceptron de \citeonline{rosenblatt1958perceptron} não conseguiria resolver um problema que não fosse linearmente separável, como o do XOR, imaginemos o XOR como um problema gráfico, enquanto um problema linear precisa de apenas uma reta para classificar corretamente os valores, para solucionar o XOR seriam necessários duas retas ou mais para classificar corretamente. E é exatamente nesse ponto em que o perceptron falha. A partir da constatação de \citeonline{minsky1969introduction} o mundo viveu uma era conhecida como o "inverno da IA", onde o modelo mais elegante criado até então ficaria estagnado.
+
+Mas essa configuração mudou com a adoção de um método de aprendizado que mudou totalmente a forma como a \ac{ia} era construída, a retropropagação. A popularização do seu uso é atribuída a \citeonline{rumelhart1986learning} que aplicaram o conceito de retropropagação em redes neurais. "O procedimento ajusta repetidamente os pesos das conexões na rede para minimizar uma medida da diferença entre o vetor de saída real da rede e o vetor de saída desejado." \citem[p. 533, tradução nossa]{rumelhart1986learning}.
+
+Esse marco inicia a construção dos modelos mais avançados de \ac{ia}, os modelos criados por  \citeonline{rumelhart1986learning} são redes neurais totalmente conectadas, significa que todos os neurônios de uma camada se conectam com os da camada seguinte. E baseada na  arquitetura do \textit{feedforward} em que os dados fluem em uma única direção da entrada para a saída, sem loops, ou recursão.
+
+A elegância dessa solução é impressionante, porém aplicar ela a perceptrons combinados não é tão simples, existem algumas alterações do modelo de \citeonline{rosenblatt1958perceptron}. A primeira alteração é a noção de função de ativação, enquanto o perceptron utiliza a função sinal/degrau, a retropropagação não permite o uso desse tipo de função, essas funções não são deriváveis por serem descontinuas em x=0, e o conceito que permite a retropropagação é justamente o uso de derivadas, portanto a primeira alteração é a troca por uma função continua e derivável, como por exemplo a função sigmoide \footnote{Existem outras funções que podem ser usadas como ativação, como a ReLU (Unidade Linear Retificada), a TanH (Tangente Hiperbólica), a Softmax, a linear, etc. Não entraremos em detalhes sobre cada uma das funções de ativação, mas elas são uma das decisões que o pesquisador deve tomar ao usar redes neurais, o tipo de função de ativação, o número de camadas, a taxa de aprendizado são o que chamamos de hiperparametros do modelo, e o ajuste deles permite um desempenho melhor ou pior a depender dos dados e do problema.} representada na equação \ref{eq:sigmoide} e na figura \ref{fig:sigmoide}.
+
+
+\begin{equation}
+	\label{eq:sigmoide}
+	f(x) = \dfrac{1}{1 + e^{-x}}
+\end{equation}
+
+\begin{figure}[h]
+	\captionsetup{justification=centering}
+	\caption{Função Sigmoide}
+	\label{fig:sigmoide}
+	\vspace{5pt}
+	\begin{tikzpicture}
+		\begin{axis}[
+			xlabel={$x$},
+			ylabel={$\sigma(x)$},
+			domain=-10:10,
+			samples=100,
+			grid=major,
+			width=15cm,
+			height=6cm
+			]
+			\addplot[thick] {1/(1+exp(-x))};
+		\end{axis}
+	\end{tikzpicture}
+	\vspace{5pt}
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+A segunda alteração é a que permite a combinação dos neurônios, enquanto o perceptron usa o erro direto para recalcular os pesos, redes multicamadas essa noção não é direta. E erro da camada de saída deve ser utilizado para calcular os pesos da camada oculta anterior, com esses pesos calculados, calcular o erro da camada imediatamente precedente, e assim conseguinte até a primeira camada, esse processo é a retropropagação do erro, camada por camada. Esse processo é repetido inúmeras vezes até os pesos se ajustarem e o erro for minimizado e é dessa maneira que a rede aprende.  
+
+Mas como esse erro é minimizado? É com essa pergunta que conectamos com a necessidade da função de ativação ser derivável. Retomamos o conceito: A derivada que mede a taxa de variação instantânea de uma grandeza em relação a outra, de uma forma geométrica a derivada representa a inclinação da reta tangente ao gráfico função em um ponto específico do plano. 
+
+A importância disso é associar o conceito de derivada como uma bússola, imaginemos que nossa função do erro é quadrática, como na equação \ref{eq:mse}, 
+
+
+\begin{equation}
+	E = \frac{1}{2}(y-\hat{y})^2
+	\label{eq:mse}
+\end{equation}
+
+Onde:
+\begin{itemize}
+	\item $y$ representa o valor observado;
+	\item $\hat{y}$ representa o valor predito;
+	\item $E$ representa o erro quadrático.
+\end{itemize}
+
+A visualização dessa função pode ser verificado na figura \ref{fig:erroquadratico}.
+
+\begin{figure}[htb]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Função de erro quadrático.}
+	\vspace{5pt}
+	\label{fig:erroquadratico}
+	\begin{tikzpicture}
+		\begin{axis}[
+			xlabel={Erro ($e=y-\hat{y}$)},
+			ylabel={$E(e)$},
+			domain=-8:8,
+			samples=200,
+			grid=major,
+			width=15cm,
+			height=7cm
+			]
+			\addplot[thick] {0.5*x^2};
+		\end{axis}
+	\end{tikzpicture}
+
+	\vspace{0.2cm}
+	\footnotesize Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+Podemos usar o conceito da derivada para encontramos os valores de $\hat{y}$ que minimizam o erro $E$. Ajustando os coeficientes utilizando a derivada como ponteiro, procurando o melhor valor para que o erro seja minimizado, conforme a figura \ref{fig:gradiente_descendente_erro}.
+
+\begin{figure}[htb]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Função de erro quadrático e segmentos de retas tangentes representando o gradiente em diferentes pontos.}
+	\vspace{5pt}
+	\label{fig:gradiente_descendente_erro}
+	\begin{tikzpicture}
+		\begin{axis}[
+			xlabel={Erro ($e=y-\hat{y}$)},
+			ylabel={$E(e)$},
+			xmin=-9, xmax=9,
+			ymin=-5, ymax=35,
+			grid=major,
+			width=15cm,
+			height=7cm,
+			legend pos=north west
+			]
+			
+			% Função de erro
+			\addplot[
+			thick,
+			domain=-8:8,
+			samples=200
+			] {0.5*x^2};
+			\addlegendentry{$E(e)=\frac{1}{2}e^2$}
+			
+			% Ponto e=6
+			\addplot[dashed, color=red, line width=3pt, domain=5.5:6.5] {6*(x-6)+18};
+			\addlegendentry{Derivada local}
+			\addplot[mark=*] coordinates {(6,18)};
+			\addlegendentry{Pontos avaliados}
+			
+			% Ponto e=4
+			\addplot[dashed, color=red, line width=3pt, domain=3.5:4.5] {4*(x-4)+8};
+			\addplot[mark=*] coordinates {(4,8)};
+			
+			% Ponto e=2
+			\addplot[dashed, color=red, line width=3pt, domain=1.5:2.5] {2*(x-2)+2};
+			\addplot[mark=*] coordinates {(2,2)};
+			
+			% Ponto e=0
+			\addplot[dashed, color=red, line width=3pt, domain=-0.5:0.5] {0};
+			\addplot[mark=*] coordinates {(0,0)};
+			
+		\end{axis}
+	\end{tikzpicture}
+
+	
+	\vspace{0.2cm}
+	\footnotesize Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+Porém a função de erro de uma rede neural não é uma simples função quadrática, afinal se fosse a solução seria trivial, o gráfico seria algo mais parecido com o representado na figura \ref{fig:superficie_erro}, mas mesmo assim a representação é imprecisa, pois redes neurais profundas contam com muitas entradas e camadas, possuem n-dimensões e é praticamente impossível conceber uma representação visual do erro dessas redes. Porém, mesmo que imprecisas, essas representações nos permitem entender a ideia por trás da retropropagração, o chamado gradiente descendente.
+
+\begin{figure}[htb]
+	\centering
+	
+	\begin{tikzpicture}
+		\begin{axis}[
+			view={60}{35},
+			width=15cm,
+			height=10cm,
+			xlabel={$w_1$},
+			ylabel={$w_2$},
+			zlabel={$E(w_1,w_2)$},
+			colormap/viridis,
+			grid=major
+			]
+			
+			% Superfície de erro
+			\addplot3[
+			surf,
+			opacity=0.85,
+			samples=35,
+			domain=-5:5,
+			y domain=-5:5
+			]
+			{0.1*(x^2+y^2)+sin(deg(x))*cos(deg(y))};
+			
+		\end{axis}
+	\end{tikzpicture}
+	
+	\caption{Superfície de erro}
+	\label{fig:superficie_erro}
+	\vspace{0.2cm}
+	\footnotesize Fonte: Elaborado pelo autor (2026).
+	
+\end{figure}
+
+O gradiente descendente "É um método iterativo no qual começamos com um palpite inicial da solução e depois refinamos gradualmente." \citem[p. 45, tradução nossa]{ekman2021learning}. Para funções simples de uma variável o gradiente descendente é o algoritmo que usa as derivadas das funções para minimizar o erro, já para n-dimensões 
+
+\begin{citacao}
+	Se tivermos uma função de n variáveis, então nosso gradiente consistirá em n derivadas parciais, e podemos calcular o próximo passo como $x-\eta \nabla y$, onde tanto $x$ quanto $\nabla y$ são vetores com $n$ elementos.  \citem[p. 47, tradução nossa]{ekman2021learning}
+\end{citacao}
+
+Uma maneira mais intuitiva de se entender o gradiente descendente seria com uma analogia: O gradiente descendente é como um animal cego e com sede encima de um terreno acidentado, ele não sabe onde tem água, e não sabe onde está, porém ele sabe que a água fica nos vales, e pode usar suas patas para identificar a inclinação do terreno, ele procurará maneiras de sempre ir descendo, e quando chegar no vale encontrará água.
+
+E com essa analogia já entendemos também um dos problemas dessa arquitetura, os mínimos locais. Se o animal encontra uma depressão na montanha, que não tem água, mas que para todos os lados é necessário subir primeiro para posteriormente descer o animal cego acaba morrendo de sede. De certa forma é assim que funciona o gradiente descendente, quando encontra mínimos locais, o algoritmo "pensa"\, estar na solução ótima, mas é apenas um mínimo local\footnote{Existem estudos dedicados a minimizar esses problemas, como encontrar uma taxa de aprendizado ótimo, para evitar mínimos locais e mesmo assim encontrar soluções adequadas, mas essas análise foge do escopo de nosso trabalho, mas vale a leitura do livro de  \citeonline{ekman2021learning} para entender mais sobre edes neurais, funções de ativação, gradiente descendente e outros conteúdos sobre redes neurais na teoria e na prática}.
+
+% Ainda estou pensando se coloco a parte de algebra linear no texto para falar sobre a formlação matemática, vou perguntar para o professor
+
+Com essa noção de como surgiram os modelos baseados em redes neurais e de uma forma simplificada como eles funcionam por baixo dos panos, podemos ver aplicações desses modelos para predição econômica.
+
+
+ 
 
 
 
