@@ -25,7 +25,11 @@ Mas não somente a economia ficou mais complexa, o advento da indústria 4.0
 trouxe a possibilidade de coletar e processar grandes volumes de dados através do que chamamos de sistemas de informação. Que para \citeonline{laudon2022sistemas} são essenciais para alcançar objetivos estratégicos dos negócios. 
 %	Na era digital, o grande volume de dados gerados pelos sistemas de informação pode ser usada como uma fonte, praticamente inesgotável de informações para tomadas de decisões. 
 
-Seguindo esse caminho racional muitos indicadores econômicos foram criados, melhorados ou superados, tanto no sentido microeconômico dentro das firmas, assim como indicadores macroeconômicos de grandes agregados. E um desses indicadores macroeconômicos que evoluiu com o tempo busca estimar a produção total interna de uma localidade, o chamado \ac{pib}. Segundo o \ac{ibge} "o \ac{pib} é a soma de todos os bens e serviços finais produzidos por um país, estado ou cidade, geralmente em um ano." \citem[p. 1]{ibge_pib}.
+\begin{citacao}
+	A eficácia das políticas depende do uso de todas as informações disponíveis em qualquer momento, incluindo informações prospectivas, como desempenho do mercado de ações e a incerteza da política econômica, disponíveis no ponto de estimativa. \citem{ghosh2023machine}
+\end{citacao}
+
+Nesse sentido da importância das informações, muitos indicadores econômicos foram criados, melhorados ou superados, tanto no sentido microeconômico dentro das firmas, assim como indicadores macroeconômicos de grandes agregados. E um desses indicadores macroeconômicos que evoluiu com o tempo busca estimar a produção total interna de uma localidade, o chamado \ac{pib}. Segundo o \ac{ibge} "o \ac{pib} é a soma de todos os bens e serviços finais produzidos por um país, estado ou cidade, geralmente em um ano." \citem[p. 1]{ibge_pib}.
 
 Na realidade o \ac{pib} funciona como um termômetro da atividade econômica, e se indicadores refletem a realidade, é lógico pensar que conforme a economia fica complexa, seus indicadores as acompanham, assim como as tentativas de tentar prever seu comportamento.
 
@@ -575,12 +579,49 @@ No sentido todos os modelos apontaram a interpretação de que o mercado interna
 aos empregados nas 27 unidades da federação brasileira. Para isso os dados foram extraídos do \ac{ibge} através do \ac{sidra}. O estudo aponta um desempenho superior das redes neurais em comparação a regressão linear no critério da precisão. Contudo, os autores levantaram o mesmo ponto de \citeonline{vasconcelos2017poder} que a interpretabilidade das redes neurais é limitada. 
 
 \begin{citacao}
-	Do ponto de vista analítico, a análise de regressão linear é mais dinâmica e informativa que a RNA MLP\footnote{Redes Neurais Artificiais \textit{Multilayer Perceptron}}. Pois, ao identificar os coeficientes do modelo de regressão e seus sinais, é possível compreender o impacto de cada variável independente significativa na explicação do comportamento da variável de estudo. Ao passo que, a RNA MLP somente permite avaliar qual o grau de importância das variáveis  explicativas do modelo.
+	Do ponto de vista analítico, a análise de regressão linear é mais dinâmica e informativa que a RNA MLP\footnote{Redes Neurais Artificiais \textit{Multilayer Perceptron}}. Pois, ao identificar os coeficientes do modelo de regressão e seus sinais, é possível compreender o impacto de cada variável independente significativa na explicação do comportamento da variável de estudo. Ao passo que, a RNA MLP somente permite avaliar qual o grau de importância das variáveis  explicativas do modelo. \citem[p. 17]{carmo2023modelagem}
 \end{citacao}
 
-\citeonline{carmo2023modelagem} demonstram que as redes neurais possuem uma capacidade modelar todas as variáveis, enquanto outros métodos como a regressão linear só consideram as variáveis significantes para o modelo. Outro ponto elencado pelos autores é a capacidade de modelar problemas não lineares, sendo uma vantagem em relação so modelo tradicional da regressão linear.
+\citeonline{carmo2023modelagem} demonstraram que as redes neurais possuem uma capacidade modelar todas as variáveis, enquanto outros métodos como a regressão linear só consideram as variáveis significantes para o modelo. Outro ponto elencado pelos autores é a capacidade de modelar problemas não lineares, sendo uma vantagem em relação so modelo tradicional da regressão linear.
 
 Os autores pontuam que ambos métodos tem vantagens e desvantagens, enquanto modelos tradicionais possuem rigor metodológico e capacidade interpretativa, modelos contemporâneos, como redes neurais podem ser considerada mais flexíveis, adaptando-se a tendências não-lineares, e até a dados incompletos, porém devido a sua complexidade arquitetural possuem baixa interpretabilidade.
+
+\citeonline{amaral2023previsao} também realizaram testes de modelos baseados em redes neurais, porém ao invés de comparar a outras técnicas tradicionais, os autores testaram diferentes configurações de redes neurais. A principal diferença dos modelos até então apresentados é o métodos de treinamento, enquanto as redes neurais estudadas são do tipo totalmente conectada baseadas no \textit{feedfoward} as três redes testadas por \citeonline{amaral2023previsao} são do tipo \ac{rnn}\footnote{Redes Neurais Recorrentes}.
+
+\begin{citacao}
+	As \ac{rnn} são um tipo de rede neural que foi 
+	desenvolvida para identificar padrões em um banco de dados. Através dos algoritmos da rede neural, ele é capaz de identificar, dentro de uma sequência de informações, similaridades de palavras, de texto, imagens e números, utilizando esses padrões para aprender e futuramente entender o que o está sendo “apresentado”. \citem[p. 11]{amaral2023previsao}
+\end{citacao}
+
+Para além disso os autores utilizaram um tipo de \ac{rnn} mais sofisticada, a chamada \ac{rnn} de Memória \ac{lts}, segundo os autores na arquitetura desse tipo de \ac{rnn} é possível armazenar memórias de longo e curto prazo. Sendo uma arquitetura adequada para séries temporais econômicas que sofrem influências de curto e longo prazo.
+
+No trabalho os autores testaram três modelos de redes neurais: univariado \textit{stacked}\footnote{Esse tipo de modelo "possui uma arquitetura de mais de uma camada de neurônio escondida, no qual cada camada contém múltiplas células de memória." \citem[p. 13]{amaral2023previsao}.}; multivariado; e univariado bidirecional\footnote{Em modelos Univariados bidirecionais, ao invés de um único modelo, existem dois. O primeiro aprende a sequência da entrada e o segundo o inverso, proporcionando um maior quantitativo de informações para o treinamento. \citem{amaral2023previsao}}. Os dados foram extraídos do banco central do Brasil e do \ac{ibge} no período de janeiro de 2002 até março de 2023. O conjunto de dados compreende: taxa SELIC\footnote{\ac{selic}}; IPCA\footnote{\ac{ipca}}; PIM\footnote{\ac{pim}}; e taxa de câmbio.
+
+Os resultados apontados pelos autores indicaram um desempenho relevante das \ac{rnn} \ac{lts}. O melhor dos três modelos foi o multivariado, que apresentou os menores indicadores de erros, possuindo um maior grau de explicabilidade. O segundo com melhor desempenho foi o modelo univariado \textit{stacked}, em que os modelos que usaram a taxa \ac{selic} como entrada, obtiveram os melhores resultados. E o pior dos modelos foi o univariado bidirecional, que não obteve resultados satisfatórios, não superando em nenhuma variável o modelo univariado \textit{stacked}.
+
+A reflexão proposta pelo autor é que mesmo com uma quantidade limitada de dados o modelo baseado em \ac{rnn} \ac{lts} multivariado teve desempenho satisfatório para predição de variáveis econômicas. Mas que mesmo o modelo obtendo um resultado aceitável, ainda assim é necessário uma análise de indicadores históricos e fáticos por um profissional técnico da área.
+
+A partir do exposto de \citeonline{amaral2023previsao} foi possível notar outro tipo de arquitetura para redes neurais, essa com uma adequação relevante para séries históricas, porém ainda assim com as limitações inerentes a esse tipo de modelo, que apesar de terem uma explicabilidade alta dos fatores envolvidos no modelo e uma capacidade de captar relações quase que imperceptíveis nas variáveis econômicas, ainda se faz necessário o aval do técnico economista, implicando que a interpretabilidade de um modelo é algo imprescindível.
+
+Como nos outros modelos, é importante olhar como a literatura internacional utiliza os modelos. Entretanto, dessa vez, vamos utilizar o material de \citeonline{ghosh2023machine}, que realizaram um trabalho com redes neurais para predição do \ac{gdp} da Índia de janeiro de 2003 a dezembro de 2019. Esse material se assemelha com o que desejamos produzir com o presente trabalho, claro por tratarem de uma série histórica semelhante, mas especialmente pois tanto o Brasil como a Índia são membros da lista de países emergentes, o que implica em economias complexas com características parecidas.
+
+Os dados do trabalho foram extraídos do Banco da Reserva da Índia ou da CEIC\footnote{Trata-se de uma base de dados de indicadores macroeconômicos globais}, foram analisadas 13 variáveis mais o \ac{gdp} como variável a ser predita. O modelo proposto pelos pesquisadores da Índia tratava-se de uma combinação de modelos para o \textit{nowcasting}\footnote{\textit{nowcasting} é uma técnica de predição de variáveis de alta frequência, no contexto do estudo predizer o \ac{gdp} usando variáveis diárias/semanais}, o modelo principal é um \ac{dfm}, como visto anteriormente, para estimar valores para cada indicador econômico com base nos valores históricos desses indicadores foram utilizados três varições de modelo: \textit{Random Forest}, ARIMA, Prophet\footnote{O modelo Random Forest ainda veremos mais sobre o mesmo no presente trabalho. O modelo Prophet não será contemplado profundamente, mas afim de curiosidade esse é um procedimento baseado em modelos aditivos com ampla capacidade para aplicação em \textit{nowcasting} por conseguir ajustar tendências não-lineares usando a sazonalidade \citem{ghosh2023machine}.}. E como modelo ponte, que conecta os fatores dinâmicos estimados com o \ac{gdp}, temos o AR(1) e as redes neurais.
+
+Os resultados obtidos pelos pesquisadores apontam que o modelo Prophet se saiu melhor no \textit{nowcasting} do \ac{gdp}, e que para previsões a partir de um mês as redes neurais apresentaram uma melhoria significativa em relação ao modelo AR(1), mas que para longos períodos, mais de um ano, o erro só aumentou, indicando que esse tipo de modelo de \textit{nowcasting} não é o mais indicado para predição em longos períodos.
+
+Apesar da semelhança dos dados e do contexto de aplicação, o trabalho de \citeonline{ghosh2023machine} busca um outra técnica de predição, buscando a alta frequência das variáveis e informações rápidas para tomadas de decisões fundamentadas. A partir do exposto dos autores é possível notar como diferentes modelos podem ser combinados para encontrar a melhor solução, nesse contexto as redes neurais foram usadas como modelo ponte, não como modelo principal, mas mesmo assim obtiveram resultados melhores que um modelo consolidado como o AR(1) para o \textit{nowcasting}.
+
+A partir dessa exposição de autores fica claro como métodos atuais como as redes neurais tem ganhado espaço dentro da predição econômica, não se tratam de modelos milagrosos que conseguem resolver todos os problemas do mundo. Esses modelos tem sim uma liberdade maior, não se restringindo a metodologias rígidas conforme \citeonline{carmo2023modelagem}, mas ainda assim dependem de um pesquisador o conduzindo e interpretando seus resultados \citem{amaral2023previsao}.
+
+Vimos também que talvez sua maior potencialidade não seja como o perceptron de \citeonline{rosenblatt1958perceptron}, mas sim a combinação com outras técnicas e variações, criando modelos com alta capacidade preditiva e robustez conforme \citeonline{amaral2023previsao} e \citeonline{ghosh2023machine} demonstraram.
+
+
+
+
+
+
+
+
 
 
 
