@@ -406,11 +406,11 @@ A elegância dessa solução é impressionante, porém aplicar ela a perceptrons
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-A segunda alteração é a que permite a combinação dos neurônios, enquanto o perceptron usa o erro direto para recalcular os pesos, redes multicamadas essa noção não é direta. E erro da camada de saída deve ser utilizado para calcular os pesos da camada oculta anterior, com esses pesos calculados, calcular o erro da camada imediatamente precedente, e assim conseguinte até a primeira camada, esse processo é a retropropagação do erro, camada por camada. Esse processo é repetido inúmeras vezes até os pesos se ajustarem e o erro for minimizado e é dessa maneira que a rede aprende.  
+A segunda alteração é a que permite a combinação dos neurônios, enquanto o perceptron usa o erro direto para recalcular os pesos, redes multicamadas essa noção não é direta. O erro da camada de saída deve ser utilizado para calcular os pesos da camada oculta anterior, com esses pesos calculados, calcular o erro da camada imediatamente precedente, e assim conseguinte até a primeira camada, esse processo é a retropropagação do erro, camada por camada. Esse processo é repetido inúmeras vezes até os pesos se ajustarem e o erro total for minimizado e é dessa maneira que a rede aprende.  
 
-Mas como esse erro é minimizado? É com essa pergunta que conectamos com a necessidade da função de ativação ser derivável. Retomamos o conceito: A derivada que mede a taxa de variação instantânea de uma grandeza em relação a outra, de uma forma geométrica a derivada representa a inclinação da reta tangente ao gráfico função em um ponto específico do plano. 
+Mas como esse erro é minimizado? É com essa pergunta que conectamos com a necessidade da função de ativação ser derivável. Retomamos o conceito do calculo: A derivada mede a taxa de variação instantânea de uma grandeza em relação a outra, de uma forma geométrica a derivada representa a inclinação da reta tangente ao gráfico função em um ponto específico do plano. 
 
-A importância disso é associar o conceito de derivada como uma bússola, imaginemos que nossa função do erro é quadrática, como na equação \ref{eq:mse}, 
+Nesse sentido o conceito de derivada para esse algoritmo funciona como uma bússola. Imaginemos que nossa função do erro é quadrática, como na equação \ref{eq:mse}, 
 
 
 \begin{equation}
@@ -543,7 +543,7 @@ Porém a função de erro de uma rede neural não é uma simples função quadr�
 	
 \end{figure}
 
-O gradiente descendente "É um método iterativo no qual começamos com um palpite inicial da solução e depois refinamos gradualmente." \citem[p. 45, tradução nossa]{ekman2021learning}. Para funções simples de uma variável o gradiente descendente é o algoritmo que usa as derivadas das funções para minimizar o erro, já para n-dimensões 
+O gradiente descendente "É um método iterativo no qual começamos com um palpite inicial da solução e depois refinamos gradualmente." \citem[p. 45, tradução nossa]{ekman2021learning}. Para funções simples de uma variável o gradiente descendente é o algoritmo que usa as derivadas das funções para minimizar o erro, por outro lado
 
 \begin{citacao}
 	Se tivermos uma função de n variáveis, então nosso gradiente consistirá em n derivadas parciais, e podemos calcular o próximo passo como $x-\eta \nabla y$, onde tanto $x$ quanto $\nabla y$ são vetores com $n$ elementos.  \citem[p. 47, tradução nossa]{ekman2021learning}
@@ -551,11 +551,39 @@ O gradiente descendente "É um método iterativo no qual começamos com um palpi
 
 Uma maneira mais intuitiva de se entender o gradiente descendente seria com uma analogia: O gradiente descendente é como um animal cego e com sede encima de um terreno acidentado, ele não sabe onde tem água, e não sabe onde está, porém ele sabe que a água fica nos vales, e pode usar suas patas para identificar a inclinação do terreno, ele procurará maneiras de sempre ir descendo, e quando chegar no vale encontrará água.
 
-E com essa analogia já entendemos também um dos problemas dessa arquitetura, os mínimos locais. Se o animal encontra uma depressão na montanha, que não tem água, mas que para todos os lados é necessário subir primeiro para posteriormente descer o animal cego acaba morrendo de sede. De certa forma é assim que funciona o gradiente descendente, quando encontra mínimos locais, o algoritmo "pensa"\, estar na solução ótima, mas é apenas um mínimo local\footnote{Existem estudos dedicados a minimizar esses problemas, como encontrar uma taxa de aprendizado ótimo, para evitar mínimos locais e mesmo assim encontrar soluções adequadas, mas essas análise foge do escopo de nosso trabalho, mas vale a leitura do livro de  \citeonline{ekman2021learning} para entender mais sobre edes neurais, funções de ativação, gradiente descendente e outros conteúdos sobre redes neurais na teoria e na prática}.
+E com essa analogia já entendemos também um dos problemas dessa arquitetura, os mínimos locais. Se o animal encontra uma depressão na montanha, que não tem água, mas que para todos os lados é necessário subir primeiro para posteriormente descer o animal cego acaba morrendo de sede. De certa forma é assim que funciona o gradiente descendente, quando encontra mínimos locais, o algoritmo "pensa"\, estar na solução ótima, mas é apenas um mínimo local\footnote{Existem estudos dedicados a minimizar esses problemas, como encontrar uma taxa de aprendizado ótimo, para evitar mínimos locais e mesmo assim encontrar soluções adequadas, mas essas análises fogem do escopo de nosso trabalho, mas vale a leitura do livro de  \citeonline{ekman2021learning} para entender mais sobre redes neurais, funções de ativação, gradiente descendente e outros conteúdos sobre redes neurais na teoria e na prática}.
 
-% Ainda estou pensando se coloco a parte de algebra linear no texto para falar sobre a formlação matemática, vou perguntar para o professor
+% Ainda estou pensando se coloco a parte de algebra linear no texto para falar sobre a formulação matemática, vou perguntar para o professor
 
-Com essa noção de como surgiram os modelos baseados em redes neurais e de uma forma simplificada como eles funcionam por baixo dos panos, podemos ver aplicações desses modelos para predição econômica.
+Com essa noção de como surgiram os modelos baseados em redes neurais, posteriormente com a evolução das técnicas de \ac{ia} surgem os algoritmos de \textit{deep learning} (aprendizado profundo), esses modelos não são ão diferentes das redes neurais estudadas no presente trabalho, a principal diferença é a escala. No \textit{deep learning} são muitas camadas, imagine da seguinte forma com zero camadas ocultas temos uma regressão logística ou um perceptron, com uma camada oculta temos as redes neurais, com duas ou mais temos o que chamamos de \textit{deep neural networks} que são redes neurais com muitas camadas ocultas. Esses algoritmos que rodam as grandes tecnologias de \ac{ia} hoje, como visão computacional e chatbots, contudo também apresentam um dos problemas desse tipo de técnica e do aprendizado de máquina de uma forma geral, a interpretabilidade.
+
+Redes com arquiteturas gigantescas podem resolver problemas complexos, porém não tem a interpretabilidade que modelos simples possuem. 
+
+A partir desse exposto vimos de uma forma simplificada como redes neurais surgiram e como elas funcionam por baixo dos panos, agora podemos ver as aplicações desses modelos para predição econômica.
+
+Começaremos por \citeonline{vasconcelos2017poder} que utilizou modelos de redes neurais em sua tese, diferente de nosso trabalho o autor realizou sua pesquisa em dados de 41 países de 2001 à 2015 (Segundo o autor em alguns casos a séria pode até ser mais extensa devido a disponibilidade), essa escolha se deu principalmente por serem membros da \ac{ocde}, mais alguns países que apesar de não serem membros possuem relevância econômica e/ou tinham a disponibilidade de dados.
+
+As variáveis selecionadas pelo autor são: pib, seus componentes, comércio internacional, preços, câmbio, juros, títulos públicos, câmbio, mercado futuro, índices de bolsa, demais indicadores de negócios público e privado, qualidade do crédito, operações de crédito do governo em detalhes, operações financeiras como BIS, reservas, balança comercial, fluxo de capitais, CDS\footnote{\textit{Credit Default Swap} que é um indicador de risco de crédito.}, VIX\footnote{Índice de volatilidade.}, preços de commodities. Essas variáveis\footnote{Para mais detalhes sobre as variáveis recomendamos a consulta do material original de \citeonline{vasconcelos2017poder}} são de frequência trimestral. Os dados foram coletados a partir de conjunto de bases (Banco Mundial, \ac{ocde}, BIS, Bloomberg)
+
+O autor comparou diversos modelos nesse teste, modelos de equações individuais, Fatores comuns, modelos mistos de quadrados mínimos ordinários, Lasso e regressão em árvore e métodos de \textit{machine learning} como \textit{Suport Vector Machine}, \textit{Random Forest}  e \textit{deep learning}.
+
+O objetivo do autor era verificar as relações entre Política fiscal, mercado internacional e as flutuações do produto dos países, no sentido de desempenho o autor constatou que os modelos baseados em \textit{deep learning} conseguiram superar os modelos tradicionais de equações individuais e de fatores comuns, porém se saíram piores que os modelos mistos construídos, assim como teria se saído pior que os outros modelos de \textit{machine learning} analisados na tese.
+
+No sentido todos os modelos apontaram a interpretação de que o mercado internacional foi mais determinante do que a política fiscal. O autor aponta que redes neurais são sim métodos robustos para predição de modelos macroeconômicos. Porém conforme os resultados apontados fica evidente que redes neurais tem falhas estruturais como a interpretabilidade e não são necessariamente a melhor solução para todos os problemas.
+
+\citeonline{carmo2023modelagem} também comparou modelos, eles os classificaram entre clássicos e contemporâneos. O trabalho examinou dois modelos: regressão linear simples; e redes neurais multicamadas. Assim aplicaram ambos modelos à predição da remuneração média mensal paga 
+aos empregados nas 27 unidades da federação brasileira. Para isso os dados foram extraídos do \ac{ibge} através do \ac{sidra}. O estudo aponta um desempenho superior das redes neurais em comparação a regressão linear no critério da precisão. Contudo, os autores levantaram o mesmo ponto de \citeonline{vasconcelos2017poder} que a interpretabilidade das redes neurais é limitada. 
+
+\begin{citacao}
+	Do ponto de vista analítico, a análise de regressão linear é mais dinâmica e informativa que a RNA MLP\footnote{Redes Neurais Artificiais \textit{Multilayer Perceptron}}. Pois, ao identificar os coeficientes do modelo de regressão e seus sinais, é possível compreender o impacto de cada variável independente significativa na explicação do comportamento da variável de estudo. Ao passo que, a RNA MLP somente permite avaliar qual o grau de importância das variáveis  explicativas do modelo.
+\end{citacao}
+
+
+
+
+
+
+
 
 
  
