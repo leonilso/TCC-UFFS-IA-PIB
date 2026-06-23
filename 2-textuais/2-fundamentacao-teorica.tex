@@ -26,12 +26,18 @@ trouxe a possibilidade de coletar e processar grandes volumes de dados através 
 %	Na era digital, o grande volume de dados gerados pelos sistemas de informação pode ser usada como uma fonte, praticamente inesgotável de informações para tomadas de decisões. 
 
 \begin{citacao}
-	A eficácia das políticas depende do uso de todas as informações disponíveis em qualquer momento, incluindo informações prospectivas, como desempenho do mercado de ações e a incerteza da política econômica, disponíveis no ponto de estimativa. \citem{ghosh2023machine}
+	A eficácia das políticas depende do uso de todas as informações disponíveis em qualquer momento, incluindo informações prospectivas, como desempenho do mercado de ações e a incerteza da política econômica, disponíveis no ponto de estimativa. \citem[p. 19]{ghosh2023machine}
 \end{citacao}
 
 Nesse sentido da importância das informações, muitos indicadores econômicos foram criados, melhorados ou superados, tanto no sentido microeconômico dentro das firmas, assim como indicadores macroeconômicos de grandes agregados. E um desses indicadores macroeconômicos que evoluiu com o tempo busca estimar a produção total interna de uma localidade, o chamado \ac{pib}. Segundo o \ac{ibge} "o \ac{pib} é a soma de todos os bens e serviços finais produzidos por um país, estado ou cidade, geralmente em um ano." \citem[p. 1]{ibge_pib}.
 
-Na realidade o \ac{pib} funciona como um termômetro da atividade econômica, e se indicadores refletem a realidade, é lógico pensar que conforme a economia fica complexa, seus indicadores as acompanham, assim como as tentativas de tentar prever seu comportamento.
+O Banco Central do Brasil trás dois conceitos para o \ac{pib}: "a preços de mercado, (o \ac{pib}) mede o total de bens e serviços produzidos pelas unidades produtoras residentes destinados ao consumo final (exclui o consumo intermediário)." \citem[p. 1]{BCB_SGS_1207}. Além disso o Banco Central do Brasil trás também a ideia do PIB em reais correntes que se refere ao valor dos bens e serviços finais produzidos em determinado período e valorados a preços de mercado do respectivo período, ou seja sem retirar a inflação  \citem{BCB_SGS_1207}. Ambos representam a totalidade de bens e serviços produzidos, e tem o mesmo quantitativo quando analisados no mesmo ano base, mas quando se análisa em períodos de tempo diferentes o PIB a preços de mercado é considerado o PIB real, pois exige um calculo para retirar a inflação das medições do \ac{pib}, enquanto o \ac{pib} em reais correntes sempre se refere ao valor nominal do PIB naquela data, esse geralmente é o valor divulgado pelas bases de dados, como o próprio Banco Central ou o \ac{ibge}.
+
+O conceito internacional de PIB é semelhante com os conceitos do Banco Central do Brasil e do \ac{ibge}. Segundo o \citeonline{BEA_GDP} o PIB mede o valor dos bens e serviços finais produzidos, sem contar os bens e serviços intermediários. A agência estadunidense de divulgação e análise econômica também trás o motivo pelo qual o \ac{pib} é tão importante afinal  "as mudanças no PIB são o indicador mais popular da saúde econômica geral do país" \citem[p. 1]{BEA_GDP}
+
+% Professor adicionei o conceito do IBGE, do Banco Central e do BEA dos EUA
+
+Nesse sentido o \ac{pib} funciona como um termômetro da atividade econômica, e se indicadores refletem a realidade, é lógico pensar que conforme a economia fica complexa, seus indicadores as acompanham, assim como as tentativas de tentar prever seu comportamento.
 
 % Colocar mais complexidade na definição do PIB
 
@@ -288,6 +294,15 @@ Todavia, para utilizar-se do VAR nesse contexto foi necessário adaptações no 
 
 
 \subsubsection{MIDAS}
+
+Aplicar um modelo econométrico consiste em etapas, que vão desde a coleta, tratamento, testagem, aplicação, validação e predição. A maioria dessas etapas é administrada pelo pesquisador, se uma variável não passa nos testes, o estatístico pode simplesmente removê-la, ou tratá-la como exógena, se o modelo não tem uma boa acurácia, pode a sua vontade mudá-lo, e é assim para maioria das etapas. Contudo uma dessas etapas, apesar de muito importante, ela é suscetível a erros e variações que muitas vezes não podem ser controladas pelo pesquisador, estamos falando da coleta. Os dados disponíveis, mesmo aqueles de bases oficiais podem conter vícios de medições, dados faltantes e é claro diferentes frequências.
+
+Como os estudiosos da área não podem simplesmente deixar de realizar a pesquisa, novas técnicas cada vez mais sofisticadas surgem para solucionar esse tipo de problema, como visto anteriormente no MF-VAR, existem maneiras de adaptar modelos existentes para as condições da realidade dos dados, mas também surgem modelos específicos para lidar com certas condições frequentes da economia real.
+
+Uma dessas condições, é ironicamente a frequência. Nesse sentido, em algumas bases uma variável é semanal, eu outro mensal, em outro anual, e assim para qualquer regularidade imaginável. Por exemplo, o censo demográfico no Brasil só ocorre a cada 10 anos, os dados entre esses anos são estimativas. Outro exemplo, a taxa SELIC que é definida a cada 45 dias, muito mais frequente que um censo, mas parece ser uma eternidade comparado ao preço de uma ação que tem frequência praticamente imediata. Nesse sentido um modelo que consegue incorporar o comportamento econômico com diferentes frequências é algo imprescindível. Nesse contexto, surge o MIDAS.
+
+
+
 \citeonline{castelli2022modelo} abordou o uso do modelo de amostragem de dados mistos (do inglês \textit{Mixed Data Sampling} - MIDAS) para predizer o \ac{pib} com a pesquisa industrial mensal. Assim como \citeonline{micheletti2024avaliaccao} usou modelos de \textit{ensemble stacking} \footnote{\textit{ensemble stacking}: modelos combinados} (dentre eles o MIDAS) para prever o \ac{pib}.
 
 \subsubsection{DFM}
@@ -651,8 +666,10 @@ Vimos também que talvez sua maior potencialidade não seja como o perceptron de
 
 
 
-\section{Testes: Comprovar e comparar modelos}
-\label{sec:testes}
+% EU QUERO COLOCAR OS TESTES, MAS SE NÃO DER TEMPO NÃO COLOCAREI NA QUALIFICAÇÃO
+
+%\section{Testes: Comprovar e comparar modelos}
+%\label{sec:testes}
 
 
 %	\citem{laudon2022sistemas} sistemas de informação são essenciais para alcançar objetivos estratégicos dos negócios. Na era digital, o grande volume de dados gerados pelos sistemas de informação pode ser usada como uma fonte, praticamente inesgotável de informações para tomadas de decisões. 
@@ -660,4 +677,5 @@ Vimos também que talvez sua maior potencialidade não seja como o perceptron de
 %	Rever trabalhos sobre uso dessas técnicas para predição
 
 
-\section{IA vs Tradicional: Uma perspectiva Acadêmica}
+% NÃO SEI SE IREI COLOCAR ESSA SESSÃO, MAS PENSO QUE SIM
+%\section{IA vs Tradicional: Uma perspectiva Acadêmica}
