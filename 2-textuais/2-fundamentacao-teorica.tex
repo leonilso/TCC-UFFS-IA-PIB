@@ -299,9 +299,61 @@ Aplicar um modelo econométrico consiste em etapas, que vão desde a coleta, tra
 
 Como os estudiosos da área não podem simplesmente deixar de realizar a pesquisa, novas técnicas cada vez mais sofisticadas surgem para solucionar esse tipo de problema, como visto anteriormente no MF-VAR, existem maneiras de adaptar modelos existentes para as condições da realidade dos dados, mas também surgem modelos específicos para lidar com certas condições frequentes da economia real.
 
-Uma dessas condições, é ironicamente a frequência. Nesse sentido, em algumas bases uma variável é semanal, eu outro mensal, em outro anual, e assim para qualquer regularidade imaginável. Por exemplo, o censo demográfico no Brasil só ocorre a cada 10 anos, os dados entre esses anos são estimativas. Outro exemplo, a taxa SELIC que é definida a cada 45 dias, muito mais frequente que um censo, mas parece ser uma eternidade comparado ao preço de uma ação que tem frequência praticamente imediata. Nesse sentido um modelo que consegue incorporar o comportamento econômico com diferentes frequências é algo imprescindível. Nesse contexto, surge o MIDAS.
+Uma dessas condições, é ironicamente a frequência. Nesse sentido, em algumas bases, uma variável é semanal, eu outra mensal, em outra anual, e assim para qualquer regularidade imaginável. Por exemplo, o censo demográfico no Brasil só ocorre a cada 10 anos, os dados entre esses anos são estimativas. Outro exemplo, a taxa SELIC que é definida a cada 45 dias, muito mais frequente que um censo, mas parece ser uma eternidade comparada aos preços de uma ações que tem frequência praticamente imediata. Nesse sentido um modelo que consegue incorporar o comportamento econômico com diferentes frequências é algo imprescindível. Nesse contexto, surge o MIDAS.
+
+\begin{citacao}
+	MIDAS envolve regressores com diferentes frequências de amostragem e, portanto, não são modelos autorregressivos, já que a noção de autorregressão pressupõe implicitamente que os dados são amostrados na mesma frequência no passado. \citem[p. 1]{Ghysels2004MIDAS}
+\end{citacao}
+
+Portanto, o MIDAS se difere dos modelos até agora estudados, tendo em vista que só analisemos modelos autorregressivos. A responsabilidade sobre o início do desenvolvimento sobre o modelo MIDAS recai justamente sobre os autores do fragmento anterior, no trabalho de \citeonline{Ghysels2004MIDAS}, com a obra intitulada de "\textit{The MIDAS Touch: Mixed Data Sampling Regression Models}\footnote{O nome faz referência a mitologia atrelada ao toque de Midas, associado a habilidade de transformar tudo em sucesso/riqueza}". O contexto do surgimento do MIDAS é justamente a necessidade de um modelo capaz de delinear as diferentes frequências na realidade. Os autores trazem como exemplo o mercado de ações, analise de risco e também a predição macroeconômica pensando na limitação dos dados, conforme
+
+\begin{citacao}
+	 o interesse em regressões MIDAS também pode surgir por limitações na disponibilidade de dados. Por exemplo, alguns dados macroeconômicos são amostrados mensalmente, como séries de preços e agregados monetários, enquanto outras séries são amostradas trimestralmente ou anualmente, normalmente séries de atividade real como o PIB e seus componentes. \citem[p. 1]{Ghysels2004MIDAS}
+\end{citacao}
+
+Tendo em vista que o objeto do presente trabalho são os diferentes sistemas de predição, e um modelo pensado para solucionar um problema real da predição com variáveis macroeconômicas é um forte candidato a observação. Mas o que de fato esse modelo faz? "As regressões MIDAS são basicamente regressões de forma reduzida e com parâmetros bem ajustados, que envolvem processos amostrados em diferentes frequências." \citem[p. 4]{Ghysels2004MIDAS}
+
+Uma regressão linear simples MIDAS pode ser expressa na equação \ref{eq:MIDAS_linear_simples} proposta por \citeonline{Ghysels2004MIDAS}.
+
+\begin{equation}
+	\label{eq:MIDAS_linear_simples}
+	Y_t = \beta_0 + \beta_1B(L^{\frac{1}{m}})X_{t-1}^{(m)} +  \epsilon_t^{(m)}
+\end{equation}
+
+onde
+\begin{itemize}
+	\item[a)] $Y_t$  é a variável de baixa frequência a ser estimada;
+	\item[b)] $\beta_0$ é o intercepto;
+	\item[c)] $\beta_1$ é o coeficiente que mede a influência das variável explicativa sobre a variável dependente;
+	\item[d)] $B(L^{\frac{1}{m}}) = \sum_{j_0}^{j_{max}} B(j)L^{\frac{1}{m}}$ é um polinômio de comprimento $L^{\frac{1}{m}}$ no operador $L^{\frac{1}{m}}x_t = x_{t-\frac{j}{m}}$;
+	\item[e)] $X_{t-1}^{(m)}$ é a variável explicativa de alta frequência;
+	\item[f)] $ \epsilon_t^{(m)}$ é o termo do erro.
+\end{itemize}
+
+Imaginemos modelar a o PIB trimestral utilizando o \ac{ipca} mensal, em uma regressão linear simples, cada mês do \ac{ipca} deveria ser modelado como uma variável independente a parte, o que a depender da frequência da variável, se tornaria inviável, com alto risco de sobreajuste. Outra solução seria simplesmente adaptar a frequência mais alta para a  mais baixa, por exemplo, calcular a média do IPCA para os meses de observação, porém fazer isso implicaria na perda de informações. O que modelos MIDAS fazem é incorporar as variáveis com frequências diversas em uma função de pesos parametrizados para as defasagens.
+
+Porém escalando o problema, para múltiplas variáveis, a modelagem da maneira tradicional se torna praticamente inviável. Isso vale também para o modelo MIDAS apresentado, o mesmo não foi feito para um conjunto de variáveis. Como pretendemos aplicar em dados reais, e como o modelo MIDAS foi criado justamente nesse contexto, devemos observar sua formulação. Sua forma geral, que representa toda família  de modelos MIDAS está representado na equação \ref{eq:MIDAS_forma_geral} também proposta por \citeonline{Ghysels2004MIDAS}.
+
+\begin{equation}
+	\label{eq:MIDAS_forma_geral}
+	Y_{t+1} = B_0 + f (\sum_{i=1}^{K}\sum_{j=1}^{L} B_{ij}(L^{\frac{1}{m_i}})      g (X_{t}^{(m_i)}, \beta), \beta )+  \epsilon_t+1
+\end{equation}
+
+onde
+\begin{itemize}
+	\item[a)] $Y_{t+1}$ é a variável dependente (ou explicada) no período $t+1$;
+	\item[b)] $B_0$ é o intercepto;
+	\item[c)] $X_{t}^{(m_i)}$ são as variáveis explicativas do modelo;
+	\item[d)] $L^{\frac{1}{m_i}}$ é o operador de defasagem fracionária;
+	\item[e)] $B_{ij}(L^{\frac{1}{m_i}})$ é um polinômio de defasagem que determina o impacto de lags específicos de $X$ sobre $Y$;
+	\item[f)] $g(X_{t}^{(m_i)}, \beta)$ é a função de ponderação dos pesos;
+	\item[g)] $\sum_{i=1}^{K}\sum_{j=1}^{L}$ são os somatórios que acumulam a informação;
+	\item[h)] $f(\dots, \beta)$ é a função de ligação global\footnote{Normalmente $f$ é linear, mas na forma geral isso não é obrigatório, ou seja $f$ pode ser uma função não-linear, portanto podem haver modelos MIDAS aplicados a problemas não-lineares, essa possibilidade coloca em cheque a posição do MIDAS nesta sessão do presente trabalho, porém consideramos o MIDAS como um modelo tradicional pela sua ampla aplicação em problemas lineares};
+	\item[i)] $\epsilon_{t+1}$ é o resíduo no período $t+1$.
+\end{itemize}
 
 
+A partir dessa forma geral podemos modelar uma variedade de problemas que envolvem variáveis de frequência mista, inclusive, e especialmente situações envolvendo variáveis macroeconômicas como o PIB. Portanto a partir desse momento veremos aplicações do modelo MIDAS para a predição macroeconômica.
 
 \citeonline{castelli2022modelo} abordou o uso do modelo de amostragem de dados mistos (do inglês \textit{Mixed Data Sampling} - MIDAS) para predizer o \ac{pib} com a pesquisa industrial mensal. Assim como \citeonline{micheletti2024avaliaccao} usou modelos de \textit{ensemble stacking} \footnote{\textit{ensemble stacking}: modelos combinados} (dentre eles o MIDAS) para prever o \ac{pib}.
 
