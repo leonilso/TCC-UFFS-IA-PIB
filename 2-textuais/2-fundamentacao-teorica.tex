@@ -152,7 +152,7 @@ Assim como apontado por \citeonline{Silva_Clericuzi_Carvalho_2025} o modelo ARIM
 
 De todo modo, podemos confirmar o ARIMA como o candidato perfeito como modelo de teste, configurado com um baixo custo computacional, desempenho formidável e relativa aplicação simplificada. O modelo ARIMA será utilizado em nosso trabalho como modelo comparativo. Veremos mais sobre a aplicação do ARIMA no capítulo \ref{chap:resultados} onde veremos o desempenho do mesmo semelhante ao olhar de \citeonline{Silva_Clericuzi_Carvalho_2025}, mas com o princípio comparativo de \citeonline{li2024forecasting}.
 
-O modelo ARIMA, e no geral todos os modelos univariados têm um problema, a limitação estrutural do modelo. Afinal variáveis complexas, como o próprio PIB, sofrem de influências de diferentes variáveis - e de todas as naturezas, desde dados intimamente ligados a variável escolhida, até dados que parecem não ter relação alguma. Entretanto para afirmar ou rejeitar essa disposição, são necessários testes de correlação e modelos que realmente suportem indicar um certo grau de predição usando relações que não são univariadas. Esses modelos serão tratados a partir desse ponto no presente estudo.
+O modelo ARIMA, e no geral todos os modelos univariados têm um problema, a limitação estrutural do modelo. Afinal variáveis complexas, como o próprio PIB, sofrem de influências de diferentes fatores - de todas as naturezas, desde dados intimamente ligados a variável escolhida, até dados que parecem não ter relação alguma. Entretanto para afirmar ou rejeitar essa disposição, são necessários testes de correlação e modelos que realmente suportem indicar um certo grau de predição usando relações que não são univariadas. Esses modelos serão tratados a partir desse ponto no presente estudo.
 
 \subsubsection{VAR}
 
@@ -161,7 +161,7 @@ O modelo VAR é o primeiro modelo multivariado que nos debruçaremos em sua comp
 espera-se que o modelo VAR seja naturalmente mais complexo que modelos univariados - como o ARIMA. E de certa forma é isso que acontece, mas não quer dizer que a interpretabilidade do modelo, no sentido natural, se altere. Muito pelo contrário o VAR continua sendo um modelo intuitivo e explicável no âmbito das relações entre variáveis.
 
 
-Nesse sistema complexo de relações, há uma infinidade de variáveis podem ser aplicadas, e modelos que conseguem identificar essas relações, mesmo que de forma limitada\footnote{Ao aplicar o VAR não é possível lidar com a "infinidade" de variáveis, somente com algumas dezenas no máximo, contudo existem modelos mais avançados - ainda tradicionais - que lidam bem com centenas de variáveis, veremos esses em breve.}, são essenciais, não se trata mais de modelar a relação da variável e sua série temporal, mas sim identificar a relação de diferentes variáveis umas com as outras e com o tempo.
+Nesse contexto de sistemas complexo de relações, há uma infinidade de variáveis que podem ser aplicadas. Modelos que conseguem identificar essas relações, mesmo que de forma limitada\footnote{Ao aplicar o VAR não é possível lidar com a "infinidade" de variáveis, somente com algumas dezenas no máximo, contudo existem modelos mais avançados - ainda tradicionais - que lidam bem com centenas de variáveis, veremos esses em breve.}, são essenciais, não se trata mais de modelar a relação da variável e sua série temporal, mas sim identificar a relação de diferentes variáveis umas com as outras e com o tempo.
 
 Entendido onde os modelos multivariados se encaixam na predição estatística, falaremos sobre o modelo escolhido, o VAR. O acrônimo VAR vem de \textit{Vector Autoregression} trata-se de um modelo estatístico descrito pela primeira vez  por \citeonline{sims1980macroeconomics}, surgindo da necessidade de modelar sistemas multivariados reais\footnote{Inclusive surge em um contexto de modelar variáveis macroeconômicas - como o PIB - afinal o título do ensaio de \citeonline{sims1980macroeconomics} é justamente Macroeconomia e Realidade}, não em situações puramente hipotéticas e teóricas.
 
@@ -355,9 +355,42 @@ onde
 
 A partir dessa forma geral podemos modelar uma variedade de problemas que envolvem variáveis de frequência mista, inclusive, e especialmente situações envolvendo variáveis macroeconômicas como o PIB. Portanto a partir desse momento veremos aplicações do modelo MIDAS para a predição macroeconômica.
 
+% Esse texto a seguir é uma lembrança
+
 \citeonline{castelli2022modelo} abordou o uso do modelo de amostragem de dados mistos (do inglês \textit{Mixed Data Sampling} - MIDAS) para predizer o \ac{pib} com a pesquisa industrial mensal. Assim como \citeonline{micheletti2024avaliaccao} usou modelos de \textit{ensemble stacking} \footnote{\textit{ensemble stacking}: modelos combinados} (dentre eles o MIDAS) para prever o \ac{pib}.
 
 \subsubsection{DFM}
+
+Pensando nos modelos até então apresentados, existe uma certa progressão em complexidade e capacidade do modelo, mas todos os apresentados tem um problema específico, a dificuldade em lidar com muitas variáveis. O modelo ARIMA é univariado, o VAR tradicional consegue lidar com uma dezena de variáveis diferentes, o modelo MIDAS até consegue trabalhar com algumas dezenas de variáveis, porém pode sofrer com a multicolinearidade e o custo computacional, nesse sentido um modelo capaz de incorporar dezenas ou até mesmo centenas de elementos diferentes em um mesmo sistema preditivo teria um apelo respeitável na economias real, é justamente nessa necessidade de modelos que comportam um grande número que variáveis que surge a família dos \textit{Dynamic Factor Models} - \ac{dfm}.
+
+A noção de utilizar fatores dinâmicos para predição econômica é atribuída a \citeonline{geweke1977dynamic}\footnote{Se pensarmos em uma sequência histórica seria: ARIMA - 1970, DFM - 1977, VAR - 1980 e por último o MIDAS - 2004, não optamos por apresentar os modelos em uma sequência histórica, mas sim de forma didática, pensando justamente no nível de complexidade dos modelos, apesar de ser um critério subjetivo a depender do leitor, mas também podemos pensar que estamos apresentando os modelos em uma sequência de capacidades, em que cada modelo consegue fazer um pouco mais que o anterior, mesmo cada um tendo seu melhor caso de uso, mas vale ressaltar a curiosidade como um modelo complexo como o DFM surge antes de modelos mais "simples".}. Os DFM surgem como modelos para abarcar a economia em expansão, e ser capaz de modelar dinâmicas que outros modelos falham na incorporação. Os DFM "se mostraram úteis para sintetizar informações de variáveis observadas em diferentes frequências, estimar o ciclo econômico latente, fazer previsões em tempo real e a longo prazo, e estimar probabilidades de recessão e pontos de virada." \citem[p. 2]{doz2019dynamic}.
+
+A forma geral de um modelo DFM pode ser vista na equação \ref{eq:forma_geral_DFM} apresentada por \citeonline{doz2019dynamic}.
+
+\begin{equation}
+	x_t = \mu + \Lambda_0f_t + \Lambda_1f_{t-1} + \cdots + \Lambda_sf_{t-s}  + e_t,
+\end{equation}
+
+ou na forma reduzida
+
+\begin{equation}
+	\label{eq:forma_geral_DFM}
+	x_t = \mu + \Lambda (L)F_t + e_t,
+\end{equation}
+
+Em que
+
+\begin{itemize}
+	\item[a)] $x_t$ representa o vetor das N variáveis observadas no instante t;
+	\item[b)] $\mu$ é o vetor de interceptos das variáveis observadas;
+	\item[c)] $\Lambda (L)$ é a matriz de polinômios de defasagens;
+	\item[d)] $L^{\frac{1}{m_i}}$ é o operador de defasagem fracionária;
+	\item[e)] $)F_t$ é o vetor dos $r$ fatores comuns latentes;
+	\item[f)] $e_t$ representa o vetor dos componentes idiossincráticos\footnote{Não chamamos $e_t$ de vetor de erros, pois no contexto do DFM não se trata só de erro de medição ou ruídos, mas sim a parte da variável que não é explicada por fatores comuns}.
+\end{itemize}
+
+%Preciso deixar o DFM mais robusto
+
 \citeonline{alves2009nucleo} em sua dissertação de mestrado abordou modelos de fatores dinâmicos (do inglês  \textit{Dynamic Factor Models} - DFM) para entender o núcleo da inflação brasileira. Por outro lado \citeonline{moura2020fragilidade} avaliou os ciclos econômicos brasileiros usando uma combinação entre o DFM e o VAR.
 
 
@@ -383,7 +416,7 @@ Por definição rede neural trata-se de uma modelo baseado em rede composto por 
 
 Todavia, redes, nós e retropropagação são conceitos avançados para entender de fato que são redes neurais, de uma maneira mais humana, redes neurais são utilizadas "para replicar o funcionamento do pensamento humano artificialmente e encontrar respostas ou hipóteses tal qual um humano faria, porém, evitando seus erros e agilizando processos que podem demorar muito tempo quando biologicamente realizados." \citem[p. 8]{carmo2023modelagem}. A replicação do pensamento humano não ocorre tentando simular as reações físico químicas que acontecem em nossos cérebros, na realidade trata-se de uma abstração do pensamento humano através de funções matemáticas, uma sequência de combinações lineares que conseguem resolver problemas não-lineares.
 
-Dessa forma o objetivo desse tipo de modelo é justamente "extrair combinações lineares por meio das covariáveis e então modelar a variável que se deseja prever como uma função não linear destas covariáveis." \citem[p. 40-41]{kava2022alem}. Isso ocorre por meio da união de pequenos modelos preditivos simples. Esses modelos chamados de neurônios artificiais, são os responsáveis por essa predição. O primeiro neurônio artificial, ou também chamado de perceptron foi descrito inicialmente por \citeonline{rosenblatt1958perceptron}. A representação visual pode ser verificada na figura \ref{fig:perceptron}. Esse modelo consistia em modelo que soma as entradas, obtendo um valor intermediário chamado de z, que passa por uma função de ativação, o perceptron utiliza uma função sinal como ativação, mas outros tipos de modelos utilizam outras funções de ativação \citem{ekman2021learning}.
+Dessa forma o objetivo desse tipo de modelo é justamente "extrair combinações lineares por meio das covariáveis e então modelar a variável que se deseja prever como uma função não linear destas covariáveis." \citem[p. 40-41]{kava2022alem}. Isso ocorre por meio da união de pequenos modelos preditivos simples. Esses modelos chamados de neurônios artificiais, são os responsáveis por essa predição. O primeiro neurônio artificial, ou também chamado de perceptron foi descrito inicialmente por \citeonline{rosenblatt1958perceptron}\footnote{Chamar o perceptron de \citeonline{rosenblatt1958perceptron} de primeira IA pode ser um eufemismo, até porque a ideia de IA é mais antiga remetendo as reflexões de Alan Turing, mas principalmente se comparamos aos modelos de redes neurais atuais que são muito mais complexos que o perceptron. Contudo a ideia estava lá, e ela realmente veio a se tornar os modelos computacionais sofisticados que temos no mundo contemporâneo. Mas pensando no perceptron estritamente como modelo matemático criado em 1958, ele surge antes do ARIMA, que é de 1970. Claro ambos tem propostas diferentes, o ARIMA é um modelo autorregressivo univariado, já o perceptron é um classificador linear simples, mas mesmo assim se ignorarmos esse fato por um momento, o modelo que é vendido como inovador, surge como ideia antes de muitos dos modelos tradicionais, mas isso é mais uma reflexão sobre a evolução das técnicas de modelagem do que propriamente uma discussão sobre predição econômica, mas fica a reflexão sobre os modelos vendidos como "inovadores".}. A representação visual pode ser verificada na figura \ref{fig:perceptron}. Esse modelo consistia em modelo que soma as entradas, obtendo um valor intermediário chamado de z, que passa por uma função de ativação, o perceptron utiliza uma função sinal como ativação, mas outros tipos de modelos utilizam outras funções de ativação \citem{ekman2021learning}.
 
 A representação matemática de um perceptron é definida por:
 
