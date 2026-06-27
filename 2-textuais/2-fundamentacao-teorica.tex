@@ -363,30 +363,25 @@ A partir dessa forma geral podemos modelar uma variedade de problemas que envolv
 
 Pensando nos modelos até então apresentados, existe uma certa progressão em complexidade e capacidade do modelo, mas todos os apresentados tem um problema específico, a dificuldade em lidar com muitas variáveis. O modelo ARIMA é univariado, o VAR tradicional consegue lidar com uma dezena de variáveis diferentes, o modelo MIDAS até consegue trabalhar com algumas dezenas de variáveis, porém pode sofrer com a multicolinearidade e o custo computacional, nesse sentido um modelo capaz de incorporar dezenas ou até mesmo centenas de elementos diferentes em um mesmo sistema preditivo teria um apelo respeitável na economias real, é justamente nessa necessidade de modelos que comportam um grande número que variáveis que surge a família dos \textit{Dynamic Factor Models} - \ac{dfm}.
 
-A noção de utilizar fatores dinâmicos para predição econômica é atribuída a \citeonline{geweke1977dynamic}\footnote{Se pensarmos em uma sequência histórica seria: ARIMA - 1970, DFM - 1977, VAR - 1980 e por último o MIDAS - 2004, não optamos por apresentar os modelos em uma sequência histórica, mas sim de forma didática, pensando justamente no nível de complexidade dos modelos, apesar de ser um critério subjetivo a depender do leitor, mas também podemos pensar que estamos apresentando os modelos em uma sequência de capacidades, em que cada modelo consegue fazer um pouco mais que o anterior, mesmo cada um tendo seu melhor caso de uso, mas vale ressaltar a curiosidade como um modelo complexo como o DFM surge antes de modelos mais "simples".}. Os DFM surgem como modelos para abarcar a economia em expansão, e ser capaz de modelar dinâmicas que outros modelos falham na incorporação. Os DFM "se mostraram úteis para sintetizar informações de variáveis observadas em diferentes frequências, estimar o ciclo econômico latente, fazer previsões em tempo real e a longo prazo, e estimar probabilidades de recessão e pontos de virada." \citem[p. 2]{doz2019dynamic}.
+A noção de utilizar fatores dinâmicos para predição econômica é atribuída a \citeonline{geweke1977dynamic}\footnote{Se pensarmos em uma sequência histórica seria: ARIMA - 1970, DFM - 1977, VAR - 1980 e por último o MIDAS - 2004. No presente trabalho não optamos por apresentar modelos em uma sequência histórica, mas sim de forma didática, pensando justamente no nível de complexidade dos modelos, apesar de ser um critério subjetivo a depender do leitor, mas também podemos refletir que estamos apresentando os modelos em uma sequência de capacidades, em que cada modelo consegue fazer um pouco mais do que o anterior, mesmo cada um tendo seu melhor caso de uso. Contudo vale ressaltar a curiosidade, como um modelo mais complexo como o DFM surge antes de modelos mais "simples" comparativamente como o VAR ou o MIDAS.}. Os DFM surgem como modelos para abarcar a economia em expansão, e ser capaz de modelar dinâmicas que outros modelos falham na incorporação. Os DFM "se mostraram úteis para sintetizar informações de variáveis observadas em diferentes frequências, estimar o ciclo econômico latente, fazer previsões em tempo real e a longo prazo, e estimar probabilidades de recessão e pontos de virada." \citem[p. 2]{doz2019dynamic}.
 
 A forma geral de um modelo DFM pode ser vista na equação \ref{eq:forma_geral_DFM} apresentada por \citeonline{doz2019dynamic}.
-
 \begin{equation}
 	x_t = \mu + \Lambda_0f_t + \Lambda_1f_{t-1} + \cdots + \Lambda_sf_{t-s}  + e_t,
 \end{equation}
-
 ou na forma reduzida
-
 \begin{equation}
 	\label{eq:forma_geral_DFM}
 	x_t = \mu + \Lambda (L)F_t + e_t,
 \end{equation}
-
 Em que
 
 \begin{itemize}
 	\item[a)] $x_t$ representa o vetor das N variáveis observadas no instante t;
 	\item[b)] $\mu$ é o vetor de interceptos das variáveis observadas;
 	\item[c)] $\Lambda (L)$ é a matriz de polinômios de defasagens;
-	\item[d)] $L^{\frac{1}{m_i}}$ é o operador de defasagem fracionária;
-	\item[e)] $)F_t$ é o vetor dos $r$ fatores comuns latentes;
-	\item[f)] $e_t$ representa o vetor dos componentes idiossincráticos\footnote{Não chamamos $e_t$ de vetor de erros, pois no contexto do DFM não se trata só de erro de medição ou ruídos, mas sim a parte da variável que não é explicada por fatores comuns}.
+	\item[d)] $)F_t$ é o vetor dos $r$ fatores comuns latentes;
+	\item[e)] $e_t$ representa o vetor dos componentes idiossincráticos\footnote{Não chamamos $e_t$ de vetor de erros, pois no contexto do DFM não se trata só de erro de medição ou ruídos, mas sim a parte da variável que não é explicada por fatores comuns}.
 \end{itemize}
 
 %Preciso deixar o DFM mais robusto
