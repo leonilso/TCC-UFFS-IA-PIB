@@ -341,7 +341,7 @@ Porém escalando o problema, para múltiplas variáveis, a modelagem da maneira 
 
 onde
 \begin{itemize}
-	\item[a)] $Y_{t+1}$ é a variável dependente (ou explicada) no período $t+1$;
+	\item[a)] $Y_{t+1}$ é a variável dependente no período $t+1$;
 	\item[b)] $B_0$ é o intercepto;
 	\item[c)] $X_{t}^{(m_i)}$ são as variáveis explicativas do modelo;
 	\item[d)] $L^{\frac{1}{m_i}}$ é o operador de defasagem fracionária;
@@ -734,7 +734,35 @@ Vimos também que talvez sua maior potencialidade não seja como o perceptron de
 
 
 
-\subsubsection{Florestas Aleatórias}
+\subsubsection{Random Forest}
+
+Até o presente momento vimos diversos modelos, suas histórias e aplicações, desdes os ditos tradicionais, até modelos modernos baseados em IA, nesse sentido abordaremos mais um modelo atual as Florestas Aleatórias, ou mais conhecido como \textit{Random Forest} do inglês. 
+
+A criação do \textit{Random Forest} é atribuída a \citeonline{breiman2001random}. Trata-se da designação de uma "combinação de preditores em forma de árvore, de modo que cada árvore depende dos valores de um vetor aleatório amostrado de forma independente e com a mesma distribuição para todas as árvores da floresta." \citem[p. 1, tradução nossa]{breiman2001random}. De uma forma mais simplificada, o \textit{Random Forest} é uma técnica que consiste em criar vários pequenos modelos com preditores escolhidos de forma aleatória, a resposta advém de uma combinação das respostas de todos os modelos, que no caso de modelos regressivos é dada pela média dos valores.
+
+De uma maneira técnica o \textit{Random Forest} 
+
+\begin{citacao}
+	É um classificador que consiste em uma coleção de classificadores em forma de árvore $\{h(\mathbf{x}, \theta_k), k=1, ... \}$, onde os $\{k\}$ são vetores aleatórios independentes e identicamente distribuídos, e cada árvore dá um voto unitário para a classe mais popular na entrada $\mathbf{x}$. \citem[p. 6, tradução nossa]{breiman2001random}
+\end{citacao}
+
+A força desse algoritmo é lidar com a grande quantidade de dados e capturar o comportamento de uma maneira que cada variável tem um pedaço da relevância. Nos modelos \textit{Random Forest} do tipo de regressão\footnote{Em classificações binárias no \textit{Random Forest}, existe um sistema de votação, onde a maioria vence, um modelo democrático, se a maior quantidade de árvores forem um tipo de resposta, a resposta do modelo como um todo é o resultado da maioria} o resultado final do modelo será a média do resultado de cada uma das árvores. Essa noção é confirmada por \citeonline{landowska2025gdpgfcfdynamicsglobaleconomies} onde o autor pontua como o algoritmo do  "constrói múltiplas árvores de decisão e agrega seus resultados, o que lhe permite lidar com conjuntos de dados de alta dimensão, reduzir o overfitting e fornecer insights valiosos sobre a importância das variáveis." \citem[p. 5]{landowska2025gdpgfcfdynamicsglobaleconomies}.
+
+\citeonline{lemos2025atas} explica que o \textit{Random Forest} é um modelo baseado árvores de regressão, que são um tipo de árvores de decisão. Nesse tipo de modelo "cada nó representa uma condição de decisão baseada em uma variável preditora, fornecendo um valor numérico, que normalmente é a média dos valores observados nas amostras que atingem aquele nó." \citem[p. 8]{lemos2025atas}. Segundo \citeonline{landowska2025gdpgfcfdynamicsglobaleconomies} o \textit{Random Forest} leva vantagem em comparação a modelos econométricos tradicionais, pois conseguem lidar com relação não lineares e interações complexas entre as variáveis. 
+
+A equação que representa o modelo preditivo do \textit{Random Forest} esta disposta na equação \ref{eq:random_forest} apresentada por \citeonline{vasconcelos2017poder}.
+
+\begin{equation}
+	\label{eq:random_forest}
+	f(X) = \sum_{m=1}^{M}c_m\dot I(X \in \mathbb{R}_m)
+\end{equation}
+
+%oferece vantagens significativas em relação aos modelos econométricos tradicionais, principalmente na sua capacidade de lidar com relações não lineares e interações entre variáveis
+
+
+
+
+Existem centenas de outros modelos que seriam excelentes oportunidades de analises e comparações, porém como tudo na economia os recursos são finitos, e apesar das necessidades humanas ilimitadas, o \textit{Random Forest} será o último modelo a ser abordado no presente trabalho. A partir desse ponto não trataremos mais sobre a literatura produzida como um relato do que foi feito, mas sim nos utilizaremos dessa fundação teórica como alicerces para a construção, aplicação e comparação dos modelos nas sessões futuras. 
 
 %\citeonline{kava2022alem} e de \citeonline{rebelo2022interpretabilidade} que
 
