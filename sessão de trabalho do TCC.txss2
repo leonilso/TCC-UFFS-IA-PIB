@@ -1,0 +1,70 @@
+{
+    "InternalPDFViewer": {
+        "Embedded": true,
+        "File": "documento.pdf"
+    },
+    "Session": {
+        "Bookmarks": [
+            {
+                "bookmarkNumber": 1,
+                "fileName": "2-textuais/2-fundamentacao-teorica.tex",
+                "lineNumber": 753,
+                "text": "2-fundamentacao-teorica.tex\nA força desse algoritmo é lidar com a grande quantidade de dados e capturar o comportamento de uma maneira que cada variável tem um pedaço da relevância. Nos modelos \\textit{Random Forest} do tipo de regressão\\footnote{Em classificações binárias no \\textit{Random Forest}, existe um sistema de votação, onde a maioria vence, um modelo democrático, se a maior quantidade de árvores forem um tipo de resposta, a resposta do modelo como um todo é o resultado dessa votação.} o resultado final do modelo será a média do resultado de cada uma das árvores. Essa noção é confirmada por \\citeonline{landowska2025gdpgfcfdynamicsglobaleconomies} onde o autor pontua como o algoritmo do \\textit{Random Forest}"
+            }
+        ],
+        "CurrentFile": "2-textuais/2-fundamentacao-teorica.tex",
+        "FileVersion": 1,
+        "Files": [
+            {
+                "Col": 28,
+                "EditorGroup": 0,
+                "FileName": "3-pos-textuais/referencias.bib",
+                "FirstLine": 555,
+                "FoldedLines": "",
+                "Line": 574
+            },
+            {
+                "Col": 709,
+                "EditorGroup": 0,
+                "FileName": "2-textuais/2-fundamentacao-teorica.tex",
+                "FirstLine": 602,
+                "FoldedLines": "",
+                "Line": 665
+            },
+            {
+                "Col": 37,
+                "EditorGroup": 0,
+                "FileName": "1-pre-textuais/lista-de-abreviaturas-e-siglas.tex",
+                "FirstLine": 149,
+                "FoldedLines": "",
+                "Line": 166
+            },
+            {
+                "Col": 7,
+                "EditorGroup": 0,
+                "FileName": "2-textuais/1-introducao.tex",
+                "FirstLine": 84,
+                "FoldedLines": "",
+                "Line": 93
+            },
+            {
+                "Col": 1,
+                "EditorGroup": 0,
+                "FileName": "2-textuais/3-metodologia.tex",
+                "FirstLine": 82,
+                "FoldedLines": "",
+                "Line": 84
+            },
+            {
+                "Col": 0,
+                "EditorGroup": 0,
+                "FileName": "documento.tex",
+                "FirstLine": 162,
+                "FoldedLines": "",
+                "Line": 179
+            }
+        ],
+        "MasterFile": "",
+        "VerticalSplit": true
+    }
+}

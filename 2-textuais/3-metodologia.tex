@@ -14,7 +14,7 @@ Por fim, ao se tratar de uma pesquisa que compara diferentes modelos econométri
 %	Quanto a abordagem as questões de Pesquisa
 \section{Procedimento de coleta de dados}
 
-As variáveis foram escolhidas baseadas na dissertação de \citeonline{rebelo2022interpretabilidade}, descritas mais evidentemente na sessão \ref{cap:revisao-literatura}. As variáveis escolhidas podem ser verificadas na tabela \ref{tab:fontes_dados}. Os dados utilizados na pesquisa foram extraídos de duas APIs (\textit{Application Programming Interface}, no português, Interface de programação de aplicações). A relação variável - Fonte - URL da API pode ser vericada na mesma tabela.
+As variáveis\footnote{Algumas das variáveis utilizadas por \citeonline{rebelo2022interpretabilidade} não foram possíveis de se utilizar para o período escolhido para a realidade brasileira, dentre las as despesas do governo com ambiental, Índice de eficiência jurídica e índice de saúde fiscal. Porém vale se ressaltar que a partir de 2012 existe a série histórica do IFGF (Índice Firjan de Gestão Fiscal), assim como o IPC-Jus (Índice de Produtividade Comparada da Justiça), por outro lado as despesas do governo com ambiental são muito mais recentes, mas sendo possíveis variáveis a serem adicionadas em um futuro trabalho, quando os índices tiverem mais registros} foram escolhidas baseadas na dissertação de \citeonline{rebelo2022interpretabilidade}. As variáveis escolhidas podem ser verificadas na tabela \ref{tab:fontes_dados}. Os dados utilizados na pesquisa foram extraídos de 3 APIs (\textit{Application Programming Interface}, no português, Interface de programação de aplicações), além de uma fonte de dados web, que náo disponibiliza API pública, mas seus dados podem ser salvos em formato de planilha. A relação variável\footnote{O índice de desemprego possui um adendo, pois trata-se da combinação de 2 índices devido a troca de metodologia do IBGE e a indisponibilidade de um índice unificado, o primeiro que compreende parte maior do período de 2012 a 202 é extraído da PNAD (Pesquisa Nacional de Amostra de Domicílio) continua, onde a variável em questão é a taxa de desocupação, na semana de referência, das pessoas de 14 anos ou mais de idade, enquanto o período de 2007 até 2011 utilizou-se a média da taxa de desocupação na semana de referência, das pessoas de 10 anos ou mais de idade, principais responsáveis pela família, da PME (Pesquisa Mensal de Emprego) metodologicamente essas variáveis são diferentes, pois a PME tem uma faixa etária e público alvo diferente, além de ser realizada em grandes centros, contudo devido as limitações optou-se por utilizar essas duas, pois são as mais próximas no sentido de aplicação ao nosso modelo } - Fonte - URL dos dados pode ser verificada na mesma tabela.
 
 A primeira fonte foi a API de dados agregados do IBGE, onde nela existem informações econômicas, sociais e demográficas do Brasil. 
 
@@ -23,43 +23,80 @@ A primeira fonte foi a API de dados agregados do IBGE, onde nela existem informa
 	O IBGE possui uma Application Program Interface (API) de serviços de dados abertos que disponibiliza dados processáveis por máquina para qualquer cidadão ou sistema, permitindo a interoperabilidade e o enriquecimento a partir dos dados abertos disponibilizados. \citem[p. 2]{silva2024dados}.
 \end{citacao}
 
-A segunda API utilizada foi a API do BACEN (Banco Central do Brasil), onde foram extraídos dados financeiros. Segundo o próprio \citeonline{bcb_dados_abertos} o "catálogo de dados, permite que os usuários encontrem os conjuntos de informações de seu interesse, entendam sua estrutura e suas limitações, e tenham acesso ao caminho para os dados."
+A segunda API utilizada foi a API do BACEN (Banco Central do Brasil), onde foram extraídos dados das contas públicas do Brasil. Segundo o próprio \citeonline{bcb_dados_abertos} o "catálogo de dados, permite que os usuários encontrem os conjuntos de informações de seu interesse, entendam sua estrutura e suas limitações, e tenham acesso ao caminho para os dados."
+
+A terceira fonte de dados via API foi o Banco Mundial, onde foram extraídos dados refentes a despesas brasileiras e relação com o comércio exterior. Por último a Heritage Foundation foi a fonte escolhida para os dados de liberdade econômica.
 
 O período analisado foi de 2007 à 2022, devido a disponibilidade de datas nas bases de dados. 
 
+%\begin{table}
+%	\centering
+%	\caption{Fontes de dados utilizadas nas APIs do IBGE e BACEN}
+%	\label{tab:fontes_dados}
+%	\resizebox{\textwidth}{!}{
+%		\begin{tabular}{p{4cm} p{2cm} p{9cm}}
+%			\hline
+%			\textbf{Indicador} & \textbf{Fonte} & \textbf{URL / Endpoint da API} \\
+%			\hline
+%			PIB & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/6784/periodos/-20/variaveis/9808?localidades=N1[all]} \\
+%			Deflator do PIB & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/6784/periodos/-20/variaveis/9811?localidades=N1[all]} \\
+%			população (milhões) & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/6579/periodos/-20/variaveis/9324?localidades=N1[all]} \\
+%			índice de direitos de propriedade & Não encontrado & \small \url{Ainda nao coletado} \\
+%			índice de eficiência jurídica & Não encontrado & \small \url{Ainda nao coletado} \\
+%			índice de integridade governamental & Não encontrado & \small \url{Ainda nao coletado} \\
+%			índice de despesa governamental  & Não encontrado & \small \url{Ainda nao coletado} \\
+%			despesa pública em educação (\% PIB) & Não encontrado & \small \url{Ainda nao coletado} \\
+%			despesa pública em saúde (\% PIB) & Não encontrado & \small \url{Ainda nao coletado} \\
+%			despesa pública em proteção ambiental (\% PIB) & Não encontrado & \small \url{Ainda nao coletado} \\
+%			índice de carga fiscal & Não encontrado & \small \url{Ainda nao coletado} \\
+%			índice de saúde fiscal  & Não encontrado & \small \url{Ainda nao coletado} \\
+%			dívida publica (\% PIB) & Não encontrado & \small \url{Ainda nao coletado} \\
+%			índice de liberdade empresarial & Não encontrado & \small \url{Ainda nao coletado} \\
+%			índice de liberdade laboral & Não encontrado & \small \url{Ainda nao coletado} \\
+%			taxa de desemprego\footnote{O índice em questão trata-se da taxa de desocupação, na semana de referência, das pessoas de 14 anos ou mais de idade} & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/4093/periodos/-20/variaveis/4099?localidades=N1[all]} \\
+%			índice de liberdade monetária  & Não encontrado & \small \url{Ainda nao coletado} \\
+%			IPCA  & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/1737/periodos/-20/variaveis/2266?localidades=N1[all]} \\
+%			índice de liberdade comercial & Não encontrado & \small \url{Ainda nao coletado} \\
+%			balança corrente  & IBGE & \small \url{Ainda nao coletado} \\
+%			Taxa aduaneira & IBGE & \small \url{Ainda nao coletado} \\
+%			índice de liberdade investimento  & IBGE & \small \url{Ainda nao coletado} \\
+%			investimento direto estrangeiro (\% PIB) & Não encontrado & \small \url{Ainda nao coletado} \\
+%			índice de liberdade financeira & Não encontrado & \small \url{Ainda nao coletado} \\
+%			\hline
+%		\end{tabular}
+%	}
+%\end{table}
+
 \begin{table}
 	\centering
-	\caption{Fontes de dados utilizadas nas APIs do IBGE e BACEN}
+	\caption{Fontes de dados utilizadas nas APIs do IBGE, BACEN, World Bank e Heritage Foundation}
 	\label{tab:fontes_dados}
 	\resizebox{\textwidth}{!}{
-		\begin{tabular}{p{4cm} p{2cm} p{9cm}}
+		\begin{tabular}{p{4cm} p{2.7cm} p{9cm}}
 			\hline
 			\textbf{Indicador} & \textbf{Fonte} & \textbf{URL / Endpoint da API} \\
 			\hline
 			PIB & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/6784/periodos/-20/variaveis/9808?localidades=N1[all]} \\
 			Deflator do PIB & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/6784/periodos/-20/variaveis/9811?localidades=N1[all]} \\
-			população (milhões) & IBGE & \small \url{Ainda nao coletado} \\
-			índice de direitos de propriedade & IBGE & \small \url{Ainda nao coletado} \\
-			índice de eficiência jurídica & IBGE & \small \url{Ainda nao coletado} \\
-			índice de integridade governamental & IBGE & \small \url{Ainda nao coletado} \\
-			índice de despesa governamental  & IBGE & \small \url{Ainda nao coletado} \\
-			despesa pública em educação (\% PIB) & IBGE & \small \url{Ainda nao coletado} \\
-			despesa pública em saúde (\% PIB) & IBGE & \small \url{Ainda nao coletado} \\
-			despesa pública em proteção ambiental (\% PIB) & IBGE & \small \url{Ainda nao coletado} \\
-			índice de carga fiscal & IBGE & \small \url{Ainda nao coletado} \\
-			índice de saúde fiscal  & IBGE & \small \url{Ainda nao coletado} \\
-			dívida publica (\% PIB) & IBGE & \small \url{Ainda nao coletado} \\
-			índice de liberdade empresarial & IBGE & \small \url{Ainda nao coletado} \\
-			índice de liberdade laboral & IBGE & \small \url{Ainda nao coletado} \\
-			taxa de desemprego & IBGE & \small \url{Ainda nao coletado} \\
-			índice de liberdade monetária  & IBGE & \small \url{Ainda nao coletado} \\
-			taxa de inflação  & IBGE & \small \url{Ainda nao coletado} \\
-			índice de liberdade comercial & IBGE & \small \url{Ainda nao coletado} \\
-			balança corrente  & IBGE & \small \url{Ainda nao coletado} \\
-			Taxa aduaneira & IBGE & \small \url{Ainda nao coletado} \\
-			índice de liberdade investimento  & IBGE & \small \url{Ainda nao coletado} \\
-			investimento direto estrangeiro (\% PIB) & IBGE & \small \url{Ainda nao coletado} \\
-			índice de liberdade financeira & IBGE & \small \url{Ainda nao coletado} \\
+			população (milhões) & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/6579/periodos/-20/variaveis/9324?localidades=N1[all]} \\
+			índice de direitos de propriedade & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Property Rights}) \\
+			índice de integridade governamental & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Government Integrity}) \\
+			índice de despesa governamental & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Government Spending}) \\
+			despesa pública em educação (\% PIB) & World Bank & \small \url{https://api.worldbank.org/v2/country/BRA/indicator/SE.XPD.TOTL.GD.ZS?date=2007:2025&format=json} \\
+			despesa pública em saúde (\% PIB) & World Bank & \small \url{https://api.worldbank.org/v2/country/BRA/indicator/SH.XPD.GHED.GD.ZS?date=2007:2025&format=json} \\
+			índice de carga fiscal & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Tax Burden}) \\
+			dívida pública (\% PIB) & BACEN & \small \url{https://api.bcb.gov.br/dados/serie/bcdata.sgs.13762/dados?formato=json&dataInicial=01/01/2007} \\
+			índice de liberdade empresarial & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Business Freedom}) \\
+			índice de liberdade laboral & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Labor Freedom}) \\
+			taxa de desemprego & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/4093/periodos/-20/variaveis/4099?localidades=N1[all]} \\
+			índice de liberdade monetária & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Monetary Freedom}) \\
+			IPCA & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/1737/periodos/-20/variaveis/2266?localidades=N1[all]} \\
+			índice de liberdade comercial & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Trade Freedom}) \\
+			balança corrente (\% PIB) & World Bank & \small \url{https://api.worldbank.org/v2/country/BRA/indicator/BN.CAB.XOKA.GD.ZS?date=2007:2025&format=json} \\
+			Taxa aduaneira (tarifa média aplicada) & World Bank & \small \url{https://api.worldbank.org/v2/country/BRA/indicator/TM.TAX.MRCH.WM.AR.ZS?date=2007:2025&format=json} \\
+			índice de liberdade de investimento & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Investment Freedom}) \\
+			investimento direto estrangeiro (\% PIB) & World Bank & \small \url{https://api.worldbank.org/v2/country/BRA/indicator/BX.KLT.DINV.WD.GD.ZS?date=2007:2025&format=json} \\
+			índice de liberdade financeira & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Financial Freedom}) \\
 			\hline
 		\end{tabular}
 	}
