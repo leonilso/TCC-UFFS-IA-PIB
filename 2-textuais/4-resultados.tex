@@ -40,52 +40,321 @@ Para encontrar o melhor modelo nesse momento utilizamos os critérios de O AIC (
 
 
 % Montar a tabela depois, estou com deveras preguiça nesse momento
-Ljung-Box:
-lb_stat  lb_pvalue
-1  0.021001   0.884775
-2  0.027370   0.986408
-3  0.028403   0.998738
-4  0.028621   0.999899
-5  0.042300   0.999981
-
-Jarque-Bera:
-Estatística: 336.5530
-p-valor:     0.0000
-Assimetria:  4.2367
-Curtose:     19.7149
+%Ljung-Box:
+%lb_stat  lb_pvalue
+%1  0.021001   0.884775
+%2  0.027370   0.986408
+%3  0.028403   0.998738
+%4  0.028621   0.999899
+%5  0.042300   0.999981
+%
+%Jarque-Bera:
+%Estatística: 336.5530
+%p-valor:     0.0000
+%Assimetria:  4.2367
+%Curtose:     19.7149
 
 A partir dos resultados de Ljung-Box, não há evidências estatísticas de autocorrelação nos resíduos até o lag 5. E Pelo estatística Jarque-Bera não há evidências estatísticas suficientes para rejeitar a hipótese de normalidade dos resíduos ao nível de 5\%. Ou seja o modelo ARIMA(1,1,1) parece ser um ótimo candidato. Na tabela \ref{} podemos ver o resumo do modelo.
 
 % Vou resolver tenha paciência
-                               SARIMAX Results                                
-==============================================================================
-Dep. Variable:               PIB Real   No. Observations:                   23
-Model:                 ARIMA(1, 1, 1)   Log Likelihood                -259.175
-Date:                Thu, 01 Oct 2026   AIC                            524.351
-Time:                        00:00:36   BIC                            527.624
-Sample:                             0   HQIC                           525.122
-- 23                                         
-Covariance Type:                  opg                                         
-==============================================================================
-coef    std err          z      P>|z|      [0.025      0.975]
-------------------------------------------------------------------------------
-ar.L1          0.9541      0.060     15.840      0.000       0.836       1.072
-ma.L1         -0.9210      0.086    -10.720      0.000      -1.089      -0.753
-sigma2      1.197e+09   8.11e-12   1.47e+20      0.000     1.2e+09     1.2e+09
-===================================================================================
-Ljung-Box (L1) (Q):                   0.88   Jarque-Bera (JB):                 1.52
-Prob(Q):                              0.35   Prob(JB):                         0.47
-Heteroskedasticity (H):               2.31   Skew:                            -0.62
-Prob(H) (two-sided):                  0.29   Kurtosis:                         2.66
-===================================================================================
+%                               SARIMAX Results                                
+%==============================================================================
+%Dep. Variable:               PIB Real   No. Observations:                   23
+%Model:                 ARIMA(1, 1, 1)   Log Likelihood                -259.175
+%Date:                Thu, 01 Oct 2026   AIC                            524.351
+%Time:                        00:00:36   BIC                            527.624
+%Sample:                             0   HQIC                           525.122
+%- 23                                         
+%Covariance Type:                  opg                                         
+%==============================================================================
+%coef    std err          z      P>|z|      [0.025      0.975]
+%------------------------------------------------------------------------------
+%ar.L1          0.9541      0.060     15.840      0.000       0.836       1.072
+%ma.L1         -0.9210      0.086    -10.720      0.000      -1.089      -0.753
+%sigma2      1.197e+09   8.11e-12   1.47e+20      0.000     1.2e+09     1.2e+09
+%===================================================================================
+%Ljung-Box (L1) (Q):                   0.88   Jarque-Bera (JB):                 1.52
+%Prob(Q):                              0.35   Prob(JB):                         0.47
+%Heteroskedasticity (H):               2.31   Skew:                            -0.62
+%Prob(H) (two-sided):                  0.29   Kurtosis:                         2.66
+%===================================================================================
 
 
 Porém esse modelo ainda tem alguns problemas. O modelo tem apenas 23 observações, isso reduz a confiabilidade do modelo, porém isso é uma realidade econômica e das agências de coleta de dados que não tem séries contínuas em décadas\footnote{teremos um problema muito grande com isso em uma série específica, mas trataremos disso posteriormente}. 
 O AR calculado é muito próximo de 1, isso implica que o fator autoregressivo é muito persistente, em uma série como o PIB isso significa um choque ocorrido hoje tende a continuar influenciando a série por vários períodos. Mas por outro lado o MA quase anula o AR, ou seja, o fator MA ser -0.9210, está praticamente anulando o AR: 0.9541, os choques tem um efeito contrário muito forte. Esse cancelamento de fatores leva uma matriz de covariância quase singular, indicando uma forte relação dos dois fatores.
 
-Esses problemas são reais, mas falam mais da natureza da série do que propriamente de uma falha do ARIMA, estamos falando de uma série anual do PIB que é uma frequência baixa, optamos por trunca-la para ter uma parcimônia entre modelos no sentido tamanho da série. E mesmo assim encontramos um modelo relativamente bom, inclusive capturando um comportamento típico do PIB brasileiro. Existe uma forte tendência de manter o comportamento das séries anteriores apontado pelo AR, isso é explicado pelas tendências de crescimento e queda que existiram durante o período analisado, mas para além disso o MA tem um força puxando para equalizar, ou seja a tendência inercial é anulada por fator de média móvel. Veremos na série temporal isso mais de perto.
+Esses problemas são reais, mas falam mais da natureza da série do que propriamente de uma falha do ARIMA, estamos falando de uma série anual do PIB que é tem uma frequência baixa naturalmente, e ainda optamos por trunca-la para ter uma parcimônia entre modelos no sentido tamanho da série. E mesmo assim encontramos um modelo relativamente bom, inclusive capturando um comportamento típico do PIB brasileiro. 
+
+Tendo como uma conclusão que uma forte tendência de manter o comportamento das séries anteriores apontado pelo AR, isso é explicado pelas tendências de crescimento e queda que existiram durante o período analisado, mas para além disso o MA tem um força puxando para equalizar, ou seja a tendência inercial é anulada por fator de média móvel. Veremos na série temporal isso mais de perto.
 
 Mas antes precisamos ver realmente essa série, falamos do modelo de sua aplicação, mas ainda não apresentamos a série, porém agora podemos olhar a série não simplesmente como um gráfico de linha do PIB, mas sim como uma economia real e a interpretação econométrica sobre essa série.
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{PIB em volume deflacionado}
+	\label{fig:pib_volume_deflacionado}
+	\includegraphics[width=1.0\textwidth]{images/pib_volume_deflacionado.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+Podemos ver como a série tem uma forte influência temporal. Para entender melhor o comportamento do modelo vamos visualizar a série com a primeira diferença. Notem como o comportamento do PIB, possui tendências de crescimento e de queda mas que são de certa forma segurados pela média móvel.
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{PIB na primeira diferença}
+	\label{fig:pib_primeira_diferenca}
+	\includegraphics[width=1.0\textwidth]{images/pib_primeira_diferenca.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+
+A interpretação econômica do ARIMA capta diretamente uma economia instável como a brasileira, as impactos do mercado externo como o \textit{boom} das commodities no início dos anos 2000, e o impacto da crise de 2008 nos anos futuros, além das crises políticas que aconteceram a partir de 2014 até 2017, e também a crise sanitárias da COVID-19 em 2020-2021. Notemos que por se tratar de uma economia emergente, esses comportamentos tem uma influência explicita sobre o PIB.
+
+Essa análise, em grande medida, apesar de necessitar de uma base econômica, histórica e política, aponta como o modelo consegue captar o comportamento da variável. E a conclusão é que mesmo não tendo um volume comparável ao \textit{big data}, um modelo com apenas uma variável ainda pode apontar para tendências e comportamentos de uma economia real.
+
+Por último, mas não reduzindo sua importância, podemos ver a extrapolação do PIB utilizando o ARIMA, em laranja temos os anos do PIB utilizados durante o treinamento, em vermelho a reta de tendência dos anos extrapolados que pode ser verificado na tabela \ref{}, notemos que o erro calculado entre o valor do ano de 2025 e o PIB previsto pelo modelo é de .
+
+2025    1.355475e+06
+2026    1.368562e+06
+2027    1.381048e+06
+
+
+Por estarmos tratando de PIB em volume o erro de previsão pode parecer relativamente alto, porém é possível observar a partir da figura como o ARIMA consegue captar bem o comportamento do PIB, inclusive com uma extrapolação para fora dos dados de treinamento aceitável. Com esse resultado confirmamos a hipótese levantada em nossa revisão de literatura, de usar o modelo ARIMA como um \textit{benchmark} para outros modelos, tendo em vista sua simplicidade e capacidade preditiva formidável.
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Previsão do PIB em volume utilizando o ARIMA}
+	\label{fig:previsao_arima}
+	\includegraphics[width=1.0\textwidth]{images/previsao_arima.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+
+\section{VAR}
+
+O VAR diferentemente do ARIMA é multivariado, ou seja, podemos utilizar várias variáveis para a predição econômica do PIB, por isso um pensamento natural seria pegar todas as variáveis coletadas e colocá-las em um único modelo VAR, contudo devido a limitação de disponibilidade dos dados para alguma das variáveis coletadas, as observações são reduzidas, algo já constato quando analisamos os resultados do ARIMA, porém quando estamos falando do uso de diversas variáveis, os graus de liberdade são reduzidos, perdendo qualidade no resultado da estimação.
+
+Esse comportamento limitante leva-nos a escolher as "melhores" variáveis para o modelo, mas o que seriam essas melhores variáveis, primeiramente vamos verificar a nossa lista novamente, em nosso trabalho, conforme indicado na metodologia coletamos as seguintes variáveis: população (milhões),	taxa de desemprego,	IPCA,	PIB Real,	balança corrente (\% PIB),	investimento direto estrangeiro (\% PIB),	dívida pública (\% PIB),	índice de direitos de propriedade,	índice de integridade governamental,	índice de despesa governamental,	índice de carga fiscal,	índice de liberdade empresarial,	índice de liberdade monetária,	índice de liberdade comercia,l	índice de liberdade de investimento,	índice de liberdade financeira.
+
+Porém só de olhar nesses dados já encontramos 3 varáveis com potenciais problemas: a população, o IPCA e o PIB. Isso mesmo, a nossa variável alvo, é um potencialmente problemática, no caso da população estamos falando de um valor quantitativos de brasileiros, além de ser um número fora da escala, é um valor que atrapalharia o modelo nesse formato. A segunda variável IPCA é um fator acumulado, e dessa forma também não irá ser útil nesse formato. E por último o PIB nossa variável alvo está em volume e também pode não ser a melhor forma de utiliza-lo em um modelo econométrico. 
+
+Uma solução simples seria remover essas variáveis do modelo, mas essa estratégia parece ser um pouco radical, afinal remover o nosso alvo de predição, não é uma decisão muito assertiva de uma perspectiva de cumprir nossos objetivos. Para além desse fator, o IPCA parece ser uma varável candidata muito interessante da perspectiva econômica, afinal entender como a inflação afeta o PIB, para além do valor nominal, é um estudo relevante para os economistas. E pelo outro lado, apesar da população ser mais uma variável demográfica do que econômica, faz sentido de uma perspectiva humana, analisar se a população tem alguma relação para além do aumento de consumo e mão de obra no que tange ao PIB.
+
+Dessa forma decidimos por não descartá-las nesse primeiro momento, pelo mínimo não usando esse critério. Afinal existem maneiras de contornarmos esses problemas, relembremos o modelo ARIMA, nele não precisamos fazer um tratamento no PIB, usamos o valor em volume, mas se bem lembrarmos ele utiliza o fator d, para determinar a diferença da série. Essa seria uma solução utilizar a diferença na série, corrigiríamos os pontos apresentados como preocupantes, porém para além de simplesmente solucionar o problemas, buscamos a interpretação econômica do problema, por isso, podemos ao invés de utilizarmos a diferença, podemos calcular o crescimento da séries, no caso do PIB e da população, e no caso do IPCA, quando falamos de crescimento do índice, na realidade estamos falando da famosa inflação.
+
+Dessa forma alteramos o estado inicial de 3 variáveis, excluindo suas versões originais e agora adotando o crescimento do PIB, crescimento Populacional e a inflação como as variáveis do nosso futuro modelo. Mas ainda assim temos um problema, que é a escala de variáveis, estamos falando de índices, valores de crescimento, indicadores baseados em percentuais do PIB, ou seja temos dados fora de escala, então o próximo procedimento foi colocar todas as variáveis em escala, para podermos prosseguir com a aplicação.
+
+O VAR assim como o ARIMA, por tratar de séries temporais pressupõe a ideia de estacionariedade, o ARIMA faz por meio de uma parâmetro, todavia o var não tem esse valor como entrada, na realidade o VAR espera como entrada as séries já estacionárias, então precisamos testar e descobrir quais séries são estacionárias existem, e o que faremos com as que não são. Aplicando o teste ADF em cada uma das séries obtemos o seguinte resultado: 
+
+As variáveis balança corrente (\% PIB), crescimento PIB, dívida pública (\% PIB), investimento direto estrangeiro (\% PIB), taxa de desemprego, índice de direitos de propriedade, índice de integridade governamental, índice de liberdade financeira, índice de liberdade monetária são estacionárias;
+
+As variáveis índice de despesa governamental e a inflação se tornaram estacionárias após a primeira diferença;
+
+As variáveis índice de carga fiscal, índice de liberdade comercial,
+e índice de liberdade de investimento se tornaram estacionárias após a segunda diferença;
+
+A variável crescimento populacional se tornou estacionária somente após a terceira diferença.
+
+A variável índice de liberdade empresarial não se tornou estacionária mesmo após a terceira diferença.
+
+Dessa forma optamos por utilizar as séries somente até a primeira diferença, descartando as que precisaram de mais de uma diferenciação, para confirmar o resultado obtido pelo teste ADF, optamos por utilizar em conjunto o teste Teste Phillips-Perron para as variáveis que precisaram ser diferenciadas para se tornarem estacionárias. Nesse caso tanto a inflação como o índice de despesa governamental apresentam-se como estacionárias a um nível de 5\% de confiança.
+
+Para garantir a boa utilização dessas variáveis em nosso modelo VAR vamos testar a cointegração de Johansen das variáveis da primeira diferença. O teste apresentou cointegração conforme o quadro \ref{}:
+
+%======================================================================
+%TESTE DE COINTEGRAÇÃO DE JOHANSEN
+%======================================================================
+%
+%Variáveis:
+%- índice de despesa governamental
+%- inflacao
+%
+%Observações utilizadas: 23
+%Constante/tendência (det_order): 0
+%Defasagens em diferenças (k_ar_diff): 1
+%Nível de significância: 5%
+%
+%----------------------------------------------------------------------
+%TESTE DO TRAÇO
+%----------------------------------------------------------------------
+%Hipótese           Estatística        Crítico           Resultado
+%r ≤ 0                  21.1391        15.4943          Rejeita H₀
+%r ≤ 1                   3.6242         3.8415      Não rejeita H₀
+%
+%Posto de cointegração pelo teste do traço: r = 1
+%
+%----------------------------------------------------------------------
+%TESTE DO MÁXIMO AUTOVALOR
+%----------------------------------------------------------------------
+%Hipótese           Estatística        Crítico           Resultado
+%r = 0                   17.5149        14.2639          Rejeita H₀
+%r = 1                    3.6242         3.8415      Não rejeita H₀
+%
+%Posto de cointegração pelo máximo autovalor: r = 1
+%
+%======================================================================
+%CONCLUSÃO
+%======================================================================
+%→ O teste do traço indica 1 relação(ões) de cointegração.
+%→ O teste do máximo autovalor indica 1 relação(ões) de cointegração.
+
+
+Desse modo como o:
+O teste do traço encontrou evidência de 1 cointegração;
+O teste do máximo autovalor encontrou 1 evidência de cointegração;
+
+Vamos a construção de nosso modelo com apenas 1 dessas variáveis devido a cointegração, optamos pela inflação por ser uma variável de alto interesse econômico, não que índice de despesa governamental não seja importante de uma perspectiva econômica, mas optaremos pela inflação por ter uma relação mais direta com a macroeconomia e por ser um indicador mais usual no dia a dia de um economista.
+
+Ao final desse tratamento/escolha de variáveis obtemos as seguintes variáveis apresentadas nas figura \ref{fig:variaveis_var}.
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Variáveis candidatas ao modelo VAR}
+	\label{fig:variaveis_var}
+	\includegraphics[width=1.0\textwidth]{images/variaveis_var.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+
+Porém a visualização de todas essas variáveis em um único gráfico já é complicado, o uso de todas em um único VAR é impraticável sem adaptações, portanto vamos optar por utilizar um VAR menor, com somente alguma dessas variáveis. Porém agora chegamos a um impasse característico de um econometrista, quais variáveis escolher para o modelo, enquanto na decisão pela variável da primeira diferença fomos arbitrários, utilizando uma justificativa econômica. Nessa escolha não temos esse conforto pois são 9 variáveis com grande potencial preditivo do PIB, não podemos simplesmente coletá-las e partir desse momento escolher a dedo qual será usada. 
+
+Entretanto a solução mais adequada é mais simples do que aparenta, basta testar todos os modelos possíveis para esse conjunto de variáveis. Tendo em vista isso testamos um modelo VAR com uma defasagem VAR(1), para todas as 9 variáveis tendo o crescimento do PIB como uma variável alvo:
+
+
+COMPARAÇÃO DE MODELOS VAR
+
+
+Observações: 22
+Variável alvo: crescimento\textunderscore pib
+Candidatas: 9
+Máximo de variáveis no VAR: 9
+Defasagem utilizada: VAR(1)
+
+Com essas configurações obtivemos os 5 melhores modelos ns critérios de menor RMSE e MAE:
+
+\begin{tabular}{lrrrr}
+	\toprule
+	Variáveis & N & RMSE & MAE & N\textunderscore previsões \\
+	\midrule
+	{['crescimento\textunderscore pib', 'balança corrente (\% PIB)']} & 2 & 1.1099 & 0.8213 & 12 \\
+	{['crescimento\textunderscore pib', 'balança corrente (\% PIB)', 'índice de liberdade financeira']} & 3 & 1.1590 & 0.8892 & 12 \\
+	{['crescimento\textunderscore pib', 'balança corrente (\% PIB)', 'índice de liberdade financeira', 'inflacao\textunderscore diff']} & 4 & 1.1752 & 0.8827 & 12 \\
+	{['crescimento\textunderscore pib', 'balança corrente (\% PIB)', 'taxa de desemprego']} & 3 & 1.1911 & 1.0601 & 12 \\
+	{['crescimento\textunderscore pib', 'investimento direto estrangeiro (\% PIB)', 'taxa de desemprego']} & 3 & 1.1940 & 0.9236 & 12 \\
+	\bottomrule
+\end{tabular}
+
+Podemos notar que os melhores modelos tem como preditor a balança corrente, porém isso tem um sentido muito lógico, afinal balança corrente é definido como uma porcentagem do PIB. Mas para além disso o Brasil é uma economia que tem o setor primário-exportador um grande fator na composição do PIB, portanto faz muito sentido esperar que o crescimento do PIB é explicado em medida pelo comportamento externo, porém para não ficarmos somente na especulação vamos ver o que os modelos tem a dizer.
+
+
+% COLOCAR OS RESULTADOS DO VAR PARA OS 5 MELHORES MODELOS, ENCONTRAR MELHOR FORMA DE ORGANIZAR.
+
+
+O cinco melhores modelos tem características em comuns que contribuem para classificá-los como modelos adequados a predição do PIB. Os candidatos apresentam estabilidade em nenhum deles há evidência de autocorrelação dos resíduos, todos apresentam resíduos compatíveis com a normalidade. E nos quatro primeiro em que a balança corrente (\% PIB) é um componente do modelo, nesses caso a balança corrente é identificada como uma causadora do PIB, porém o inverso não acontece, na realidade, nos quatro primeiros modelos ela é a única variável que o modelo classifica como causa do crescimento do PIB. 
+
+A fim de curiosidade fizemos também o mesmo teste retirando a variável do balança corrente (\% PIB), nesse caso obtivemos modelos mais variados, com variáveis como investimento direto estrangeiro (\% PIB), taxa de desemprego, inflacao\textunderscore diff e índice de liberdade financeira. Porém naturalmente esses modelos tem um RMSE e um MAE ligeiramente maiores do que os modelos que contaram com a balança corrente (\% PIB) como um dos seus preditores, nesses modelos sem esta variável, o investimento direto estrangeiro (\% PIB) se apresenta como um causador do PIB pela causalidade de Granger.
+
+A partir desses resultados notamos como o mercado externo parece ser um fator de influência no PIB brasileiro. Mas para além disso os 5 modelos que obtiveram melhores resultados ainda contaram perspectivas sobre o comportamento macroeconômico brasileiro. Primeiro é que  a balança corrente (\% PIB) parece ter influência sobre índice de liberdade financeira e a  inflação brasileira, isso é apontado pelo 3 melhor modelo, além disso nos últimos modelos apresenta que o crescimento do PIB tem uma forte relação de causalidade com a taxa de desemprego, o que é natural para um economista, mas é uma comprovação econométrica como o crescimento do PIB é um fator determinante na geração de empregos\footnote{Conforme vimos em nossa metodologia, a série do desemprego não é confiável, porém trataremos mais profundamente na sessão do MIDAS onde essa variável será mais importante}. 
+
+Além disso, um último fator curioso observado nesses modelos é que o investimento direto estrangeiro (\% PIB) parece ser relacionado com a taxa de desemprego, talvez implicando no papel de empresas multinacionais e no investimento estrangeiro direto na geração de emprego para brasileiros. A interpretação econômica desse VAR é uma visualização do recorte histórico brasileiro dos anos 2000 e a integração do brasil nas Cadeias Globais de Valor com um país primário exportador.
+
+Porém, nosso interesse e objetivo do trabalho é a predição econômica do PIB, então para isso vamos utilizar o melhor modelo classificado nesses dados o VAR(1) com apenas a balança corrente (\% PIB) e crescimento do PIB. Nesse caso já atestado pelo quadro \ref{}, a balança corrente (\% PIB) parece anteceder aumentos no crescimento econômico, porém o inverso não acontece. 
+
+A extrapolação do PIB descrita por esse VAR é dada por:
+
+MODELO A
+crescimento\textunderscore pib  balança corrente (\% PIB)
+ano                                            
+2025        -0.318797                 -0.543713
+2026        -0.414541                 -0.466749
+2027        -0.383972                 -0.399770
+2028        -0.339302                 -0.350863
+2029        -0.303139                 -0.316992
+
+Porém vale notar que essa previsão está escalada, conforme fizemos no inicio do procedimento de tratamento com os dados do VAR, o mesmo comportamento pode ser observado pela figura \ref{fig:previsao_var_escalado}.
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Predição do crescimento do PIB escalado utilizando o VAR(1) — Crescimento do PIB + balança corrente (\% PIB)}
+	\label{fig:previsao_var_escalado}
+	\includegraphics[width=1.0\textwidth]{images/previsao_var_escalado.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+Em sentido interpretativo esse gráfico permite mostrar como o VAR consegue estimar o valor do crescimento real do PIB com um certo grau de precisão. Porém a visualização mais interessante de se analisar o valor estimado do PIB, é predição em volume, que apesar de não ter uma interpretação econômica tão presente, é mais entendível o poder de predição do VAR, conforme a figura \ref{fig:previsao_var_volume}
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{VAR(1) — PIB + balança corrente (\% PIB) — Previsão de 5 anos}
+	\label{fig:previsao_var_volume}
+	\includegraphics[width=1.0\textwidth]{images/previsao_var_volume.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+Note a proximidade do valor em volume para o ano de 2025 que não foi utilizado durante o treinamento do VAR, e valor previsto. 
+
+Poderíamos analisar cada um dos modelos apresentados, e utiliza-los para a predição do PIB, juntamente com cada interpretação de causalidade entre variáveis, porém para não estender nosso trabalho e fugir do escopo proposto, apresentaremos uma última funcionalidade de um modelo VAR que é simular choques em variáveis, e estimar o comportamento das variáveis componentes do modelo. Nesse caso vamos estimar o que um choque na variável balança corrente (\% PIB) faria com o PIB no anos seguintes. 
+
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Resposta do crescimento do PIB a um choque ortogonalizado na balança de transações correntes}
+	\label{fig:choque_var}
+	\includegraphics[width=1.0\textwidth]{images/choque_var.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+A interpretação desse gráfico nos informa o que aconteceria com a economia brasileira se houvesse um choque de um desvio-padrão nas exportações brasileiras presentes na conta de transações correntes, nesse caso estamos falando de um choque positivo, por exemplo a abertura comercial da China, que se tornou um grande importador de produtos primários brasileiros. Essa possibilidade do VAR abre uma ampla gama de oportunidades e interpretações, desde por exemplo simular o mesmo choque negativo até testar diferentes variáveis e como elas influenciam a variável alvo, seja ela o PIB, ou qualquer outro componente do modelo. 
+
+Apesar desses testes terem uma interpretação econômica relevante, optaremos por apresentar esse único choque para demonstrar a possibilidade, afinal nosso objetivo é a predição do PIB, mas deixamos como uma possibilidade de aprofundamento da pesquisa.
+
+
+Com esse resultados notamos como o VAR tem uma gama de possibilidades muito superior ao ARIMA, a possibilidade de inserir outras variáveis não apenas melhora a predição, na realidade ela da um sentido macroeconômico a econometria aplicada, enquanto o ARIMA consegue explicar o comportamento único da variável, o VAR consegue capitar as relações entre as variáveis, isso permite captar relações mais intrínsecas do comportamento da economia, não se restringindo a falar do comportamento de uma única variável, mas sim da sua relação concomitante.
+
+Porém o VAR ainda tem um problema, a periodicidade, todas as variáveis utilizadas no modelo tem uma frequência anual, isso significa que temos uma observação a cada ano, isso limita nossa aplicação por dois lados, primeiro que só podemos realizar uma nova predição no próximo ano onde os dados serão divulgados, segundo que perdemos a oportunidade de utilizar variáveis de frequência maior para a predição.
+
+Para resolver esse problema, ou pelo mínimo tentar vamos nos debruçar sobre o MIDAS, um modelo com a capacidade de incorporar variáveis de frequências diversas em um único modelo.
+
+
+\section{MIDAS}
+
+Para inciarmos a montagem do modelo MIDAS precisamos selecionar as variáveis, e dessa vez não podemos simplesmente pegar as mesmas variáveis do VAR, não por uma limitação do modelo, ou algo relacionado a testes (pelo mínimo ainda não), na realidade estamos falando da eficiência estrutural do modelo. O MIDAS foi pensado para estimar variáveis com frequências diferentes, mas não faz sentido utilizar uma variável de coletada a cada ano para prever um dado divulgado diariamente. Portanto temos a primeira noção do MIDAS, utilizaremos variáveis de alta frequência, para estimar uma variável de baixa frequência, como no nosso caso o PIB anual.
+
+Outra noção é a questão que como nossa variável alvo tem frequência anula, não faz sentido usar variáveis com a mesma frequência do PIB, pensemos na predição, temos que esperar a da balança corrente em porcentagem do PIB ser divulgada para só depois realizarmos a predição do PIB. É uma noção contraproducente. A partir dessa duas noções e baseado na disponibilidade dos dados podemos selecionar as variáveis que utilizaremos.
+
+Dentre o nosso conjunto de coleta exposto na metodologia apenas 3 variáveis tem uma frequência de divulgação maior do que a do PIB, são elas:
+a taxa de desemprego que é trimestral; a dívida publica (\% PIB) mensal; e o IPCA que também é mensal. Apesar de não intencional essas variáveis possuem um sentido econômico, afinal estamos falando de uma variável macroeconômica o PIB, tentando ser predita por uma variável monetária IPCA que mede inflação, uma variável real, o desemprego, e uma variável do governo a porcentagem da divida pública, vamos ver como essas variáveis se relacionam a partir do modelo MIDAS.
+
+
+
 
 
 
