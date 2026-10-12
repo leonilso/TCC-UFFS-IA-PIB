@@ -351,7 +351,202 @@ Para inciarmos a montagem do modelo MIDAS precisamos selecionar as variáveis, e
 Outra noção é a questão que como nossa variável alvo tem frequência anula, não faz sentido usar variáveis com a mesma frequência do PIB, pensemos na predição, temos que esperar a da balança corrente em porcentagem do PIB ser divulgada para só depois realizarmos a predição do PIB. É uma noção contraproducente. A partir dessa duas noções e baseado na disponibilidade dos dados podemos selecionar as variáveis que utilizaremos.
 
 Dentre o nosso conjunto de coleta exposto na metodologia apenas 3 variáveis tem uma frequência de divulgação maior do que a do PIB, são elas:
-a taxa de desemprego que é trimestral; a dívida publica (\% PIB) mensal; e o IPCA que também é mensal. Apesar de não intencional essas variáveis possuem um sentido econômico, afinal estamos falando de uma variável macroeconômica o PIB, tentando ser predita por uma variável monetária IPCA que mede inflação, uma variável real, o desemprego, e uma variável do governo a porcentagem da divida pública, vamos ver como essas variáveis se relacionam a partir do modelo MIDAS.
+a taxa de desocupação que é trimestral; a dívida publica (\% PIB) mensal; e o IPCA que também é mensal. Apesar de não intencional essas variáveis possuem um sentido econômico bastante presente, para fortalecer o modelo, afinal estamos falando de uma variável macroeconômica o PIB, tentando ser predita por uma variável monetária IPCA que mede inflação, uma variável real, o desemprego, e uma variável do governo a porcentagem da divida pública, vamos ver como essas variáveis se relacionam a partir do modelo MIDAS.
+
+Entretanto, como exposto em nossa metodologia, uma dessas variáveis tem um problema grave em sua série, estamos falando da taxa de desemprego trimestral do IBGE, infelizmente o IBGE descontinuou a pesquisa mensal de emprego em 2016, que foi substituída pela PNAD continua (Pesquisa Nacional por Amostra de Domicílios Contínua). Não entraremos em detalhes sobre as questões relacionadas a pesquisa e as metodologias de coleta e continuidade de pesquisa pelas entidades de coleta, mas infelizmente isso causa uma quebra em nossa série no ano de 2012, afinal optamos por utilizar os dados da PNAD continua em seu primeiro ano de coleta, mesmo que pesquisa mensal de emprego continuasse até 2016, como pode ser observado na figura \ref{fig:taxa_desemprego_MIDAS}
+
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Série histórica da taxa de desocupação trimestral com quebra no ano de 2012}
+	\label{fig:taxa_desemprego_MIDAS}
+	\includegraphics[width=1.0\textwidth]{images/taxa_desemprego_MIDAS.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Dados do IBGE (2026) elaborado pelo autor (2026).
+\end{figure}
+
+Essa quebra em nossa série se dá, pois até 2012 o dado se tratava da taxa de desocupação na semana de referência, das pessoas de 10 anos ou mais de idade, principais responsáveis pela família. E quando adotamos a PNAD continua o dado passou a ser Taxa de desocupação, na semana de referência, das pessoas de 14 anos ou mais de idade. A alteração se dá tanto pela faixa etária, como pela população englobada, antes eram somente os responsáveis da família, agora todas as pessoas com 14 anos ou mais.
+
+Uma solução seria truncar a série e utilizar somente 2012 para frente, porém isso reduziria os graus de liberdade do modelo, podendo ocasionar resultados com menos poder de explicação estatístico. Outra solução seria modelar com apenas o IPCA e a dívida pública. Porém decidimos, para colocar o modelo a prova, utilizar a série como está, e validar se mesmo com um erro de continuidade o modelo ainda consegue predizer o PIB.
+
+A fim de curiosidade podemos ver as demais séries: a do PIB\footnote{Notemos como ao utilizar o gráfico do PIB com o eixo y iniciando de 0, o PIB brasileiro parece ser muito mais estável com uma tendência de crescimento mais definida do que por exemplo o mesmo gráfico do PIB na figura \ref{fig:pib_volume_deflacionado}, isso nos leva a um ponto importante, não precisamos mentir alterando os dados basta usar uma escala diferente e a percepção do leitor sobre uma mesma variável pode se alterar, deixaremos as duas formas como uma questão de reflexão, sobre como os gráficos são uma maneira excelente de se visualizar dados, porém podem causar vieses na percepção do leitor} na figura \ref{fig:pib_volume_MIDAS}; a do IPCA na figura \ref{fig:IPCA_MIDAS}; e da dívida pública (\% PIB) na figura \ref{fig:divida_publica_MIDAS}. 
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Série histórica do PIB em volume anual}
+	\label{fig:pib_volume_MIDAS}
+	\includegraphics[width=1.0\textwidth]{images/pib_volume_MIDAS.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Dados do IBGE (2026) elaborado pelo autor (2026).
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Série histórica do IPCA mensal}
+	\label{fig:IPCA_MIDAS}
+	\includegraphics[width=1.0\textwidth]{images/IPCA_MIDAS.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Dados do IBGE (2026) elaborado pelo autor (2026).
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Série histórica da dívida pública (\% PIB) mensal}
+	\label{fig:divida_publica_MIDAS}
+	\includegraphics[width=1.0\textwidth]{images/divida_publica_MIDAS.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Dados do BACEN (2026) elaborado pelo autor (2026).
+\end{figure}
+
+Somente a partir da visualização das séries já é possível apontar uma possível relação com o tempo, isso pode indicar que as séries não são estacionárias\footnote{já fizemos estes testes antes, para essas variáveis, inclusive sabemos que o PIB em volume não é estacionário, mas testaremos novamente, pois dessa vez, além de serem séries com frequência maior, vamos utilizar outros testes além do ADF e PP.}
+
+Nos testes ADF nenhuma das séries originais são estacionárias, dessa forma optamos por transformá-las, no caso do desemprego e da dívida aplicamos a primeira diferença, chamando as variáveis de delta da dívida e delta do desemprego, para o caso do IPCA e do PIB, optamos por utilizar o crescimento do PIB e a inflação, dessa forma para o teste ADF todos as séries se comportaram como estacionárias. 
+
+Entretanto também aplicamos o teste KPSS, e nesse caso o delta da dívida apresenta evidências estatísticas de não estacionariedade ao nível de significância de 5\%, enquanto as demais variáveis confirma a estacionariedade apresentada no teste ADF. Para concluir se precisamos de mais uma diferença, ou talvez descartar o delta da dívida, aplicamos o teste PP, e nesse caso obtivemos um resultado a favor da estacionariedade, como PP e ADF apontaram para uma série estacionária a um nível de 5\% de significância e KPSS apresenta também considera o delta da dívida como estacionária a 2,5\% de significância, optamos por manter a série dessa forma.
+
+O próximo passo é determinar os lags do modelo, para isso utilizaremos os testes FAC e FACP, conforme as figuras a seguir:
+
+
+%PRECISO TROCAR AS IMAGENS
+
+%\begin{figure}[h]
+%	\centering
+%	\captionsetup{justification=centering}
+%	\caption{FAC e FACP para o crescimento do PIB}
+%	\label{fig:fac_facp_midas_pib}
+%	\includegraphics[width=1.0\textwidth]{images/fac_facp_midas_pib.png}
+%	
+%	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+%	\centering
+%	\small Fonte: Elaborado pelo autor (2026).
+%\end{figure}
+%
+%\begin{figure}[h]
+%	\centering
+%	\captionsetup{justification=centering}
+%	\caption{FAC e FACP para a inflação}
+%	\label{fig:fac_facp_midas_inflacao}
+%	\includegraphics[width=1.0\textwidth]{images/fac_facp_midas_inflacao.png}
+%	
+%	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+%	\centering
+%	\small Fonte: Elaborado pelo autor (2026).
+%\end{figure}
+%
+%\begin{figure}[h]
+%	\centering
+%	\captionsetup{justification=centering}
+%	\caption{FAC e FACP para o delta da dívida}
+%	\label{fig:fac_facp_midas_divida}
+%	\includegraphics[width=1.0\textwidth]{images/fac_facp_midas_divida.png}
+%	
+%	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+%	\centering
+%	\small Fonte: Elaborado pelo autor (2026).
+%\end{figure}
+%
+%\begin{figure}[h]
+%	\centering
+%	\captionsetup{justification=centering}
+%	\caption{FAC e FACP para o delta do desemprego}
+%	\label{fig:fac_facp_midas_desemprego}
+%	\includegraphics[width=1.0\textwidth]{images/fac_facp_midas_desemprego.png}
+%	
+%	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+%	\centering
+%	\small Fonte: Elaborado pelo autor (2026).
+%\end{figure}
+
+
+Os resultados dos testes FAC e FACP não foram conclusivos, vamos testar todos os modelos com diferentes lags. Para isso dividimos nossos dados em treinamento e validação, de 2002 até 2022, será nosso treinamento, enquanto de 2023 até 2025 nossa validação. Dentro dos nossos dados de treinamento obtivemos um resultado curioso a soma dos quadrados dos erros para 6 meses foi menor do que para 12:SSE dentro da amostra por horizonte:
+h= 0 meses -> SSE treino = 6.8085
+h= 6 meses -> SSE treino = 3.7662
+h=12 meses -> SSE treino = 3.8716
+
+
+Enquanto na validação o RSME e o MAE também foram menores para 6 meses:
+
+					rmse horizonte  mae horizonte
+horizonte meses                               
+0                      3.907629       3.691726
+6                      1.179675       0.987185
+12                     1.397829       1.206148
+
+
+Notemos as previsões para 6 meses nos anos de validacão:
+horizonte meses   ano     y obs    y prev  rmse horizonte  mae horizonte
+0                0  2023  3.189305 -2.287651        3.907629       3.691726
+3                6  2023  3.189305  2.475212        1.179675       0.987185
+6               12  2023  3.189305  1.194448        1.397829       1.206148
+1                0  2024  3.361998  0.296787        3.907629       3.691726
+4                6  2024  3.361998  1.483472        1.179675       0.987185
+7               12  2024  3.361998  3.642610        1.397829       1.206148
+2                0  2025  2.261166 -0.271844        3.907629       3.691726
+5                6  2025  2.261166  1.892231        1.179675       0.987185
+8               12  2025  2.261166  3.604142        1.397829       1.206148
+
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Previsão do crescimento do PIB para o modelo MIDAS}
+	\label{fig:previsao_crescimento_pib_midas}
+	\includegraphics[width=1.0\textwidth]{images/previsao_crescimento_pib_midas.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+Notemos como essa figura \ref{fig:previsao_crescimento_pib_midas} parece nos contar como as previsões com diferentes horizontes parecem ter uma previsão que capita comportamos distintos, enquanto para um horizonte de 0 meses, ou \textit{nowcasting}, o modelo erra o valor, mas de certa forma acerta o comportamento de crescimento e queda,  porém os resultados interessantes estão em 6 e 12 de horizonte, enquanto o horizonte de 6 meses tem um erro menor de previsão, ele acaba errando o comportamento da variável, enquanto em um horizonte de 12 meses, acerta o comportamento o PIB porém tem um erro maior.
+
+Essa previsão através do MIDAS tem uma caraterística, precisamos das variáveis que compõem o modelo para podermos estimar o PIB, de certa forma isso é muito útil para estimativas onde parte das informações já são dadas, mas é visível, que para nosso conjunto de dados, tendo em vista a quebra da série do desemprego, o \textit{nowcasting} que é um dos pontos fortes do MIDAS parece não ter desempenhado tão bem, quanto em outros horizontes de tempo, porém fica evidente como o MIDAS consegue lidar bem, além de variáveis com frequência diferentes, e com uma quebra de metodologia em uma série o modelo ainda foi robusto na predição.
+
+
+Na figura \ref{fig:pib_volume_previsao_midas} podemos notar como os horizontes de de 6 e 12 meses parecem acertar mais o comportamento do PIB, enquanto o de 0 meses até acerta o comportamento, mas não o valor.
+
+
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Previsão do PIB em volume para o modelo modelo MIDAS}
+	\label{fig:pib_volume_previsao_midas}
+	\includegraphics[width=1.0\textwidth]{images/pib_volume_previsao_midas.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+Além da previsão podemos olhar também o erro do modelo \ref{fig:erro_previsao_midas} que confirma a interpretação inicial, onde o erro de h=6 é menor, e o erro de h=0 é maior. Além de ambos subestimarem o crescimento do PIB. Enquanto h = 12 parece ser uma modelo mais otimista, que superestima o PIB em 2025, e praticamente acerta o valor em 2024, apesar de como os outros subestimar o crescimento em 2023.
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Erro de previsão do PIB para o modelo modelo MIDAS}
+	\label{fig:erro_previsao_midas}
+	\includegraphics[width=1.0\textwidth]{images/erro_previsao_midas.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+A tendência de subestimar o crescimento talvez não seja um erro dos modelos, mas sim um comportamento das séries, que parecem sempre que há um crescimento, há uma estabilização ou queda.
+
 
 
 
