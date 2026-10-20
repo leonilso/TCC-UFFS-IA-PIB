@@ -549,6 +549,53 @@ A tendência de subestimar o crescimento talvez não seja um erro dos modelos, m
 
 
 
+\section{DFM}
+
+Dentre os modelos que chamamos de tradicionais, o DFM é o último deles, mas é claro não menos importante. Na realidade dentre os modelos apresentados até então, o DFM é o modelo mais complexo, ele possui como ideia extrair de um grade conjunto de variáveis distintas um conjunto de fatores que podem explicar a tendência de um determinado grupo de variáveis. O DFM pode ser tanto aplicado para \textit{nowcasting} como no midas ou \textit{forecasting} como feito com o ARIMA e VAR, nesse caso de aplicação utilizaremos ele para \textit{forecasting}.
+
+A principal vantagem do DFM em comparação aos outros modelos é a capacidade de lidar com um conjunto de variáveis mais volumoso. Comparemos com outro modelo multivariado, enquanto no VAR precisamos limitar a quantidade de variáveis pela restrição dos graus de liberdade modelo. O DFM lida com isso criando índices compostos internos do modelo, que podem ser usados para fazer a predição da variável alvo.
+
+Porém o DFM continua sendo um modelo tradicional, ou seja as regras continuam, devemos testar a estacionariedade das séries e selecionar somente aqueles que consideramos estacionárias. Entretanto já fizemos isso com o VAR, e diferentemente do MIDAS, utilizaremos as mesmas séries com a mesma frequência, nesse sentido podemos utilizar as mesmas variáveis já testadas: 'crescimento pib', 'inflacao', 'variacao desemprego',
+'balança corrente (\% PIB)', 'índice de despesa governamental',
+'índice de liberdade financeira', 'índice de liberdade monetária',
+'índice de direitos de propriedade',
+'investimento direto estrangeiro (\% PIB)', 'dívida pública (\% PIB)'.
+
+lembrando que a inflação e o índice de despesa governamental estão usando a primeira diferença, conforme os testes realizados anteriormente. Nesse momento estaríamos escolhendo os parâmetros do modelo, para ai tentarmos aplicar para essas variáveis, porém chegamos a primeira barreira quando começamos a apelar para modelos mais robustos, o tempo.
+
+Nas primeiras execuções em testes realizados, utilizamos a mesma técnica utilizada pelo VAR para encontrarmos o melhor resultado, testar alguns os modelos possíveis, com distintas quantidades de variáveis e parâmetros. Porém, testar isso levou cerca de 2 horas, para rodar o modelo. Não que esse tempo seja um real limitador, pois bastaria uma máquina um pouco mais potente, um paralelismo maior, e o tempo se reduziria muito, mas para fazer pequenos ajustes e testar os melhores resultados nesse primeiro momento isso se torna uma barreira.
+
+Porém o real motivo, acaba se tornando muito mais metodológico do que o tempo de execução estamos falando da interpretação econômica de um modelo. Suponhamos que por um acaso estatístico, as variáveis de população, e índice de liberdade empresarial fossem disparado, para esse conjunto de dados os melhores preditores do crescimento do PIB, o DFM capturasse o fator latente, e o RSME e MAE fossem muito próximo de 0. Porém com mais 5 anos de dados existe uma grande variação no índice de liberdade empresarial e as previsões do modelo DFM simplesmente não correspondessem as expectativas. 
+
+Na realidade isso não é um problema só do DFM, isso é um problema estatístico. Primeiro um conjunto pequeno de dados, eles podem não ter observações o suficiente para descrever a realidade. E segundo acreditar que a relação entre variáveis são funcionais, em que uma alteração em uma, necessariamente irá causar um perturbação em outra que poder ser descrita por uma curva determinística.
+
+Voltando ao DFM, faz pouco ou nenhum sentido testar todas as combinações possíveis, e mesmo que encontremos uma relação que tenha um erro pequeno, pode ser que aquelas variáveis não tenham um sentido econômico relevante para uma análise de uma perspectiva da realidade. Tomemos como um exemplo fictício absurdo, um determinado econometrista estava fazendo suas analises e observou que uma fábrica de pelúcias produzia determinada quantidade de ursos, o econometrista observou por um modelo que a relação entre quantidade de ursinhos e o PIB da cidade pareciam ter uma forte relação entre elas, a medida que a quantidade de ursos aumentava, o PIB também crescia. Um político observando a situação ficou maravilhado e determinou via decreto que se abrissem outras 10 fábricas de ursos prometendo que o PIB da cidade iria se multiplicar por um fator de 10. O que aconteceu é que todas as fábricas faliram pois ninguém mais queria comprar ursinhos e o PIB da cidade caiu.
+
+O erro dessa história é primeiro acreditar que existe uma relação de causa e efeito entre variáveis, segundo é a lógica determinista aplicada, não se pode afirmar que uma variável é necessariamente causadora da outra, talvez as vendas de urso aumentassem pois os pais tinham maiores condições de presentear seus filhos, ou talvez seja somente uma coincidência. A única coisa possível de se afirmar é, que para aquele recorte de tempo, com aquelas observações, parece que a venda de ursos parece caminhar junto ao PIB municipal.
+
+Essa história pode ser fantasiosa, porém quantas decisões empresarias e governamentais não são tomadas por gestores pensando em causa e efeito. Para isso o trabalho de um estatístico/econometrista é também determinar que variáveis utilizar, ou seja, será que se ao inés de utilizar a produção de ursos, o pesquisador utilizasse os salários dos funcionários das fábricas da cidade, será que o sentido econômico da análise não seria mais robusto e fundamentado?
+
+Todo esse contexto se deve a justificativa de porque escolher determinadas variáveis para o modelo, assim realizamos da seguinte forma:
+ 'PIB inflacao': ['crescimento pib', 'inflacao'],
+'PIB inflacao desemprego': ['crescimento pib', 'inflacao', 'variacao desemprego'],
+'PIB governo': ['crescimento pib', 'índice de despesa governamental', 'dívida pública (\% PIB)'],
+'PIB externo': ['crescimento pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)'],
+'PIB liberdade': ['crescimento pib', 'índice de liberdade monetária', 'índice de liberdade financeira', 'índice de direitos de propriedade'],
+'PIB todas variaveis': 'crescimento pib', 'inflacao', 'variacao desemprego',
+'balança corrente (\% PIB)', 'índice de despesa governamental',
+'índice de liberdade financeira', 'índice de liberdade monetária',
+'índice de direitos de propriedade',
+'investimento direto estrangeiro \% PIB)', 'dívida pública (\% PIB)',
+
+Optamos dessa forma para segregar as variáveis em determinados campos de estudo da economia, primeiro com um modelo relativamente simples com o PIB e a inflação, depois o PIB a inflação e o desemprego\footnote{Lembrando que o desemprego é uma variáveis suspeita como já descrido na metodologia e no modelo MIDAS}. Um modelo tratando sobre o governo, com a dívida pública e a despesa governamental. Um modelo sobre mercado externo, um modelo de indicadores de liberdade. Por último um modelo tratando de todas as variáveis.
+
+Como range de treino utilizamos o inicio da série em 2001, até 2022, como validação utilizamos de 2014 até 2022, e para avaliação de 2023 até 2025. Como número máximo de iterações utilizados 300, e número de ordens e fatores utilizamos apenas 1, pensando em simplificar o modelo ao máximo para não correr o risco de sobreajuste.
+
+
+\section{Redes Neurais}
+
+\section{Random Forest}
+
 
 
 
