@@ -589,10 +589,190 @@ Todo esse contexto se deve a justificativa de porque escolher determinadas vari�
 
 Optamos dessa forma para segregar as variáveis em determinados campos de estudo da economia, primeiro com um modelo relativamente simples com o PIB e a inflação, depois o PIB a inflação e o desemprego\footnote{Lembrando que o desemprego é uma variáveis suspeita como já descrido na metodologia e no modelo MIDAS}. Um modelo tratando sobre o governo, com a dívida pública e a despesa governamental. Um modelo sobre mercado externo, um modelo de indicadores de liberdade. Por último um modelo tratando de todas as variáveis.
 
-Como range de treino utilizamos o inicio da série em 2001, até 2022, como validação utilizamos de 2014 até 2022, e para avaliação de 2023 até 2025. Como número máximo de iterações utilizados 300, e número de ordens e fatores utilizamos apenas 1, pensando em simplificar o modelo ao máximo para não correr o risco de sobreajuste.
+Como range de treino utilizamos o inicio da série em 2001, até 2022, como validação utilizamos de 2014 até 2022, e para avaliação de 2023 até 2025. Como número máximo de iterações utilizados 300, com até 3 fatores, e até de segunda ordem, pensando em simplificar o modelo ao máximo para não correr o risco de sobreajuste.
+
+Os fatores são as variáveis "virtuais" que o modelo cria, são como um indicador que representa um determinado conjunto de variáveis com uma tendência. Já as ordens no contexto do DFM são as defasagens dos fatores, seriam o equivalente as LAGs de um modelo VAR.
+
+E no geral modelos com mais de 2 fatores para essa quantidade de observações foram inadequados, quase que em sua maioria não convergiram para um resultado. Esse resultado é esperado, mas como o DFM já realiza esse procedimento de unir o comportamento das variáveis, isso não será um problema.
+
+\begin{tabular}{lrllrrrrrl}
+	\toprule
+	& config\_id & grupo & variaveis & n\_fatores & factor\_order & RMSE & MAE & valido & erro \\
+	\midrule
+	19 & 20 & PIB\_externo & ('crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)') & 1 & 2 & 3.722192 & 3.131058 & True &  \\
+	18 & 19 & PIB\_externo & ('crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)') & 1 & 1 & 3.733603 & 3.043637 & True &  \\
+	1 & 2 & PIB\_inflacao & ('crescimento\_pib', 'inflacao') & 1 & 2 & 4.065466 & 3.212545 & True &  \\
+	0 & 1 & PIB\_inflacao & ('crescimento\_pib', 'inflacao') & 1 & 1 & 4.103922 & 3.200073 & True &  \\
+	12 & 13 & PIB\_governo & ('crescimento\_pib', 'índice de despesa governamental', 'dívida pública (\% PIB)') & 1 & 1 & 4.159998 & 3.318441 & True &  \\
+	6 & 7 & PIB\_inflacao\_desemprego & ('crescimento\_pib', 'inflacao', 'variacao\_desemprego') & 1 & 1 & 4.274813 & 3.332155 & True &  \\
+	13 & 14 & PIB\_governo & ('crescimento\_pib', 'índice de despesa governamental', 'dívida pública (\% PIB)') & 1 & 2 & 4.452987 & 3.622092 & True &  \\
+	7 & 8 & PIB\_inflacao\_desemprego & ('crescimento\_pib', 'inflacao', 'variacao\_desemprego') & 1 & 2 & 4.478730 & 3.596120 & True &  \\
+	\bottomrule
+\end{tabular}
+
+
+
+
+Notemos que o modelo com o menor RSME é o PIB\_externo, tendo como componentes o crescimento\_pib, balança corrente (\% PIB)',
+investimento direto estrangeiro (\% PIB), com um fator de ordem 2. Esse modelos obteve um RSME de 3.722192 no treinamento, o que é razoável para um modelo nesse sentido.
+
+Nos anos de validação obtivemos os seguintes resultados na tabela a seguir:
+
+\begin{tabular}{lrrrrrrrr}
+	\toprule
+	& ano & crescimento\_previsto & limite\_inferior & limite\_superior & crescimento\_real & erro & media\_treino & persistencia\_origem \\
+	\midrule
+	0 & 2023 & 2.185479 & -3.557493 & 7.928452 & 3.240708 & 1.055229 & 2.242758 & 3.017372 \\
+	1 & 2024 & 2.209100 & -3.568040 & 7.986241 & 3.419152 & 1.210052 & 2.242758 & 3.017372 \\
+	2 & 2025 & 2.223303 & -3.569880 & 8.016487 & 2.286924 & 0.063621 & 2.242758 & 3.017372 \\
+	\bottomrule
+\end{tabular}
+
+Em todos os anos o DFM subestimou o crescimento do PIB. Para testarmos a autocorrelação dos resíduos desse modelo utilizamos Ljung–Box. Conforme aponta a tabela.
+
+\begin{tabular}{lrr}
+	\toprule
+	& lb\_stat & lb\_pvalue \\
+	\midrule
+	1 & 1.205734 & 0.272179 \\
+	2 & 1.466123 & 0.480436 \\
+	\bottomrule
+\end{tabular}
+
+
+A partir desses testes a um nível de significância de 5\% não foi detectada dependência linear temporal significativa nos erros até a segunda defasagem. Vejamos esse modelo em forma gráfica. Primeiramente notamos um comportamento relativamente estável do modelo ao tentar estimar as variações do PIB, podemos notar tanto na figura \ref{fig:crescimento_dfm_treinamento} quanto na \ref{fig:ajuste_dfm_treinamento} se comportou praticamente como uma média móvel.
+
+Se olharmos diretamente para o resultado o modelo parece subestimar o crescimento do PIB, figura \ref{fig:previsao_dfm_crescimento}, assim como os erros do 2023 e 2024, foram maiores do que os de 2025, mas mesmo assim o DFM parece não conseguir capturar o comportamento do PIB, nem mesmo no sentido de erro, como no próprio comportamento da série.
+
+Nesse sentido testamos os demais modelos DFM que tiveram solução, e nenhum deles obteve um resultado evidentemente superior do que o modelo com menor RSME. Portanto fica evidente como o DFM parece não se ajustar bem para nossa coleção de variáveis.
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Validação temporal com reestimação anual}
+	\label{fig:crescimento_dfm_treinamento}
+	\includegraphics[width=1.0\textwidth]{images/crescimento_dfm_treinamento.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Previsão crescimento do PIB fora do treino}
+	\label{fig:previsao_dfm_crescimento}
+	\includegraphics[width=1.0\textwidth]{images/previsao_dfm_crescimento.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Erro de previsão no período de validação}
+	\label{fig:erro_previsao_dfm}
+	\includegraphics[width=1.0\textwidth]{images/erro_previsao_dfm.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Ajuste do modelo no treinamento}
+	\label{fig:ajuste_dfm_treinamento}
+	\includegraphics[width=1.0\textwidth]{images/ajuste_dfm_treinamento.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Erro do modelo no treinamento}
+	\label{fig:residuos_dfm_treinamento}
+	\includegraphics[width=1.0\textwidth]{images/residuos_dfm_treinamento.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Cargas fatoriais do DFM}
+	\label{fig:cargas_fatoriais_dfm}
+	\includegraphics[width=1.0\textwidth]{images/cargas_fatoriais_dfm.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+Por fim temos a figura \ref{fig:previsao_nivel_dfm} que mostra o a previsão do PIB em nível, que como ja esperado foi subestimada pelo modelo. A partir desses resultados podemos chegar a uma realidade dos testes, nem todos os modelos serão adequados. Esse modelo apresentado teve todos os testes de estacionariedade, as variáveis foram selecionadas por um sentido econômico, o modelo é robusto, e tem uma aplicação direcionada para casos onde existem muitas variáveis, mas mesmo com esses pontos a favor, para esse conjunto de dados, o modelo DFM, obteve um resultado razoável.
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Erro do modelo no treinamento}
+	\label{fig:previsao_nivel_dfm}
+	\includegraphics[width=1.0\textwidth]{images/previsao_nivel_dfm.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+Porém, apesar de não ser excelente ainda podemos retirar um significado econômico do DFM, primeiro, o mesmo caso apresentado pelo VAR, o mercado externo parece ser um bom preditor do PIB, mas para além disso podemos interpretar a carga de cada variável no fator latente, como o modelo possui apenas um fator podemos visualizar na figura \ref{fig:cargas_fatoriais_dfm}. Essa figura apresenta um comportamento curioso, enquanto a balança corrente e o PIB tem um relação + com o fator, o investimento estrangeiro direto tem uma relação negativa com o fator. Novamente isso não é um relação causal, que aumento no investimento estrangeiro direto irá causar uma queda no PIB ou na balança corrente.
+
+Porém podemos formular uma hipótese que a relação positiva da balança corrente, tem haver com o Brasil ser uma país cujo a economia tem um forte componente primário exportador, então naturalmente uma balança corrente positiva, significa um aumento em volume no PIB. E também poderíamos formular uma relação em que balanços positivos na conta corrente, podem influenciar na menor necessidade investimento estrangeiro direto.
+
+Contudo, lembramos, que não podemos afirmar essa relação, pela próprias limitações dos modelos, mas também pela limitação dos dados, ou seja, pouco mais de 20 observações ainda que possibilitem o modelo convergir, não significam necessariamente um confiança absoluta nos resultados do modelo.
+
 
 
 \section{Redes Neurais}
+
+Chegamos agora no primeiro modelo do que chamamos de modelos de IA, ou modelos modernos, o primeiro deles não poderia ser diferente, as redes neurais, esse tipo de estrutura possibilitou avanços em muitas áreas das ciências, e durante esse trabalho, pegaremos um tipo restrito de rede neural, e aplicaremos a um tipo restrito de problema, e vamos verificar se esse tipo de modelo consegue ser tão bom, quanto modelos robustos e tradicionais como os até então estudados. 
+
+Antes de inciarmos com a discussão sobre como utilizaremos as redes neurais, vale a pena ressaltar que o método que aplicamos para esse modelo, talvez não tenha obtido os melhores resultados, pois decidimos testar o limite da proposição do modelo, enquanto ARIMA, possui simplicidade, o VAR a capacidade de modelar choques, o MIDAS de trabalhar com frequências mistas, e o DFM de modelar um conjunto massivo de variáveis, a rede neural tem um característica que por uma lado pode ser muito boa, por outro pode ser limitante, estamos falando da decisão.
+
+Não decisão no sentido humano, de avaliar hipóteses e decidir por caminhos, mas sim uma decisão no sentido matemático, quem avalia quais variáveis utilizar é a própria rede. É durante o processo de treinamento que a rede decide qual peso atribuir para cada neurônio isso é a aprendizagem desse tipo de modelo. Isso é bom, pois podemos simplesmente inserir todas as variáveis e esperar que a rede decida o que fazer com elas. Contudo isso também é limitante, primeiro pela questão da interpretabilidade\footnote{Falaremos disso mais adiante}, mas além disso, a falta de controle, não podemos forçar a rede a usar determinada variável, para estimarmos o comportamento daqueles alvos.
+
+Outro limitante das redes neurais é o tempo, assim como o DFM, as redes neurais são modelos que exigem muito poder computacional, inclusive os primeiros testes giravam em torno de cerca de 1 hora para rodar por completo. Dessa forma chegamos aquele mesmo impasse, deixar o modelo decidir quais são os conjuntos de variáveis com os melhores resultados, ou podemos testar modelos com um certo sentido econômico, optamos novamente pela segunda opção.
+
+Porém, durante a aplicação não simplesmente aplicamos as variáveis no modelo, fizemos transformações em 3 séries originais, utilizando as variações, já realizamos isso anteriormente, e seguimos com: crescimento\_pib, crescimento\_pop, inflacao. Assim optamos por remover da rede as variáveis originais (PIB, população e IPCA). 
+
+Os períodos utilizados pela rede são de 2001 a 2013, treinamento inicial, 2014 a 2022 validação expansiva, e por último 2023 a 2025 a avaliação do modelo. Testamos 6 modelos distintos, com determinada interpretação econômica. São eles: 
+
+'PIB': ['crescimento\_pib'],
+'PIB\_inflacao': ['crescimento\_pib', 'inflacao'],
+'PIB\_inflacao\_desemprego': ['crescimento\_pib', 'inflacao', 'taxa de desemprego'],
+'PIB\_governo': ['crescimento\_pib', 'índice de despesa governamental', 'dívida pública (\% PIB)'],
+'PIB\_externo': ['crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)'],
+'PIB\_liberdade': ['crescimento\_pib', 'índice de liberdade empresarial', 'índice de liberdade monetária', 'índice de liberdade comercial', 'índice de liberdade financeira', 'índice de direitos de propriedade'],
+'PIB\_todas\_variaveis': 'taxa de desemprego', 'balança corrente (\% PIB)',
+'investimento direto estrangeiro (\% PIB)', 'dívida pública (\% PIB)',
+'índice de direitos de propriedade',
+'índice de integridade governamental',
+'índice de despesa governamental', 'índice de carga fiscal',
+'índice de liberdade empresarial', 'índice de liberdade monetária',
+'índice de liberdade comercial', 'índice de liberdade de investimento',
+'índice de liberdade financeira', 'crescimento\_pib', 'crescimento\_pop',
+'inflacao'
+
+Separamos dessa forma, pois apesar de não existir controle sobre os pesos do modelo, podemos ainda assim escolher quais variáveis precisam ser modeladas.
+
+
 
 \section{Random Forest}
 
