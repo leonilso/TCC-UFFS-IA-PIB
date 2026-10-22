@@ -744,15 +744,15 @@ Contudo, lembramos, que não podemos afirmar essa relação, pela próprias limi
 
 Chegamos agora no primeiro modelo do que chamamos de modelos de IA, ou modelos modernos, o primeiro deles não poderia ser diferente, as redes neurais, esse tipo de estrutura possibilitou avanços em muitas áreas das ciências, e durante esse trabalho, pegaremos um tipo restrito de rede neural, e aplicaremos a um tipo restrito de problema, e vamos verificar se esse tipo de modelo consegue ser tão bom, quanto modelos robustos e tradicionais como os até então estudados. 
 
-Antes de inciarmos com a discussão sobre como utilizaremos as redes neurais, vale a pena ressaltar que o método que aplicamos para esse modelo, talvez não tenha obtido os melhores resultados, pois decidimos testar o limite da proposição do modelo, enquanto ARIMA, possui simplicidade, o VAR a capacidade de modelar choques, o MIDAS de trabalhar com frequências mistas, e o DFM de modelar um conjunto massivo de variáveis, a rede neural tem um característica que por uma lado pode ser muito boa, por outro pode ser limitante, estamos falando da decisão.
+Antes de inciarmos com a discussão sobre como utilizaremos as redes neurais, vale a pena ressaltar que o método que aplicamos para esse modelo, talvez não tenha obtido os melhores resultados possíveis para esse tipo de modelagem, pois decidimos testar o limite da proposição do modelo. Enquanto ARIMA, possui simplicidade, o VAR a capacidade de modelar choques, o MIDAS de trabalhar com frequências mistas, e o DFM de modelar um conjunto massivo de variáveis, a rede neural tem uma característica que por uma lado pode ser muito boa, por outro pode ser limitante, estamos falando do poder de decisão do modelo.
 
-Não decisão no sentido humano, de avaliar hipóteses e decidir por caminhos, mas sim uma decisão no sentido matemático, quem avalia quais variáveis utilizar é a própria rede. É durante o processo de treinamento que a rede decide qual peso atribuir para cada neurônio isso é a aprendizagem desse tipo de modelo. Isso é bom, pois podemos simplesmente inserir todas as variáveis e esperar que a rede decida o que fazer com elas. Contudo isso também é limitante, primeiro pela questão da interpretabilidade\footnote{Falaremos disso mais adiante}, mas além disso, a falta de controle, não podemos forçar a rede a usar determinada variável, para estimarmos o comportamento daqueles alvos.
+Não decisão no sentido humano, de avaliar hipóteses e decidir por caminhos, mas sim uma decisão no sentido matemático, quem avalia quais variáveis utilizar é a própria rede. É durante o processo de treinamento que a rede decide qual peso atribuir para cada neurônio isso é a conhecida "aprendizagem" desse tipo de modelo. Isso é bom por uma lado, pois podemos simplesmente inserir todas as variáveis e esperar que a rede decida o que fazer com elas. Contudo isso também é limitante, primeiro pela questão da interpretabilidade\footnote{Falaremos disso mais adiante}, mas além disso, a falta de controle, não podemos forçar a rede a usar determinada variável, para estimarmos o comportamento daqueles alvos.
 
-Outro limitante das redes neurais é o tempo, assim como o DFM, as redes neurais são modelos que exigem muito poder computacional, inclusive os primeiros testes giravam em torno de cerca de 1 hora para rodar por completo. Dessa forma chegamos aquele mesmo impasse, deixar o modelo decidir quais são os conjuntos de variáveis com os melhores resultados, ou podemos testar modelos com um certo sentido econômico, optamos novamente pela segunda opção.
+Outro limitante das redes neurais é o tempo, assim como o DFM, as redes neurais são modelos que exigem muito poder computacional, inclusive os primeiros testes giravam em torno de cerca de 1 hora para rodar por completo. Dessa forma chegamos aquele mesmo impasse, testar todos modelos e decidir quais são os conjuntos de variáveis com os melhores resultados, ou podemos testar modelos com um certo sentido econômico, optamos novamente pela segunda opção.
 
 Porém, durante a aplicação não simplesmente aplicamos as variáveis no modelo, fizemos transformações em 3 séries originais, utilizando as variações, já realizamos isso anteriormente, e seguimos com: crescimento\_pib, crescimento\_pop, inflacao. Assim optamos por remover da rede as variáveis originais (PIB, população e IPCA). 
 
-Os períodos utilizados pela rede são de 2001 a 2013, treinamento inicial, 2014 a 2022 validação expansiva, e por último 2023 a 2025 a avaliação do modelo. Testamos 6 modelos distintos, com determinada interpretação econômica. São eles: 
+Os períodos utilizados pela rede são de 2001 a 2013 como treinamento inicial, de 2014 à 2022 como a validação expansiva, e por último 2023 à 2025 a avaliação do modelo. Testamos 6 modelos distintos, com determinada interpretação econômica. São eles: 
 
 'PIB': ['crescimento\_pib'],
 'PIB\_inflacao': ['crescimento\_pib', 'inflacao'],
@@ -770,11 +770,187 @@ Os períodos utilizados pela rede são de 2001 a 2013, treinamento inicial, 2014
 'índice de liberdade financeira', 'crescimento\_pib', 'crescimento\_pop',
 'inflacao'
 
-Separamos dessa forma, pois apesar de não existir controle sobre os pesos do modelo, podemos ainda assim escolher quais variáveis precisam ser modeladas.
+Separamos dessa forma, pois apesar de não existir controle sobre os pesos do modelo, podemos ainda assim escolher quais variáveis seriam modeladas. Os hiperparâmetros do nosso teste são:
 
 
+Arquiteturas = [(1,), (2,), (3,), (3, 2), (5, 3, 2)]. Para arquiteturas utilizamos 5 configurações diferentes, cada uma dessa configurações refere-se a estrutura da rede, como visto na revisão de literatura, esse hiperparâmetros são a quantidade de neurônios e camadas ocultas na rede, o modelo (1,) possui apenas uma camada com apenas um neurônio na camada oculta, enquanto o modelo (5, 3, 2) possuí três camadas ocultas com cinco neurônios na primeira, 3 na segunda, e 2 na terceira. Um modelo simples tem menos chance de sobreajuste, porém pode não conseguir captar todas as dinâmica da realidade, enquanto modelos maiores conseguem captar relações mais diversas, contudo com grande risco de sobreajuste.
+
+Funções de ativação = ['tanh', 'relu']. tanh refere-se a função tangente hiperbólica ela pode ser visualizada na figura \ref{fig:tanh}. E ReLU é a Unidade Linear Retificada que pode ser visualizada na figura \ref{fig:ReLU}. Ambas são funções de ativação dos neurônios, no contexto de aplicação da pedição econômica optamos por testar apenas essas duas, pois tanh permite representar respostas não lineares suaves, já a ReLU permite a rede representar mudanças de comportamento em determinados cortes.
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Função de ativação Tangente Hiperbólica}
+	\label{fig:tanh}
+	\includegraphics[width=1.0\textwidth]{images/tanh.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Função de ativação ReLu}
+	\label{fig:ReLU}
+	\includegraphics[width=1.0\textwidth]{images/ReLU.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+
+alphas = [0.1, 1.0, 10.0]. Os alphas por falta seriam os passos da rede, ou seja, o quão largo é o ajuste dos pesos, existem diferenças, um alpha pequeno é favorável ao sobreajuste a armadilha do mínimos locais, enquanto um alpha grande demais pode nunca convergir para um resultado.
+
+
+random\_states = [1, 42, 123]. Esses hiperparâmetros talvez sejam os mais subjetivos e tem um peso menor na qualidade do modelo, a ideia é que a rede precisa de uma valor inicial de pesos, para que no processo de treinamento eles possam ser ajustados conforme o algoritmo de \textit{backpropagation}. De toda forma, se a rede teve passos o suficiente a tendência é que os resultados independente do estado inicial cheguem ao mínimo global, de toda forma utilizamos nesse trabalho a média dos erros desses três estados.
+
+Com essas configurações\footnote{Ainda existem outros hiperparâmetros da rede como o limite de iterações da otimização de 5000, o algoritmo de solução que é o L-BFGS (Limited-memory Broyden–Fletcher–Goldfarb–Shanno) e o limite de avaliações da função objetivo pelo L-BFGS que foi de 15000, que são hiperparâmetros, optamos por não tratar diretamente deles, pois são questões mais relacionadas aos algoritmos internos que a rede utiliza para encontrar o resultado, para o aprofundamento nesse parâmetros recomendamos a leitura da documentação da biblioteca do Python scikit-learn \citem{scikit-learn}, mais especificamente do módulo MLPRegressor que foi o utilizado durante esse trabalho} testamos cerca de 210 modelos, levando cerca de 4 minutos para rodar todos, número muito menor do que os primeiros testes com cerca de 1 hora de treinamento.
+
+Dentre esses selecionamos os 5 melhores:
+
+\begin{tabular}{lrlrlllrlrrrrrr}
+	\toprule
+	& config\_id & grupo\_variaveis & n\_variaveis & variaveis & arquitetura & activation & alpha & sementes & RMSE & MAE & RMSE\_treino\_medio & MAE\_treino\_medio & desvio\_sementes\_medio & convergiu \\
+	\midrule
+	0 & 130 & PIB\_externo & 3 & ('crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)') & (2,) & relu & 0.100000 & (1, 42, 123) & 2.452199 & 1.976336 & 1.134121 & 0.882071 & 0.987059 & True \\
+	1 & 136 & PIB\_externo & 3 & ('crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)') & (3,) & relu & 0.100000 & (1, 42, 123) & 2.636257 & 2.309214 & 1.031081 & 0.814672 & 0.881569 & True \\
+	2 & 133 & PIB\_externo & 3 & ('crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)') & (3,) & tanh & 0.100000 & (1, 42, 123) & 2.978787 & 2.240917 & 0.817271 & 0.595805 & 0.601620 & True \\
+	3 & 121 & PIB\_externo & 3 & ('crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)') & (1,) & tanh & 0.100000 & (1, 42, 123) & 2.987590 & 2.449873 & 1.785888 & 1.506611 & 0.324824 & True \\
+	4 & 127 & PIB\_externo & 3 & ('crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)') & (2,) & tanh & 0.100000 & (1, 42, 123) & 3.021563 & 2.360393 & 1.120912 & 0.896314 & 0.601645 & True \\
+	\bottomrule
+\end{tabular}
+
+
+Notemos que os melhores modelos em relação ao treinamento são todos modelos que utilizam as variáveis do grupo PIB\_externo. Podemos também ver na tabela a seguir os melhores modelos por grupos de variáveis, notem como os erros são maiores, e as posições no ranking global de modelos, isso demonstra que a escolha de quais variáveis pode pesar mais do os hiperparâmetros sozinhos.
+
+\begin{tabular}{llrrlrllrlrrrrrr}
+	\toprule
+	& variaveis & posicao\_global & config\_id & grupo\_variaveis & n\_variaveis & arquitetura & activation & alpha & sementes & RMSE & MAE & RMSE\_treino\_medio & MAE\_treino\_medio & desvio\_sementes\_medio & convergiu \\
+	\midrule
+	1 & ('crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)') & 0 & 130 & PIB\_externo & 3 & (2,) & relu & 0.100000 & (1, 42, 123) & 2.452199 & 1.976336 & 1.134121 & 0.882071 & 0.987059 & True \\
+	4 & ('crescimento\_pib', 'índice de despesa governamental', 'dívida pública (\% PIB)') & 14 & 94 & PIB\_governo & 3 & (1,) & relu & 0.100000 & (1, 42, 123) & 3.392068 & 2.902598 & 2.138330 & 1.716132 & 1.489629 & True \\
+	5 & ('crescimento\_pib', 'índice de liberdade empresarial', 'índice de liberdade monetária', 'índice de liberdade comercial', 'índice de liberdade financeira', 'índice de direitos de propriedade') & 17 & 163 & PIB\_liberdade & 6 & (3,) & tanh & 0.100000 & (1, 42, 123) & 3.553964 & 3.139767 & 0.546236 & 0.369175 & 1.769870 & True \\
+	3 & ('crescimento\_pib', 'inflacao', 'taxa de desemprego') & 19 & 64 & PIB\_inflacao\_desemprego & 3 & (1,) & relu & 0.100000 & (1, 42, 123) & 3.634471 & 3.034677 & 2.250391 & 1.812126 & 1.956995 & True \\
+	6 & ('taxa de desemprego', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)', 'dívida pública (\% PIB)', 'índice de direitos de propriedade', 'índice de integridade governamental', 'índice de despesa governamental', 'índice de carga fiscal', 'índice de liberdade empresarial', 'índice de liberdade monetária', 'índice de liberdade comercial', 'índice de liberdade de investimento', 'índice de liberdade financeira', 'crescimento\_pib', 'crescimento\_pop', 'inflacao') & 24 & 209 & PIB\_todas\_variaveis & 16 & (5, 3, 2) & relu & 1.000000 & (1, 42, 123) & 3.802264 & 3.118076 & 2.013700 & 1.620821 & 1.212066 & True \\
+	2 & ('crescimento\_pib', 'inflacao') & 42 & 49 & PIB\_inflacao & 2 & (3, 2) & tanh & 0.100000 & (1, 42, 123) & 3.898332 & 3.102079 & 1.071207 & 0.837528 & 1.075929 & True \\
+	0 & ('crescimento\_pib',) & 53 & 15 & PIB & 1 & (3,) & tanh & 10.000000 & (1, 42, 123) & 3.975022 & 3.198063 & 2.865517 & 2.326786 & 0.000072 & True \\
+	\bottomrule
+\end{tabular}
+
+Porém vale ressaltar que se ajustar bem ao treino não significa necessariamente que o modelo é bom, para isso precisamos de validar fora da amostra. Vamos escolher o melhor dos modelos testados: 
+
+\begin{tabular}{ll}
+	\toprule
+	& Configuração do modelo escolhido \\
+	\midrule
+	config\_id & 130 \\
+	grupo\_variaveis & PIB\_externo \\
+	n\_variaveis & 3 \\
+	variaveis & ('crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)') \\
+	arquitetura & (2,) \\
+	activation & relu \\
+	alpha & 0.100000 \\
+	sementes & (1, 42, 123) \\
+	RMSE & 2.452199 \\
+	MAE & 1.976336 \\
+	RMSE\_treino\_medio & 1.134121 \\
+	MAE\_treino\_medio & 0.882071 \\
+	desvio\_sementes\_medio & 0.987059 \\
+	convergiu & True \\
+	\bottomrule
+\end{tabular}
+
+
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Ajuste do modelo durante a validação}
+	\label{fig:crescimento_pib_rn_treinamento}
+	\includegraphics[width=1.0\textwidth]{images/crescimento_pib_rn_treinamento.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+Como podemos ver na figura \ref{fig:crescimento_pib_rn_treinamento} O ajuste parece formidável, não parece ter evidências de sobreajuste, na figura \ref{fig:erro_validaca_rn} podemos ver os erros durante a validação.
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Erros do modelo durante a validação}
+	\label{fig:erro_validaca_rn}
+	\includegraphics[width=1.0\textwidth]{images/erro_validaca_rn.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+Na tabela a seguir vemos a previsão fora da amostra para os anos de 2023, 2024 e 2025. Podemos notar como obtivemos um erro relativamente pequeno.
+
+\begin{tabular}{lrrrrrrrr}
+	\toprule
+	& ano & crescimento\_real & crescimento\_previsto & desvio\_sementes & erro & erro\_absoluto & PIB\_real & PIB\_previsto \\
+	\midrule
+	0 & 2023 & 3.240708 & 2.019395 & 0.372088 & 1.221313 & 1.221313 & 1297397.148752 & 1282049.252561 \\
+	1 & 2024 & 3.419152 & 2.354770 & 0.950582 & 1.064382 & 1.064382 & 1341757.131234 & 1327947.869731 \\
+	2 & 2025 & 2.286924 & 1.966873 & 0.632193 & 0.320051 & 0.320051 & 1372442.099228 & 1368147.788392 \\
+	\bottomrule
+\end{tabular}
+
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Previsão do crescimento do PIB utilizando redes neurais}
+	\label{fig:crescimento_pib_rn_previsao}
+	\includegraphics[width=1.0\textwidth]{images/crescimento_pib_rn_previsao.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Erro da previsão do crescimento do PIB utilizando redes neurais}
+	\label{fig:erro_previsao_rn}
+	\includegraphics[width=1.0\textwidth]{images/erro_previsao_rn.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Previsão em nível do PIB utilizando redes neurais}
+	\label{fig:previsao_nivel_rn}
+	\includegraphics[width=1.0\textwidth]{images/previsao_nivel_rn.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+A partir dessa avaliação fica evidente algumas observações, e também a maior limitação das redes neurais. Primeiramente em um sentido econômico, podemos notar como o modelo que utiliza as variáveis externas tem um bom poder preditivo para a série do PIB brasileiro, isso é recorrente para os modelos testados anteriormente, para além disso, notamos que o modelo que utiliza somente uma única variável o PIB, um modelo autorregressivo univariado baseado em redes neurais, se mostra como a pior opção, em comparação aos outros, portanto é uma evidência para esses dados, que a rede conseguiu obter resultados melhores com mais de uma variável, apontando que as variáveis, em determinado grau ajudam na melhora da previsão. 
+
+
+Outro ponto relevante é que para além de um erro de previsão pequeno, a rede consegue estimar o comportamento da variável, acertando quando a variável acelera ou desacelera o crescimento, apesar de errar no sentido numérico. Porém chegamos ao limite da interpretabilidade desse tipo de modelo, poderíamos ainda interpretar sobre os hiperparâmetros, e identificar que sobre arquiteturas de rede, funções de ativação e alphas, mas nesse sentido estaríamos partindo sobre a configuração do modelo, não sobre uma interpretação econômica.
+
+Esse problema é conhecido, é a chamada caixa preta da IA, a falta de interpretabilidade direta de um modelo de rede neural é um dos limitantes dessa arquitetura, porém é inegável que esse tipo de modelo consegue capturar comportamentos nas variáveis macroeconômicas. Para além disso consegue acertar com um certo grau de precisão a extrapolar para fora do período de treinamento.
 
 \section{Random Forest}
+
+O último modelo de qual trataremos nesse trabalho, que também é um modelo que chamamos de IA, é o Random Forest, ou floresta aleatória em português, esse modelo também consegue modelar relações não lineares entre variáveis como as redes neurais, assim como consegue lidar com um volume massivo de variáveis. E esse modelo tem uma vantagem a mais, ele tem um sentido interpretativo, ou seja além da predição, esse modelo pode ter um sentido econômico extraído dos seus resultados.
 
 
 
