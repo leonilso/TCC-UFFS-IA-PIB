@@ -954,8 +954,217 @@ O último modelo de qual trataremos nesse trabalho, que também é um modelo que
 
 O primeiro procedimento para ao Random forest, como nos outros modelos é transformar as variáveis IPCA, PIB e população em suas respectivas variações: crescimento\_pib, inflacao e crescimento\_pop. Nesse modelo assim como nas redes neurais, não faremos testes de estacionariedade, ou outros tratamentos, e observaremos como o modelo consegue acertar, utilizando o seu potencial. 
 
+Utilizamos os anos de 2003 até 2022, como treinamento, e os anos de 2023 a 2025 como os anos de validação fora do treinamento. O motivo para o início em 2003 é a defasagem das variáveis, que acaba reduzindo o corte inicial do modelo, e como optamos por utilizar todas as variáveis, acaba ocasionando na data de corte ser reduzida.
+
+O modelo Random Forest, assim como as redes neurais possui os chamados hiperparâmtros, no nosso modelo testamos com algumas configurações  da mesma forma que testamos as próprias redes, com conjuntos de variáveis, com um significado econômico.
 
 
+%O conjuntos são: "AR": [
+%"crescimento\_pib\_lag1"
+%],
+%
+%"Macro\_reduzido": [
+%"crescimento\_pib\_lag1",
+%"taxa de desemprego\_lag1",
+%"balança corrente (\% PIB)\_lag1",
+%"dívida pública (\% PIB)\_lag1",
+%"inflacao\_lag1"
+%],
+%
+%"PIB\_inflacao": [
+%"crescimento\_pib\_lag1",
+%"inflacao\_lag1"
+%],
+%
+%"PIB\_inflacao\_desemprego": [
+%"crescimento\_pib\_lag1",
+%"inflacao\_lag1",
+%"taxa de desemprego\_lag1"
+%],
+%
+%"PIB\_governo": [
+%"crescimento\_pib\_lag1",
+%"índice de despesa governamental\_lag1",
+%"dívida pública (\% PIB)\_lag1"
+%],
+%
+%"PIB\_externo": [
+%"crescimento\_pib\_lag1",
+%"balança corrente (\% PIB)\_lag1",
+%"investimento direto estrangeiro (\% PIB)\_lag1"
+%],
+%
+%"PIB\_liberdade": [
+%"crescimento\_pib\_lag1",
+%"índice de liberdade empresarial\_lag1",
+%"índice de liberdade monetária\_lag1",
+%"índice de liberdade comercial\_lag1",
+%"índice de direitos de propriedade\_lag1"
+%],
+%
+%"Completo": feature\_lags\_rf.copy()
+%v}
 
 
+Dentre essas o modelo que obteve o melhor resultado foi o PIB\_externo, o que não chega a ser uma surpresa, tendo em vista que em outros modelos também apontaram para essa qualidade do setor externo como preditor do PIB. Esse modelo em questão tem 500 árvores \footnote{todos os modelos testados tem esse número de árvores}, 3 variáveis, uma profundidade máxima de 2 e um número mínimo de observações iguais a 3. Esse modelo obteve um RMSE 2.849158 e um MAE de 2.187947 na validação nos anos de treinamento.
 
+
+Na validação fora do treinamento temos os seguintes erros 
+
+
+\begin{tabular}{rrrrrr}\toprule ano & crescimento\_real & crescimento\_previsto & erro & erro\_abs & erro\_quadrado \\ \midrule 2023 & 3.240708 & 1.756774 & 1.483934 & 1.483934 & 2.202061 \\2024 & 3.419152 & 3.276736 & 0.142416 & 0.142416 & 0.020282 \\2025 & 2.286924 & 1.094337 & 1.192587 & 1.192587 & 1.422265 \\ \bottomrule \end{tabular}
+
+Notemos como o modelo subestima o crescimento em todos os anos, porém possui um erro relativamente baixo. Notemos na imagem \ref{fig:crescimento_pib_rf} a subestimação nos anos de 2023 e 2025, e um resultado próximo no ano de 2024. Também podemos notar a previsão em nível na figura \ref{fig:previsao_pib_rf_nivel}.
+	
+	
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Previsão do crescimento do PIB utilizando o Random Forest (PIB\_externo)}
+	\label{fig:crescimento_pib_rf}
+	\includegraphics[width=1.0\textwidth]{images/crescimento_pib_rf.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Previsão do PIB em nível utilizando o Random Forest (PIB\_externo)}
+	\label{fig:previsao_pib_rf_nivel}
+	\includegraphics[width=1.0\textwidth]{images/previsao_pib_rf_nivel.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+
+Contudo existe uma qualidade do Random Forest que permite avaliar o quanto as variáveis são importantes para as árvores, isso permite uma transparência que não existe nas redes neurais por exemplo. Na figura \ref{fig:importantica_rf_ext} notamos essa possibilidade. Na figura é possível observar que pra esse modelo, com esse conjunto de variáveis o componente de Investimento Direto Estrangeiro tem uma importância relativa maior que a balança corrente, que por sua vez tem uma importância maior do que o componente autorregressivo.
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Importância relativa das variáveis no Random Forest (PIB\_externo)}
+	\label{fig:importantica_rf_ext}
+	\includegraphics[width=1.0\textwidth]{images/importantica_rf_ext.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+Porém, apesar do modelo apresentado ter os menores erros na validação de treino, o Random Forest é um modelo de IA, e um dos pontos fortes desse modelo é justamente lidar com grandes volumes de variáveis, para isso, vamos testar o melhor modelo com todas as variáveis. Esse modelo completo em questão possui 15 variáveis, uma profundidade máxima de 3 e um número mínimo de observações iguais a 3. O RMSE na validação do treino é de 2.974837 e é ligeiramente maior do que o do PIB externo, assim como o MAE de 2.230485. Na figura \ref{fig:ajuste_rf_treinamento} notamos como o modelo se ajustou as observações no período de treinamento.
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Ajuste durante o treinamento do Random Forest (completo)}
+	\label{fig:ajuste_rf_treinamento}
+	\includegraphics[width=1.0\textwidth]{images/ajuste_rf_treinamento.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+
+\begin{tabular}{rrrrrr}\toprule ano & crescimento\_real & crescimento\_previsto & erro & erro\_abs & erro\_quadrado \\ \midrule 2023 & 3.240708 & 2.170664 & 1.070044 & 1.070044 & 1.144994 \\ 2024 & 3.419152 & 2.624301 & 0.794851 & 0.794851 & 0.631788 \\2025 & 2.286924 & 1.254914 & 1.032010 & 1.032010 & 1.065044 \\ \bottomrule \end{tabular}
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Previsão de crescimento do PIB no Random Forest (completo)}
+	\label{fig:previsao_crescimento_rf_todas}
+	\includegraphics[width=1.0\textwidth]{images/previsao_crescimento_rf_todas.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+
+Notemos tanto na tabela, como na figura \ref{fig:previsao_crescimento_rf_todas}, que esse modelo apesar de ter um erro maior na validação durante o treino, obteve um erro menor na validação fora do período de treinamento. Além disso notemos que a previsão apesar de também subestimar o crescimento do PIB parece captar o comportamento do PIB, mesmo que erre em cerca de um ponto percentual em cada ano. A visualização do PIB em nível na figura \ref{fig:previsao_nivel_rf_todas} é formidável.
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Previsão do PIB em nível utilizando o Random Forest (completo)}
+	\label{fig:previsao_nivel_rf_todas}
+	\includegraphics[width=1.0\textwidth]{images/previsao_nivel_rf_todas.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+
+Contudo vale ressaltar que o desempenho do modelo é condicionado as variáveis, o Random forest conseguiu erros pequenos, e uma capacidade de modelar o comportamento da variável alvo com um certo grau de precisão que outros modelos não tiveram resultados tão relevntes, porém é necessário cautela, e testes em outros conjuntos para avaliar a eficácia desse tipo de modelo em outros conjuntos de dados.
+
+Porém, como relatado anteriormente, uma das qualidades do Random forest é a avaliação da importância das variáveis 
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Importância relativa das variáveis no Random Forest (completo)}
+	\label{fig:importancia_rf_completo}
+	\includegraphics[width=1.0\textwidth]{images/importancia_rf_completo.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+A partir dessa perspectiva fornecida pelas análises das árvores do Random Forest. Podemos classificar as variáveis em nívei de importância, temos um conjunto de 4 variáveis: Investimento Direto Estrangeiro (\% PIB), Balança corrente (\% PIB), Índice de Liberdade Monetária e o fator autorregressivo são as mais importantes para esse modelo. As duas ligadas ao setor externo tendo um peso maior, seguidas por um indicador de liberdade monetária e por último, dentre essas com um maior grau de importância, o próprio crescimento do PIB dos anos anteriores.
+
+Além dessas variáveis, temos também um conjunto de variáveis que possuem uma importância relativa menor que 5\%. E duas variáveis Índice de Direitos de Propriedade e o Índice de Liberdade de Investimento que tiveram um importância relativa praticamente nula nesse modelo.
+
+Contudo é importante relembrar que o estudo econométrico não estabelece uma relação causal determinística, não se pode afirmar que esse conjunto de 3 variáveis no topo, são os melhores preditores do PIB, em todos os contextos, e todas as épocas, o que se pode afirmar é quem para nosso conjunto de dados, essas variáveis foram a que tiveram maior importância na estimação do PIB utilizando o Random Forest.
+
+Para buscarmos um sentido econômico nesses resultados podemos trazer a ideia novamente da importância relativa do mercado externo na economia brasileira. Como o setor exportador tem um papel na composição do PIB brasileiro.
+
+Já para o índice de liberdade monetária\footnote{Esse índice calculado pela \textit{The Heritage Foundation} trata-se de um índice que estipula o quanto atividades governamentais distorcem os preços, ele é calculado com base em uma taxa média ponderada de inflação dos últimos três anos e um fator qualitativo sobre como o governo intervem na moeda através de controles diretos e subsídios \citem{heritage2026about}. É fato que um destrinchamento de cada um dos indicadores seria um aspecto metodológico relevante sobre determinar o porquê daquele indicador ser um bom estimador do PIB, porém essa avaliação foge do escopo de nosso trabalho, se o leitor tiver curiosidade recomendamos o acesso as bases de dados, onde é detalhado o calculo e a definição de cada uma das variáveis escolhidas no \citeonline{bcb_dados_abertos}, \citeonline{ibge_api}, \citeonline{heritage2026about} e \citeonline{worldbankdata}.} aponta para um fator de influência da moeda, ou melhor, sobre o papel do governo nas ações sobre  moeda, que acabam afetando esse indicador. O modelo Random forest capitou que essas intervenções acompanharam o comportamento do PIB.
+
+Porém dizer que uma variável influencia não é a mesma coisa que dizer que a relação dessas variáveis com o PIB é positiva, na realidade o que essa informação nos trás é que elas são boas estimadoras, mas não informa para que direção. Nesse sentido podemos aplicar o teste \ac{pdp} que nos informa justamente essas relações.  Notemos nas figuras \ref{fig:pdp_liberdade_monetaria}, \ref{fig:pdp_bc} e \ref{pdp_ied}, a partir dessas figuras fica evidente como a balança comercial e a liberdade monetária tem uma relação positiva com o crescimento do PIB, já o contrário acontece com o Investimento Estrangeiro Direto que tem uma relação oposta com o PIB. Essa relação apesar de contraintuitiva pode se justificar primeiramente pela falta de observações. Afinal independentemente da capacidade do modelo, são poucas observações para estabelecer um relação com confiança, podendo ocasionar em possíveis distorções, e esse pode ser uma caso. Outra possibilidade é que nem sempre um investimento direto é significa a construção de um ativo, pode ser somente a troca de mãos, nesse caso além de não ter impacto direto, a renda futura possivelmente sairá do Brasil. Por último o investidor estrangeiro de perfil arrojado pode optar por investir no Brasil justamente em períodos de quedas, buscando uma maior valorização de seu capital e maiores lucros, isso pode causar a percepção de relação negativa entre Investimento estrangeiro direto e o crescimento econômico.
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Dependência parcial da Liberdade Monetária}
+	\label{fig:pdp_liberdade_monetaria}
+	\includegraphics[width=1.0\textwidth]{images/pdp_liberdade_monetaria.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Dependência parcial da Balança Corrente (\% PIB)}
+	\label{fig:pdp_bc}
+	\includegraphics[width=1.0\textwidth]{images/pdp_bc.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Dependência parcial da Investimento Estrangeiro Direto (\% PIB)}
+	\label{fig:pdp_ied}
+	\includegraphics[width=1.0\textwidth]{images/pdp_ied.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+
+Dessa forma apresentamos o último dos modelos de IA, e também o último modelo econométrico avaliado nesse trabalho. A partir desse ponto no texto, deixaremos de discutir sobre uma avaliação individual de cada modelo, e partiremos para uma conclusão agregada dos resultados, os objetivos concluídos desse trabalho e perspectivas futuras desse tema.
