@@ -1,25 +1,36 @@
 \chapter{Resultados e Discussões}
 \label{chap:resultados}
 
-A análise dos resultados da nossa pesquisa não se trata de uma confirmação do melhor modelo possível para predição PIB, muito menos de todas as variáveis macroeconômicas, na realidade nosso ensaio tenta apontar se modelos atuais, com técnicas mais sofisticadas conseguem estimar tão bem, ou talvez até melhor o comportamento macroeconômico.
+A análise dos resultados da nossa pesquisa não se trata de uma confirmação do melhor modelo possível para predição PIB. Muito menos uma avaliação sobre todas as variáveis macroeconômicas. Na realidade nosso ensaio tenta focar em um ponto focal. Se os modelos atuais, com técnicas sofisticadas e capacidade de modelar relações não lineares, conseguem estimar o comportamento econômico com precisão tão boa quanto, ou superior a dos modelos ditos tradicionais.
 
 
-Desse modo, a proposta didática iniciada no início de nossa discussão permanece. Não buscamos nesses resultados aprofundar na álgebra ou na programação envolvida no desenvolvimento desse trabalho, na realidade buscamos uma interpretação econômica dos resultados apontados, compreendendo que o modelo é uma ferramenta para o economista. E acreditamos que isso não trará prejuízo para o leitor, tendo em vista que nossa revisão de literatura atinge esse papel de fonte de conhecimento técnico, que permite o aprofundamento sobre os nuances matemáticos que fundamentam as ferramentas abordadas. Esse trabalho busca muito mais apresentar um uso real desses conceitos, ou seja existe esse conhecimento técnico. Agora, como ele pode ajudar um economista a reduzir a incerteza.
+Desse modo, a proposta didática iniciada no início de nossa discussão permanece. Não buscamos nesses resultados aprofundar na álgebra ou na programação envolvida no desenvolvimento desse trabalho. Na realidade buscamos uma interpretação econômica dos resultados apontados, compreendendo que o modelo é uma ferramenta para o economista. Já que o foco é comparar os modelos, em um cenário que o economista no exercício de sua profissão o encontrará.
+
+Acreditamos que essa perspectiva não trará prejuízo ao leitor. Tendo em vista que nossa revisão de literatura atinge esse papel de fonte de conhecimento técnico, que permite o aprofundamento sobre os nuances matemáticos\footnote{Em relação ao código, atualmente com o uso de ferramentas de IA generativa, o economista que conhece o conceito, consegue aplicar o conhecimento em forma de código sem muita resistência, inclusive os testes e aplicações dos modelos em Python foram construídos com auxílio de ferramentas generativas de código, mais especificamente o Gemini e o ChatGPT, com suas ferramentas agênticas, a do Gemini aplicada  diretamente no Google Colab e a do ChatGPT por meio do Codex.} que fundamentam as ferramentas abordadas. 
+
+Esse trabalho busca muito mais apresentar um uso real desses conceitos. Ou seja existe esse conhecimento no mundo das ideias, agora queremos trazê-lo para fora da caverna. Vamos iniciar a avaliação desses resultados, e entender como esse conhecimento pode ajudar um economista a reduzir o risco.
 
 
 \section{ARIMA}
 
-Para começarmos falaremos do modelo de comparação, conforme apontado em nossa revisão, esse modelo é do tipo autorregressivo univariado, ou seja usa a própria série histórica da variável para determinar qual será o seu possível valor futuro. É um modelo simples, tem um objetivo enxuto, estimar uma variável. Os prós de modelos dessa natureza é justamente sua simplicidade, pois além dos custos computacional serem reduzidos, esse tipo de modelo tem um custo de coleta de variáveis menor, a final apenas uma série é necessária, e está série é justamente o alvo.
+Para começarmos falaremos do modelo base de comparação. Conforme apontado em nossa revisão, o ARIMA é um modelo do tipo autorregressivo univariado, ou seja, usa a própria série histórica da variável para determinar qual será o seu possível valor futuro. É um modelo relativamente simples\footnote{Comparado aos outros modelos que serão nossos alvos de comparação}, tem um objetivo enxuto, estimar uma única variável. 
 
-Contudo a implementação de um modelo, por mais simples que seja, exige fundamentação, não é somente colocar a série e esperar o resultado de erro 0. O primeiro procedimento fundamental é a verificação de estacionariedade, pois entende-se que séries temporais tem uma tendencia natural relacionado ao tempo, quando falamos de modelos multivariados, usamos séries estacionárias, para eliminar o tempo, e impedir erros do tipo I da estatística de correlação entre variáveis que na realidade se relacionam com o tempo. Mas no caso de modelos univariados?
+Os prós de modelos dessa natureza é justamente sua simplicidade. Pois além dos custos computacionais serem reduzidos. Esse tipo de modelo tem um custo de coleta de variáveis menor, afinal é apenas uma série, e está é justamente o alvo. A série é o PIB anual de 2002 à 2022, como teste e os anos de 2023 a 2025 como validação. Como apontado na metodologia a série é deflacionada com o ano de 2023 de base. Nos anos de 2024 e 2025 foram reconstruídos a partir da série trimestral do PIB e deflacionada usando uma metodologia de índices inspirada no deflator do PIB do IBGE.
 
-Ai que entra o ARIMA, o I de \textit{Integrated} (integrado) é  justamente a ideia de usar a diferenciação dos dados, para obter séries estacionárias, ou seja o ARIMA incorpora a diferença em sua estrutura, isso se deve justamente ao parâmetro d de uma ARIMA(p, d, q). Com d sendo o nível da diferença\footnote{p e q retomaremos a diante, mas relembrando, p refere-se a parte autoregressiva (AR) e q a parte referente a média-móvel(MA)}.
+Contudo a implementação de um modelo, por mais simples que ele possa ser, exige fundamentação. Não é somente colocar a série e esperar o resultado de erro mínimo. O primeiro procedimento fundamental é a verificação de estacionariedade\footnote{Esse teste é recorrente em análise de séries temporais}. A justificativa para esse teste é lógica, entende-se que séries temporais tem uma tendencia natural relacionado ao tempo, ou seja, o próprio tempo é um componente do modelo. 
 
-É de se imaginar que o PIB seja uma série não estacionária, afinal ela tem uma forte relação com o tempo, porém achismos não são científicos, para isso devemos testar a série. Para isso utilizaremos a o Teste de Dickey-Fuller aumentado (\ac{adf}). O teste ADF aplicado na série do PIB para as 22 observações a um nível de confiança de 5\%. E nesse caso a estatística ADF foi de -1.3615. E para um nível de confiança de 5\%: -3.0054, não há evidência estatística para rejeitar a raiz unitária. Desse modo precisamos diferenciar a série, e testaremos novamente.
+Quando falamos de modelos multivariados, usamos séries estacionárias, para eliminar o tempo, e impedir erros do tipo I da estatística de correlação entre variáveis que na realidade se relacionam com o tempo. Mas no caso de modelos univariados, por que isso é importante?
 
-Com a série do PIB diferenciada obtivemos que ADF = -3.3254, e com valor cítico de 5\%: -3.0131, ou seja rejeita-se a hipótese de raiz unitária, levando a crer que a série na primeira diferença é estacionária. Essa evidência é suficientemente forte para usarmos o parâmetro d = 1, ou seja, primeira diferença.
+Ai que entra o ARIMA, o I de \textit{Integrated} (integrado) é  justamente a ideia de usar a diferenciação dos dados, para obter séries estacionárias, ou seja o ARIMA incorpora a diferença em sua estrutura. Isso se deve justamente ao parâmetro $d$ de uma ARIMA($p$, $d$, $q$). Com d sendo o nível da diferença\footnote{$p$ e $q$ retomaremos a diante, mas relembrando, $p$ refere-se a parte autoregressiva (AR) e $q$ a parte referente a média-móvel(MA)}.
 
-Porém, tendo o d, ainda falta estimar os parâmetros p e q, esses valores podem ser entendidos como o fator autoregressivo, e o fator da média móvel. Para isso utilizaremos o Fator de autocorrelação (\ac{fac}) e o Fator de Autocorrelação Parcial (\ac{facp}) para identificar os cortes nos lags e tentar identificar os parâmetros faltantes do ARIMA.
+É de se imaginar que o PIB seja uma série não estacionária, afinal ela tem uma forte relação com o tempo. Todavia achismos não são científicos, para comprovar devemos testar a série. Para isso utilizaremos o Teste de Dickey-Fuller aumentado (\ac{adf}). O teste ADF aplicado na série do PIB para as 22 observações a um nível de confiança de 5\%. 
+
+
+Nesse caso a estatística ADF foi de $-1.3615$. E para um nível de confiança de $5\%$: $-3.0054$, não há evidência estatística para rejeitar a raiz unitária. Desse modo precisamos diferenciar a série, e testaremos novamente.
+
+Com a série do PIB diferenciada obtivemos que ADF $= -3.3254$, e com valor cítico de $5\%: -3.0131$, ou seja rejeita-se a hipótese de raiz unitária, levando a crer que a série na primeira diferença é estacionária. Essa evidência é suficientemente forte para usarmos o parâmetro $d = 1$, ou seja, primeira diferença\footnote{Ao invés de usarmos a diferença, poderíamos utilizar a variação do PIB em forma de crescimento, contudo como o ARIMA tem justamente essa ideia de acoplar a possibilidade de tratar séries não estacionárias, deixaremos o PIB em volume.}.
+
+Porém, tendo o $d$, ainda falta estimar os parâmetros $p$ e $q$. Esses valores podem ser entendidos como o fator autorregressivo, e o fator da média móvel. Para estimar o valor deles utilizaremos o Fator de autocorrelação (\ac{fac}) e o Fator de Autocorrelação Parcial (\ac{facp}) para identificar os cortes nos lags e tentar identificar os parâmetros faltantes do ARIMA.
 
 
 \begin{figure}[h]
@@ -34,10 +45,100 @@ Porém, tendo o d, ainda falta estimar os parâmetros p e q, esses valores podem
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-Porém na imagem, parece não haver uma quebra significativa, na realidade ambos os teste se assemelham a um ruído branco. O mesmo comportamento pode ser verificado na tabela \ref{}. Porém apesar dos teste \ac{fac} e \ac{facp} serem úteis para estimação eles não são determinantes dos parâmetros. Para além disso o ARIMA apresenta sua vantagem de ser uma modelo leve, podemos testar várias combinações de ARIMA, com valores variados de p e q, e verificar o que se sai melhor.
+A palavra "tentar" foi cuidadosamente escolhida, pis nem sempre tentar é conseguir e esse é um ponto que o economista se deparará. Como na imagem, em que parece não haver uma quebra significativa, na realidade ambos os teste se assemelham a um ruído branco. O mesmo comportamento pode ser verificado na tabela \ref{tab:FAC_FACP_ARIMA}.
 
-Para encontrar o melhor modelo nesse momento utilizamos os critérios de O AIC (Critério de Informação de Akaike) e o BIC (Critério de Informação Bayesiano). E com base em ambos o modelo ARIMA(1,1,1) foi o modelo que obteve o melhor desempenho. O melhores modelos podem ser verificados na tabela \ref{}. Mas além do modelo e sair bem, uma boa prática é testar seus resíduos, utilizaremos para isso os testes Ljung-Box para verificar autocorrelação dos resíduos, e Jarque-Bera para verificar normalidade dos resíduos.
+Todavia, apesar dos teste \ac{fac} e \ac{facp} serem úteis para estimação, eles não são determinantes dos parâmetros $p$ e $q$. Para além disso o ARIMA apresenta sua vantagem de ser uma modelo leve, podemos testar várias combinações de ARIMA, com valores variados de $p$ e $q$, e verificar o que se sai melhor\footnote{Apesar de falarmos isso sobre os modelos leves, essa metodologia de repetição e teste de força bruta, se repetiu até em modelos mais pesados, porém o teste desses parâmetros no ARIMA levou 323ms na máquina de testes}.
 
+\begin{table}[htbp]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Valores da Função de Autocorrelação (FAC) e Autocorrelação Parcial (FACP)}
+	\label{tab:FAC_FACP_ARIMA}
+	\begin{tabular}{rrr}
+		\toprule
+		Lag & FAC & FACP \\
+		\midrule
+		0 & 1.0000 & 1.0000 \\
+		1 & 0.2318 & 0.2318 \\
+		2 & 0.0490 & -0.0050 \\
+		3 & 0.1739 & 0.1730 \\
+		4 & 0.1388 & 0.0656 \\
+		5 & -0.1258 & -0.1885 \\
+		6 & -0.1138 & -0.0796 \\
+		7 & -0.1767 & -0.1899 \\
+		\bottomrule
+	\end{tabular}
+	\vspace{0.1cm} % Pequeno espaçamento opcional
+	
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{table}
+
+
+Para encontrar o melhor modelo nesse momento utilizamos os critérios de o AIC (Critério de Informação de Akaike) e o BIC (Critério de Informação Bayesiano). E com base em ambos o modelo ARIMA(1,1,1) foi o modelo que obteve o melhor desempenho. Os melhores modelos podem ser verificados na tabela \ref{tab:melhores_arima}. 
+
+\begin{table}[htbp]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Melhores modelos ARIMA nos critérios AIC e BIC}
+	\label{tab:melhores_arima}
+	\begin{tabular}{rrrlrr}
+		\toprule
+		p & d & q & Modelo & AIC & BIC \\
+		\midrule
+		1 & 1 & 1 & ARIMA(1,1,1) & 477.622452 & 480.609649 \\
+		1 & 1 & 2 & ARIMA(1,1,2) & 477.765507 & 481.748436 \\
+		2 & 1 & 1 & ARIMA(2,1,1) & 478.245759 & 482.228688 \\
+		2 & 1 & 2 & ARIMA(2,1,2) & 478.883565 & 483.862226 \\
+		0 & 1 & 0 & ARIMA(0,1,0) & 481.837388 & 482.833120 \\
+		2 & 1 & 0 & ARIMA(2,1,0) & 483.320427 & 486.307623 \\
+		0 & 1 & 1 & ARIMA(0,1,1) & 483.427673 & 485.419138 \\
+		1 & 1 & 0 & ARIMA(1,1,0) & 483.690754 & 485.682219 \\
+		0 & 1 & 2 & ARIMA(0,1,2) & 484.203456 & 487.190653 \\
+		\bottomrule
+	\end{tabular}
+	
+	\vspace{0.1cm}
+	
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{table}
+
+
+Mas além do modelo se sair bem, uma boa prática é testar seus resíduos, utilizaremos para isso os testes Ljung-Box para verificar autocorrelação dos resíduos, e Jarque-Bera para constatar normalidade dos resíduos. Essas informações são evidenciadas na tabela \ref{tab:diagnostico_residuos}.
+
+
+\begin{table}[htbp]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Diagnóstico dos resíduos do modelo: testes de Ljung-Box e Jarque-Bera}
+	\label{tab:diagnostico_residuos}
+	\begin{tabular}{rrr}
+		\toprule
+		\multicolumn{3}{c}{\textbf{Teste de Ljung-Box}} \\
+		\midrule
+		\textbf{Lag} & \textbf{Estatística ($Q$)} & \textbf{p-valor} \\
+		\midrule
+		1 & 0,0311 & 0,8600 \\
+		2 & 0,0334 & 0,9834 \\
+		3 & 0,0371 & 0,9981 \\
+		4 & 0,0372 & 0,9998 \\
+		5 & 0,0467 & 1,0000 \\
+		\midrule
+		\multicolumn{3}{c}{\textbf{Teste de Jarque-Bera (Normalidade)}} \\
+		\midrule
+		\multicolumn{2}{l}{Estatística JB} & 252,6057 \\
+		\multicolumn{2}{l}{p-valor} & $<$ 0,0001 \\
+		\multicolumn{2}{l}{Assimetria} & 4,0389 \\
+		\multicolumn{2}{l}{Curtose} & 17,9479 \\
+		\bottomrule
+	\end{tabular}
+	
+	\vspace{0.1cm}
+	
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{table}
 
 % Montar a tabela depois, estou com deveras preguiça nesse momento
 %Ljung-Box:
@@ -54,40 +155,88 @@ Para encontrar o melhor modelo nesse momento utilizamos os critérios de O AIC (
 %Assimetria:  4.2367
 %Curtose:     19.7149
 
-A partir dos resultados de Ljung-Box, não há evidências estatísticas de autocorrelação nos resíduos até o lag 5. E Pelo estatística Jarque-Bera não há evidências estatísticas suficientes para rejeitar a hipótese de normalidade dos resíduos ao nível de 5\%. Ou seja o modelo ARIMA(1,1,1) parece ser um ótimo candidato. Na tabela \ref{} podemos ver o resumo do modelo.
-
-% Vou resolver tenha paciência
-%                               SARIMAX Results                                
-%==============================================================================
-%Dep. Variable:               PIB Real   No. Observations:                   23
-%Model:                 ARIMA(1, 1, 1)   Log Likelihood                -259.175
-%Date:                Thu, 01 Oct 2026   AIC                            524.351
-%Time:                        00:00:36   BIC                            527.624
-%Sample:                             0   HQIC                           525.122
-%- 23                                         
-%Covariance Type:                  opg                                         
-%==============================================================================
-%coef    std err          z      P>|z|      [0.025      0.975]
-%------------------------------------------------------------------------------
-%ar.L1          0.9541      0.060     15.840      0.000       0.836       1.072
-%ma.L1         -0.9210      0.086    -10.720      0.000      -1.089      -0.753
-%sigma2      1.197e+09   8.11e-12   1.47e+20      0.000     1.2e+09     1.2e+09
-%===================================================================================
-%Ljung-Box (L1) (Q):                   0.88   Jarque-Bera (JB):                 1.52
-%Prob(Q):                              0.35   Prob(JB):                         0.47
-%Heteroskedasticity (H):               2.31   Skew:                            -0.62
-%Prob(H) (two-sided):                  0.29   Kurtosis:                         2.66
-%===================================================================================
+A partir dos resultados de Ljung-Box, não há evidências estatísticas de autocorrelação nos resíduos até o lag $5$. E pela estatística Jarque-Bera, não há evidências estatísticas suficientes, para rejeitar a hipótese de normalidade dos resíduos ao nível de $5\%$. Ou seja o modelo ARIMA(1,1,1) parece ser um ótimo candidato. Nas tabelas \ref{tab:configuracoes_arima}, \ref{tab:componentes_ar_ma} e \ref{tab:residuos_arima} podemos ver respectivamente o resumo do modelo, os valores dos fatores de média móvel e autorregressivo, e por último, a análise dos resíduos.
 
 
-Porém esse modelo ainda tem alguns problemas. O modelo tem apenas 23 observações, isso reduz a confiabilidade do modelo, porém isso é uma realidade econômica e das agências de coleta de dados que não tem séries contínuas em décadas\footnote{teremos um problema muito grande com isso em uma série específica, mas trataremos disso posteriormente}. 
-O AR calculado é muito próximo de 1, isso implica que o fator autoregressivo é muito persistente, em uma série como o PIB isso significa um choque ocorrido hoje tende a continuar influenciando a série por vários períodos. Mas por outro lado o MA quase anula o AR, ou seja, o fator MA ser -0.9210, está praticamente anulando o AR: 0.9541, os choques tem um efeito contrário muito forte. Esse cancelamento de fatores leva uma matriz de covariância quase singular, indicando uma forte relação dos dois fatores.
+% Tabela 1
+\begin{table}[htbp]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Resumo do modelo ARIMA(1, 1, 1)}
+	\label{tab:configuracoes_arima}
+	\begin{tabular}{llll}
+		\toprule
+		Dep. Variable: & PIB Real &   No. Observations:   & 21 \\
+		\midrule
+		Model: & ARIMA(1, 1, 1) &   Log Likelihood      & -235.811 \\
+		Date: & Wed, 11 Nov 2026 &   AIC                 & 477.622 \\
+		Time: & 21:23:14 &   BIC                 & 480.610 \\
+		Sample: & 0 &   HQIC                & 478.206 \\
+		&  - 21 &                       &   \\
+		Covariance Type: & opg &                       &   \\
+		\bottomrule
+	\end{tabular}
+	
+	\vspace{0.1cm}
+	
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{table}
 
-Esses problemas são reais, mas falam mais da natureza da série do que propriamente de uma falha do ARIMA, estamos falando de uma série anual do PIB que é tem uma frequência baixa naturalmente, e ainda optamos por trunca-la para ter uma parcimônia entre modelos no sentido tamanho da série. E mesmo assim encontramos um modelo relativamente bom, inclusive capturando um comportamento típico do PIB brasileiro. 
+% Tabela 2
+\begin{table}[htbp]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Componentes do modelo ARIMA(1, 1, 1)}
+	\label{tab:componentes_ar_ma}
+	\begin{tabular}{lllllll}
+		\toprule
+		& coef & std err & z & P>|z| & [0.025 & 0.975] \\
+		\midrule
+		ar.L1 &     0.9285 &     0.081 &    11.493 &  0.000 &     0.770 &     1.087 \\
+		ma.L1 &    -0.8896 &     0.108 &    -8.203 &  0.000 &    -1.102 &    -0.677 \\
+		sigma2 &  1.307e+09 &  8.72e-12 &   1.5e+20 &  0.000 &  1.31e+09 &  1.31e+09 \\
+		\bottomrule
+	\end{tabular}
+	
+	\vspace{0.1cm}
+	
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{table}
 
-Tendo como uma conclusão que uma forte tendência de manter o comportamento das séries anteriores apontado pelo AR, isso é explicado pelas tendências de crescimento e queda que existiram durante o período analisado, mas para além disso o MA tem um força puxando para equalizar, ou seja a tendência inercial é anulada por fator de média móvel. Veremos na série temporal isso mais de perto.
+% Tabela 3
+\begin{table}[htbp]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Análise dos resíduos do modelo ARIMA(1, 1, 1)}
+	\label{tab:residuos_arima}
+	\begin{tabular}{llll}
+		\toprule
+		Ljung-Box (L1) (Q): & 0.23 &   Jarque-Bera (JB):   & 0.75 \\
+		\midrule
+		Prob(Q): & 0.63 &   Prob(JB):           & 0.69 \\
+		Heteroskedasticity (H): & 2.65 &   Skew:               & -0.40 \\
+		Prob(H) (two-sided): & 0.22 &   Kurtosis:           & 2.49 \\
+		\bottomrule
+	\end{tabular}
+	
+	\vspace{0.1cm}
+	
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{table}
 
-Mas antes precisamos ver realmente essa série, falamos do modelo de sua aplicação, mas ainda não apresentamos a série, porém agora podemos olhar a série não simplesmente como um gráfico de linha do PIB, mas sim como uma economia real e a interpretação econométrica sobre essa série.
+
+Porém esse modelo ainda tem alguns problemas. Primeiramente realizamos esses testes com apenas 23 observações, isso reduz a confiabilidade do modelo. Porém isso é uma realidade econômica enfrentada pelos economistas. As agências de coleta de dados não tem séries contínuas em décadas\footnote{teremos um problema muito grande com isso em uma série específica, mas trataremos disso posteriormente} para ser possível ter uma modelo com uma margem considerável de observações nessa configuração de frequência.
+
+Outro problema é o AR calculado, que é muito próximo de 1, isso implica que o fator autoregressivo é muito persistente. Em uma série como o PIB isso significa um choque ocorrido hoje tende a continuar influenciando a série por vários períodos. Mas por outro lado o MA quase anula o AR, ou seja, o fator MA ser $-0.9210$, está praticamente anulando o AR:$ 0.9541$, os choques tem um efeito contrário muito forte. Esse cancelamento de fatores leva uma matriz de covariância quase singular, indicando uma forte relação dos dois fatores.
+
+Esses problemas são reais, mas falam mais da natureza da série do que propriamente de uma falha do ARIMA, estamos falando de uma série anual do PIB que é tem uma frequência baixa naturalmente. E ainda optamos por trunca-la, pois haviam observações anteriores à 2002 do PIB anual. Porém para haver uma parcimônia entre modelos, no sentido tamanho da série, optamos por cortar esses anos. E mesmo assim encontramos um modelo relativamente bom, inclusive capturando um comportamento típico do PIB brasileiro. 
+
+A conclusão que pode ser obtida do ARIMA é: A série do PIB brasileiro tem uma forte tendência de manter o comportamento das séries anteriores apontado pelo AR, isso é explicado pelas tendências de crescimento e queda que existiram durante o período analisado, mas para além disso o MA tem um força puxando para equalizar, ou seja a tendência inercial é anulada por fator de média móvel. Veremos na série temporal isso mais de perto.
+
+Com toda a análise do ARIMA, ainda não conhecemos a série, falamos do modelo, de sua aplicação mas não do seu foco. Entretanto agora podemos olhar a série na figura \ref{pib_volume_deflacionado}, não somente como um gráfico de linha do PIB, mas sim como uma economia real e a interpretação econométrica sobre essa série\footnote{A unidade do PIB nesse gráfico é em milhões de reais}.
 
 \begin{figure}[h]
 	\centering
@@ -101,7 +250,7 @@ Mas antes precisamos ver realmente essa série, falamos do modelo de sua aplica�
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-Podemos ver como a série tem uma forte influência temporal. Para entender melhor o comportamento do modelo vamos visualizar a série com a primeira diferença. Notem como o comportamento do PIB, possui tendências de crescimento e de queda mas que são de certa forma segurados pela média móvel.
+Podemos ver como a série tem uma forte influência temporal. Para entender melhor o comportamento do modelo e do PIB vamos visualizar a série com a primeira diferença, que é como o ARIMA a utiliza, na figura \ref{fig:pib_primeira_diferenca}. Notem como o comportamento do PIB, possui tendências de crescimento e de queda mas que são de certa forma segurados pela média móvel.
 
 \begin{figure}[h]
 	\centering
@@ -112,29 +261,34 @@ Podemos ver como a série tem uma forte influência temporal. Para entender melh
 	
 	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
 	\centering
-	\small Fonte: Elaborado pelo autor (2026).
+	\small Fonte: Dados do \citeonline{ibge_api} elaborado pelo autor (2026).
 \end{figure}
 
 
-A interpretação econômica do ARIMA capta diretamente uma economia instável como a brasileira, as impactos do mercado externo como o \textit{boom} das commodities no início dos anos 2000, e o impacto da crise de 2008 nos anos futuros, além das crises políticas que aconteceram a partir de 2014 até 2017, e também a crise sanitárias da COVID-19 em 2020-2021. Notemos que por se tratar de uma economia emergente, esses comportamentos tem uma influência explicita sobre o PIB.
+A interpretação econômica do ARIMA capta diretamente uma economia instável como a brasileira. Os impactos do mercado externo como o \textit{boom} das commodities no início dos anos 2000, e o impacto da crise de 2008 nos anos futuros, além das crises políticas que aconteceram a partir de 2014 até 2017, e também a crise sanitárias da COVID-19 em 2020-2021. Notemos que por se tratar de uma economia emergente\footnote{Mais volátil a crises e ao cenário externo}, esses eventos tem uma influência explicita sobre o PIB.
 
 Essa análise, em grande medida, apesar de necessitar de uma base econômica, histórica e política, aponta como o modelo consegue captar o comportamento da variável. E a conclusão é que mesmo não tendo um volume comparável ao \textit{big data}, um modelo com apenas uma variável ainda pode apontar para tendências e comportamentos de uma economia real.
 
-Por último, mas não reduzindo sua importância, podemos ver a extrapolação do PIB utilizando o ARIMA, em laranja temos os anos do PIB utilizados durante o treinamento, em vermelho a reta de tendência dos anos extrapolados que pode ser verificado na tabela \ref{}, notemos que o erro calculado entre o valor do ano de 2025 e o PIB previsto pelo modelo é de .
-
-2025    1.355475e+06
-2026    1.368562e+06
-2027    1.381048e+06
-
-
-Por estarmos tratando de PIB em volume o erro de previsão pode parecer relativamente alto, porém é possível observar a partir da figura como o ARIMA consegue captar bem o comportamento do PIB, inclusive com uma extrapolação para fora dos dados de treinamento aceitável. Com esse resultado confirmamos a hipótese levantada em nossa revisão de literatura, de usar o modelo ARIMA como um \textit{benchmark} para outros modelos, tendo em vista sua simplicidade e capacidade preditiva formidável.
+Por último, mas não reduzindo sua importância, podemos ver a extrapolação do PIB utilizando o ARIMA. Nessa previsão optamos por utilizar a chamada previsão um passo a frente, nela o modelo é usado para prever um único valor imediatamente. No método que utilizamos, após prever o ano de 2023, o valor real medido é introduzido na série e é realizado a previsão, do ano de 2024 e assim por diante\footnote{Esse método só foi escolhido pois iremos fazer algo parecido com modelos futuros, e estamos buscando parcimônia entre modelos}. Além disso apesar de no modelo internamente utilizar a primeira diferença conforme visto na figura \ref{fig:pib_primeira_diferenca}, para a visualização externa e interpretação econômica utilizaremos o crescimento percentual do PIB, isso inclusive permitirá a comparação direta entre os modelos.
 
 \begin{figure}[h]
 	\centering
 	\captionsetup{justification=centering}
-	\caption{Previsão do PIB em volume utilizando o ARIMA}
-	\label{fig:previsao_arima}
-	\includegraphics[width=1.0\textwidth]{images/previsao_arima.png}
+	\caption{Previsão de crescimento percentual do PIB ARIMA(1, 1, 1)}
+	\label{fig:previsao_arima_crescimento}
+	\includegraphics[width=1.0\textwidth]{images/previsao_arima_crescimento.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Previsão do PIB em nível utilizando ARIMA(1, 1, 1)}
+	\label{fig:previsao_arima_nivel}
+	\includegraphics[width=1.0\textwidth]{images/previsao_arima_nivel.png}
 	
 	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
 	\centering
@@ -142,9 +296,42 @@ Por estarmos tratando de PIB em volume o erro de previsão pode parecer relativa
 \end{figure}
 
 
+Na figura \ref{fig:previsao_arima_crescimento} vemos justamente a previsão um passo a frente do ARIMA estimando para baixo, e o valor efetivamente medido pelo IBGE. Notamos que o ARIMA subestima o crescimento do PIB nos 3 anos, e tem uma estimativa praticamente igual para os 3 anos. Já na figura \ref{fig:previsao_arima_nivel} notamos a estimativa do PIB em nível, a estimativa em nível, apesar de não ser tão reveladora, ela fornece uma forma visual de compreender o acerto do modelo.
+
+Uma métrica importante que podemos analisar são os erros do modelo, na figura \ref{fig:erro_arima}. Esses erros são relativamente altos, porém fica evidente como, mesmo um modelo "simples", com acesso limitado a informações por ser univariado, ainda assim consegue ter uma qualidade, e estimar mesmo que subestimando o comportamento do PIB brasileiro.
+
+O erro de previsão ficou com as métricas finais de MAE:  2.2296 e RMSE: 2.2876. A tabela de erro por ano previsto pode ser verificada em \ref{tab:resultados_arima}. Notemos uma previsão subestimada, e um erro percentual alto. 
+
+
+\begin{table}[htbp]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Previsão e erro fora do treinamento para o ARIMA (1, 1, 1)}
+	\label{tab:resultados_arima}
+	\begin{tabular}{rrrrr}
+		\toprule
+		ano & crescimento\_real & crescimento\_previsto & erro & erro\_abs \\
+		\midrule
+		2023 & 3.240708 & 0.730640 & 2.510068 & 2.510068 \\
+		2024 & 3.419152 & 0.751827 & 2.667325 & 2.667325 \\
+		2025 & 2.286924 & 0.775439 & 1.511485 & 1.511485 \\
+		\bottomrule
+	\end{tabular}
+	
+	\vspace{0.1cm}
+	
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{table}
+
+Contudo, esse resultado confirma a hipótese levantada em nossa revisão de literatura. Usar o modelo ARIMA como um \textit{benchmark} para outros modelos, tendo em vista sua simplicidade e capacidade preditiva formidável. Um modelo mais complexo com resultado pior ou semelhante ao ARIMA não parece ser adequado a esse contexto, já modelos melhores deve-se analisar o ganho e os custos de análise.
+
+A partir dessa exposição, terminamos o primeiro modelo, o ARIMA. Muitas das etapas que foram um pouco mais detalhadas nesse  primeiro modelo, como o teste de estacionariedade, os fatores de autocorrelação serão utilizados nos próximos modelos, mas não daremos tanto detalhamento. Optaremos por detalhar mais os modelos do que propriamente os testes. Agora precisamos subir a escada dos modelos, se testamos com um, agora vamos com dois, ou mais.
+
+
 \section{VAR}
 
-O VAR diferentemente do ARIMA é multivariado, ou seja, podemos utilizar várias variáveis para a predição econômica do PIB, por isso um pensamento natural seria pegar todas as variáveis coletadas e colocá-las em um único modelo VAR, contudo devido a limitação de disponibilidade dos dados para alguma das variáveis coletadas, as observações são reduzidas, algo já constato quando analisamos os resultados do ARIMA, porém quando estamos falando do uso de diversas variáveis, os graus de liberdade são reduzidos, perdendo qualidade no resultado da estimação.
+O VAR diferentemente do ARIMA é multivariado, ou seja, dois ou mais, nele podemos utilizar várias variáveis para a predição econômica do PIB. Por isso um pensamento natural seria pegar todas as variáveis coletadas e colocá-las em um único modelo VAR, contudo devido a limitação de disponibilidade dos dados para alguma das variáveis coletadas, as observações são reduzidas, algo já constato quando analisamos os resultados do ARIMA, porém quando estamos falando do uso de diversas variáveis, os graus de liberdade são reduzidos, perdendo qualidade no resultado da estimação.
 
 Esse comportamento limitante leva-nos a escolher as "melhores" variáveis para o modelo, mas o que seriam essas melhores variáveis, primeiramente vamos verificar a nossa lista novamente, em nosso trabalho, conforme indicado na metodologia coletamos as seguintes variáveis: população (milhões),	taxa de desemprego,	IPCA,	PIB Real,	balança corrente (\% PIB),	investimento direto estrangeiro (\% PIB),	dívida pública (\% PIB),	índice de direitos de propriedade,	índice de integridade governamental,	índice de despesa governamental,	índice de carga fiscal,	índice de liberdade empresarial,	índice de liberdade monetária,	índice de liberdade comercia,l	índice de liberdade de investimento,	índice de liberdade financeira.
 
