@@ -812,14 +812,14 @@ Para resolver esse problema, ou pelo mínimo tentar, vamos nos debruçar sobre o
 
 \section{MIDAS}
 
-Para inciarmos a montagem do modelo MIDAS precisamos selecionar as variáveis, e dessa vez não podemos simplesmente pegar as mesmas variáveis do VAR, não por uma limitação do modelo, ou algo relacionado a testes (pelo mínimo ainda não), na realidade estamos falando da eficiência estrutural do modelo. O MIDAS foi pensado para estimar variáveis com frequências diferentes, mas não faz sentido utilizar uma variável de coletada a cada ano para prever um dado divulgado diariamente. Portanto temos a primeira noção do MIDAS, utilizaremos variáveis de alta frequência, para estimar uma variável de baixa frequência, como no nosso caso o PIB anual.
+Para inciarmos a montagem do modelo MIDAS precisamos selecionar as variáveis, e dessa vez não podemos simplesmente pegar as mesmas variáveis do VAR. Isso acontece não por uma limitação do modelo, ou algo relacionado aos testes (pelo mínimo ainda não), na realidade estamos falando da eficiência estrutural do modelo. O MIDAS foi construído para estimar variáveis com frequências diferentes. E não faz sentido utilizar uma variável de coleta anual para prever um dado divulgado diariamente. Portanto temos a primeira noção do MIDAS, utilizaremos variáveis de alta frequência, para estimar uma variável de baixa frequência, como no nosso caso o PIB anual.
 
-Outra noção é a questão que como nossa variável alvo tem frequência anula, não faz sentido usar variáveis com a mesma frequência do PIB, pensemos na predição, temos que esperar a da balança corrente em porcentagem do PIB ser divulgada para só depois realizarmos a predição do PIB. É uma noção contraproducente. A partir dessa duas noções e baseado na disponibilidade dos dados podemos selecionar as variáveis que utilizaremos.
+Outra noção é que por a nossa variável alvo, o PIB, ter frequência anual, não faz sentido usar variáveis com a mesma frequência do PIB. Pensemos na predição que realizamos com o VAR, teríamos que esperar a divulgação dos dados da próxima balança corrente (\%PIB) ser divulgada, para só depois realizarmos a predição do PIB. É uma noção contraproducente. A partir dessas duas noções e baseado na disponibilidade dos dados podemos selecionar as variáveis que utilizaremos.
 
 Dentre o nosso conjunto de coleta exposto na metodologia apenas 3 variáveis tem uma frequência de divulgação maior do que a do PIB, são elas:
-a taxa de desocupação que é trimestral; a dívida publica (\% PIB) mensal; e o IPCA que também é mensal. Apesar de não intencional essas variáveis possuem um sentido econômico bastante presente, para fortalecer o modelo, afinal estamos falando de uma variável macroeconômica o PIB, tentando ser predita por uma variável monetária IPCA que mede inflação, uma variável real, o desemprego, e uma variável do governo a porcentagem da divida pública, vamos ver como essas variáveis se relacionam a partir do modelo MIDAS.
+a taxa de desocupação que é trimestral; a dívida publica (\% PIB) que é mensal; e o IPCA que também é divulgado a cada mês. Apesar de não intencional essas variáveis possuem um sentido econômico bastante presente. Afinal estamos falando de uma variável macroeconômica, o PIB, tentando ser predita por uma variável monetária, o IPCA que mede inflação, uma variável real, o desemprego que trata da ocupação da população, e uma variável do governo, a porcentagem da divida pública em relação ao PIB, vamos ver como essas variáveis se relacionam a partir do modelo MIDAS.
 
-Entretanto, como exposto em nossa metodologia, uma dessas variáveis tem um problema grave em sua série, estamos falando da taxa de desemprego trimestral do IBGE, infelizmente o IBGE descontinuou a pesquisa mensal de emprego em 2016, que foi substituída pela PNAD continua (Pesquisa Nacional por Amostra de Domicílios Contínua). Não entraremos em detalhes sobre as questões relacionadas a pesquisa e as metodologias de coleta e continuidade de pesquisa pelas entidades de coleta, mas infelizmente isso causa uma quebra em nossa série no ano de 2012, afinal optamos por utilizar os dados da PNAD continua em seu primeiro ano de coleta, mesmo que pesquisa mensal de emprego continuasse até 2016, como pode ser observado na figura \ref{fig:taxa_desemprego_MIDAS}
+Entretanto, como exposto em nossa metodologia, uma dessas variáveis tem um problema grave em sua série, estamos falando da taxa de desemprego trimestral do IBGE. Infelizmente o IBGE descontinuou a pesquisa mensal de emprego em 2016, que foi substituída pela PNAD continua (Pesquisa Nacional por Amostra de Domicílios Contínua). Não entraremos em detalhes sobre as questões relacionadas a pesquisa e as metodologias de coleta e continuidade de pesquisa pelas entidades de coleta, mas infelizmente isso causa uma quebra em nossa série no ano de 2012. Afinal optamos por utilizar os dados da PNAD continua em seu primeiro ano de coleta, mesmo que pesquisa mensal de emprego continuasse até 2016, como pode ser observado na figura \ref{fig:taxa_desemprego_MIDAS}
 
 
 \begin{figure}[h]
@@ -836,9 +836,9 @@ Entretanto, como exposto em nossa metodologia, uma dessas variáveis tem um prob
 
 Essa quebra em nossa série se dá, pois até 2012 o dado se tratava da taxa de desocupação na semana de referência, das pessoas de 10 anos ou mais de idade, principais responsáveis pela família. E quando adotamos a PNAD continua o dado passou a ser Taxa de desocupação, na semana de referência, das pessoas de 14 anos ou mais de idade. A alteração se dá tanto pela faixa etária, como pela população englobada, antes eram somente os responsáveis da família, agora todas as pessoas com 14 anos ou mais.
 
-Uma solução seria truncar a série e utilizar somente 2012 para frente, porém isso reduziria os graus de liberdade do modelo, podendo ocasionar resultados com menos poder de explicação estatístico. Outra solução seria modelar com apenas o IPCA e a dívida pública. Porém decidimos, para colocar o modelo a prova, utilizar a série como está, e validar se mesmo com um erro de continuidade o modelo ainda consegue predizer o PIB.
+Uma solução seria truncar a série e utilizar somente 2012 para frente. Porém esse procedimento reduziria os graus de liberdade do modelo, podendo ocasionar resultados com menos poder de explicação estatístico. Poderíamos fazer uma aproximação para os anos anteriores a 2012, utilizando os anos onde as duas pesquisas coexistiram como uma base, porém isso poderia enviesar nossos dados. Outra solução seria modelar com apenas o IPCA e a dívida pública. Porém decidimos, dentre essas, simplesmente colocar o modelo a prova, utilizar a série como está, e validar se mesmo com um erro de continuidade o modelo ainda consegue predizer o PIB.
 
-A fim de curiosidade podemos ver as demais séries: a do PIB\footnote{Notemos como ao utilizar o gráfico do PIB com o eixo y iniciando de 0, o PIB brasileiro parece ser muito mais estável com uma tendência de crescimento mais definida do que por exemplo o mesmo gráfico do PIB na figura \ref{fig:pib_volume_deflacionado}, isso nos leva a um ponto importante, não precisamos mentir alterando os dados basta usar uma escala diferente e a percepção do leitor sobre uma mesma variável pode se alterar, deixaremos as duas formas como uma questão de reflexão, sobre como os gráficos são uma maneira excelente de se visualizar dados, porém podem causar vieses na percepção do leitor} na figura \ref{fig:pib_volume_MIDAS}; a do IPCA na figura \ref{fig:IPCA_MIDAS}; e da dívida pública (\% PIB) na figura \ref{fig:divida_publica_MIDAS}. 
+A fim de curiosidade podemos ver as demais séries: a do PIB\footnote{Notemos como ao utilizar o gráfico do PIB com o eixo y iniciando de 0, o PIB brasileiro parece ser muito mais estável com uma tendência de crescimento mais definida do que por exemplo o mesmo gráfico do PIB na figura \ref{fig:pib_volume_deflacionado}. Isso nos leva a um ponto importante, não precisamos mentir alterando os dados basta usar uma escala diferente e a percepção do leitor sobre uma mesma variável pode se alterar, deixaremos as duas formas como uma questão de reflexão, sobre como os gráficos são uma maneira excelente de se visualizar dados, porém podem causar vieses na percepção do leitor} na figura \ref{fig:pib_volume_MIDAS}; a do IPCA na figura \ref{fig:IPCA_MIDAS}; e da dívida pública (\% PIB) na figura \ref{fig:divida_publica_MIDAS}. Somente a partir da visualização das séries já é possível apontar uma possível relação com o tempo, isso pode indicar que as séries não são estacionárias\footnote{já fizemos estes testes antes, para essas variáveis, inclusive sabemos que o PIB em volume não é estacionário, mas testaremos novamente, pois dessa vez, além de serem séries com frequência maior, vamos utilizar outros testes além do ADF e PP.}
 
 \begin{figure}[h]
 	\centering
@@ -876,92 +876,154 @@ A fim de curiosidade podemos ver as demais séries: a do PIB\footnote{Notemos co
 	\small Fonte: Dados do BACEN (2026) elaborado pelo autor (2026).
 \end{figure}
 
-Somente a partir da visualização das séries já é possível apontar uma possível relação com o tempo, isso pode indicar que as séries não são estacionárias\footnote{já fizemos estes testes antes, para essas variáveis, inclusive sabemos que o PIB em volume não é estacionário, mas testaremos novamente, pois dessa vez, além de serem séries com frequência maior, vamos utilizar outros testes além do ADF e PP.}
 
-Nos testes ADF nenhuma das séries originais são estacionárias, dessa forma optamos por transformá-las, no caso do desemprego e da dívida aplicamos a primeira diferença, chamando as variáveis de delta da dívida e delta do desemprego, para o caso do IPCA e do PIB, optamos por utilizar o crescimento do PIB e a inflação, dessa forma para o teste ADF todos as séries se comportaram como estacionárias. 
 
-Entretanto também aplicamos o teste KPSS, e nesse caso o delta da dívida apresenta evidências estatísticas de não estacionariedade ao nível de significância de 5\%, enquanto as demais variáveis confirma a estacionariedade apresentada no teste ADF. Para concluir se precisamos de mais uma diferença, ou talvez descartar o delta da dívida, aplicamos o teste PP, e nesse caso obtivemos um resultado a favor da estacionariedade, como PP e ADF apontaram para uma série estacionária a um nível de 5\% de significância e KPSS apresenta também considera o delta da dívida como estacionária a 2,5\% de significância, optamos por manter a série dessa forma.
+Nos testes ADF nenhuma das séries originais são estacionárias, dessa forma optamos por transformá-las. No caso do desemprego e da dívida aplicamos a primeira diferença, chamando as variáveis de delta da dívida e delta do desemprego. Para o caso do IPCA e do PIB, optamos por utilizar o crescimento do PIB e a inflação, dessa forma para o teste ADF todos as séries se comportaram como estacionárias. 
+
+Entretanto também aplicamos o teste KPSS, e nesse caso o delta da dívida apresenta evidências estatísticas de não estacionariedade ao nível de significância de 5\%, enquanto as demais variáveis confirma a estacionariedade apresentada no teste ADF. Para concluir se precisamos de mais uma diferença, ou talvez descartar o delta da dívida, aplicamos o teste PP, e nesse caso obtivemos um resultado a favor da estacionariedade. Como PP e ADF apontaram para uma série estacionária a um nível de 5\% de significância e KPSS apresenta também considera o delta da dívida como estacionária a 2,5\% de significância, optamos por manter a série dessa forma.
 
 O próximo passo é determinar os lags do modelo, para isso utilizaremos os testes FAC e FACP, conforme as figuras a seguir:
 
 
 %PRECISO TROCAR AS IMAGENS
 
-%\begin{figure}[h]
-%	\centering
-%	\captionsetup{justification=centering}
-%	\caption{FAC e FACP para o crescimento do PIB}
-%	\label{fig:fac_facp_midas_pib}
-%	\includegraphics[width=1.0\textwidth]{images/fac_facp_midas_pib.png}
-%	
-%	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
-%	\centering
-%	\small Fonte: Elaborado pelo autor (2026).
-%\end{figure}
-%
-%\begin{figure}[h]
-%	\centering
-%	\captionsetup{justification=centering}
-%	\caption{FAC e FACP para a inflação}
-%	\label{fig:fac_facp_midas_inflacao}
-%	\includegraphics[width=1.0\textwidth]{images/fac_facp_midas_inflacao.png}
-%	
-%	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
-%	\centering
-%	\small Fonte: Elaborado pelo autor (2026).
-%\end{figure}
-%
-%\begin{figure}[h]
-%	\centering
-%	\captionsetup{justification=centering}
-%	\caption{FAC e FACP para o delta da dívida}
-%	\label{fig:fac_facp_midas_divida}
-%	\includegraphics[width=1.0\textwidth]{images/fac_facp_midas_divida.png}
-%	
-%	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
-%	\centering
-%	\small Fonte: Elaborado pelo autor (2026).
-%\end{figure}
-%
-%\begin{figure}[h]
-%	\centering
-%	\captionsetup{justification=centering}
-%	\caption{FAC e FACP para o delta do desemprego}
-%	\label{fig:fac_facp_midas_desemprego}
-%	\includegraphics[width=1.0\textwidth]{images/fac_facp_midas_desemprego.png}
-%	
-%	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
-%	\centering
-%	\small Fonte: Elaborado pelo autor (2026).
-%\end{figure}
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{FAC e FACP para o crescimento do PIB}
+	\label{fig:fac_facp_midas_pib}
+	\includegraphics[width=1.0\textwidth]{images/fac_facp_midas_pib.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{FAC e FACP para a inflação}
+	\label{fig:fac_facp_midas_inflacao}
+	\includegraphics[width=1.0\textwidth]{images/fac_facp_midas_inflacao.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{FAC e FACP para o delta da dívida}
+	\label{fig:fac_facp_midas_divida}
+	\includegraphics[width=1.0\textwidth]{images/fac_facp_midas_divida.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{FAC e FACP para o delta do desemprego}
+	\label{fig:fac_facp_midas_desemprego}
+	\includegraphics[width=1.0\textwidth]{images/fac_facp_midas_desemprego.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
 
 
-Os resultados dos testes FAC e FACP não foram conclusivos, vamos testar todos os modelos com diferentes lags. Para isso dividimos nossos dados em treinamento e validação, de 2002 até 2022, será nosso treinamento, enquanto de 2023 até 2025 nossa validação. Dentro dos nossos dados de treinamento obtivemos um resultado curioso a soma dos quadrados dos erros para 6 meses foi menor do que para 12:SSE dentro da amostra por horizonte:
-h= 0 meses -> SSE treino = 6.8085
-h= 6 meses -> SSE treino = 3.7662
-h=12 meses -> SSE treino = 3.8716
+Os resultados dos testes FAC e FACP não foram conclusivos, vamos testar todos os modelos com diferentes lags. Para isso dividimos nossos dados em treinamento e validação, de 2002 até 2022, será nosso treinamento, enquanto de 2023 até 2025 nossa validação. Dentro dos nossos dados de treinamento obtivemos um resultado curioso, a soma dos quadrados dos erros para 6 meses foi menor do que para 12. SSE dentro da amostra por horizonte está visível na tabela \ref{tab:SSE_amostra_midas}
+
+\begin{table}[htbp]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Soma dos quadrados dos erros}
+	\label{tab:SSE_amostra_midas}
+	
+	\scriptsize
+	\setlength{\tabcolsep}{2pt}
+	\renewcommand{\arraystretch}{1.3}
+	
+	\begin{tabular}{rr}
+		\toprule
+		Horizonte & SSE treino \\
+		\midrule
+		0 & 6.8085\\
+		6 & 3.7662\\
+		12 & 3.8716\\
+		\bottomrule
+	\end{tabular}
+	
+	
+	\vspace{0.1cm}
+	
+	\small Fonte: Elaborado pelo autor (2026).
+\end{table}
 
 
-Enquanto na validação o RSME e o MAE também foram menores para 6 meses:
+Enquanto na validação o RSME e o MAE também foram menores para 6 meses, evidenciado na tabela \ref{tab:erros_valid_midas}. Também podemos ver o mesmo comportamento distinguido nos anos de validação, na tabela \ref{tab:erro_midas_tres_anos}.
 
-					rmse horizonte  mae horizonte
-horizonte meses                               
-0                      3.907629       3.691726
-6                      1.179675       0.987185
-12                     1.397829       1.206148
+\begin{table}[htbp]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Erros para horizontes na validação}
+	\label{tab:erros_valid_midas}
+	
+	\scriptsize
+	\setlength{\tabcolsep}{2pt}
+	\renewcommand{\arraystretch}{1.3}
+	
+	\begin{tabular}{rrr}
+		\toprule
+		Horizonte & rmse\_horizonte & mae\_horizonte \\
+		\midrule
+		0 & 3.907629 & 3.691726 \\
+		6 & 1.179675 & 0.987185 \\
+		12 & 1.397829 & 1.206148 \\
+		\bottomrule
+	\end{tabular}
+	
+	
+	\vspace{0.1cm}
+	
+	\small Fonte: Elaborado pelo autor (2026).
+\end{table}
 
-
-Notemos as previsões para 6 meses nos anos de validacão:
-horizonte meses   ano     y obs    y prev  rmse horizonte  mae horizonte
-0                0  2023  3.189305 -2.287651        3.907629       3.691726
-3                6  2023  3.189305  2.475212        1.179675       0.987185
-6               12  2023  3.189305  1.194448        1.397829       1.206148
-1                0  2024  3.361998  0.296787        3.907629       3.691726
-4                6  2024  3.361998  1.483472        1.179675       0.987185
-7               12  2024  3.361998  3.642610        1.397829       1.206148
-2                0  2025  2.261166 -0.271844        3.907629       3.691726
-5                6  2025  2.261166  1.892231        1.179675       0.987185
-8               12  2025  2.261166  3.604142        1.397829       1.206148
+\begin{table}[htbp]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Erros expandidos para os 3 anos de validação}
+	\label{tab:erro_midas_tres_anos}
+	
+	\scriptsize
+	\setlength{\tabcolsep}{2pt}
+	\renewcommand{\arraystretch}{1.3}
+	
+	\begin{tabular}{rrrrrr}
+		\toprule
+		horizonte\_meses & ano & y\_obs & y\_prev & rmse\_horizonte & mae\_horizonte \\
+		\midrule
+		0 & 2023 & 3.189305 & -2.287651 & 3.907629 & 3.691726 \\
+		6 & 2023 & 3.189305 & 2.475212 & 1.179675 & 0.987185 \\
+		12 & 2023 & 3.189305 & 1.194448 & 1.397829 & 1.206148 \\
+		0 & 2024 & 3.361998 & 0.296787 & 3.907629 & 3.691726 \\
+		6 & 2024 & 3.361998 & 1.483472 & 1.179675 & 0.987185 \\
+		12 & 2024 & 3.361998 & 3.642610 & 1.397829 & 1.206148 \\
+		0 & 2025 & 2.261166 & -0.271844 & 3.907629 & 3.691726 \\
+		6 & 2025 & 2.261166 & 1.892231 & 1.179675 & 0.987185 \\
+		12 & 2025 & 2.261166 & 3.604142 & 1.397829 & 1.206148 \\
+		\bottomrule
+	\end{tabular}
+	
+	
+	\vspace{0.1cm}
+	
+	\small Fonte: Elaborado pelo autor (2026).
+\end{table}
 
 
 \begin{figure}[h]
@@ -976,14 +1038,27 @@ horizonte meses   ano     y obs    y prev  rmse horizonte  mae horizonte
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-Notemos como essa figura \ref{fig:previsao_crescimento_pib_midas} parece nos contar como as previsões com diferentes horizontes parecem ter uma previsão que capita comportamos distintos, enquanto para um horizonte de 0 meses, ou \textit{nowcasting}, o modelo erra o valor, mas de certa forma acerta o comportamento de crescimento e queda,  porém os resultados interessantes estão em 6 e 12 de horizonte, enquanto o horizonte de 6 meses tem um erro menor de previsão, ele acaba errando o comportamento da variável, enquanto em um horizonte de 12 meses, acerta o comportamento o PIB porém tem um erro maior.
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Previsão do crescimento do PIB para o modelo MIDAS com dados de trenamento}
+	\label{fig:crescimento_pib_midas_completo}
+	\includegraphics[width=1.0\textwidth]{images/crescimento_pib_midas_completo.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
 
-Essa previsão através do MIDAS tem uma caraterística, precisamos das variáveis que compõem o modelo para podermos estimar o PIB, de certa forma isso é muito útil para estimativas onde parte das informações já são dadas, mas é visível, que para nosso conjunto de dados, tendo em vista a quebra da série do desemprego, o \textit{nowcasting} que é um dos pontos fortes do MIDAS parece não ter desempenhado tão bem, quanto em outros horizontes de tempo, porém fica evidente como o MIDAS consegue lidar bem, além de variáveis com frequência diferentes, e com uma quebra de metodologia em uma série o modelo ainda foi robusto na predição.
 
 
-Na figura \ref{fig:pib_volume_previsao_midas} podemos notar como os horizontes de de 6 e 12 meses parecem acertar mais o comportamento do PIB, enquanto o de 0 meses até acerta o comportamento, mas não o valor.
+
+Notemos como essa figura \ref{fig:previsao_crescimento_pib_midas} e na figura \ref{fig:crescimento_pib_midas_completo} parece nos contar como as previsões com diferentes horizontes parecem ter uma previsão que identifica comportamos distintos. Enquanto para um horizonte de 0 meses, ou \textit{nowcasting}, o modelo erra o valor, mas de certa forma acerta o comportamento de crescimento e queda. Os resultados de 6 e 12 de horizonte são mais próximos do observado. enquanto o horizonte de 6 meses tem um erro menor de previsão, mas acaba errando o comportamento da variável,  já para o horizonte de 12 meses, acerta o comportamento o PIB porém tem um erro maior.
+
+Essa previsão através do MIDAS tem uma caraterística, precisamos das variáveis que compõem o modelo para podermos estimar o PIB, de certa forma isso é muito útil para estimativas onde parte das informações já são dadas. Entretanto é visível, que nosso conjunto de dados, tendo a quebra da série do desemprego em seu interior, o \textit{nowcasting} que é um dos pontos fortes do MIDAS parece não ter desempenhado tão bem. quanto em outros horizontes de tempo. Porém fica evidente como o MIDAS consegue lidar bem, além de variáveis com frequência diferentes, e com uma quebra de metodologia em uma série o modelo ainda foi robusto na predição, com os horizonte de 6 e 12 com erros próximos de um ponto percentual.
 
 
+Na figura \ref{fig:pib_volume_previsao_midas} podemos notar como os horizontes de de 6 e 12 meses estão mais próximos da linha observada do PIB. Enquanto o de 0 meses até acerta o comportamento, mas a proximidade deixa a desejar..
 
 \begin{figure}[h]
 	\centering
@@ -997,7 +1072,7 @@ Na figura \ref{fig:pib_volume_previsao_midas} podemos notar como os horizontes d
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-Além da previsão podemos olhar também o erro do modelo \ref{fig:erro_previsao_midas} que confirma a interpretação inicial, onde o erro de h=6 é menor, e o erro de h=0 é maior. Além de ambos subestimarem o crescimento do PIB. Enquanto h = 12 parece ser uma modelo mais otimista, que superestima o PIB em 2025, e praticamente acerta o valor em 2024, apesar de como os outros subestimar o crescimento em 2023.
+Além da previsão podemos olhar também o erro do modelo, na figura \ref{fig:erro_previsao_midas}, que confirma a interpretação inicial, onde o erro de h=6 e h=12 são relativamente menores comparados a h=0. Além de h=0 e h=6 subestimarem o crescimento do PIB. Enquanto h = 12 parece ser uma modelo mais otimista, que superestima o PIB em 2025, e praticamente acerta o valor em 2024, apesar de como os outros subestimar o crescimento em 2023.
 
 \begin{figure}[h]
 	\centering
@@ -1011,106 +1086,173 @@ Além da previsão podemos olhar também o erro do modelo \ref{fig:erro_previsao
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-A tendência de subestimar o crescimento talvez não seja um erro dos modelos, mas sim um comportamento das séries, que parecem sempre que há um crescimento, há uma estabilização ou queda.
-
+A tendência de subestimar o crescimento talvez não seja um erro dos modelos, mas sim um comportamento das séries, que parecem sempre que há um crescimento, há uma estabilização ou queda. Agora que tratamos com as variáveis de diferentes frequências ainda encontramos um problema, durante nossa metodologia, pontuamos diversas variáveis coletadas, porém não utilizamos as 16 em nenhum modelo, uma parte pelos testes, mas nenhum modelo teve um resultado adequado ao lidar com um volume de variáveis com essa magnitude e quantidade de observações. Dessa forma partiremos para o último modelo tradicional, que será o representante que tentará resolver esse dilema.
 
 
 \section{DFM}
 
-Dentre os modelos que chamamos de tradicionais, o DFM é o último deles, mas é claro não menos importante. Na realidade dentre os modelos apresentados até então, o DFM é o modelo mais complexo, ele possui como ideia extrair de um grade conjunto de variáveis distintas um conjunto de fatores que podem explicar a tendência de um determinado grupo de variáveis. O DFM pode ser tanto aplicado para \textit{nowcasting} como no midas ou \textit{forecasting} como feito com o ARIMA e VAR, nesse caso de aplicação utilizaremos ele para \textit{forecasting}.
+Dentre os modelos que chamamos de tradicionais, o DFM é o último deles que analisaremos, mas é claro não menos importante. Na realidade dentre os modelos apresentados até então, o DFM é o modelo mais complexo. Ele possui como conceito fundamental a ideia extrair de um grande conjunto de variáveis distintas os fatores latentes que podem explicar a tendência de um determinado grupo de variáveis. O DFM pode ser tanto aplicado para \textit{nowcasting} como no midas ou \textit{forecasting} como feito com o ARIMA e VAR, nesse caso de aplicação utilizaremos ele para \textit{forecasting}.
 
-A principal vantagem do DFM em comparação aos outros modelos é a capacidade de lidar com um conjunto de variáveis mais volumoso. Comparemos com outro modelo multivariado, enquanto no VAR precisamos limitar a quantidade de variáveis pela restrição dos graus de liberdade modelo. O DFM lida com isso criando índices compostos internos do modelo, que podem ser usados para fazer a predição da variável alvo.
+A principal vantagem do DFM em comparação a outros modelos é a capacidade de lidar com um conjunto de variáveis mais volumoso. Comparemos com outro modelo multivariado. Enquanto no VAR precisamos limitar a quantidade de variáveis pela restrição dos graus de liberdade modelo. O DFM lida com isso criando índices compostos internos, que podem ser usados para fazer a predição da variável alvo.
 
-Porém o DFM continua sendo um modelo tradicional, ou seja as regras continuam, devemos testar a estacionariedade das séries e selecionar somente aqueles que consideramos estacionárias. Entretanto já fizemos isso com o VAR, e diferentemente do MIDAS, utilizaremos as mesmas séries com a mesma frequência, nesse sentido podemos utilizar as mesmas variáveis já testadas: 'crescimento pib', 'inflacao', 'variacao desemprego',
-'balança corrente (\% PIB)', 'índice de despesa governamental',
-'índice de liberdade financeira', 'índice de liberdade monetária',
-'índice de direitos de propriedade',
-'investimento direto estrangeiro (\% PIB)', 'dívida pública (\% PIB)'.
+Porém o DFM continua sendo um modelo tradicional, ou seja as regras continuam, devemos testar a estacionariedade das séries e selecionar somente aquelas que consideramos estacionárias. Entretanto já fizemos isso com o VAR, e diferentemente do MIDAS, utilizaremos as mesmas séries com a mesma frequência, nesse sentido podemos utilizar as mesmas variáveis já testadas: crescimento\_pib, crescimento\_pop, taxa de desemprego, índice de carga fiscal, índice de direitos de propriedade, índice de integridade governamental. E as variáveis estacionárias na primeira diferença balança corrente (\% PIB); investimento direto estrangeiro (\% PIB); índice de despesa governamental; e índice de liberdade financeira. 
 
-lembrando que a inflação e o índice de despesa governamental estão usando a primeira diferença, conforme os testes realizados anteriormente. Nesse momento estaríamos escolhendo os parâmetros do modelo, para ai tentarmos aplicar para essas variáveis, porém chegamos a primeira barreira quando começamos a apelar para modelos mais robustos, o tempo.
+Nesse momento estaríamos escolhendo os parâmetros do modelo, para ai tentarmos aplicar para essas variáveis, porém chegamos a primeira barreira quando começamos a apelar para modelos mais robustos, o tempo.
 
-Nas primeiras execuções em testes realizados, utilizamos a mesma técnica utilizada pelo VAR para encontrarmos o melhor resultado, testar alguns os modelos possíveis, com distintas quantidades de variáveis e parâmetros. Porém, testar isso levou cerca de 2 horas, para rodar o modelo. Não que esse tempo seja um real limitador, pois bastaria uma máquina um pouco mais potente, um paralelismo maior, e o tempo se reduziria muito, mas para fazer pequenos ajustes e testar os melhores resultados nesse primeiro momento isso se torna uma barreira.
+Nas primeiras execuções em testes realizados, utilizamos a mesma técnica utilizada pelo VAR para encontrarmos o melhor resultado, testar todos os modelos possíveis, com distintas quantidades de variáveis e parâmetros. Porém, testar isso levou cerca de 2 horas, para rodar o modelo. Não que esse tempo seja um real limitador, pois bastaria uma máquina um pouco mais potente, um paralelismo maior, e o tempo se reduziria muito, mas para fazer pequenos ajustes e testar os melhores resultados nesse primeiro momento isso se torna uma barreira.
 
-Porém o real motivo, acaba se tornando muito mais metodológico do que o tempo de execução estamos falando da interpretação econômica de um modelo. Suponhamos que por um acaso estatístico, as variáveis de população, e índice de liberdade empresarial fossem disparado, para esse conjunto de dados os melhores preditores do crescimento do PIB, o DFM capturasse o fator latente, e o RSME e MAE fossem muito próximo de 0. Porém com mais 5 anos de dados existe uma grande variação no índice de liberdade empresarial e as previsões do modelo DFM simplesmente não correspondessem as expectativas. 
+Porém o real motivo, acaba se tornando muito mais metodológico do que o tempo de execução, estamos falando da interpretação econômica de um modelo. Suponhamos que por um acaso estatístico, as variáveis de população, e índice de liberdade empresarial fossem disparado, para esse conjunto de dados, os melhores preditores do crescimento do PIB. E o DFM capturasse o fator latente, o RSME e MAE fossem muito próximo de 0. E depois de alguns anos outros pesquisadores resolvessem testar novamente o modelo com mais 5 anos de dados. A partir disso se constatasse uma grande variação no índice de liberdade empresarial e as previsões do modelo DFM simplesmente não correspondessem as expectativas. 
 
-Na realidade isso não é um problema só do DFM, isso é um problema estatístico. Primeiro um conjunto pequeno de dados, eles podem não ter observações o suficiente para descrever a realidade. E segundo acreditar que a relação entre variáveis são funcionais, em que uma alteração em uma, necessariamente irá causar um perturbação em outra que poder ser descrita por uma curva determinística.
+Na realidade isso não é um problema só do DFM, isso é um problema estatístico. Primeiro um conjunto pequeno de dados, eles podem não ter observações o suficiente para descrever a realidade. E segundo acreditar que a relação entre variáveis são funcionais, em que uma alteração em uma, necessariamente irá causar um perturbação em outra. E que ainda pode ser descrita por uma curva determinística. Isso não se confirma na realidade.
 
-Voltando ao DFM, faz pouco ou nenhum sentido testar todas as combinações possíveis, e mesmo que encontremos uma relação que tenha um erro pequeno, pode ser que aquelas variáveis não tenham um sentido econômico relevante para uma análise de uma perspectiva da realidade. Tomemos como um exemplo fictício absurdo, um determinado econometrista estava fazendo suas analises e observou que uma fábrica de pelúcias produzia determinada quantidade de ursos, o econometrista observou por um modelo que a relação entre quantidade de ursinhos e o PIB da cidade pareciam ter uma forte relação entre elas, a medida que a quantidade de ursos aumentava, o PIB também crescia. Um político observando a situação ficou maravilhado e determinou via decreto que se abrissem outras 10 fábricas de ursos prometendo que o PIB da cidade iria se multiplicar por um fator de 10. O que aconteceu é que todas as fábricas faliram pois ninguém mais queria comprar ursinhos e o PIB da cidade caiu.
+Voltando ao DFM, faz pouco ou nenhum sentido testar todas as combinações possíveis, e mesmo que encontremos uma relação que tenha um erro pequeno, pode ser que aquelas variáveis não tenham um sentido econômico relevante. Uma análise fundada na realidade precisa conversar entre a matemática e estatística do modelo e a teoria econômica.
 
-O erro dessa história é primeiro acreditar que existe uma relação de causa e efeito entre variáveis, segundo é a lógica determinista aplicada, não se pode afirmar que uma variável é necessariamente causadora da outra, talvez as vendas de urso aumentassem pois os pais tinham maiores condições de presentear seus filhos, ou talvez seja somente uma coincidência. A única coisa possível de se afirmar é, que para aquele recorte de tempo, com aquelas observações, parece que a venda de ursos parece caminhar junto ao PIB municipal.
+Tomemos como um exemplo fictício absurdo: Um determinado econometrista estava fazendo suas analises e observou que uma fábrica de pelúcias produzia determinada quantidade $x$ de ursos. O econometrista observou por um modelo, que a relação entre quantidade de ursinhos e o PIB da cidade pareciam ter uma forte relação entre elas. O pesquisador observou em medida que a quantidade de ursos aumentava, o PIB também crescia. Um político observando a situação ficou maravilhado e determinou via decreto que se abrissem outras 10 fábricas de ursos prometendo que o PIB da cidade iria se multiplicar por um fator de 10. O que aconteceu é que todas as fábricas faliram pois ninguém mais queria comprar ursinhos e o PIB da cidade caiu tendo em vista a crise.
 
-Essa história pode ser fantasiosa, porém quantas decisões empresarias e governamentais não são tomadas por gestores pensando em causa e efeito. Para isso o trabalho de um estatístico/econometrista é também determinar que variáveis utilizar, ou seja, será que se ao inés de utilizar a produção de ursos, o pesquisador utilizasse os salários dos funcionários das fábricas da cidade, será que o sentido econômico da análise não seria mais robusto e fundamentado?
+O erro dessa história é primeiro acreditar que existe uma relação de causa e efeito entre variáveis, segundo é a lógica determinista aplicada. Não se pode afirmar que uma variável é necessariamente causadora da outra, talvez as vendas de urso aumentassem o PIB, pois os pais tinham maiores condições de presentear seus filhos, ou talvez seja somente uma coincidência. A única coisa possível de se afirmar é, que para aquele recorte de tempo, com aquelas observações, parece que a venda de ursos parece caminhar junto ao PIB municipal.
 
-Todo esse contexto se deve a justificativa de porque escolher determinadas variáveis para o modelo, assim realizamos da seguinte forma:
- 'PIB inflacao': ['crescimento pib', 'inflacao'],
-'PIB inflacao desemprego': ['crescimento pib', 'inflacao', 'variacao desemprego'],
-'PIB governo': ['crescimento pib', 'índice de despesa governamental', 'dívida pública (\% PIB)'],
-'PIB externo': ['crescimento pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)'],
-'PIB liberdade': ['crescimento pib', 'índice de liberdade monetária', 'índice de liberdade financeira', 'índice de direitos de propriedade'],
-'PIB todas variaveis': 'crescimento pib', 'inflacao', 'variacao desemprego',
-'balança corrente (\% PIB)', 'índice de despesa governamental',
-'índice de liberdade financeira', 'índice de liberdade monetária',
-'índice de direitos de propriedade',
-'investimento direto estrangeiro \% PIB)', 'dívida pública (\% PIB)',
+Essa história pode ser fantasiosa, porém quantas decisões empresarias e governamentais não são tomadas por gestores pensando em causa e efeito. Para isso o trabalho de um estatístico/econometrista é também determinar que variáveis utilizar, ou seja, será que se ao invés de utilizar a produção de ursos, o pesquisador utilizasse os salários dos funcionários das fábricas da cidade, será que o sentido econômico da análise não seria mais robusto e fundamentado?
 
-Optamos dessa forma para segregar as variáveis em determinados campos de estudo da economia, primeiro com um modelo relativamente simples com o PIB e a inflação, depois o PIB a inflação e o desemprego\footnote{Lembrando que o desemprego é uma variáveis suspeita como já descrido na metodologia e no modelo MIDAS}. Um modelo tratando sobre o governo, com a dívida pública e a despesa governamental. Um modelo sobre mercado externo, um modelo de indicadores de liberdade. Por último um modelo tratando de todas as variáveis.
+Todo esse contexto se deve a justificativa de porque escolher determinadas variáveis para o modelo, assim realizamos da seguinte forma, criamos algumas previsões separadas em grupos dispostos na tabela \ref{tab:grupos_dfm}.
 
-Como range de treino utilizamos o inicio da série em 2001, até 2022, como validação utilizamos de 2014 até 2022, e para avaliação de 2023 até 2025. Como número máximo de iterações utilizados 300, com até 3 fatores, e até de segunda ordem, pensando em simplificar o modelo ao máximo para não correr o risco de sobreajuste.
+\begin{table}[htbp]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Grupos de variáveis por modelo no DFM}
+	\label{tab:grupos_dfm}
+	
+	\scriptsize
+	\setlength{\tabcolsep}{2pt}
+	\renewcommand{\arraystretch}{1.3}
+	
+	\begin{tabularx}{\textwidth}{>{\RaggedRight\arraybackslash}X>{\RaggedRight\arraybackslash}X}
+		\toprule
+		modelo & variaveis \\
+		\midrule
+		PIB\_populacao & crescimento\_pib, crescimento\_pop \\
+		PIB\_atividade & crescimento\_pib, crescimento\_pop, taxa de desemprego \\
+		PIB\_externo & crescimento\_pib, balança corrente (\% PIB)\_diff, investimento direto estrangeiro (\% PIB)\_diff \\
+		PIB\_fiscal & crescimento\_pib, índice de carga fiscal, índice de despesa governamental\_diff \\
+		PIB\_institucional & crescimento\_pib, índice de direitos de propriedade, índice de integridade governamental \\
+		PIB\_liberdade & crescimento\_pib, índice de liberdade financeira\_diff, índice de direitos de propriedade \\
+		PIB\_fiscal\_institucional & crescimento\_pib, índice de carga fiscal, índice de despesa governamental\_diff, índice de integridade governamental \\
+		PIB\_macro & crescimento\_pib, crescimento\_pop, taxa de desemprego, balança corrente (\% PIB)\_diff \\
+		PIB\_todas\_variaveis & crescimento\_pib, crescimento\_pop, taxa de desemprego, índice de carga fiscal, índice de direitos de propriedade, índice de integridade governamental, balança corrente (\% PIB)\_diff, investimento direto estrangeiro (\% PIB)\_diff, índice de despesa governamental\_diff, índice de liberdade financeira\_diff \\
+		\bottomrule
+	\end{tabularx}
+	
+	
+	\vspace{0.1cm}
+	
+	\small Fonte: Elaborado pelo autor (2026).
+\end{table}
 
-Os fatores são as variáveis "virtuais" que o modelo cria, são como um indicador que representa um determinado conjunto de variáveis com uma tendência. Já as ordens no contexto do DFM são as defasagens dos fatores, seriam o equivalente as LAGs de um modelo VAR.
+Optamos dessa forma para segregar as variáveis em determinados campos de estudo da economia. Como range de treino utilizamos o inicio da série em 2001, até 2022, como validação utilizamos de 2014 até 2022, e para avaliação de 2023 até 2025. Como número máximo de iterações utilizados 300, com até 3 fatores, e até de segunda ordem, pensando em simplificar o modelo ao máximo, para não correr o risco de sobreajuste.
 
-E no geral modelos com mais de 2 fatores para essa quantidade de observações foram inadequados, quase que em sua maioria não convergiram para um resultado. Esse resultado é esperado, mas como o DFM já realiza esse procedimento de unir o comportamento das variáveis, isso não será um problema.
+Os fatores são as variáveis "virtuais" que o modelo cria. São como um indicador que representa um determinado conjunto de variáveis com uma tendência. Já as ordens no contexto do DFM são as defasagens dos fatores, seriam o equivalente as LAGs de um modelo VAR.
 
-\begin{tabular}{lrllrrrrrl}
-	\toprule
-	& config\_id & grupo & variaveis & n\_fatores & factor\_order & RMSE & MAE & valido & erro \\
-	\midrule
-	19 & 20 & PIB\_externo & ('crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)') & 1 & 2 & 3.722192 & 3.131058 & True &  \\
-	18 & 19 & PIB\_externo & ('crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)') & 1 & 1 & 3.733603 & 3.043637 & True &  \\
-	1 & 2 & PIB\_inflacao & ('crescimento\_pib', 'inflacao') & 1 & 2 & 4.065466 & 3.212545 & True &  \\
-	0 & 1 & PIB\_inflacao & ('crescimento\_pib', 'inflacao') & 1 & 1 & 4.103922 & 3.200073 & True &  \\
-	12 & 13 & PIB\_governo & ('crescimento\_pib', 'índice de despesa governamental', 'dívida pública (\% PIB)') & 1 & 1 & 4.159998 & 3.318441 & True &  \\
-	6 & 7 & PIB\_inflacao\_desemprego & ('crescimento\_pib', 'inflacao', 'variacao\_desemprego') & 1 & 1 & 4.274813 & 3.332155 & True &  \\
-	13 & 14 & PIB\_governo & ('crescimento\_pib', 'índice de despesa governamental', 'dívida pública (\% PIB)') & 1 & 2 & 4.452987 & 3.622092 & True &  \\
-	7 & 8 & PIB\_inflacao\_desemprego & ('crescimento\_pib', 'inflacao', 'variacao\_desemprego') & 1 & 2 & 4.478730 & 3.596120 & True &  \\
-	\bottomrule
-\end{tabular}
+E no geral modelos com mais de 2 fatores para essa quantidade de observações foram inadequados, quase que em sua maioria não convergiram para um resultado. Esse resultado é esperado, mas como o DFM já realiza esse procedimento de unir o comportamento das variáveis, isso não será um problema. Na tabela \ref{tab:melhores_dfm}, notamos como os melhores modelos validos todos tem apenas um fator, alguns tem uma ordem de 2. Entretanto é possível notar como o erro é de uma magnitude um pouco maior, mas vamos testar a predição para os anos fora do treinamento e avaliar esse modelo.
+
+\begin{table}[htbp]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Melhores modelos DFM validos}
+	\label{tab:melhores_dfm}
+	
+	\scriptsize
+	\setlength{\tabcolsep}{2pt}
+	\renewcommand{\arraystretch}{1.3}
+	
+	\begin{tabularx}{\textwidth}{>{\RaggedRight\arraybackslash}X>{\RaggedRight\arraybackslash}Xrrrr}
+		\toprule
+		grupo & variaveis & n\_fatores & factor\_order & RMSE & MAE \\
+		\midrule
+		PIB\_populacao & crescimento\_pib, crescimento\_pop & 1 & 2 & 3.628274 & 2.899269 \\
+		PIB\_populacao & crescimento\_pib, crescimento\_pop & 1 & 1 & 3.767944 & 3.035009 \\
+		PIB\_externo & crescimento\_pib, balança corrente (\% PIB)\_diff, investimento direto estrangeiro (\% PIB)\_diff & 1 & 1 & 4.025538 & 3.238183 \\
+		PIB\_fiscal & crescimento\_pib, índice de carga fiscal, índice de despesa governamental\_diff & 1 & 1 & 4.091882 & 3.224786 \\
+		PIB\_macro & crescimento\_pib, crescimento\_pop, taxa de desemprego, balança corrente (\% PIB)\_diff & 1 & 1 & 4.136737 & 3.862702 \\
+		PIB\_atividade & crescimento\_pib, crescimento\_pop, taxa de desemprego & 1 & 1 & 4.165969 & 3.890902 \\
+		PIB\_externo & crescimento\_pib, balança corrente (\% PIB)\_diff, investimento direto estrangeiro (\% PIB)\_diff & 1 & 2 & 4.167279 & 3.288625 \\
+		PIB\_atividade & crescimento\_pib, crescimento\_pop, taxa de desemprego & 1 & 2 & 4.244245 & 3.925786 \\
+		PIB\_fiscal\_institucional & crescimento\_pib, índice de carga fiscal, índice de despesa governamental\_diff, índice de integridade governamental & 1 & 1 & 4.267638 & 3.686147 \\
+		PIB\_fiscal\_institucional & crescimento\_pib, índice de carga fiscal, índice de despesa governamental\_diff, índice de integridade governamental & 1 & 2 & 4.269573 & 3.560403 \\
+		PIB\_macro & crescimento\_pib, crescimento\_pop, taxa de desemprego, balança corrente (\% PIB)\_diff & 1 & 2 & 4.309411 & 4.019488 \\
+		PIB\_fiscal & crescimento\_pib, índice de carga fiscal, índice de despesa governamental\_diff & 1 & 2 & 4.326947 & 3.444378 \\
+		\bottomrule
+	\end{tabularx}
+	
+	
+	\vspace{0.1cm}
+	
+	\small Fonte: Elaborado pelo autor (2026).
+\end{table}
 
 
 
 
-Notemos que o modelo com o menor RSME é o PIB\_externo, tendo como componentes o crescimento\_pib, balança corrente (\% PIB)',
-investimento direto estrangeiro (\% PIB), com um fator de ordem 2. Esse modelos obteve um RSME de 3.722192 no treinamento, o que é razoável para um modelo nesse sentido.
+Notemos que o modelo com o menor RSME é o PIB\_populacao, tendo como componentes o crescimento do PIB e o crescimento populacional, com um fator de ordem dois. Esse modelos obteve um RSME de 3.628274 no treinamento, o que é razoável para um modelo nesse sentido. Nos anos de validação obtivemos os seguintes resultados na tabela \ref{tab:previsao_melhor_dfm}.
 
-Nos anos de validação obtivemos os seguintes resultados na tabela a seguir:
+\begin{table}[htbp]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Avaliação do melhor DFM fora do treinamento}
+	\label{tab:previsao_melhor_dfm}
+	
+	\scriptsize
+	\setlength{\tabcolsep}{2pt}
+	\renewcommand{\arraystretch}{1.3}
+	
+	\begin{tabular}{rrrr}
+		\toprule
+		ano & crescimento\_previsto & crescimento\_real & erro \\
+		\midrule
+		2023 & 2.079446 & 3.240708 & 1.161262 \\
+		2024 & 1.171441 & 3.419152 & 2.247711 \\
+		2025 & 2.046531 & 2.286924 & 0.240393 \\
+		\bottomrule
+	\end{tabular}
+	
+	
+	\vspace{0.1cm}
+	
+	\small Fonte: Elaborado pelo autor (2026).
+\end{table}
 
-\begin{tabular}{lrrrrrrrr}
-	\toprule
-	& ano & crescimento\_previsto & limite\_inferior & limite\_superior & crescimento\_real & erro & media\_treino & persistencia\_origem \\
-	\midrule
-	0 & 2023 & 2.185479 & -3.557493 & 7.928452 & 3.240708 & 1.055229 & 2.242758 & 3.017372 \\
-	1 & 2024 & 2.209100 & -3.568040 & 7.986241 & 3.419152 & 1.210052 & 2.242758 & 3.017372 \\
-	2 & 2025 & 2.223303 & -3.569880 & 8.016487 & 2.286924 & 0.063621 & 2.242758 & 3.017372 \\
-	\bottomrule
-\end{tabular}
 
-Em todos os anos o DFM subestimou o crescimento do PIB. Para testarmos a autocorrelação dos resíduos desse modelo utilizamos Ljung–Box. Conforme aponta a tabela.
+Em todos os anos o DFM subestimou o crescimento do PIB, porém notamos que houve um erro maior nos anos de 2023 e 2024, já o ano de 2025 teve um erro relativamente menor. Para testarmos a autocorrelação dos resíduos desse modelo utilizamos Ljung–Box. Conforme aponta a tabela \ref{tab:autocorrelacao_dfm}.
 
-\begin{tabular}{lrr}
-	\toprule
-	& lb\_stat & lb\_pvalue \\
-	\midrule
-	1 & 1.205734 & 0.272179 \\
-	2 & 1.466123 & 0.480436 \\
-	\bottomrule
-\end{tabular}
+\begin{table}[htbp]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Teste Ljung–Box para o DFM}
+	\label{tab:autocorrelacao_dfm}
+	
+	\scriptsize
+	\setlength{\tabcolsep}{2pt}
+	\renewcommand{\arraystretch}{1.3}
+	
+	\begin{tabular}{rr}
+		\toprule
+		lb\_stat & lb\_pvalue \\
+		\midrule
+		1.099672 & 0.294338 \\
+		1.104489 & 0.575656 \\
+		\bottomrule
+	\end{tabular}
+	
+	
+	\vspace{0.1cm}
+	
+	\small Fonte: Elaborado pelo autor (2026).
+\end{table}
 
 
 A partir desses testes a um nível de significância de 5\% não foi detectada dependência linear temporal significativa nos erros até a segunda defasagem. Vejamos esse modelo em forma gráfica. Primeiramente notamos um comportamento relativamente estável do modelo ao tentar estimar as variações do PIB, podemos notar tanto na figura \ref{fig:crescimento_dfm_treinamento} quanto na \ref{fig:ajuste_dfm_treinamento} se comportou praticamente como uma média móvel.
 
 Se olharmos diretamente para o resultado o modelo parece subestimar o crescimento do PIB, figura \ref{fig:previsao_dfm_crescimento}, assim como os erros do 2023 e 2024, foram maiores do que os de 2025, mas mesmo assim o DFM parece não conseguir capturar o comportamento do PIB, nem mesmo no sentido de erro, como no próprio comportamento da série.
 
-Nesse sentido testamos os demais modelos DFM que tiveram solução, e nenhum deles obteve um resultado evidentemente superior do que o modelo com menor RSME. Portanto fica evidente como o DFM parece não se ajustar bem para nossa coleção de variáveis.
+Nesse sentido testamos os demais modelos DFM que tiveram solução, e nenhum deles obteve um resultado evidentemente superior do que o modelo com menor RSME no treinamento. Alguns dos modelos tem uma interpretação econômica mais evidente do que a população. A interpretação desse modelo aponta para que a defasagem de 2 anos parece ter um componente mais importante que apenas 1 ano, tanto o crescimento populacional como o crescimento do PIB parecem caminhar do mesmo sentido do fator latente identificado. Contudo fica evidente como o DFM parece não se ajustar bem para nossa coleção de variáveis.
 
 \begin{figure}[h]
 	\centering
@@ -1184,7 +1326,7 @@ Nesse sentido testamos os demais modelos DFM que tiveram solução, e nenhum del
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-Por fim temos a figura \ref{fig:previsao_nivel_dfm} que mostra o a previsão do PIB em nível, que como ja esperado foi subestimada pelo modelo. A partir desses resultados podemos chegar a uma realidade dos testes, nem todos os modelos serão adequados. Esse modelo apresentado teve todos os testes de estacionariedade, as variáveis foram selecionadas por um sentido econômico, o modelo é robusto, e tem uma aplicação direcionada para casos onde existem muitas variáveis, mas mesmo com esses pontos a favor, para esse conjunto de dados, o modelo DFM, obteve um resultado razoável.
+Por fim temos a figura \ref{fig:previsao_nivel_dfm} que mostra o a previsão do PIB em nível, que como ja esperado foi subestimada pelo modelo. A partir desses resultados podemos chegar a uma realidade dos modelos, nem todos serão adequados. Esse modelo apresentado teve todos os testes de estacionariedade, as variáveis foram selecionadas por um sentido econômico, o modelo é robusto, e tem uma aplicação direcionada para casos onde existem muitas variáveis, mas mesmo com esses pontos a favor, para esse conjunto de dados, o modelo DFM, obteve um resultado relativamente pior que o VAR um modelo muito mais simples.
 
 \begin{figure}[h]
 	\centering
@@ -1198,19 +1340,15 @@ Por fim temos a figura \ref{fig:previsao_nivel_dfm} que mostra o a previsão do 
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-Porém, apesar de não ser excelente ainda podemos retirar um significado econômico do DFM, primeiro, o mesmo caso apresentado pelo VAR, o mercado externo parece ser um bom preditor do PIB, mas para além disso podemos interpretar a carga de cada variável no fator latente, como o modelo possui apenas um fator podemos visualizar na figura \ref{fig:cargas_fatoriais_dfm}. Essa figura apresenta um comportamento curioso, enquanto a balança corrente e o PIB tem um relação + com o fator, o investimento estrangeiro direto tem uma relação negativa com o fator. Novamente isso não é um relação causal, que aumento no investimento estrangeiro direto irá causar uma queda no PIB ou na balança corrente.
-
-Porém podemos formular uma hipótese que a relação positiva da balança corrente, tem haver com o Brasil ser uma país cujo a economia tem um forte componente primário exportador, então naturalmente uma balança corrente positiva, significa um aumento em volume no PIB. E também poderíamos formular uma relação em que balanços positivos na conta corrente, podem influenciar na menor necessidade investimento estrangeiro direto.
-
-Contudo, lembramos, que não podemos afirmar essa relação, pela próprias limitações dos modelos, mas também pela limitação dos dados, ou seja, pouco mais de 20 observações ainda que possibilitem o modelo convergir, não significam necessariamente um confiança absoluta nos resultados do modelo.
+Contudo, lembramos, que não podemos afirmar que o modelo DFM é ruim, isso seria juízo de valor, o que podemos afirmar é que pela própria limitações do modelo, mas também pela limitação dos dados, o número limitado de pouco mais de 20 observações, não permitiu um predição com um grau de acerto relevante.
 
 
 
 \section{Redes Neurais}
 
-Chegamos agora no primeiro modelo do que chamamos de modelos de IA, ou modelos modernos, o primeiro deles não poderia ser diferente, as redes neurais, esse tipo de estrutura possibilitou avanços em muitas áreas das ciências, e durante esse trabalho, pegaremos um tipo restrito de rede neural, e aplicaremos a um tipo restrito de problema, e vamos verificar se esse tipo de modelo consegue ser tão bom, quanto modelos robustos e tradicionais como os até então estudados. 
+Chegamos agora no primeiro modelo do que chamamos de modelos de IA, ou modelos modernos, o primeiro deles não poderia ser diferente, as redes neurais. Esse tipo de estrutura possibilitou avanços em muitas áreas das ciências, desde a medicina, engenharias, etc. E durante esse trabalho, pegaremos um tipo restrito de rede neural, e aplicaremos a um tipo restrito de problema, e tentaremos verificar se esse tipo de modelo consegue ser tão bom quanto modelos robustos e tradicionais como os até então estudados. 
 
-Antes de inciarmos com a discussão sobre como utilizaremos as redes neurais, vale a pena ressaltar que o método que aplicamos para esse modelo, talvez não tenha obtido os melhores resultados possíveis para esse tipo de modelagem, pois decidimos testar o limite da proposição do modelo. Enquanto ARIMA, possui simplicidade, o VAR a capacidade de modelar choques, o MIDAS de trabalhar com frequências mistas, e o DFM de modelar um conjunto massivo de variáveis, a rede neural tem uma característica que por uma lado pode ser muito boa, por outro pode ser limitante, estamos falando do poder de decisão do modelo.
+Antes de inciarmos com a discussão sobre como utilizaremos as redes neurais, vale a pena ressaltar que o método que aplicamos para esse modelo, talvez não tenha obtido os melhores resultados possíveis para esse tipo de modelagem. Pois decidimos testar o limite da proposição do modelo. Enquanto ARIMA, possui simplicidade, o VAR a capacidade de modelar choques, o MIDAS de trabalhar com frequências mistas, e o DFM de modelar um conjunto massivo de variáveis, a rede neural tem uma característica que por uma lado pode ser muito boa, por outro pode ser limitante, estamos falando do poder de decisão do modelo.
 
 Não decisão no sentido humano, de avaliar hipóteses e decidir por caminhos, mas sim uma decisão no sentido matemático, quem avalia quais variáveis utilizar é a própria rede. É durante o processo de treinamento que a rede decide qual peso atribuir para cada neurônio isso é a conhecida "aprendizagem" desse tipo de modelo. Isso é bom por uma lado, pois podemos simplesmente inserir todas as variáveis e esperar que a rede decida o que fazer com elas. Contudo isso também é limitante, primeiro pela questão da interpretabilidade\footnote{Falaremos disso mais adiante}, mas além disso, a falta de controle, não podemos forçar a rede a usar determinada variável, para estimarmos o comportamento daqueles alvos.
 
@@ -1218,30 +1356,41 @@ Outro limitante das redes neurais é o tempo, assim como o DFM, as redes neurais
 
 Porém, durante a aplicação não simplesmente aplicamos as variáveis no modelo, fizemos transformações em 3 séries originais, utilizando as variações, já realizamos isso anteriormente, e seguimos com: crescimento\_pib, crescimento\_pop, inflacao. Assim optamos por remover da rede as variáveis originais (PIB, população e IPCA). 
 
-Os períodos utilizados pela rede são de 2001 a 2013 como treinamento inicial, de 2014 à 2022 como a validação expansiva, e por último 2023 à 2025 a avaliação do modelo. Testamos 6 modelos distintos, com determinada interpretação econômica. São eles: 
+Os períodos utilizados pela rede são de 2001 a 2013 como treinamento inicial, de 2014 à 2022 como a validação expansiva, e por último 2023 à 2025 a avaliação do modelo. Testamos 6 modelos distintos, com determinada interpretação econômica. Eles estão presentes na tabela \ref{tab:grupos_rn}.
 
-'PIB': ['crescimento\_pib'],
-'PIB\_inflacao': ['crescimento\_pib', 'inflacao'],
-'PIB\_inflacao\_desemprego': ['crescimento\_pib', 'inflacao', 'taxa de desemprego'],
-'PIB\_governo': ['crescimento\_pib', 'índice de despesa governamental', 'dívida pública (\% PIB)'],
-'PIB\_externo': ['crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)'],
-'PIB\_liberdade': ['crescimento\_pib', 'índice de liberdade empresarial', 'índice de liberdade monetária', 'índice de liberdade comercial', 'índice de liberdade financeira', 'índice de direitos de propriedade'],
-'PIB\_todas\_variaveis': 'taxa de desemprego', 'balança corrente (\% PIB)',
-'investimento direto estrangeiro (\% PIB)', 'dívida pública (\% PIB)',
-'índice de direitos de propriedade',
-'índice de integridade governamental',
-'índice de despesa governamental', 'índice de carga fiscal',
-'índice de liberdade empresarial', 'índice de liberdade monetária',
-'índice de liberdade comercial', 'índice de liberdade de investimento',
-'índice de liberdade financeira', 'crescimento\_pib', 'crescimento\_pop',
-'inflacao'
+\begin{table}[htbp]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Grupos de variáveis por modelo para as redes Neurais}
+	\label{tab:grupos_rn}
+	
+	\scriptsize
+	\setlength{\tabcolsep}{2pt}
+	\renewcommand{\arraystretch}{1.3}
+	
+	\begin{tabularx}{\textwidth}{>{\RaggedRight\arraybackslash}X>{\RaggedRight\arraybackslash}X}
+		\toprule
+		modelo & variaveis \\
+		\midrule
+		PIB & crescimento\_pib \\
+		PIB\_inflacao & crescimento\_pib, inflacao \\
+		PIB\_inflacao\_desemprego & crescimento\_pib, inflacao, taxa de desemprego \\
+		PIB\_governo & crescimento\_pib, índice de despesa governamental, dívida pública (\% PIB) \\
+		PIB\_externo & crescimento\_pib, balança corrente (\% PIB), investimento direto estrangeiro (\% PIB) \\
+		PIB\_liberdade & crescimento\_pib, índice de liberdade empresarial, índice de liberdade monetária, índice de liberdade comercial, índice de liberdade financeira, índice de direitos de propriedade \\
+		PIB\_todas\_variaveis & taxa de desemprego, balança corrente (\% PIB), investimento direto estrangeiro (\% PIB), dívida pública (\% PIB), índice de direitos de propriedade, índice de integridade governamental, índice de despesa governamental, índice de carga fiscal, índice de liberdade empresarial, índice de liberdade monetária, índice de liberdade comercial, índice de liberdade de investimento, índice de liberdade financeira, crescimento\_pib, crescimento\_pop, inflacao \\
+		\bottomrule
+	\end{tabularx}
+	
+	
+	\vspace{0.1cm}
+	
+	\small Fonte: Elaborado pelo autor (2026).
+\end{table}
 
-Separamos dessa forma, pois apesar de não existir controle sobre os pesos do modelo, podemos ainda assim escolher quais variáveis seriam modeladas. Os hiperparâmetros do nosso teste são:
+Separamos dessa forma, pois apesar de não existir controle sobre os pesos do modelo, podemos ainda assim escolher quais variáveis seriam modeladas. Além dos grupos de variáveis precisamos selecionar os hiperparâmetros, eles são configurações do modelo, no nosso teste realizamos o treinamento com algumas configurações. Para as arquiteturas, optamos por redes simples, com apenas uma camada, e redes um pouco mais complexas, são elas: [(1,), (2,), (3,), (3, 2), (5, 3, 2)]. Para arquiteturas utilizamos 5 configurações diferentes, cada uma dessa configurações refere-se a estrutura da rede, como visto na revisão de literatura, esse tipo de hiperparâmetro se refere a quantidade de neurônios e camadas ocultas na rede, o modelo (1,) possui apenas uma camada com apenas um neurônio na camada oculta, enquanto o modelo (5, 3, 2) possuí três camadas ocultas com cinco neurônios na primeira, 3 na segunda, e 2 na terceira. Um modelo simples tem menos chance de sobreajuste, porém pode não conseguir captar todas as dinâmica da realidade, enquanto modelos maiores conseguem captar relações mais diversas, contudo com grande risco de sobreajuste.
 
-
-Arquiteturas = [(1,), (2,), (3,), (3, 2), (5, 3, 2)]. Para arquiteturas utilizamos 5 configurações diferentes, cada uma dessa configurações refere-se a estrutura da rede, como visto na revisão de literatura, esse hiperparâmetros são a quantidade de neurônios e camadas ocultas na rede, o modelo (1,) possui apenas uma camada com apenas um neurônio na camada oculta, enquanto o modelo (5, 3, 2) possuí três camadas ocultas com cinco neurônios na primeira, 3 na segunda, e 2 na terceira. Um modelo simples tem menos chance de sobreajuste, porém pode não conseguir captar todas as dinâmica da realidade, enquanto modelos maiores conseguem captar relações mais diversas, contudo com grande risco de sobreajuste.
-
-Funções de ativação = ['tanh', 'relu']. tanh refere-se a função tangente hiperbólica ela pode ser visualizada na figura \ref{fig:tanh}. E ReLU é a Unidade Linear Retificada que pode ser visualizada na figura \ref{fig:ReLU}. Ambas são funções de ativação dos neurônios, no contexto de aplicação da pedição econômica optamos por testar apenas essas duas, pois tanh permite representar respostas não lineares suaves, já a ReLU permite a rede representar mudanças de comportamento em determinados cortes.
+Para as funções de ativação optamos por testar com a tanh e relu. Tanh refere-se a função tangente hiperbólica ela pode ser visualizada na figura \ref{fig:tanh}. E ReLU é a Unidade Linear Retificada que pode ser visualizada na figura \ref{fig:ReLU}. Ambas são funções de ativação dos neurônios, no contexto de aplicação da predição econômica optamos por testar apenas essas duas, pois tanh permite representar respostas não lineares suaves, já a ReLU permite a rede representar mudanças de comportamento em determinados cortes.
 
 \begin{figure}[h]
 	\centering
@@ -1268,66 +1417,125 @@ Funções de ativação = ['tanh', 'relu']. tanh refere-se a função tangente h
 \end{figure}
 
 
-alphas = [0.1, 1.0, 10.0]. Os alphas por falta seriam os passos da rede, ou seja, o quão largo é o ajuste dos pesos, existem diferenças, um alpha pequeno é favorável ao sobreajuste a armadilha do mínimos locais, enquanto um alpha grande demais pode nunca convergir para um resultado.
+Em relação aos alphas optamos por valores da seguinte lista: 0.1, 1.0 e 10.0. Os alphas seriam os passos da rede, ou seja, o quão largo é o ajuste dos pesos, existem diferenças, um alpha pequeno é favorável ao sobreajuste e a armadilha do mínimos locais, enquanto um alpha grande demais, pode nunca convergir para um resultado.
 
 
-random\_states = [1, 42, 123]. Esses hiperparâmetros talvez sejam os mais subjetivos e tem um peso menor na qualidade do modelo, a ideia é que a rede precisa de uma valor inicial de pesos, para que no processo de treinamento eles possam ser ajustados conforme o algoritmo de \textit{backpropagation}. De toda forma, se a rede teve passos o suficiente a tendência é que os resultados independente do estado inicial cheguem ao mínimo global, de toda forma utilizamos nesse trabalho a média dos erros desses três estados.
+O estado inicial ou \textit{Random State} são hiperparâmetros uteis para replicabilidade e remoção da aleatoriedade inicial, nesse caso usamos 1, 42 e 123. Esses hiperparâmetros talvez sejam os mais subjetivos e tem um peso menor na qualidade do modelo, a ideia é que a rede precisa de uma valor inicial de pesos, para que no processo de treinamento eles possam ser ajustados conforme o algoritmo de \textit{backpropagation}. De toda forma, se a rede teve passos o suficiente a tendência é que os resultados convirjam independente do estado inicial, ou seja, cheguem ao mínimo global. De toda forma utilizamos nesse trabalho a média dos erros desses três estados.
 
-Com essas configurações\footnote{Ainda existem outros hiperparâmetros da rede como o limite de iterações da otimização de 5000, o algoritmo de solução que é o L-BFGS (Limited-memory Broyden–Fletcher–Goldfarb–Shanno) e o limite de avaliações da função objetivo pelo L-BFGS que foi de 15000, que são hiperparâmetros, optamos por não tratar diretamente deles, pois são questões mais relacionadas aos algoritmos internos que a rede utiliza para encontrar o resultado, para o aprofundamento nesse parâmetros recomendamos a leitura da documentação da biblioteca do Python scikit-learn \citem{scikit-learn}, mais especificamente do módulo MLPRegressor que foi o utilizado durante esse trabalho} testamos cerca de 210 modelos, levando cerca de 4 minutos para rodar todos, número muito menor do que os primeiros testes com cerca de 1 hora de treinamento.
+Com essas configurações\footnote{Ainda existem outros hiperparâmetros da rede como o limite de iterações da otimização de 5000, o algoritmo de solução que é o L-BFGS (Limited-memory Broyden–Fletcher–Goldfarb–Shanno) e o limite de avaliações da função objetivo pelo L-BFGS que foi de 15000, que são hiperparâmetros, optamos por não tratar diretamente deles, pois são questões mais relacionadas aos algoritmos internos que a rede utiliza para encontrar o resultado, para o aprofundamento nesses parâmetros recomendamos a leitura da documentação da biblioteca do Python scikit-learn \citem{scikit-learn}, mais especificamente do módulo MLPRegressor que foi o utilizado durante esse trabalho} testamos cerca de 210 modelos, levando cerca de 4 minutos para rodar todos, número muito menor do que os primeiros testes com cerca de 1 hora de treinamento.
 
-Dentre esses selecionamos os 5 melhores:
+Dentre esses selecionamos os 5 melhores que podem ser verificados na tabela \ref{tab:melhores_rn}.
 
-\begin{tabular}{lrlrlllrlrrrrrr}
-	\toprule
-	& config\_id & grupo\_variaveis & n\_variaveis & variaveis & arquitetura & activation & alpha & sementes & RMSE & MAE & RMSE\_treino\_medio & MAE\_treino\_medio & desvio\_sementes\_medio & convergiu \\
-	\midrule
-	0 & 130 & PIB\_externo & 3 & ('crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)') & (2,) & relu & 0.100000 & (1, 42, 123) & 2.452199 & 1.976336 & 1.134121 & 0.882071 & 0.987059 & True \\
-	1 & 136 & PIB\_externo & 3 & ('crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)') & (3,) & relu & 0.100000 & (1, 42, 123) & 2.636257 & 2.309214 & 1.031081 & 0.814672 & 0.881569 & True \\
-	2 & 133 & PIB\_externo & 3 & ('crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)') & (3,) & tanh & 0.100000 & (1, 42, 123) & 2.978787 & 2.240917 & 0.817271 & 0.595805 & 0.601620 & True \\
-	3 & 121 & PIB\_externo & 3 & ('crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)') & (1,) & tanh & 0.100000 & (1, 42, 123) & 2.987590 & 2.449873 & 1.785888 & 1.506611 & 0.324824 & True \\
-	4 & 127 & PIB\_externo & 3 & ('crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)') & (2,) & tanh & 0.100000 & (1, 42, 123) & 3.021563 & 2.360393 & 1.120912 & 0.896314 & 0.601645 & True \\
-	\bottomrule
-\end{tabular}
+\begin{table}[htbp]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Melhores redes Neurais}
+	\label{tab:melhores_rn}
+	
+	\scriptsize
+	\setlength{\tabcolsep}{2pt}
+	\renewcommand{\arraystretch}{1.3}
+	
+	\begin{tabularx}{\textwidth}{>{\RaggedRight\arraybackslash}X>{\RaggedRight\arraybackslash}X>{\RaggedRight\arraybackslash}Xrrrrr}
+		\toprule
+		grupo\_variaveis & arquitetura & activation & alpha & RMSE & MAE & RMSE\_treino\_medio & MAE\_treino\_medio \\
+		\midrule
+		PIB\_externo & (2,) & relu & 0.100000 & 2.452201 & 1.976338 & 1.134120 & 0.882069 \\
+		PIB\_externo & (3,) & relu & 0.100000 & 2.635534 & 2.306808 & 1.030321 & 0.814145 \\
+		PIB\_externo & (3,) & tanh & 0.100000 & 2.978815 & 2.240867 & 0.817249 & 0.595783 \\
+		PIB\_externo & (1,) & tanh & 0.100000 & 2.987590 & 2.449873 & 1.785888 & 1.506611 \\
+		PIB\_externo & (2,) & tanh & 0.100000 & 3.021563 & 2.360392 & 1.120912 & 0.896314 \\
+		\bottomrule
+	\end{tabularx}
+	
+	
+	\vspace{0.1cm}
+	
+	\small Fonte: Elaborado pelo autor (2026).
+\end{table}
 
 
-Notemos que os melhores modelos em relação ao treinamento são todos modelos que utilizam as variáveis do grupo PIB\_externo. Podemos também ver na tabela a seguir os melhores modelos por grupos de variáveis, notem como os erros são maiores, e as posições no ranking global de modelos, isso demonstra que a escolha de quais variáveis pode pesar mais do os hiperparâmetros sozinhos.
 
-\begin{tabular}{llrrlrllrlrrrrrr}
-	\toprule
-	& variaveis & posicao\_global & config\_id & grupo\_variaveis & n\_variaveis & arquitetura & activation & alpha & sementes & RMSE & MAE & RMSE\_treino\_medio & MAE\_treino\_medio & desvio\_sementes\_medio & convergiu \\
-	\midrule
-	1 & ('crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)') & 0 & 130 & PIB\_externo & 3 & (2,) & relu & 0.100000 & (1, 42, 123) & 2.452199 & 1.976336 & 1.134121 & 0.882071 & 0.987059 & True \\
-	4 & ('crescimento\_pib', 'índice de despesa governamental', 'dívida pública (\% PIB)') & 14 & 94 & PIB\_governo & 3 & (1,) & relu & 0.100000 & (1, 42, 123) & 3.392068 & 2.902598 & 2.138330 & 1.716132 & 1.489629 & True \\
-	5 & ('crescimento\_pib', 'índice de liberdade empresarial', 'índice de liberdade monetária', 'índice de liberdade comercial', 'índice de liberdade financeira', 'índice de direitos de propriedade') & 17 & 163 & PIB\_liberdade & 6 & (3,) & tanh & 0.100000 & (1, 42, 123) & 3.553964 & 3.139767 & 0.546236 & 0.369175 & 1.769870 & True \\
-	3 & ('crescimento\_pib', 'inflacao', 'taxa de desemprego') & 19 & 64 & PIB\_inflacao\_desemprego & 3 & (1,) & relu & 0.100000 & (1, 42, 123) & 3.634471 & 3.034677 & 2.250391 & 1.812126 & 1.956995 & True \\
-	6 & ('taxa de desemprego', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)', 'dívida pública (\% PIB)', 'índice de direitos de propriedade', 'índice de integridade governamental', 'índice de despesa governamental', 'índice de carga fiscal', 'índice de liberdade empresarial', 'índice de liberdade monetária', 'índice de liberdade comercial', 'índice de liberdade de investimento', 'índice de liberdade financeira', 'crescimento\_pib', 'crescimento\_pop', 'inflacao') & 24 & 209 & PIB\_todas\_variaveis & 16 & (5, 3, 2) & relu & 1.000000 & (1, 42, 123) & 3.802264 & 3.118076 & 2.013700 & 1.620821 & 1.212066 & True \\
-	2 & ('crescimento\_pib', 'inflacao') & 42 & 49 & PIB\_inflacao & 2 & (3, 2) & tanh & 0.100000 & (1, 42, 123) & 3.898332 & 3.102079 & 1.071207 & 0.837528 & 1.075929 & True \\
-	0 & ('crescimento\_pib',) & 53 & 15 & PIB & 1 & (3,) & tanh & 10.000000 & (1, 42, 123) & 3.975022 & 3.198063 & 2.865517 & 2.326786 & 0.000072 & True \\
-	\bottomrule
-\end{tabular}
 
-Porém vale ressaltar que se ajustar bem ao treino não significa necessariamente que o modelo é bom, para isso precisamos de validar fora da amostra. Vamos escolher o melhor dos modelos testados: 
 
-\begin{tabular}{ll}
-	\toprule
-	& Configuração do modelo escolhido \\
-	\midrule
-	config\_id & 130 \\
-	grupo\_variaveis & PIB\_externo \\
-	n\_variaveis & 3 \\
-	variaveis & ('crescimento\_pib', 'balança corrente (\% PIB)', 'investimento direto estrangeiro (\% PIB)') \\
-	arquitetura & (2,) \\
-	activation & relu \\
-	alpha & 0.100000 \\
-	sementes & (1, 42, 123) \\
-	RMSE & 2.452199 \\
-	MAE & 1.976336 \\
-	RMSE\_treino\_medio & 1.134121 \\
-	MAE\_treino\_medio & 0.882071 \\
-	desvio\_sementes\_medio & 0.987059 \\
-	convergiu & True \\
-	\bottomrule
-\end{tabular}
+Notemos que os melhores modelos em relação ao treinamento são todos modelos que utilizam as variáveis do grupo PIB\_externo. Podemos também ver na tabela \ref{tab:melhores_rn_grupo} os melhores modelos por grupos de variáveis, notem como os erros são maiores, isso demonstra que a escolha de quais variáveis pode pesar mais do os hiperparâmetros sozinhos.
+
+
+
+\begin{table}[htbp]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Melhores redes Neurais por grupo de variáveis}
+	\label{tab:melhores_rn_grupo}
+	
+	\scriptsize
+	\setlength{\tabcolsep}{2pt}
+	\renewcommand{\arraystretch}{1.3}
+	
+	\begin{tabularx}{\textwidth}{>{\RaggedRight\arraybackslash}X>{\RaggedRight\arraybackslash}X>{\RaggedRight\arraybackslash}Xrrrrr}
+		\toprule
+		grupo\_variaveis & arquitetura & activation & alpha & RMSE & MAE & RMSE\_treino\_medio & MAE\_treino\_medio \\
+		\midrule
+		PIB\_externo & 2 & relu & 0.100000 & 2.452201 & 1.976338 & 1.134120 & 0.882069 \\
+		PIB\_governo & 1 & relu & 0.100000 & 3.392068 & 2.902598 & 2.138330 & 1.716132 \\
+		PIB\_liberdade & 3 & tanh & 0.100000 & 3.553015 & 3.140456 & 0.546233 & 0.369254 \\
+		PIB\_inflacao\_desemprego & 1 & relu & 0.100000 & 3.634471 & 3.034677 & 2.250391 & 1.812126 \\
+		PIB\_todas\_variaveis & 5, 3, 2 & relu & 1.000000 & 3.794475 & 3.104927 & 2.014470 & 1.620907 \\
+		PIB\_inflacao & 3, 2 & tanh & 0.100000 & 3.898703 & 3.101174 & 1.071032 & 0.837475 \\
+		PIB & 3 & tanh & 10.000000 & 3.975022 & 3.198063 & 2.865517 & 2.326786 \\
+		\bottomrule
+	\end{tabularx}
+	
+	
+	\vspace{0.1cm}
+	
+	\small Fonte: Elaborado pelo autor (2026).
+\end{table}
+
+
+
+
+
+Porém vale ressaltar que se ajustar bem ao treino não significa necessariamente que o modelo é bom, para isso precisamos de validar fora da amostra. Vamos escolher o melhor dos modelos testados, as configurações desse modelo estão presentes na tabela \ref{tab:config_melhor}.
+
+
+
+\begin{table}[htbp]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Configurações do melhor modelo no treinamento}
+	\label{tab:config_melhor}
+	
+	\scriptsize
+	\setlength{\tabcolsep}{2pt}
+	\renewcommand{\arraystretch}{1.3}
+	
+	\begin{tabular}{rr}
+		\toprule
+		Configurações & Valores \\
+		\midrule
+		grupo\_variaveis & PIB\_externo \\
+		n\_variaveis & 3 \\
+		arquitetura & 2 \\
+		activation & relu \\
+		alpha & 0.100000 \\
+		sementes & 1, 42, 123 \\
+		RMSE & 2.452201 \\
+		MAE & 1.976338 \\
+		RMSE\_treino\_medio & 1.134120 \\
+		MAE\_treino\_medio & 0.882069 \\
+		desvio\_sementes\_medio & 0.987059 \\
+		convergiu & True \\
+		\bottomrule
+	\end{tabular}
+	
+	
+	\vspace{0.1cm}
+	
+	\small Fonte: Elaborado pelo autor (2026).
+\end{table}
+
+
 
 
 
@@ -1343,7 +1551,7 @@ Porém vale ressaltar que se ajustar bem ao treino não significa necessariament
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-Como podemos ver na figura \ref{fig:crescimento_pib_rn_treinamento} O ajuste parece formidável, não parece ter evidências de sobreajuste, na figura \ref{fig:erro_validaca_rn} podemos ver os erros durante a validação.
+Como podemos ver na figura \ref{fig:crescimento_pib_rn_treinamento} O ajuste parece formidável, não parece ter evidências de sobreajuste. Na figura \ref{fig:erro_validaca_rn} podemos ver os erros durante a validação.
 
 \begin{figure}[h]
 	\centering
@@ -1357,17 +1565,35 @@ Como podemos ver na figura \ref{fig:crescimento_pib_rn_treinamento} O ajuste par
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-Na tabela a seguir vemos a previsão fora da amostra para os anos de 2023, 2024 e 2025. Podemos notar como obtivemos um erro relativamente pequeno.
+Na tabela a \ref{tab:previsao_rn_fora_amostra} vemos a previsão fora da amostra para os anos de 2023, 2024 e 2025. Podemos notar como obtivemos um erro relativamente pequeno.
 
-\begin{tabular}{lrrrrrrrr}
-	\toprule
-	& ano & crescimento\_real & crescimento\_previsto & desvio\_sementes & erro & erro\_absoluto & PIB\_real & PIB\_previsto \\
-	\midrule
-	0 & 2023 & 3.240708 & 2.019395 & 0.372088 & 1.221313 & 1.221313 & 1297397.148752 & 1282049.252561 \\
-	1 & 2024 & 3.419152 & 2.354770 & 0.950582 & 1.064382 & 1.064382 & 1341757.131234 & 1327947.869731 \\
-	2 & 2025 & 2.286924 & 1.966873 & 0.632193 & 0.320051 & 0.320051 & 1372442.099228 & 1368147.788392 \\
-	\bottomrule
-\end{tabular}
+
+\begin{table}[htbp]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Previsão da Rede Neural escolhida fora da amostra}
+	\label{tab:previsao_rn_fora_amostra}
+	
+	\scriptsize
+	\setlength{\tabcolsep}{2pt}
+	\renewcommand{\arraystretch}{1.3}
+	
+	\begin{tabularx}{\textwidth}{rrrrrrrr}
+		\toprule
+		ano & crescimento\_real & crescimento\_previsto & desvio\_sementes & erro & erro\_absoluto & PIB\_real & PIB\_previsto \\
+		\midrule
+		2023 & 3.240708 & 2.019395 & 0.372088 & 1.221313 & 1.221313 & 1298650.640240 & 1283287.915498 \\
+		2024 & 3.419152 & 2.354770 & 0.950582 & 1.064382 & 1.064382 & 1343053.481504 & 1329230.878084 \\
+		2025 & 2.286924 & 1.966873 & 0.632193 & 0.320051 & 0.320051 & 1373768.096045 & 1369469.636213 \\
+		\bottomrule
+	\end{tabularx}
+	
+	
+	\vspace{0.1cm}
+	
+	\small Fonte: Elaborado pelo autor (2026).
+\end{table}
+
 
 
 \begin{figure}[h]
@@ -1381,6 +1607,21 @@ Na tabela a seguir vemos a previsão fora da amostra para os anos de 2023, 2024 
 	\centering
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
+
+\begin{figure}[h]
+	\centering
+	\captionsetup{justification=centering}
+	\caption{Previsão do crescimento do PIB utilizando redes neurais com dados de treinamento}
+	\label{fig:crescimento_pib_rn_completo}
+	\includegraphics[width=1.0\textwidth]{images/crescimento_pib_rn_completo.png}
+	
+	\vspace{5pt} % Espaçamento sutil entre a imagem e a fonte
+	\centering
+	\small Fonte: Elaborado pelo autor (2026).
+\end{figure}
+
+
+
 
 
 \begin{figure}[h]
@@ -1407,12 +1648,12 @@ Na tabela a seguir vemos a previsão fora da amostra para os anos de 2023, 2024 
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-A partir dessa avaliação fica evidente algumas observações, e também a maior limitação das redes neurais. Primeiramente em um sentido econômico, podemos notar como o modelo que utiliza as variáveis externas tem um bom poder preditivo para a série do PIB brasileiro, isso é recorrente para os modelos testados anteriormente, para além disso, notamos que o modelo que utiliza somente uma única variável o PIB, um modelo autorregressivo univariado baseado em redes neurais, se mostra como a pior opção, em comparação aos outros, portanto é uma evidência para esses dados, que a rede conseguiu obter resultados melhores com mais de uma variável, apontando que as variáveis, em determinado grau ajudam na melhora da previsão. 
+A partir dessa avaliação fica evidente algumas observações, e também a maior limitação das redes neurais. Primeiramente em um sentido econômico, podemos notar como o modelo que utiliza as variáveis externas tem um bom poder preditivo para a série do PIB brasileiro.  Esse comportamento é recorrente e ja foi evidenciado em modelos testados anteriormente. Para além disso, notamos que o modelo que utiliza somente uma única variável o PIB, um modelo autorregressivo univariado baseado em redes neurais, se mostra como a pior opção, em comparação aos outros (dentre os melhores modelos). Portanto é uma evidência para esses dados, que a rede conseguiu obter resultados melhores com mais de uma variável, apontando que mais variáveis, em determinado grau, ajudam na melhora da previsão. 
 
 
-Outro ponto relevante é que para além de um erro de previsão pequeno, a rede consegue estimar o comportamento da variável, acertando quando a variável acelera ou desacelera o crescimento, apesar de errar no sentido numérico. Porém chegamos ao limite da interpretabilidade desse tipo de modelo, poderíamos ainda interpretar sobre os hiperparâmetros, e identificar que sobre arquiteturas de rede, funções de ativação e alphas, mas nesse sentido estaríamos partindo sobre a configuração do modelo, não sobre uma interpretação econômica.
+Outro ponto relevante é que para além de um erro de previsão pequeno, a rede consegue estimar o comportamento da variável, acertando quando a variável acelera ou desacelera o crescimento, apesar de errar no sentido numérico. Porém chegamos ao limite da interpretabilidade desse tipo de modelo, poderíamos ainda interpretar sobre os hiperparâmetros, e identificar sobre arquiteturas de rede, funções de ativação e alphas. Mas se partíssemos para essa análise, estriamos falando sobre a configuração do modelo, não sobre uma interpretação econômica.
 
-Esse problema é conhecido, é a chamada caixa preta da IA, a falta de interpretabilidade direta de um modelo de rede neural é um dos limitantes dessa arquitetura, porém é inegável que esse tipo de modelo consegue capturar comportamentos nas variáveis macroeconômicas. Para além disso consegue acertar com um certo grau de precisão a extrapolar para fora do período de treinamento.
+Esse problema é conhecido, é a chamada caixa preta da IA. A falta de interpretabilidade direta de um modelo de rede neural é um dos limitantes dessa arquitetura, porém é inegável que esse tipo de modelo consegue capturar comportamentos nas variáveis macroeconômicas. Para além disso, consegue acertar com um certo grau de precisão e extrapolar para fora do período de treinamento.
 
 \section{Random Forest}
 
