@@ -27,7 +27,7 @@ A segunda API utilizada foi a API do BACEN (Banco Central do Brasil), onde foram
 
 A terceira fonte de dados via API foi o Banco Mundial, onde foram extraídos dados refentes a despesas brasileiras e relação com o comércio exterior. Por último a Heritage Foundation foi a fonte escolhida para os dados de liberdade econômica.
 
-O período analisado foi de 2007 à 2022, devido a disponibilidade de datas nas bases de dados. 
+O período analisado foi de 2001 à 2025, devido a disponibilidade de datas nas bases de dados. 
 
 %\begin{table}
 %	\centering
@@ -67,43 +67,92 @@ O período analisado foi de 2007 à 2022, devido a disponibilidade de datas nas 
 %	}
 %\end{table}
 
-\begin{table}
+%\begin{table}
+%	\centering
+%	\caption{Fontes de dados utilizadas nas APIs do IBGE, BACEN, World Bank e Heritage Foundation}
+%	\label{tab:fontes_dados}
+%	\resizebox{\textwidth}{!}{
+%		\begin{tabular}{p{4cm} p{2.7cm} p{9cm}}
+%			\hline
+%			\textbf{Indicador} & \textbf{Fonte} & \textbf{URL / Endpoint da API} \\
+%			\hline
+%			PIB & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/6784/periodos/-20/variaveis/9808?localidades=N1[all]} \\
+%			Deflator do PIB & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/6784/periodos/-20/variaveis/9811?localidades=N1[all]} \\
+%			população (milhões) & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/6579/periodos/-20/variaveis/9324?localidades=N1[all]} \\
+%			índice de direitos de propriedade & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Property Rights}) \\
+%			índice de integridade governamental & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Government Integrity}) \\
+%			índice de despesa governamental & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Government Spending}) \\
+%			despesa pública em educação (\% PIB) & World Bank & \small \url{https://api.worldbank.org/v2/country/BRA/indicator/SE.XPD.TOTL.GD.ZS?date=2007:2025&format=json} \\
+%			despesa pública em saúde (\% PIB) & World Bank & \small \url{https://api.worldbank.org/v2/country/BRA/indicator/SH.XPD.GHED.GD.ZS?date=2007:2025&format=json} \\
+%			índice de carga fiscal & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Tax Burden}) \\
+%			dívida pública (\% PIB) & BACEN & \small \url{https://api.bcb.gov.br/dados/serie/bcdata.sgs.13762/dados?formato=json&dataInicial=01/01/2007} \\
+%			índice de liberdade empresarial & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Business Freedom}) \\
+%			índice de liberdade laboral & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Labor Freedom}) \\
+%			taxa de desemprego & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/4093/periodos/-20/variaveis/4099?localidades=N1[all]} \\
+%			índice de liberdade monetária & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Monetary Freedom}) \\
+%			IPCA & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/1737/periodos/-20/variaveis/2266?localidades=N1[all]} \\
+%			índice de liberdade comercial & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Trade Freedom}) \\
+%			balança corrente (\% PIB) & World Bank & \small \url{https://api.worldbank.org/v2/country/BRA/indicator/BN.CAB.XOKA.GD.ZS?date=2007:2025&format=json} \\
+%			Taxa aduaneira (tarifa média aplicada) & World Bank & \small \url{https://api.worldbank.org/v2/country/BRA/indicator/TM.TAX.MRCH.WM.AR.ZS?date=2007:2025&format=json} \\
+%			índice de liberdade de investimento & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Investment Freedom}) \\
+%			investimento direto estrangeiro (\% PIB) & World Bank & \small \url{https://api.worldbank.org/v2/country/BRA/indicator/BX.KLT.DINV.WD.GD.ZS?date=2007:2025&format=json} \\
+%			índice de liberdade financeira & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Financial Freedom}) \\
+%			\hline
+%		\end{tabular}
+%	}
+%\end{table}
+%
+% população (milhões)                      25 non-null     int64  
+%1   taxa de desemprego                       24 non-null     float64
+%2   IPCA                                     25 non-null     float64
+%3   PIB Real                                 25 non-null     float64
+%4   balança corrente (% PIB)                 25 non-null     float64
+%5   investimento direto estrangeiro (% PIB)  25 non-null     float64
+%6   dívida pública (% PIB)                   24 non-null     float64
+%7   índice de direitos de propriedade        25 non-null     float64
+%8   índice de integridade governamental      25 non-null     float64
+%9   índice de despesa governamental          25 non-null     float64
+%10  índice de carga fiscal                   25 non-null     float64
+%11  índice de liberdade empresarial          25 non-null     float64
+%12  índice de liberdade monetária            25 non-null     float64
+%13  índice de liberdade comercial            25 non-null     float64
+%14  índice de liberdade de investimento      25 non-null     int64  
+%15  índice de liberdade financeira           25 non-null     int64 
+
+\begin{table}[htb]
 	\centering
 	\caption{Fontes de dados utilizadas nas APIs do IBGE, BACEN, World Bank e Heritage Foundation}
 	\label{tab:fontes_dados}
 	\resizebox{\textwidth}{!}{
-		\begin{tabular}{p{4cm} p{2.7cm} p{9cm}}
+		\begin{tabular}{p{4.2cm} p{2.8cm} p{9cm}}
 			\hline
 			\textbf{Indicador} & \textbf{Fonte} & \textbf{URL / Endpoint da API} \\
 			\hline
-			PIB & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/6784/periodos/-20/variaveis/9808?localidades=N1[all]} \\
-			Deflator do PIB & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/6784/periodos/-20/variaveis/9811?localidades=N1[all]} \\
-			população (milhões) & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/6579/periodos/-20/variaveis/9324?localidades=N1[all]} \\
-			índice de direitos de propriedade & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Property Rights}) \\
-			índice de integridade governamental & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Government Integrity}) \\
-			índice de despesa governamental & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Government Spending}) \\
-			despesa pública em educação (\% PIB) & World Bank & \small \url{https://api.worldbank.org/v2/country/BRA/indicator/SE.XPD.TOTL.GD.ZS?date=2007:2025&format=json} \\
-			despesa pública em saúde (\% PIB) & World Bank & \small \url{https://api.worldbank.org/v2/country/BRA/indicator/SH.XPD.GHED.GD.ZS?date=2007:2025&format=json} \\
-			índice de carga fiscal & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Tax Burden}) \\
-			dívida pública (\% PIB) & BACEN & \small \url{https://api.bcb.gov.br/dados/serie/bcdata.sgs.13762/dados?formato=json&dataInicial=01/01/2007} \\
-			índice de liberdade empresarial & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Business Freedom}) \\
-			índice de liberdade laboral & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Labor Freedom}) \\
-			taxa de desemprego & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/4093/periodos/-20/variaveis/4099?localidades=N1[all]} \\
-			índice de liberdade monetária & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Monetary Freedom}) \\
-			IPCA & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/1737/periodos/-20/variaveis/2266?localidades=N1[all]} \\
-			índice de liberdade comercial & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Trade Freedom}) \\
-			balança corrente (\% PIB) & World Bank & \small \url{https://api.worldbank.org/v2/country/BRA/indicator/BN.CAB.XOKA.GD.ZS?date=2007:2025&format=json} \\
-			Taxa aduaneira (tarifa média aplicada) & World Bank & \small \url{https://api.worldbank.org/v2/country/BRA/indicator/TM.TAX.MRCH.WM.AR.ZS?date=2007:2025&format=json} \\
-			índice de liberdade de investimento & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Investment Freedom}) \\
-			investimento direto estrangeiro (\% PIB) & World Bank & \small \url{https://api.worldbank.org/v2/country/BRA/indicator/BX.KLT.DINV.WD.GD.ZS?date=2007:2025&format=json} \\
-			índice de liberdade financeira & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Financial Freedom}) \\
+			População (milhões) & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/6579/periodos/-30/variaveis/9324?localidades=N1[all]} \\
+			Taxa de desemprego & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/4093/periodos/-30/variaveis/4099?localidades=N1[all]} e https://servicodados.ibge.gov.br/api/v3/agregados/2179/
+			periodos/199501-201112/variaveis/1035?localidades=N110\\
+			IPCA & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/1737/periodos/-30/variaveis/2266?localidades=N1[all]} \\
+			PIB Real & IBGE & \small \url{https://servicodados.ibge.gov.br/api/v3/agregados/6784/periodos/-30/variaveis/9808?localidades=N1[all]} \\
+			Balança corrente (\% PIB) & World Bank & \small \url{https://api.worldbank.org/v2/country/BRA/indicator/BN.CAB.XOKA.GD.ZS?date=2001:2025&format=json} \\
+			Investimento direto estrangeiro (\% PIB) & World Bank & \small \url{https://api.worldbank.org/v2/country/BRA/indicator/BX.KLT.DINV.WD.GD.ZS?date=2001:2025&format=json} \\
+			Dívida pública (\% PIB) & BACEN & \small \url{https://api.bcb.gov.br/dados/serie/bcdata.sgs.13762/dados?formato=json&dataInicial=01/01/2001} \\
+			Índice de direitos de propriedade & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Property Rights}) \\
+			Índice de integridade governamental & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Government Integrity}) \\
+			Índice de despesa governamental & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Government Spending}) \\
+			Índice de carga fiscal & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Tax Burden}) \\
+			Índice de liberdade empresarial & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Business Freedom}) \\
+			Índice de liberdade monetária & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Monetary Freedom}) \\
+			Índice de liberdade comercial & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Trade Freedom}) \\
+			Índice de liberdade de investimento & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Investment Freedom}) \\
+			Índice de liberdade financeira & Heritage Foundation & \small \url{https://economicfreedom.heritage.org/pages/all-country-scores} (variável \texttt{Financial Freedom}) \\
 			\hline
 		\end{tabular}
 	}
+	
+	\vspace{0.2cm}
+	\raggedright
+	\footnotesize Fonte: Elaborado pelo autor (2026).
 \end{table}
-
-
-
 
 \section{Procedimento de análise de dados}
 
@@ -117,53 +166,56 @@ e suas bibliotecas.
 
 O primeiro processo de tratamento foi a conversão dos tipos nativos das APIs para um formato adequado para análise com Python, isso foi feito através da biblioteca Pandas. "Pandas é uma biblioteca de Python de estruturas de dados e ferramentas estatísticas, inicialmente desenvolvida para aplicações de finanças quantitativas." \citem[p. 1, \textit{tradução nossa}]{mckinney2010pandas}.
 
-O segundo passo de tratamento foi a inflação dos dados para 2022, último ano da série, isso foi feito através de um índice de preços, que pode verificado na equação \ref{eq:inflacao}. O \citeonline{ibge_pib_series} traz a definição de deflator do PIB, porém que se aplica as demais variáveis, em que um deflator é a variação do valor corrente da variável no tempo $(t)$ em relação ao valor da varável do ano $(t)$ a preços do ano anterior, ou seja a variação percentual em relação ao mesmo período do ano anterior.
+O segundo passo foi o tratamento de variáveis faltantes, muitas outras foram coletadas, porém devido a não ter a disponibilidade de período de tempo essas variáveis foram descartadas antes mesmo de passar pelo primeiro teste\footnote{Optamos para não causar confusão ao leitor, de remover essas variáveis, inclusive dessa metodologia, porém é importante ressaltar que a versão inicial desse trabalho visava utilizar 26 variáveis, contudo após essa triagem inicial só restaram as 16 atuais, descartando outras 10 que não tinham uma série completa}.
+
+Outro procedimento adotado, foi o tratamento e identificação de problemas. A série principal do PIB anual tem a divulgação de forma atrasada. Dessa forma o PIB dos anos de 2024 e 2025 precisaram ser "calculados", na realidade o que foi utilizado foi uma aproximação do PIB anual pelo PIB trimestral e utilizando uma metodologia a do IBGE para a construção do deflator do PIB.
+
+Esse calculo é feito por meio da reconstrução do deflator do PIB, em que pode ser desquita pela expressão \ref{eq:deflator}.
+
 \begin{equation}
-	\label{eq:inflacao}
-	\text{Valor real} = \frac{\text{Valor Nominal}}{\text{índice de Preços}} \times 100
+	\label{eq:deflator}
+	D_t = 100 \prod_{i=1}^{t}
+	\left(1+\frac{d_i}{100}\right)
 \end{equation}
 
-O terceiro passo de tratamento foi o treinamento dos modelos. Nesse passo foram utilizados as bibliotecas Scikit-learn e Tensorflow, os modelos foram treinados com dados de 2007 à 2017, totalizando 10 anos na série histórica (dados de treinamento), e deixando os últimos 5 anos (2017 à 2022) para a testagem dos resultados do modelo. Para \citeonline{santos2022previsao} as eficácias dos modelos nos dados de treinamento não são importantes, o que é relevante é como o modelo se sai com os dados de teste, ou seja, se o modelo consegue ser extensivo no período fora da amostra.
+
+\(D_t\) é o índice acumulado do deflator do PIB no tempo \(t\);
+
+\(d_i\) é a variação percentual anual do deflator no tempo \(i\);
+
+\(t\) representa o tempo analisado.
+
+Para a remoção da inflação foi utilizada o ano de 2023 como base, assim foi aplicada a expressão \ref{eq:inflacao} na série obtendo um valor de PIB real. O \citeonline{ibge_pib_series} traz a definição de deflator do PIB, porém que se aplica as demais variáveis, em que um deflator é a variação do valor corrente da variável no tempo $(t)$ em relação ao valor da varável do ano $(t)$ a preços do ano anterior, ou seja a variação percentual em relação ao mesmo período do ano anterior.
+
+\begin{equation}
+	\label{eq:inflacao}
+	PIB_t^{real} =
+	\frac{PIB_t^{nominal}}{D_t/100}
+\end{equation}
+
+Esse não é um tratamento, mas um relato de problemas com séries. Primeiramente a série da população, que teve o Censo demográfico de 2020 adiado por conta da pandemia, e teve os dados divulgados em 2022, isso fez com que a série tivesse uma quebra em 2022 pelos erros de estimativas dos anos anteriores. Outra série com problema é a série da Taxa de desemprego, nessa série existe uma quebra no ano de 2012, onde houve uma troca da pesquisa industrial mensal pela PNAD continua. E não existe uma série de desemprego continua para esse período. Porém esses dois problemas não se tornaram motivos para descarte, mas sim de teste de resiliência dos modelos.
+
+Somente após o tratamento das variáveis foi possível o treinamento dos modelos. Nesse passo foram utilizados as bibliotecas como o Scikit-learn do Python. Os modelos foram treinados com dados de 2002 à 2022, totalizando 20 anos na série histórica (dados de treinamento), e deixando os últimos 3 anos (2023 à 2025) para a testagem dos resultados do modelo. Para \citeonline{santos2022previsao} as eficácias dos modelos nos dados de treinamento não são importantes, o que é relevante é como o modelo se sai com os dados de teste, ou seja, se o modelo consegue ser extensivo no período fora da amostra.
 
 O último passo foi o cálculo das métricas de avaliação dos modelos, para esse passo foram avaliadas três dimensões: acurácia, interpretabilidade e custo computacional.
 
-Para a acurácia foram escolhidas as métricas que foram utilizadas por \citeonline{rebelo2022interpretabilidade}: o  Erro Quadrático Médio (EQM) descrito na equação \ref{eq:EQM}; Erro Absoluto Médio (EAM) descrito na equação \ref{eq:EAM}; a Raiz do Erro Quadrático Médio (REQM) descrito na equação \ref{eq:REQM}; e por fim, o erro percentual absoluto médio (EPAM) descrito na equação \ref{eq:EPAM}.
+Para a acurácia foram escolhidas duas das as métricas que foram utilizadas por \citeonline{rebelo2022interpretabilidade}: Erro Absoluto Médio (MAE - \textit{Mean Absolute Error}) descrito na equação \ref{eq:MAE}; Raiz do Erro Quadrático Médio (RMSE - \textit{Root Mean Squared Error}) descrito na equação \ref{eq:RMSE}.
 
 \begin{equation}
-	\label{eq:EQM}
-	\text{EQM} = \frac{1}{n}\sum_{i=1}^{n}(y_i \hat{y_i})^2
-\end{equation}
-
-\begin{equation}
-	\label{eq:EAM}
-	\text{EQM} = \frac{1}{n}\sum_{i=1}^{n}|y_i \hat{y_i}|
+	\label{eq:MAE}
+	\text{MAE} = \frac{1}{n}\sum_{i=1}^{n}|y_i \hat{y_i}|
 \end{equation}
 
 \begin{equation}
 	\label{eq:REQM}
-	\text{REQM} = \sqrt{\text{EQM}}
-\end{equation}
-
-\begin{equation}
-	\label{eq:EPAM}
-	\text{EPAM} = \frac{1}{n}\sum_{i=1}^{n}|\frac{y_i \hat{y_i}}{y_i}| \times 100
-\end{equation}
-
-Para \citeonline{kava2022alem} a interpretabilidade está diretamente relacionada a facilidade que um ser humano tem de entender os resultados de um modelo. Para essa dimensão foram usadas as métricas: Efeitos Locais Acumulados (ELA) descrito na equação \ref{eq:ELA}; e a interação ente preditores através da estatística-H, descrita na equação \ref{eq:H}, ambas descritas por \citeonline{kava2022alem}.
-
-\begin{equation}
-	\label{eq:ELA}
-	\tilde{f}_j,\text{ELA}(x) = \sum_{k=1}^{k_j(x)}\frac{1}{n_k(k)} \sum_{i:X_j \in N_j(k)}[\hat{f}(z_{k,j},x_j^{(i)})-\hat{f}(z_{k-1,j},x_j^{(i)})]
+	\text{RMSE} = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i \hat{y_i})^2}
 \end{equation}
 
 
+Para \citeonline{kava2022alem} a interpretabilidade está diretamente relacionada a facilidade que um ser humano tem de entender os resultados de um modelo. Para essa dimensão foi realizado uma análise qualitativa sobre as possibilidades de interpretação dos modelos por uma pesquisado.
 
-\begin{equation}
-	\label{eq:H}
-	H_j^2 = \frac{ \sum_{i=1}^{n}[\hat{f}(x^{(i)})-PD_J(X_J^{(I)})-PD_{-J}(X_{-J}^{(I)})]^2}{\sum_{i=1}^{n}\hat{f^2}(x^{(i)})}
-\end{equation}
 
-A última dimensão é o custo computacional, essa se baseará principalmente no tempo de execução dos modelos, e na contagem de operações com ponto flutuantes - FLOPs (do inglês, FLOating Point Operations) em ambas as métricas, quanto mais alto o valor, maior é o custo computacional.
+A última dimensão é o custo computacional, essa se baseará principalmente no tempo de execução dos modelos na máquina de teste. A máquina utilizada para a execução de todos os modelos é um computador com perfil robusto para processamento paralelo. Trata-se de uma máquina que possuí um processador Xeon e5 2680 v4 combinados com 32GB de RAM, outras características mais específicas não são relevantes para o processamento. O perfil da máquina não é um limitante para a aplicação, somente terá divergências nos tempos de execução de cada modelo.
 
 
 \section{Constructo da pesquisa}
