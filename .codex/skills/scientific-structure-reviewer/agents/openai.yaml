@@ -1,0 +1,4 @@
+interface:
+  display_name: "Scientific Structure Reviewer"
+  short_description: "Assess outline, narrative, and paper structure"
+  default_prompt: "Use $scientific-structure-reviewer to assess this manuscript's scientific story, reader promise, section order, and peer-review-ready structure."

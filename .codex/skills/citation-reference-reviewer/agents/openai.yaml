@@ -1,0 +1,4 @@
+interface:
+  display_name: "Citation and Reference Reviewer"
+  short_description: "Verify BibTeX references and IEEE citations"
+  default_prompt: "Use $citation-reference-reviewer to inventory citations, verify BibTeX metadata, check DOI/URL validity, and flag fabricated or inconsistent references."

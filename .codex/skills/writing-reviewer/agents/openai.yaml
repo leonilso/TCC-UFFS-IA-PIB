@@ -1,0 +1,4 @@
+interface:
+  display_name: "Writing Reviewer"
+  short_description: "Review peer-review-ready manuscript prose"
+  default_prompt: "Use $writing-reviewer to improve peer-review-ready scientific prose after structure and technical claims are stable, without strengthening unsupported claims."

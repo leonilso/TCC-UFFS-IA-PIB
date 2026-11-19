@@ -1,0 +1,4 @@
+interface:
+  display_name: "Scientific Referee Reviewer"
+  short_description: "Write rigorous accept/reject scientific reviews"
+  default_prompt: "Use $scientific-referee-reviewer to rigorously review this paper, verify claims where feasible, assess reproducibility artifacts, and decide Accept or Reject."

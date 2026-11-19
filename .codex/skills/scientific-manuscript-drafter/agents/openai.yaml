@@ -1,0 +1,4 @@
+interface:
+  display_name: "Scientific Manuscript Drafter"
+  short_description: "Draft papers from evidence with traceability"
+  default_prompt: "Use $scientific-manuscript-drafter to turn these research artifacts into a peer-review-ready scientific manuscript with claim-evidence traceability."

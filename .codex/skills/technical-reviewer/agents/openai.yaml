@@ -1,0 +1,4 @@
+interface:
+  display_name: "Technical Reviewer"
+  short_description: "Evaluate scientific rigor and technical soundness"
+  default_prompt: "Use $technical-reviewer to map claims to evidence and review this manuscript for technical correctness, methodology, results, and reproducibility."
