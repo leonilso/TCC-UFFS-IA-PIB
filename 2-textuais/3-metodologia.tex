@@ -2,11 +2,11 @@
 \label{chap:metodologia}
 
 \section{Delineamento de pesquisa}
-Com base nos objetivos da presente pesquisa, a mesma se classifica como explicativa. Esse tipo de pesquisa "têm como preocupação central identificar os fatores que determinam ou que contribuem para a ocorrência dos fenômenos." \citem[p. 87]{Gil}. Ao analisarmos o desempenho dos diferentes modelos econométricos voltados para a predição do PIB brasileiro, estamos buscando identificar e compreender os diferentes fatores que explicam esse desempenho, enquadrando-a como explicativa.
+Com base em seus objetivos, esta pesquisa possui caráter comparativo, pois avalia o desempenho preditivo de diferentes modelos aplicados aos mesmos alvos. Quanto à abordagem, é predominantemente quantitativa e emprega os métodos comparativo e estatístico. Quanto às fontes, caracteriza-se como documental, por utilizar séries obtidas em repositórios digitais de dados.
 
-Sobre os procedimentos de coleta de dados, a presente pesquisa se enquadra como documental, por utilizar-se de dados que não receberam um tratamento e estão dispostos em repositórios digitais de dados. Segundo \citeonline{Gil} a pesquisa documental apropria-se de diversas fontes, não somente material impresso em bibliotecas, onde os documentos utilizados podem ter um tratamento analítico ou não.
+Sobre os procedimentos de coleta de dados, a pesquisa se enquadra como documental, pois utiliza dados de diferentes fontes, inclusive registros disponíveis em repositórios digitais. Segundo \citeonline{Gil}, a pesquisa documental pode recorrer a fontes diversas, para além de materiais impressos disponíveis em bibliotecas.
 
-Por fim, ao se tratar de uma pesquisa que compara diferentes modelos econométricos, assim como avalia o desempenho dos mesmos, seguindo o rigor matemático e estatístico, ela se enquadra como uma pesquisa predominantemente quantitativa onde apropria-se do método comparativo e estatístico. Para \citeonline{LAKATOSMARCONI} o método estatístico trata-se da redução dos fenômenos a termos quantitativos e a manipulação estatística, onde possibilita a generalizações sobre sua natureza, ocorrência ou significado. Já "o método comparativo é usado tanto para comparações de grupos." \citem[p. 107, 108]{LAKATOSMARCONI}.
+Quanto à abordagem, a pesquisa é predominantemente quantitativa, pois compara o desempenho dos modelos com base em medidas numéricas. Para \citeonline{LAKATOSMARCONI}, o método estatístico reduz os fenômenos a termos quantitativos e permite examinar sua natureza, ocorrência ou significado. As autoras também descrevem o método comparativo como adequado à comparação entre grupos \citem[p. 107-108]{LAKATOSMARCONI}.
 
 
 %	Aqui eu tenho que falar sobre os objetivos
@@ -14,7 +14,7 @@ Por fim, ao se tratar de uma pesquisa que compara diferentes modelos econométri
 %	Quanto a abordagem as questões de Pesquisa
 \section{Procedimento de coleta de dados}
 
-As variáveis\footnote{Algumas das variáveis utilizadas por \citeonline{rebelo2022interpretabilidade} não foram possíveis de se utilizar para o período escolhido para a realidade brasileira, dentre las as despesas do governo com ambiental, Índice de eficiência jurídica e índice de saúde fiscal. Porém vale se ressaltar que a partir de 2012 existe a série histórica do IFGF (Índice Firjan de Gestão Fiscal), assim como o IPC-Jus (Índice de Produtividade Comparada da Justiça), por outro lado as despesas do governo com ambiental são muito mais recentes, mas sendo possíveis variáveis a serem adicionadas em um futuro trabalho, quando os índices tiverem mais registros} foram escolhidas baseadas na dissertação de \citeonline{rebelo2022interpretabilidade}. As variáveis escolhidas podem ser verificadas na tabela \ref{tab:fontes_dados}. Os dados utilizados na pesquisa foram extraídos de 3 APIs (\textit{Application Programming Interface}, no português, Interface de programação de aplicações), além de uma fonte de dados web, que náo disponibiliza API pública, mas seus dados podem ser salvos em formato de planilha. A relação variável\footnote{O índice de desemprego possui um adendo, pois trata-se da combinação de 2 índices devido a troca de metodologia do IBGE e a indisponibilidade de um índice unificado, o primeiro que compreende parte maior do período de 2012 a 202 é extraído da PNAD (Pesquisa Nacional de Amostra de Domicílio) continua, onde a variável em questão é a taxa de desocupação, na semana de referência, das pessoas de 14 anos ou mais de idade, enquanto o período de 2007 até 2011 utilizou-se a média da taxa de desocupação na semana de referência, das pessoas de 10 anos ou mais de idade, principais responsáveis pela família, da PME (Pesquisa Mensal de Emprego) metodologicamente essas variáveis são diferentes, pois a PME tem uma faixa etária e público alvo diferente, além de ser realizada em grandes centros, contudo devido as limitações optou-se por utilizar essas duas, pois são as mais próximas no sentido de aplicação ao nosso modelo } - Fonte - URL dos dados pode ser verificada na mesma tabela.
+As variáveis foram selecionadas com base na dissertação de \citeonline{rebelo2022interpretabilidade}. Algumas variáveis utilizadas nesse estudo não estavam disponíveis para o Brasil ou não cobriam todo o período analisado, como as despesas ambientais do governo, o índice de eficiência jurídica e o índice de saúde fiscal. Indicadores como o IFGF (Índice Firjan de Gestão Fiscal) e o IPC-Jus (Índice de Produtividade Comparada da Justiça) possuem séries históricas mais curtas; dados sobre despesas ambientais também estão disponíveis para períodos mais recentes. A inclusão dessas variáveis poderá ser considerada em pesquisas futuras, caso haja séries compatíveis com a janela de análise. As variáveis selecionadas, suas fontes e os endereços eletrônicos dos dados estão relacionados na tabela \ref{tab:fontes_dados}. Os dados foram extraídos de três APIs (\textit{Application Programming Interface}, ou interface de programação de aplicações) e de uma fonte on-line sem API pública, cujos dados foram obtidos em formato de planilha. A série de desocupação combina duas pesquisas do IBGE: a PNAD Contínua (Pesquisa Nacional por Amostra de Domicílios Contínua), de 2012 a 2025, e a PME (Pesquisa Mensal de Emprego), de 2007 a 2011. Como essas pesquisas diferem quanto à faixa etária, à população pesquisada e à cobertura geográfica, a série combinada deve ser interpretada considerando essa quebra metodológica.
 
 A primeira fonte foi a API de dados agregados do IBGE, onde nela existem informações econômicas, sociais e demográficas do Brasil. 
 
@@ -25,9 +25,9 @@ A primeira fonte foi a API de dados agregados do IBGE, onde nela existem informa
 
 A segunda API utilizada foi a API do BACEN (Banco Central do Brasil), onde foram extraídos dados das contas públicas do Brasil. Segundo o próprio \citeonline{bcb_dados_abertos} o "catálogo de dados, permite que os usuários encontrem os conjuntos de informações de seu interesse, entendam sua estrutura e suas limitações, e tenham acesso ao caminho para os dados."
 
-A terceira fonte de dados via API foi o Banco Mundial, onde foram extraídos dados refentes a despesas brasileiras e relação com o comércio exterior. Por último a Heritage Foundation foi a fonte escolhida para os dados de liberdade econômica.
+A terceira fonte de dados via API foi o Banco Mundial, de onde foram extraídos dados referentes às despesas brasileiras e às relações com o comércio exterior. Por último, a Heritage Foundation foi utilizada como fonte dos dados sobre liberdade econômica.
 
-O período analisado foi de 2001 à 2025, devido a disponibilidade de datas nas bases de dados. 
+O período analisado foi de 2001 a 2025, conforme a disponibilidade de dados nas bases consultadas.
 
 %\begin{table}
 %	\centering
@@ -166,7 +166,7 @@ e suas bibliotecas.
 
 O primeiro processo de tratamento foi a conversão dos tipos nativos das APIs para um formato adequado para análise com Python, isso foi feito através da biblioteca Pandas. "Pandas é uma biblioteca de Python de estruturas de dados e ferramentas estatísticas, inicialmente desenvolvida para aplicações de finanças quantitativas." \citem[p. 1, \textit{tradução nossa}]{mckinney2010pandas}.
 
-O segundo passo foi o tratamento de variáveis faltantes, muitas outras foram coletadas, porém devido a não ter a disponibilidade de período de tempo essas variáveis foram descartadas antes mesmo de passar pelo primeiro teste\footnote{Optamos para não causar confusão ao leitor, de remover essas variáveis, inclusive dessa metodologia, porém é importante ressaltar que a versão inicial desse trabalho visava utilizar 26 variáveis, contudo após essa triagem inicial só restaram as 16 atuais, descartando outras 10 que não tinham uma série completa}.
+O segundo passo consistiu no tratamento das observações ausentes e na seleção das variáveis com cobertura suficiente. Na triagem inicial, foram consideradas 26 variáveis; dez foram excluídas por não apresentarem séries completas para o período analisado, restando 16 variáveis para a pesquisa.
 
 Outro procedimento adotado, foi o tratamento e identificação de problemas. A série principal do PIB anual tem a divulgação de forma atrasada. Dessa forma o PIB dos anos de 2024 e 2025 precisaram ser "calculados", na realidade o que foi utilizado foi uma aproximação do PIB anual pelo PIB trimestral e utilizando uma metodologia a do IBGE para a construção do deflator do PIB.
 
@@ -193,33 +193,36 @@ Para a remoção da inflação foi utilizada o ano de 2023 como base, assim foi 
 	\frac{PIB_t^{nominal}}{D_t/100}
 \end{equation}
 
-Esse não é um tratamento, mas um relato de problemas com séries. Primeiramente a série da população, que teve o Censo demográfico de 2020 adiado por conta da pandemia, e teve os dados divulgados em 2022, isso fez com que a série tivesse uma quebra em 2022 pelos erros de estimativas dos anos anteriores. Outra série com problema é a série da Taxa de desemprego, nessa série existe uma quebra no ano de 2012, onde houve uma troca da pesquisa industrial mensal pela PNAD continua. E não existe uma série de desemprego continua para esse período. Porém esses dois problemas não se tornaram motivos para descarte, mas sim de teste de resiliência dos modelos.
+Além do tratamento das variáveis, foram identificadas limitações nas séries. A série populacional apresenta uma quebra em 2022, ano de divulgação dos resultados do Censo Demográfico adiado durante a pandemia, o que levou à revisão das estimativas dos anos anteriores. A série da taxa de desocupação também apresenta uma quebra em 2012, quando a Pesquisa Mensal de Emprego foi substituída pela PNAD Contínua; não há uma série metodologicamente homogênea que cubra todo o período analisado. Essas limitações foram mantidas para avaliar a sensibilidade dos modelos às características dos dados.
 
-Somente após o tratamento das variáveis foi possível o treinamento dos modelos. Nesse passo foram utilizados as bibliotecas como o Scikit-learn do Python. Os modelos foram treinados com dados de 2002 à 2022, totalizando 20 anos na série histórica (dados de treinamento), e deixando os últimos 3 anos (2023 à 2025) para a testagem dos resultados do modelo. Para \citeonline{santos2022previsao} as eficácias dos modelos nos dados de treinamento não são importantes, o que é relevante é como o modelo se sai com os dados de teste, ou seja, se o modelo consegue ser extensivo no período fora da amostra.
+Após o tratamento das variáveis, os modelos foram estimados com dados anteriores ao período de avaliação, reservado para os anos de 2023 a 2025. O intervalo de 2002 a 2022 abrange 21 anos-calendário; o número efetivo de observações varia entre as especificações em função das diferenças, defasagens, frequências e disponibilidade das séries. Por exemplo, a amostra do ARIMA em nível contém 21 observações anuais, enquanto a primeira diferença reduz esse número em uma observação; no VAR(1), a defasagem também reduz a amostra efetiva. Nos modelos com validação temporal, os dados anteriores a 2023 foram ainda divididos entre treinamento e validação, conforme descrito nas respectivas seções de resultados. Assim, os períodos e os tamanhos efetivos de amostra são informados para cada aplicação. Como observam \citeonline{santos2022previsao}, o desempenho fora da amostra é central para avaliar a capacidade preditiva dos modelos.
 
-O último passo foi o cálculo das métricas de avaliação dos modelos, para esse passo foram avaliadas três dimensões: acurácia, interpretabilidade e custo computacional.
+Neste estudo, as variáveis-alvo são o nível do PIB real brasileiro e sua taxa de crescimento, ambos analisados em frequência anual.
 
-Para a acurácia foram escolhidas duas das as métricas que foram utilizadas por \citeonline{rebelo2022interpretabilidade}: Erro Absoluto Médio (MAE - \textit{Mean Absolute Error}) descrito na equação \ref{eq:MAE}; Raiz do Erro Quadrático Médio (RMSE - \textit{Root Mean Squared Error}) descrito na equação \ref{eq:RMSE}.
+O último passo consistiu na avaliação dos modelos segundo quatro critérios: tempo de execução, interpretabilidade qualitativa, raiz do erro quadrático médio (RMSE) e erro absoluto médio (MAE).
+
+O desempenho preditivo foi avaliado pelo \ac{mae}, descrito na equação \ref{eq:MAE}, e pelo \ac{rmse}, descrito na equação \ref{eq:RMSE}.
 
 \begin{equation}
 	\label{eq:MAE}
-	\text{MAE} = \frac{1}{n}\sum_{i=1}^{n}|y_i \hat{y_i}|
+\text{MAE} = \frac{1}{n}\sum_{i=1}^{n}|y_i-\hat{y}_i|
 \end{equation}
 
 \begin{equation}
-	\label{eq:REQM}
-	\text{RMSE} = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i \hat{y_i})^2}
+	\label{eq:RMSE}
+\text{RMSE} = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{y}_i)^2}
 \end{equation}
 
 
-Para \citeonline{kava2022alem} a interpretabilidade está diretamente relacionada a facilidade que um ser humano tem de entender os resultados de um modelo. Para essa dimensão foi realizado uma análise qualitativa sobre as possibilidades de interpretação dos modelos por uma pesquisado.
+Para \citeonline{kava2022alem}, a interpretabilidade está relacionada à facilidade com que uma pessoa compreende os resultados de um modelo. Neste estudo, essa dimensão foi avaliada qualitativamente, considerando as possibilidades de interpretação econômica de cada modelo.
 
 
-A última dimensão é o custo computacional, essa se baseará principalmente no tempo de execução dos modelos na máquina de teste. A máquina utilizada para a execução de todos os modelos é um computador com perfil robusto para processamento paralelo. Trata-se de uma máquina que possuí um processador Xeon e5 2680 v4 combinados com 32GB de RAM, outras características mais específicas não são relevantes para o processamento. O perfil da máquina não é um limitante para a aplicação, somente terá divergências nos tempos de execução de cada modelo.
+A dimensão computacional foi representada pelo tempo de execução dos modelos na máquina de teste. Todos os modelos foram executados no mesmo computador, equipado com processador Xeon E5-2680 v4 e 32 GB de RAM, para manter constantes as condições da comparação.
 
+Durante a elaboração deste trabalho, ferramentas de inteligência artificial generativa foram utilizadas como apoio à revisão textual, especificamente para a correção ortográfica e o aprimoramento da coesão e da consistência da escrita. Foram utilizados os modelos GPT-6 Luna (medium) e GPT-6 Astra (high).
 
 \section{Constructo da pesquisa}
-A estrutura do constructo pode ser verificado na tabela \ref{tab:Constructo}
+A estrutura do constructo pode ser verificada na tabela \ref{tab:Constructo}.
 %	\begin{table}
 	%		\centering
 	%		\caption{Constructo da pesquisa}
@@ -246,24 +249,24 @@ A estrutura do constructo pode ser verificado na tabela \ref{tab:Constructo}
 		\hline
 		\textbf{Pergunta de Pesquisa} \\
 		\hline
-		Em que medida modelos preditivos baseados em \ac{ia}, comparados aos modelos tradicionais VAR, ARIMA, DFM e MIDAS, conseguem estimar o PIB brasileiro? \\
+		Como se comparam as previsões de redes neurais e Random Forest às dos modelos tradicionais VAR, ARIMA, DFM e MIDAS para a taxa de crescimento e o nível do PIB real brasileiro, em frequência anual? \\
 		\hline
 		\textbf{Objetivo Geral} \\
 		\hline
-		Analisar em que medida modelos preditivos baseados em \ac{ia}, comparados aos modelos tradicionais VAR, ARIMA, DFM e MIDAS, conseguem estimar o PIB brasileiro.
+		Comparar o desempenho dos modelos econométricos tradicionais VAR, ARIMA, DFM e MIDAS com o de dois modelos baseados em IA — redes neurais e Random Forest — na previsão da taxa de crescimento e do nível do PIB real brasileiro, em frequência anual.
 	\end{tabular}
 	\resizebox{\textwidth}{!}{
 		\begin{tabular}{p{4cm} p{5.0cm} p{3.5cm} p{4.6cm}}
 			\hline
 			\textbf{Objetivos específicos} & \textbf{variáveis/dados à coletar} & \textbf{Como analisar} & \textbf{Fonte}. \\
 			\hline
-			Caracterizar os modelos econométricos tradicionais (VAR, ARIMA, DFM e MIDAS) e de IA para a predição do PIB. & Modelos econométrico com capacidade de predizer séries temporais. & Buscar através da literatura modelos já utilizados com esses fins. & \citeonline{castelli2022modelo}, \citeonline{azevedo2020modelagem}, \citeonline{azevedo2020modelagem}, \citeonline{ciquini2023modelo}, \citeonline{silva2024dados}, \citeonline{alves2009nucleo}, \citeonline{moura2020fragilidade} e \citeonline{micheletti2024avaliaccao}. \\
+			Caracterizar os modelos econométricos tradicionais VAR, ARIMA, DFM e MIDAS e os modelos de IA de redes neurais e Random Forest. & Modelos aplicados à previsão econômica. & Descrever, com base na literatura, os modelos e suas aplicações à previsão do PIB. & \citeonline{castelli2022modelo}, \citeonline{azevedo2020modelagem}, \citeonline{ciquini2023modelo}, \citeonline{silva2024dados}, \citeonline{alves2009nucleo}, \citeonline{moura2020fragilidade} e \citeonline{micheletti2024avaliaccao}. \\
 			\hline
-			Identificar as diferentes variáveis determinantes na estimativa do PIB. & Variáveis com possível influência no PIB com facilidade de coleta e atualização recorrente. & Procurar na literatura quais variáveis são utilizadas para a predição do PIB. & \citeonline{rebelo2022interpretabilidade}, \citeonline{ibge_api} e \citeonline{bcb_dados_abertos}. \\
+			Identificar as variáveis utilizadas como preditoras do PIB. & Variáveis preditoras com dados disponíveis para o período analisado, nas frequências requeridas por cada modelo. & Identificar na literatura variáveis utilizadas na previsão do PIB e selecionar aquelas compatíveis com a disponibilidade e a frequência dos dados. & \citeonline{rebelo2022interpretabilidade}, \citeonline{ibge_api} e \citeonline{bcb_dados_abertos}. \\
 			\hline
-			Aplicar diferentes modelos econométricos tradicionais e de IA para a predição do PIB. & Modelos econométricos e variáveis encontradas nos primeiros dois objetivos. & treinar os diferentes modelos usando os dados coletados através da linguagem de programação Python e suas bibliotecas de estatística.  & \citeonline{castelli2022modelo}, \citeonline{azevedo2020modelagem}, \citeonline{azevedo2020modelagem}, \citeonline{ciquini2023modelo}, \citeonline{silva2024dados}, \citeonline{alves2009nucleo}, \citeonline{moura2020fragilidade} e \citeonline{micheletti2024avaliaccao}.\\
+			Aplicar os modelos VAR, ARIMA, DFM e MIDAS, redes neurais e Random Forest à previsão do crescimento e do nível do PIB real brasileiro em frequência anual. & Séries anuais do PIB real em nível e em taxa de crescimento, além das variáveis preditoras selecionadas em suas frequências disponíveis. & Estimar e gerar previsões com cada modelo para os dois alvos definidos, realizando o tratamento de frequência exigido por cada especificação. & \citeonline{castelli2022modelo}, \citeonline{azevedo2020modelagem}, \citeonline{ciquini2023modelo}, \citeonline{silva2024dados}, \citeonline{alves2009nucleo}, \citeonline{moura2020fragilidade} e \citeonline{micheletti2024avaliaccao}.\\
 			\hline
-			Comparar o desempenho dos modelos de IA e econométricos tradicionais usando diferentes métricas, como desempenho computacional, precisão e interpretabilidade. & erro Quadrático Médio (EQM), Erro Absoluto Médio (EAM), a Raiz do Erro Quadrático Médio (REQM), erro percentual absoluto médio (EPAM), Efeitos Locais Acumulados (ELA), estatística-H, tempo de execução e FLOPs  & Submeter os modelos a testes nas métricas de acurácia, interpretabilidade e custo computacional. & \citeonline{rebelo2022interpretabilidade} e \citeonline{kava2022alem}.\\
+			Comparar os modelos tradicionais com redes neurais e Random Forest segundo o tempo de execução, a interpretabilidade qualitativa, o RMSE e o MAE. & Tempo de execução; registros qualitativos da interpretabilidade; valores observados e previstos necessários ao cálculo do RMSE e do MAE. & Medir o tempo de execução, analisar qualitativamente a interpretabilidade e calcular o RMSE e o MAE para cada previsão. & \citeonline{rebelo2022interpretabilidade} e \citeonline{kava2022alem}.\\
 			\hline 
 		\end{tabular}
 	}

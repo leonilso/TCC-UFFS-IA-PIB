@@ -1,181 +1,167 @@
-\chapter{Revisão de Literatura}
+\chapter{Revisão de literatura}
 \label{cap:revisao-literatura}
 
-A presente sessão busca avaliar os estudos até então construídos que perpassam sobre as temáticas correlatas, desde a evolução dos modelos preditivos, a variável estudada: o \ac{pib}, o uso de modelos preditivos em variáveis macroeconômicas, por fim a avaliação e comparação de modelos preditivos.
+Este capítulo revisa estudos relacionados aos temas do trabalho: a evolução dos modelos preditivos, o PIB, o uso desses modelos para variáveis macroeconômicas e os critérios empregados em sua comparação.
 
-Dado esse contexto, a presente revisão de literatura se estruturará da seguinte forma, primeiramente iremos tratar sobre predição econômica de um modo geral e seus principais autores, logo em seguida discutiremos sobre nossa variável foco o \ac{pib}, posteriormente classificaremos os modelos em tradicionais e não-tradicionais, onde será descrito cada modelo o conceito, o histórico, o modelo matemático e a aplicação do mesmo no contexto de predição do \ac{pib}. Após essa conceituação será analisado as métricas de comparação dos modelos, e como elas vem sendo aplicadas. Após a conceituação e análise das métricas de avaliação, serão abordados os trabalhos acadêmicos que já compararam modelos tradicionais e não tradicionais. 
+Esta revisão começa pela previsão econômica e pelo \ac{pib}, variável de interesse do estudo. Em seguida, apresenta os modelos econométricos tradicionais e os modelos baseados em IA selecionados, com seus conceitos, características e aplicações à previsão de variáveis econômicas. A discussão de estudos anteriores acompanha a apresentação de cada modelo.
 
 %\section{Estudos Anteriores}
-\section{Predição Econômica: O PIB}
+\section{Previsão econômica e PIB}
 
 % BC CVM FEBRABAM
 
+A previsão de variáveis econômicas não é recente. Desde o início do século XX, economistas buscam descrever o comportamento dessas variáveis ao longo do tempo. Em seu artigo, \citeonline{FrischSTATIKKOD} apresenta uma teoria dinâmica dividida em duas vertentes: a analítica, que trata das leis que regem as flutuações das variáveis, e a histórica, que aplica essas leis para descrevê-las e prevê-las. Essa distinção contribuiu para o desenvolvimento posterior da econometria e de suas aplicações.
 
-A predição de variáveis econômicas não é uma tarefa nova, na realidade  estipular o comportamento de variáveis econômicas ao decorrer do tempo é um desejo dos economistas desde o início do século XX. Em seu artigo,  \citeonline{FrischSTATIKKOD} \footnote{Frisch é considerado um dos fundadores da econometria moderna, é a ele atribuído a formulação do termo econometria} trata do conceito da teoria dinâmica, que se subdivide em analítica e histórica, a primeira lida com as leis que regem as flutuações das variáveis, já a segunda trata de aplicar as leis para descrever/prever as variáveis. Essa conceituação teórica de \citeonline{FrischSTATIKKOD} é justamente o que hoje é considerado como econometria, e foi a base para os futuros modelos econométricos e suas aplicações.
+Segundo \citeonline{almeida_2001}, no início do século XX, a economia passou por uma fase madura de industrialização e incorporou numerosas inovações tecnológicas decorrentes da Segunda Revolução Industrial. O autor afirma que "a estrutura da produção foi radicalmente transformada pelas mudanças introduzidas nos padrões de trabalho (especialização) e pelos avanços tecnológicos, que aumentaram dramaticamente o produto per capita" \citem[p. 2]{almeida_2001}.
 
-Contudo, a economia ficou mais complexa desde 1929, conforme \citeonline{almeida_2001} a economia do início século XX passou por sua fase madura de industrialização incorporou uma grande quantidade de inovações tecnológicas advindos da Segunda Revolução Industrial. Ainda segundo o autor, "a estrutura da produção foi radicalmente transformada pelas mudanças introduzidas nos padrões de trabalho (especialização) e pelos avanços tecnológicos, que aumentaram dramaticamente o produto per capita."\citem[p. 2]{almeida_2001}.
-
-Esse processo se repetiu durante a Terceira Revolução Industrial, \citeonline{junior_2017} aponta que esse processo não foi hegemônico, mas foi  caracterizado por uma revolução  tecno-científica,  não só nas fábricas como na maioria das atividades sócio-econômicas. Durante esse período houve intensas mudanças na atividade produtiva. Contudo alguns autores apontam que a humanidade passou por mais uma revolução, a Quarta Revolução Industrial, ou também chamada de Indústria 4.0.
+Segundo \citeonline{junior_2017}, a Terceira Revolução Industrial também promoveu mudanças na atividade produtiva. O autor ressalta que essa transformação não ocorreu de forma homogênea e foi marcada por uma revolução técnico-científica que alcançou não apenas as fábricas, mas também diversas atividades socioeconômicas. Além disso, alguns autores identificam uma nova etapa, denominada Quarta Revolução Industrial ou Indústria 4.0.
 % Citar autor que confirma a complexidade da economia
 
-O termo industria 4.0\footnote{ Industria 4.0: é a transformação digital na indústria, onde a mesma integra tecnologias como a própria Inteligência Artificial  } é citado pela primeira vez na feira de Hannover como uma nova política Alemã para industrialização \citem{kagermann2013recommendations}. Um dos autores defensores de uma nova fase da industria é \citeonline{martins2021industria}, onde ele argumenta que a Indústria 4.0 traz muitas mudanças no contexto onde ela é aplicada, como novos modelos de negócio e mercados cada vez mais exigentes.
+O termo Indústria 4.0 foi apresentado na feira de Hannover como parte de uma política alemã de industrialização \citem{kagermann2013recommendations}. A Indústria 4.0 corresponde à transformação digital da indústria, que integra tecnologias como a inteligência artificial. \citeonline{martins2021industria} discute essa etapa industrial e as mudanças associadas a ela, como a criação de novos modelos de negócio e o surgimento de mercados mais exigentes.
 
-Mas não somente a economia ficou mais complexa, o advento da indústria 4.0  
+Além de transformar a atividade produtiva, a Indústria 4.0 ampliou as possibilidades de coleta e processamento de grandes volumes de dados por meio dos sistemas de informação.
 % Trazer algum autor sobre a industria 4.0
-trouxe a possibilidade de coletar e processar grandes volumes de dados através do que chamamos de sistemas de informação. Que para \citeonline{laudon2022sistemas} são essenciais para alcançar objetivos estratégicos dos negócios. Essas informações são fundamentais para toda decisão, seja ela do setor público ou privado.
+Segundo \citeonline{laudon2022sistemas}, esses sistemas são essenciais para que as organizações alcancem seus objetivos estratégicos. As informações geradas podem subsidiar decisões nos setores público e privado.
 %	Na era digital, o grande volume de dados gerados pelos sistemas de informação pode ser usada como uma fonte, praticamente inesgotável de informações para tomadas de decisões. 
 
 \begin{citacao}
 	A eficácia das políticas depende do uso de todas as informações disponíveis em qualquer momento, incluindo informações prospectivas, como desempenho do mercado de ações e a incerteza da política econômica, disponíveis no ponto de estimativa. \citem[p. 19]{ghosh2023machine}
 \end{citacao}
 
-Nesse sentido da importância das informações, muitos indicadores econômicos foram criados, melhorados ou superados, tanto no sentido microeconômico dentro das firmas, assim como indicadores macroeconômicos dos grandes agregados. E um desses indicadores macroeconômicos que evoluiu com o tempo busca estimar a produção total interna de uma localidade, o chamado \ac{pib}. Segundo o \ac{ibge} "o \ac{pib} é a soma de todos os bens e serviços finais produzidos por um país, estado ou cidade, geralmente em um ano." \citem[p. 1]{ibge_pib}.
+A análise econômica utiliza indicadores microeconômicos, relacionados às firmas, e indicadores macroeconômicos, voltados aos grandes agregados. Entre estes, destaca-se o \ac{pib}, que sintetiza a produção de bens e serviços finais de uma economia. Segundo o \ac{ibge}, "o \ac{pib} é a soma de todos os bens e serviços finais produzidos por um país, estado ou cidade, geralmente em um ano" \citem[p. 1]{ibge_pib}.
 
-O Banco Central do Brasil trás dois conceitos para o \ac{pib}: "a preços de mercado, (o \ac{pib}) mede o total de bens e serviços produzidos pelas unidades produtoras residentes destinados ao consumo final (exclui o consumo intermediário)." \citem[p. 1]{BCB_SGS_1207}. Além disso o  \citeonline{BCB_SGS_1207} trás também a ideia do PIB em reais correntes que se refere ao valor dos bens e serviços finais produzidos em determinado período e valorados a preços de mercado do respectivo período, ou seja sem retirar a inflação. Ambos representam a totalidade de bens e serviços produzidos, e tem o mesmo quantitativo quando analisados no mesmo ano base, mas quando se análisa em períodos de tempo diferentes o PIB a preços de mercado é considerado o PIB real, pois exige um calculo para retirar a inflação das medições do \ac{pib}, enquanto o \ac{pib} em reais correntes sempre se refere ao valor nominal do PIB naquela data, esse geralmente é o valor divulgado pelas bases de dados, como o próprio Banco Central ou o \ac{ibge}.
+O Banco Central do Brasil define o PIB a preços de mercado como o total de bens e serviços produzidos pelas unidades produtoras residentes e destinados ao consumo final, excluído o consumo intermediário \citem[p. 1]{BCB_SGS_1207}. A série 1207 do Sistema Gerenciador de Séries Temporais, também citada pelo Banco Central, apresenta o PIB em reais correntes: os valores são calculados a preços do próprio período, sem descontar as variações de preços, o que caracteriza uma medida nominal \citeonline{BCB_SGS_1207}. Para comparar a produção entre períodos sem o efeito das variações de preços, utilizam-se medidas de volume ou valores constantes. Neste trabalho, analisa-se o PIB real brasileiro, tanto em nível quanto em taxa de crescimento, com frequência anual.
 
-O conceito internacional de PIB é semelhante com os conceitos do Banco Central do Brasil e do \ac{ibge}. Segundo o \citeonline{BEA_GDP} o PIB mede o valor dos bens e serviços finais produzidos, sem contar os bens e serviços intermediários. A agência estadunidense de divulgação e análise econômica também trás o motivo pelo qual o \ac{pib} é tão importante afinal  "as mudanças no PIB são o indicador mais popular da saúde econômica geral do país" \citem[p. 1]{BEA_GDP}
+A definição de PIB apresentada pelo \ac{bea} é compatível com as do Banco Central do Brasil e do \ac{ibge}. Segundo o \citeonline{BEA_GDP}, o PIB mede o valor dos bens e serviços finais produzidos, excluídos os bens e serviços intermediários. O \ac{bea} também destaca a relevância do indicador: "as mudanças no PIB são o indicador mais popular da saúde econômica geral do país" \citem[p. 1]{BEA_GDP}.
 
 % Professor adicionei o conceito do IBGE, do Banco Central e do BEA dos EUA
 
-Nesse sentido o \ac{pib} funciona como um termômetro da atividade econômica, e se indicadores refletem a realidade, é lógico pensar que conforme a economia fica complexa, seus indicadores as acompanham, assim como as tentativas de tentar prever seu comportamento.
+Nesse sentido, o \ac{pib} funciona como um termômetro da atividade econômica. À medida que a economia se transforma e a disponibilidade de dados se amplia, também evoluem os métodos utilizados para analisar e prever o comportamento desse indicador.
 
 % Colocar mais complexidade na definição do PIB
 
-E nesse contexto temos a predição do PIB, que é algo estudado por diversos pesquisadores, muitos dos quais veremos no decorrer dessa revisão de literatura, mas também de órgãos e instituições públicas e privadas, como é o caso do \ac{ipea} que pontua a importância da predição do PIB "para a definição dos parâmetros para o planejamento fiscal e orçamentário do setor público, bem como para a formação de expectativas no setor privado." \citem[p. 6]{santos2022previsao}.
+A previsão do PIB é objeto de estudos acadêmicos e também subsidia atividades de instituições públicas e privadas. O \ac{ipea}, por exemplo, destaca sua importância "para a definição dos parâmetros para o planejamento fiscal e orçamentário do setor público, bem como para a formação de expectativas no setor privado" \citem[p. 6]{santos2022previsao}.
 
-Dado toda essa evolução, é natural perceber a complexificação desse indicador, desde o século XX com o início da econometria, até os dias atuais com os grandes volumes de dados e a necessidade de decisões fundamentadas, esses fenômenos complexos atuais implicam que métodos tradicionais de predição podem não conseguir descrever a realidade com a mesma precisão da época da qual foram elaborados.
-
-Deste modo, chegamos a um momento de inflexão. Complexidade sistêmica combinada ao grande volume de dados pode fazer com que modelos econométricos tradicionais\footnote{No presente trabalho trataremos que os modelos econométricos tradicionais são aqueles baseados na linearidade das variáveis, ausência de multicolinearidade, homocedasticidade e normalidade dos resíduos} 
-%	Traz um autor sobre modelos tradicionais 
-não consigam representar a realidade, pois, até que ponto uma simplificação pode representar realmente o comportamento econômico.
-
-Dessa forma, se o tradicional não tem o comportamento esperado recorre-se ao inovador.
+A evolução da econometria, a maior disponibilidade de dados e os avanços computacionais ampliaram o conjunto de métodos aplicáveis às previsões econômicas. Nesse contexto, o desempenho relativo dos modelos deve ser avaliado empiricamente para o problema e os dados considerados.
+%	Traz um autor sobre modelos tradicionais
 %	, conforme .
 %	Cabe um Shumpeter aqui
-Essa inovação, no contexto dos modelos econométricos, vem através da incorporação de modelos estatísticos que suportam a complexidade econômica, além de tecnologias computacionais que conseguem tratar esse volume de dados gerados pelos sistemas de informação.
-
-
-
-
 
 \section{Modelos preditivos}
 
-Antes de partirmos para inovação devemos entender o que de fato são esses modelos preditivos. Tomando como princípio o texto de \citeonline{FrischSTATIKKOD} a econometria surge justamente para aplicar as leis que regem a economia. Para o autor é a teoria dinâmica histórica, que busca evidenciar as relações entre as variáveis, não por suposição cega, mas sim, baseando-se em séries temporais já existentes.  \citeonline{FrischSTATIKKOD} trata do que ainda viria se tornar a econometria moderna, ademais, existem diversos tipos de modelos econométricos, e os modelos preditivos fazem parte desse conjunto. Portanto se faz necessário identificar exatamente do que se tratam esses modelos.
+Antes de apresentar os modelos deste estudo, convém definir o que se entende por modelo preditivo. \citeonline{FrischSTATIKKOD} discute a teoria dinâmica e distingue a análise das leis que regem as flutuações da aplicação dessas leis à descrição e à previsão de variáveis. Como a econometria abrange diferentes tipos de modelos, esta seção delimita o conceito de modelo preditivo e introduz as abordagens examinadas no trabalho.
 
-Para \citeonline[p. 8]{assunccao2012estrategias} esses modelos "correspondem a uma equação (ou regra) na qual através de informações históricas ou atuais predize-se um determinado evento futuro a respeito de um indivíduo". Deste modo, a partir do conceito de \citeonline{assunccao2012estrategias} entendemos que independente do modelo: Sempre haverá uma entrada (\textit{input}) de variáveis, sejam elas históricas ou contemporâneas; Haverá também, um processamento desses dados pelo modelo, seja por uma equação matemática ou um preceito estabelecido; E sempre ocasionará em uma saída (\textit{output}), e no caso de modelos preditivos, essa saída terá por objetivo estipular uma variável no tempo futuro.
+Para \citeonline[p. 8]{assunccao2012estrategias}, esses modelos "correspondem a uma equação (ou regra) na qual através de informações históricas ou atuais predize-se um determinado evento futuro a respeito de um indivíduo". Aplicada ao problema deste trabalho, essa definição permite distinguir três componentes: as variáveis de entrada, históricas ou contemporâneas; o processamento dessas informações por uma equação matemática ou pelas regras do modelo; e a saída, que corresponde à previsão da variável de interesse para um período futuro.
 
-Com essa definição, retomamos nossos objetivos, como desejamos estimar o \ac{pib} nossa saída sempre será um valor numérico que estimará como o \ac{pib} brasileiro se comporta. Portanto as únicas variações possíveis nos modelos são: a estrutura; e as variáveis de entrada. Durante a explanação dos modelos trataremos especificamente sobre suas estruturas e estradas, e poderemos nos debruçar melhor sobre o que diferencia cada modelo preditivo.
+Com essa definição, retomamos o objetivo deste estudo: prever o PIB real brasileiro em nível e em taxa de crescimento. Nesse caso, os dados de entrada são as variáveis preditoras selecionadas, e a saída é a previsão de um dos alvos definidos. Os modelos também diferem em sua estrutura e na forma como processam as entradas; essas características serão apresentadas nas próximas subseções.
 
-Entendido o que são modelos preditivos partiremos para diferenciar modelos tradicionais dos de IA, assim como a explanação específica de cada modelo usado no presente estudo, seu histórico, sua construção matemática, por fim a aplicação desses modelos na predição do \ac{pib}. Para atendermos esses pontos e concluir nossos objetivos deveríamos seguir algum tipo de sequência lógica para apresentar tais modelos, a abordagem mais simples seria em uma sequência temporal de surgimento, contudo, muitos modelos complexos surgiram antes de versões mais simplificadas. Dessa forma optamos por apresentar os modelos em uma sequência didática, primeiro tratando dos modelos tradicionais, em seguida os que são baseados em IA, de um forma que julgamos facilitar o entendimento.
+Após a definição dos modelos preditivos, esta seção apresenta os modelos econométricos tradicionais (VAR, ARIMA, DFM e MIDAS) e os dois modelos baseados em IA (redes neurais e Random Forest). Para cada um, são discutidos o conceito, as principais características e as aplicações à previsão do PIB. A exposição começa pelos modelos tradicionais e, em seguida, aborda os modelos de IA.
 
+\subsection{Modelos econométricos tradicionais}
 
-\subsection{Modelos Tradicionais: Uma explanação}
+Na bibliografia consultada, "tradicional" aparece como uma classificação comparativa. \citeonline{carmo2023modelagem}, por exemplo, contrapõe a regressão linear, tratada como método clássico, às redes neurais. Neste trabalho, "modelos econométricos tradicionais" designa VAR, ARIMA, DFM e MIDAS, utilizados como métodos econométricos de previsão. Em suas especificações usuais, esses modelos expressam relações lineares, mas se distinguem pela estrutura: o ARIMA é univariado, o VAR é multivariado, o DFM representa fatores dinâmicos e o MIDAS combina dados de frequências distintas. \citeonline[p. 14]{vasconcelos2017poder} caracteriza os modelos lineares pela linearidade da função condicional $E(Y|X)$ nos preditores. Já \citeonline{rebelo2022interpretabilidade} aborda regressão linear e árvores de decisão como modelos de interpretabilidade natural.
 
-Os modelos tradicionais, são modelos simples, geralmente associados a métodos lineares de aprendizado de máquina\footnote{Muitos autores argumentam que o aprendizado de máquina, ou \textit{machine learning} é um parte da grande área da IA, o que de certa fora toda econometria tradicional poderia ser enquadrada como Inteligência Artificial, mas na realidade o que chamamos de IA são modelos não-lineares modernos, mas trataremos disso mais profundamente na subseção \ref{subs:AI_models}} "tem esse nome porque assumem que a função que define $E(Y|X)$ é linear nos preditores $X1, X2,... , Xp$." \citem[p. 14]{vasconcelos2017poder}. \citeonline{rebelo2022interpretabilidade} ainda aponta que os modelos chamados tradicionais possuem uma interpretabilidade natural\footnote{A definição de \citeonline{rebelo2022interpretabilidade} de certa forma é mais precisa, pois modelos não-lineares como árvores de decisão são classificadas como modelos tradicionais pela sua interpretabilidade.}, e não possuem a necessidade de um método de interpretação adicional.
+Segundo \citeonline{braga2025forecasting}, os modelos tradicionais predominaram por muitos anos na previsão de variáveis econômicas. A autora observa: "Apesar da eficácia desses modelos tradicionais em determinados cenários, os avanços computacionais e a crescente disponibilidade de dados favorecem o desenvolvimento de abordagens mais sofisticadas" \citem[p. 12]{braga2025forecasting}.
 
-Segundo \citeonline{braga2025forecasting} os modelos tradicionais dominaram o mundo, quando o assunto era predição de variáveis durante muitos anos. Entretanto conforme a complexidade econômica aumentava, novas alternativas foram surgindo, para a autora "Apesar da eficácia desses modelos tradicionais em determinados cenários, os avanços computacionais e a crescente disponibilidade de dados favorecem o desenvolvimento de abordagens mais sofisticadas" \citem[p. 12]{braga2025forecasting}.
-
-Dado o tempo em que os modelos tradicionais eram as únicas opções, essas técnicas ganharam muitas variações, algumas mais sofisticadas, outras mais simplificadas, dessa forma, para o presente estudo nos limitaremos a abordar quatro modelos tradicionais, um modelo temporal univariado (ARIMA), um modelo temporal multivariado (VAR), um modelo baseado em fatores dinâmicos (DFM) e um modelo de frequência mista (MIDAS). A escolha desses modelos se deve a diferença entre como eles processam as entradas, sendo excelente para apresentar como métodos diferentes se comportam na previsão de uma variável macroeconômica como o \ac{pib}.
+Neste estudo, serão abordados quatro modelos econométricos: ARIMA, de natureza univariada; VAR, multivariado; DFM, baseado em fatores dinâmicos; e MIDAS, que permite combinar variáveis observadas em frequências distintas. A seleção busca comparar estruturas distintas de previsão do \ac{pib}.
 
 \subsubsection{ARIMA}
 
-Seguindo a proposta didática, começaremos pelo ARIMA, no sentido de simplicidade de interpretação e complexidade em geral, o ARIMA é o modelo mais simples que será tratado nesse trabalho, a sigla ARIMA vem do inglês \ac{arima} que significa Média Móvel Integrada Autorregressiva, a sua simplicidade se deve ao fato de que ele tenta predizer a variável estudada usando sua própria série histórica. Nesse caso usaremos a série histórica do \ac{pib} para prever o possível valor futuro do mesmo. 
+Seguindo uma proposta didática de apresentação, começaremos pelo ARIMA, cuja estrutura univariada permite introduzir os modelos de previsão considerados neste trabalho. A sigla corresponde, em inglês, a \textit{autoregressive integrated moving average}, traduzido como modelo autorregressivo integrado de médias móveis. O ARIMA utiliza valores passados da própria série e, conforme sua especificação, valores passados dos erros para produzir previsões. Neste estudo, será aplicado à série histórica do \ac{pib}.
 
-O modelo \ac{arima} nos servirá como um ótimo parâmetro de comparação, por se tratar de um modelo simples, com baixo custo computacional e alta interpretabilidade, ele poderá ser usado para avaliar outros modelos testados. Se um modelo complexo com alto custo computacional e interpretabilidade baixa, se sair pior ou semelhante ao ARIMA na previsão do \ac{pib}, poderá ser um indicador que aquele método não apresenta uma relação custo-benefício favorável, levando a crer que o modelo não é adequado\footnote{Isso parte de um pressuposto simples, porém para descartar completamente o modelo, seriam necessários outros testes, com outros dados para efetivar com clareza essa suposição, porém isso fugiria do escopo do nosso trabalho.} para a predição do \ac{pib}.
+O ARIMA será utilizado como referência comparativa por sua estrutura univariada e relativa simplicidade de estimação e interpretação. A comparação entre os modelos considerará o tempo de execução, a interpretabilidade qualitativa e os valores de RMSE e MAE. Assim, será possível examinar o desempenho preditivo dos modelos em relação a essa referência e considerar os recursos computacionais e interpretativos envolvidos.
 
-Segundo \citeonline{braga2025forecasting} o modelo ARIMA é sistematizado em 1970 no livro de \citeonline{box1970time}. Neste livro os autores afirmam que os modelos do tipo ARIMA fazem parte do conjunto a cujo a $d$-ésima diferença da série é um processo estacionário misto autorregressivo de média móvel \citem{box1970time}. Além disso os autores apontam a necessidade desses modelos em aplicações reais.
+A primeira edição de \textit{Time Series Analysis: Forecasting and Control}, de Box e Jenkins, foi publicada em 1970 \citeonline{box1970time}. Os autores definem os modelos ARIMA como aqueles em que a série, após a aplicação de diferenças de ordem $d$, pode ser representada por um processo estacionário autorregressivo de médias móveis \citem{box1970time}. Nessa notação, $d$ indica o número de diferenças aplicadas à série.
 
 \begin{citacao}
 	Muitas séries temporais empíricas (por exemplo, séries de preços de ações) se comportam como se não tivessem uma média fixa. No entanto, elas exibem homogeneidade no sentido de que, além do nível local, ou talvez nível local e tendência, uma parte da série se comporta de forma muito semelhante a qualquer outra parte. Modelos que descrevem tal comportamento não estacionário homogêneo podem ser obtidos assumindo que alguma diferença adequada do processo é estacionária. \citem[p. 88, tradução nossa] {box1970time}
 \end{citacao}
 
-No sentido de definição e contexto para nosso trabalho, o modelo ARIMA tem um grande potencial para a predição do \ac{pib}, pois o comportamento sazonal\footnote{Observaremos as variações do \ac{pib} nos nossos resultados.} do \ac{pib}, torna ele uma variável parecida com a descrita no exemplo de \citeonline{box1970time}, sem uma média fixa aparente, mas uma certa homogeneidade de nível local e tendência, semelhante ao decorrer da série. Contudo \citeonline{box1970time} não somente descreveram em que caso o modelo ARIMA seria adequado, mas também sua formulação matemática e metodologia de aplicação. 
+A citação de Box e Jenkins descreve séries cujo nível ou tendência pode variar ao longo do tempo, mas que apresentam comportamento homogêneo após a aplicação de diferenças adequadas. Essa discussão fundamenta a inclusão do ARIMA na análise da série anual do \ac{pib}, pois o modelo permite representar sua dinâmica temporal após as transformações necessárias para obter estacionariedade. A adequação do modelo será examinada no exercício de previsão.
 
 O modelo ARIMA(p,d,q) pode ser representado pela seguinte forma geral \citem[p. 94]{box1970time}:
 \begin{equation}
 	\label{eq:ARIMA_model}
-	\varphi(B)z_t = \phi(B)\nabla^dz_t = 0_0 + 0(B)a_t
+	\varphi(B)z_t = \phi(B)\nabla^dz_t = \theta_0 + \theta(B)a_t
 \end{equation}
 onde
 \begin{align*}
 	&\phi(B) = 1 - \phi_1B - \phi_2B^2-\cdots-\phi_pB^p \\
-	&O(B) = 1 - 0_1B - 0_2B^2-\cdots-0_pB^p
+	&\theta(B) = 1 - \theta_1B - \theta_2B^2-\cdots-\theta_qB^q
 \end{align*}
 Em que:
 \begin{itemize}
-	\item[a)] $\phi(B)$ operador autorregressivo (AR)\footnote{Assume-se que é estacionário.}
-	\item[b)] $\varphi(B) = \phi(B)\nabla^d$ operador autorregressivo generalizado
-	\item[c)] $0(B)$ operador de média móvel
+	\item[a)] $\phi(B)$ é o operador autorregressivo (AR)\footnote{Assume-se que é estacionário.}
+	\item[b)] $\varphi(B) = \phi(B)\nabla^d$ é o operador autorregressivo integrado
+	$\theta(B)$ é o operador de médias móveis
+	\item[d)] $\theta_0$ é o termo constante
 \end{itemize}
 
-Desse modo utilizaremos a formulação de \citeonline{box1970time} para a predição do \ac{pib}, assim como os testes que comprovam a aplicabilidade do ARIMA no contexto do \ac{pib}. Todavia o trabalho de submeter a predição do \ac{pib} ao modelo ARIMA já foi realizado por outros autores.
+Neste estudo, a formulação de \citeonline{box1970time} orientará a aplicação do ARIMA à previsão do \ac{pib}. Como esse modelo já foi aplicado à previsão do \ac{pib} brasileiro em estudos anteriores, a seguir será apresentado um desses trabalhos.
 
 %Mesmo com cerca de 50 anos de existência o modelo ARIMA continua sendo uma alternativa viável para predição econômica de uma única variável. 
 
 % Conectar a frase com o texto dos americanos
-Nesse sentido, revisaremos o trabalho de  \citeonline{Silva_Clericuzi_Carvalho_2025} que apoiaram-se no ARIMA para a predição do \ac{pib} brasileiro, no trabalho foi analisado a série histórica do \ac{pib} brasileiro de 1990 até 2023\footnote{Enquanto o recorte de \citeonline{Silva_Clericuzi_Carvalho_2025} foi de cerca de 33 anos (1990-2023), o nosso será relativamente menor, de 2007 à 2022 (15 anos), devido a disponibilidades de outras variáveis que não somente o \ac{pib}.} sendo uma fonte metodológica e comparativa para nossa pesquisa.
+Será examinado o trabalho de \citeonline{Silva_Clericuzi_Carvalho_2025}, que aplicaram o ARIMA à previsão do \ac{pib} brasileiro. Os autores analisaram a série histórica do \ac{pib} de 1990 a 2023 e oferecem uma referência metodológica e comparativa para esta pesquisa.
 
-O primeiro passo dos autores na aplicação do modelo foi uma análise visual da série temporal, os autores consideraram o comportamento de volatilidade do \ac{pib}, com crescimentos e decrescimentos, propondo a possibilidade de uso do modelo ARIMA. 
-Para confirmar essa hipótese eles aplicaram o teste \ac{adf}\footnote{A fim de organizar nossa pesquisa trataremos de forma compilada todos os testes na sessão \ref{sec:testes}, nela esmiuçaremos os testes que comprovam a utilização dos modelos, assim como os testes que serão usados para comparar os diferentes modelos.} em que evidenciou-se \ac{adf}= -0.848 e o Valor-p= 0.804, como o Valor-p é superior ao valor crítico de 0.05, indica-se que não se pode rejeitar a hipótese nula de que a série possui uma raiz unitária, indicando que a série não é estacionária no estado original.
+Os autores iniciaram a aplicação do modelo com uma análise visual da série temporal. Com base nas oscilações do \ac{pib}, que apresentou períodos de crescimento e retração, consideraram a possibilidade de utilizar o ARIMA.
+Para avaliar a estacionariedade da série, os autores aplicaram o teste \ac{adf}. A estatística do teste foi \ac{adf} = -0.848 e o valor-p, 0.804. Como o valor-p supera o nível de significância de 0.05, não se rejeita a hipótese nula de raiz unitária, resultado compatível com a não estacionariedade da série em nível.
 
-A partir do resultados da não estacionaridade seria necessária a diferenciação da série original para tornar a série estacionária, isso implica no uso do modelo ARIMA (p, d, q) com d = 1. Após a primeira diferenciação os autores obtiveram um teste \ac{adf} e um Valor-p\footnote{A fim de curiosidade os valores dos teste foram: teste \ac{adf} (Série Diferenciada): -3.771 e um Valor-p: 0.00321.} que configuram uma série estacionária confirmando a abertura para utilização do modelo ARIMA.
+Diante da não estacionariedade da série em nível, os autores aplicaram a primeira diferença, correspondente a $d=1$ no modelo ARIMA($p,d,q$). Após essa transformação, o teste \ac{adf} apresentou valor-p inferior a 0.05, levando à rejeição da hipótese nula de raiz unitária e indicando estacionariedade da série diferenciada\footnote{Para a série diferenciada, a estatística do teste \ac{adf} foi -3.771 e o valor-p foi 0.00321.}
 
-Após a confirmação do uso do modelo ARIMA, os autores utilizaram a metodologia Box-Jenkins, essa metodologia é "um processo sistemático de identificar, estimar e diagnosticar modelos de séries temporais ARIMA"\citem[p. 6]{Silva_Clericuzi_Carvalho_2025}. São quatro passos para aplicação dessa metodologia: identificação, estimação, diagnóstico e previsão. 
+Após a diferenciação da série, os autores seguiram a metodologia Box-Jenkins, definida como "um processo sistemático de identificar, estimar e diagnosticar modelos de séries temporais ARIMA" \citem[p. 6]{Silva_Clericuzi_Carvalho_2025}. O procedimento compreende quatro etapas: identificação, estimação, diagnóstico e previsão.
 
-Na fase de identificação os autores usam a \ac{fac} e a \ac{facp} para determinar a estrutura do modelo. A seleção do modelo é feita a partir de critérios de informação, como o \ac{aic} e \ac{bic}. Para a avaliação dos resíduos\footnote{Os autores apresentam que o comportamento dos resíduos devem ser independentes, não podem apresentar uma autocorrelação significante e idealmente devem apresentar uma distribuição normal.} usaram o teste Ljung-Box e o teste Jarque-Bera. O último passo é a previsão, passo esse que os autores fizeram uma extrapolação de 6 anos\footnote{De 2024 à 2029.} e compararam com a estimativa do \ac{pib} realizada pelo \ac{fmi}.
+Na etapa de identificação, os autores utilizaram a \ac{fac} e a \ac{facp} para determinar a estrutura do modelo. A seleção foi feita com base em critérios de informação, como o \ac{aic} e o \ac{bic}. Para avaliar os resíduos, aplicaram os testes de Ljung-Box e Jarque-Bera\footnote{Os autores consideram desejável que os resíduos não apresentem autocorrelação significativa e tenham, idealmente, distribuição normal.}. Na etapa de previsão, extrapolaram a série por seis anos\footnote{De 2024 a 2029.} e compararam os resultados com a estimativa do \ac{pib} elaborada pelo \ac{fmi}.
 
-Na fase de identificação os testes \ac{fac} e \ac{facp} apresentaram ambos com um pico no lag 1, com um decaimento nos lags seguintes. O pico no lag 1 no teste \ac{fac} apresenta um comportamento de \ac{ma}  fora do intervalo de confiança, assim apresentam que o parâmetro $(q)$ da \ac{ma} seria igual a 1. Já no teste \ac{facp} o pico no lag 1, sugere um comportamento de \ac{ar} de ordem 1, ou seja $(p=1)$. Configurando o modelo obtido sendo ARIMA(1,1,1).
+Na etapa de identificação, os autores observaram um pico no primeiro lag, seguido de decaimento, tanto na \ac{fac} quanto na \ac{facp}. Na interpretação apresentada, o pico da \ac{fac} ultrapassou o intervalo de confiança, sugerindo um componente \ac{ma}(1), enquanto o pico da \ac{facp} sugeriu um componente \ac{ar}(1). Com base nessa leitura, especificaram o modelo ARIMA(1,1,1).
 
-Contudo os autores não somente estimaram o modelo ARIMA(1,1,1). No processo de estimativa, os atores testaram outros quatro modelos com $p-value < 0.05$. Contudo dentre esses que foram testados, o modelo ARIMA(1,1,1) obteve os resultados mais competitivos, quanto menor melhor, nos critérios \ac{aic} e \ac{bic}\footnote{A fim de curiosidade os valores dos testes são: \ac{aic}=1.878.932 e \ac{bic}=1.884.038.}
+Os autores compararam quatro especificações ARIMA e afirmam que os modelos concorrentes apresentaram $p\text{-value} < 0.05$. No entanto, há uma inconsistência entre essa afirmação e a Tabela 1: para o ARIMA(0,1,1), a tabela reporta valor-p de 0.143. Além disso, embora o artigo destaque o ARIMA(1,1,1), a tabela apresenta valores menores de \ac{aic} (1.877.420) e \ac{bic} (1.880.473) para o ARIMA(0,1,1) do que para o ARIMA(1,1,1), cujos valores são 1.878.932 e 1.884.038, respectivamente. Ainda assim, os autores prosseguem com o ARIMA(1,1,1) nas etapas de diagnóstico e previsão.
 
-No sentido dos resíduos os autores aplicaram o teste de Ljung-Box\footnote{Estatística de Ljung-Box = 10,69, valor-p = 0,38}, onde foi confirmado a ausência de autocorreção significativa, além disso foi aplicado o teste de Jarque-Bera para verificar a distribuição dos resíduos, contudo o teste indicou que os resíduos não seguem uma distribuição normal, o que por si só não é um problema, que apesar de preferível, a não normalidade dos resíduos não descarta o modelo ARIMA(1,1,1). A partir da análise gráfica e da Função de Autocorrelação dos Resíduos (\ac{fac}) os autores chegaram a conclusão que o modelo ARIMA ajustado foi eficiente para remover a estrutura de autocorrelação dos dados, restando somente um ruído branco.
+Na análise dos resíduos, os autores aplicaram o teste de Ljung-Box, que não indicou autocorrelação significativa (estatística = 10,69; valor-p = 0,38). Também aplicaram o teste de Jarque-Bera, cujo resultado indicou que os resíduos não seguem uma distribuição normal. Os autores observam que essa não normalidade, embora indesejável, não elimina por si só o modelo ARIMA(1,1,1). Segundo a análise gráfica e a função de autocorrelação dos resíduos (\ac{fac}), o modelo ajustado removeu a estrutura de autocorrelação, restando resíduos semelhantes a ruído branco.
 
-Para validar o modelo os autores compararam a projeção do ARIMA(1,1,1) para os 6 anos seguintes com a projeção feita pelo \ac{fmi}, como justificava para tal comparação os autores elencaram como o \ac{fmi} utiliza em sua projeções mais variáveis, com complexidade maior. Dessa forma, o modelo ARIMA apresentou uma capacidade satisfatória para capturar a estrutura temporal do \ac{pib} brasileiro. Porém os autores ainda elencam possíveis falhas do modelo, como as limitações ao modelar choques econômicos e o viés potencialmente otimista do ARIMA em comparação as projeções do \ac{fmi}.
+Na etapa de previsão, os autores projetaram o \ac{pib} de 2024 a 2029 com o ARIMA(1,1,1) e compararam essas projeções às do \ac{fmi}. Essa comparação permite observar diferenças entre as previsões, mas não avaliar sua acurácia relativa, pois elas não são confrontadas com valores observados no período. Os autores atribuem as diferenças ao conjunto mais amplo de variáveis utilizado pelo \ac{fmi} e apontam que o ARIMA pode não capturar choques econômicos e apresentar viés otimista em relação às projeções do \ac{fmi}.
 
-Os autores apontam que
+Em suas considerações finais, os autores observam:
 
 \begin{citacao}
 	Apesar da utilidade do ARIMA como ferramenta inicial para análise e previsão de séries temporais econômicas, suas estimativas devem ser interpretadas com cautela e, preferencialmente, complementadas por métodos qualitativos e modelos econométricos que considerem o amplo espectro de variáveis que afetam o crescimento do \ac{pib}. Essa integração entre abordagens quantitativas e qualitativas potencializa a confiabilidade das projeções e contribui para decisões mais fundamentadas no âmbito da política econômica. \citem[p. 15]{Silva_Clericuzi_Carvalho_2025}
 \end{citacao}
 
-A conclusão dos autores vai de encontro com o objetivo que propomos para o ARIMA no presente trabalho: atuar como um modelo inicial e de comparação com os modelos seguintes, como uma métrica de simplicidade e eficiência em comparar os padrões do \ac{pib} no decorrer do tempo.
+Essa conclusão converge com o papel atribuído ao ARIMA neste trabalho: servir como referência para comparação com os demais modelos, considerando sua simplicidade de implementação e interpretação e os padrões temporais capturados na série do \ac{pib}.
 
-Mas não é somente no Brasil que o modelo ARIMA é utilizado, este modelo  continua sendo apresentado como alternativa relevante dentro da predição econômica univariada em todo o mundo. A dissertação de mestrado de  \citeonline{li2024forecasting} é uma prova de como o modelo ainda vem sendo utilizado e testado até nos dias presentes, em economias complexas como a estadunidense.
+Em contexto distinto, a dissertação de \citeonline{li2024forecasting}, dedicada à previsão do PIB dos Estados Unidos com PCA, inclui o ARIMA entre os modelos de referência usados para avaliar o desempenho preditivo. A autora o analisa ao lado de modelos de suavização exponencial e de regressão por transformada de Fourier, e reporta desempenho semelhante entre os modelos de referência, com ligeira vantagem do ARIMA sobre os demais modelos individuais considerados.
 
-Em seu trabalho \citeonline{li2024forecasting} avalia o desempenho de diferentes modelos em cenários de choques econômicos, especificamente o mais recente do período\footnote{O recorte de tempo de \citeonline{li2024forecasting} foi de 1960 até 2023} que abrangeu a pandemia do COVID-19. Nesse trabalho um dos modelos testados foi o próprio modelo ARIMA para a predição do \ac{gdp}\footnote{O \ac{gdp} é o equivalente ao nosso \ac{pib}} ele foi utilizado no mesmo sentido que pretendemos utilizá-lo como um modelo comparativo de teste, para avaliar o desempenho de outros modelos avaliados.
+Em seu trabalho, \citeonline{li2024forecasting} avalia modelos de previsão do \ac{gdp} dos Estados Unidos com dados trimestrais de 1960 a 2023, período que inclui a pandemia de COVID-19. Entre os modelos considerados, a autora inclui o ARIMA como referência comparativa, função semelhante à atribuída a esse modelo no presente estudo.
 
-Os dados da dissertação foram obtidos do \ac{fred}\footnote{Dados Econômicos da Reserva Federal, trata-se de uma banco de dados americanos com dados financeiros, econômicos e demográficos dos \ac{eua}}. A partir dos testes realizados comprovou-se que "O \ac{pib} é uma série temporal estacionária ao nível de significância de 5\% pelo \ac{adf}" \citem[p.22, tradução nossa]{li2024forecasting} confirmando uma série estacionária, assim d=0. Na aplicação dos testes \ac{fac} e \ac{facp} a autora identifica que os picos ficaram em 0 para a \ac{fac} (MA) e também para \ac{facp} (AR) com o lag em 0, configurando o modelo ARIMA(0, 0, 0). No sentido da estatística de Ljung-Box também não apresentou "evidências significativas contra as autocorrelações de defasagem serem 0"\citem[p.25, tradução nossa]{li2024forecasting}.
+Os dados da dissertação foram obtidos da base \ac{fred}\footnote{Dados Econômicos da Reserva Federal, base norte-americana de dados financeiros, econômicos e demográficos dos \ac{eua}.}. A autora relata que o teste \ac{adf} indica estacionariedade do \ac{gdp} ao nível de significância de 5\% \citem[p. 22, tradução nossa]{li2024forecasting}; assim, a série é modelada sem diferenciação ($d=0$). A \ac{fac} e a \ac{facp} não apresentam autocorrelações significativas nas defasagens positivas, o que fundamenta a especificação ARIMA(0,0,0), semelhante a ruído branco. O teste de Ljung-Box também não encontra “evidências significativas contra as autocorrelações de defasagem serem 0” \citem[p. 25, tradução nossa]{li2024forecasting}.
 
-Ao aplicar os diferentes testes e modificar os parâmetros do ARIMA para os dados de treinamento, comprovou-se que o modelo que mais se aproximou do resultado esperado foi o ARIMA(1, 0, 2), e dentre os modelos de \textit{benchmark} foi o que obteve os melhores resultados\footnote{Os modelos de \textit{benchmark} foram: o modelo ETS e a regressão de transformada de Fourier, e obtiveram resultados parecidos, mas ligeiramente piores que o ARIMA}. O modelo ARIMA performa de uma maneira satisfatória inclusive contra os modelos de multivariados complexos testados\footnote{No caso dessa dissertação os modelos complexos eram do tipo PCA, que são multivariados e mais complexos do que o ARIMA, mesmo assim o modelo performou melhor nos dados de treinamento e validação melhor que modelos de complexidade maior}. 
+Na dissertação, o ARIMA(1,0,2) apresentou o menor erro entre os modelos de referência considerados — ETS e regressão por transformada de Fourier. A comparação com os modelos baseados em PCA, entretanto, não mostra superioridade geral do ARIMA: algumas especificações de PCA obtiveram menor erro de validação. Assim, o estudo situa o ARIMA como um benchmark competitivo, mas não sustenta que tenha superado os modelos baseados em PCA.
 	
-Assim como apontado por \citeonline{Silva_Clericuzi_Carvalho_2025} o modelo ARIMA ainda tem suas limitações. A partir dos resultados de \citeonline{li2024forecasting} conseguimos ver essas limitações, que comparado a alguns modelos multivariados o modelo ARIMA falha em capturar a realidade com precisão devido a suas simplificações.
+Os estudos analisados apontam limitações do ARIMA em diferentes aspectos. \citeonline{Silva_Clericuzi_Carvalho_2025} destacam que o modelo pode não captar choques econômicos, enquanto \citeonline{li2024forecasting} mostra que seu desempenho depende dos modelos usados na comparação: o ARIMA superou os benchmarks ETS e Fourier, mas algumas especificações de PCA obtiveram menor erro de validação.
 
-De todo modo, podemos confirmar o ARIMA como o candidato perfeito como modelo de teste, configurado com um baixo custo computacional, desempenho formidável e relativa aplicação simplificada. O modelo ARIMA será utilizado em nosso trabalho como modelo comparativo. Veremos mais sobre a aplicação do ARIMA no capítulo \ref{chap:resultados} onde veremos o desempenho do mesmo semelhante ao olhar de \citeonline{Silva_Clericuzi_Carvalho_2025}, mas com o princípio comparativo de \citeonline{li2024forecasting}.
+Por sua estrutura univariada e relativa simplicidade, o ARIMA será utilizado como modelo de referência para a comparação com os demais métodos. Sua aplicação e seu desempenho serão retomados no capítulo \ref{chap:resultados}.
 
-O modelo ARIMA, e no geral todos os modelos univariados têm um problema, a limitação estrutural do modelo. Afinal variáveis complexas, como o próprio PIB, sofrem de influências de diferentes fatores - de todas as naturezas, desde dados intimamente ligados a variável escolhida, até dados que parecem não ter relação alguma. Entretanto para afirmar ou rejeitar essa disposição, são necessários testes de correlação e modelos que realmente suportem indicar um certo grau de predição usando relações que não são univariadas. Esses modelos serão tratados a partir desse ponto no presente estudo.
+Por ser univariado, o ARIMA utiliza a trajetória histórica do próprio PIB e não incorpora diretamente outras variáveis econômicas como preditores. Em contraste, o VAR permite modelar conjuntamente as relações dinâmicas entre várias séries. A seguir, serão apresentados modelos multivariados que ampliam o conjunto de informações usado na previsão.
 
 \subsubsection{VAR}
 
-O modelo VAR é o primeiro modelo multivariado que nos debruçaremos em sua composição, utilização e aplicabilidade à predição do PIB. Seguindo nossa trilha didática, 
+O VAR será o primeiro modelo multivariado examinado, com foco em sua composição, utilização e aplicabilidade à previsão do PIB.
 %e de certa forma uma intuição da construção da redação,
-espera-se que o modelo VAR seja naturalmente mais complexo que modelos univariados - como o ARIMA. E de certa forma é isso que acontece, mas não quer dizer que a interpretabilidade do modelo, no sentido natural, se altere. Muito pelo contrário o VAR continua sendo um modelo intuitivo e explicável no âmbito das relações entre variáveis.
+Seguindo a sequência didática, sua estrutura é mais complexa que a do ARIMA, por considerar um sistema de variáveis. Isso, contudo, não implica necessariamente menor interpretabilidade: o modelo permite examinar as relações dinâmicas entre essas variáveis.
 
+Na análise macroeconômica, diversas variáveis podem se relacionar à dinâmica do PIB. O VAR permite representar conjuntamente as relações entre as séries incluídas no sistema, mas a ampliação do número de variáveis aumenta a quantidade de parâmetros a estimar e exige consideração do tamanho da amostra. Outros modelos multivariados, apresentados adiante, utilizam estratégias distintas para lidar com conjuntos mais amplos de informações.
 
-Nesse contexto de sistemas complexo de relações, há uma infinidade de variáveis que podem ser aplicadas. Modelos que conseguem identificar essas relações, mesmo que de forma limitada\footnote{Ao aplicar o VAR não é possível lidar com a "infinidade" de variáveis, somente com algumas dezenas no máximo, contudo existem modelos mais avançados - ainda tradicionais - que lidam bem com centenas de variáveis, veremos esses em breve.}, são essenciais, não se trata mais de modelar a relação da variável e sua série temporal, mas sim identificar a relação de diferentes variáveis umas com as outras e com o tempo.
+Passamos agora à apresentação do VAR. A sigla vem do inglês \textit{Vector Autoregression} (autorregressão vetorial), método aplicado por \citeonline{sims1980macroeconomics} à análise de sistemas macroeconômicos reais\footnote{O trabalho se insere na modelagem de variáveis macroeconômicas, como o PIB; seu título é \textit{Macroeconomics and Reality}.}.
 
-Entendido onde os modelos multivariados se encaixam na predição estatística, falaremos sobre o modelo escolhido, o VAR. O acrônimo VAR vem de \textit{Vector Autoregression} trata-se de um modelo estatístico descrito pela primeira vez  por \citeonline{sims1980macroeconomics}, surgindo da necessidade de modelar sistemas multivariados reais\footnote{Inclusive surge em um contexto de modelar variáveis macroeconômicas - como o PIB - afinal o título do ensaio de \citeonline{sims1980macroeconomics} é justamente Macroeconomia e Realidade}, não em situações puramente hipotéticas e teóricas.
+Em \citeonline{sims1980macroeconomics}, Sims estimou uma autorregressão vetorial sem restrições com séries trimestrais do período pós-guerra dos \ac{eua} e da Alemanha Ocidental. O sistema incluía moeda, \ac{pnb}\footnote{O PNB — também denominado Renda Nacional Bruta (RNB) nas contas nacionais — corresponde ao PIB acrescido da renda primária líquida recebida do exterior. Portanto, a relação entre PNB e PIB depende do saldo entre as rendas primárias recebidas e pagas ao resto do mundo.}, taxa de desemprego, nível de preços e índice de preços de importação.
 
-\citeonline{sims1980macroeconomics} ajustou séries temporais trimestrais do período pós-guerra dos \ac{eua} e da Alemanha Ocidental sobre dinheiro, \ac{pnb}\footnote{O PNB diferencia-se do \ac{pib}, pois o PNB leva em conta renda líquida enviada e recebida do exterior, ou seja para nações com muitas multinacionais a tendencia é PNB > PIB, já em nações dependentes de empresas estrangeiras em solo nacional a tendência é o PIB > PNB}, taxa de desemprego, nível de preços e índice de preços de importação, usando uma autoregressão vetorial sem restrições.
+Esse trabalho apresentou uma forma de aplicar o VAR sem impor as fortes restrições teóricas de identificação estrutural adotadas por modelos anteriores. Com essa aplicação, \citeonline{sims1980macroeconomics} caracterizou o VAR como um sistema de equações multivariadas que trata todas as variáveis como endógenas\footnote{Variáveis endógenas são aquelas determinadas dentro do próprio sistema de equações.}.
 
-Esse trabalho nos forneceu a metodologia para aplicar o VAR sem as restrições teóricas fortes de identificação estrutural de modelos anteriores. A partir dessa aplicação \citeonline{sims1980macroeconomics} apresentou as características do que hoje chamamos de VAR. Trata-se de um sistema de equações multivariadas que evita impor conhecimentos a \textit{priori}, ou seja, o modelo trata todas as variáveis como endógenas\footnote{Variáveis endógenas são aquelas determinadas dentro do próprio sistema de equações.}.
+\citeonline{sims1980macroeconomics} discute a aplicabilidade do VAR e observa que modelos anteriores, inclusive multivariados, assumiam a exogeneidade das variáveis. Segundo o autor, essa hipótese dificulta a captação das interdependências dinâmicas entre o lado real da economia (produção) e o lado monetário (preços).
 
-\citeonline{sims1980macroeconomics} discorre sobre a aplicabilidade do VAR, e aponta que modelos anteriores, mesmo os multivariados, assumem a exogeneidade das variáveis. Segundo o autor esses modelos dificultam capturar interdependências dinâmicas entre variáveis como as interações entre o lado real (produção) e o lado monetário da economia (inflação dos preços).
+As equações \ref{eq:VAR} e \ref{eq:VAR_p}, apresentadas por \citeonline{rstudio_var_tutorial}, mostram, respectivamente, as especificações VAR(1) e VAR($p$) usadas nesta exposição.
 
-O modelo VAR descrito por \citeonline{sims1980macroeconomics} apesar de conceitualmente definido, ainda sofreu modificações, o modelo atual que usaremos pode ser visualizado pelas equações \ref{eq:VAR} e \ref{eq:VAR_p}, em suas variações com menor e maior defasagem, consultadas de \cite{rstudio_var_tutorial}.
-
-Uma série temporal multivariada
-	$\mathbf{r_t} = (r_{1t}, r_{2t},...,r_{kt})' $
- composta por $k$ componentes no tempo $t$ é um processo VAR(1), que segue o modelo:
+Uma série temporal multivariada $\mathbf{r_t} = (r_{1t}, r_{2t},\ldots,r_{kt})'$, composta por $k$ componentes no tempo $t$, pode ser representada por um processo VAR(1):
 
 \begin{align}
 	\label{eq:VAR}
@@ -184,15 +170,12 @@ Uma série temporal multivariada
 
 onde
 \begin{itemize}
-	\item[a)] $\phi_0$ é um vetor de dispersão $k$;
+	\item[a)] $\phi_0$ é um vetor de interceptos de dimensão $k$;
 	\item[b)] $\varPhi$ é uma matriz $ k \times k$; e
-	\item[c)] $a_t$ é um ruído branco formado por uma sequência de vetores aleatórios independentes, distribuídos de forma idêntica, com média 0 e matriz de covariância $\sum a$.
+	\item[c)] $a_t$ é um ruído branco formado por uma sequência de vetores aleatórios independentes, distribuídos de forma idêntica, com média 0 e matriz de covariância $\Sigma_a$.
 \end{itemize}
 
-
-
-Já para modelos com uma defasagem maior, usá-se o VAR($p$), nele uma série temporal multivariada
-$\mathbf{r_t} = (r_{1t}, r_{2t},...,r_{kt})' $ com $p>0$:
+Para representar um número genérico de defasagens, utiliza-se o VAR($p$), em que $p>0$ indica a ordem do modelo para a série temporal multivariada $\mathbf{r_t} = (r_{1t}, r_{2t},\ldots,r_{kt})'$:
 
 \begin{align}
 	\label{eq:VAR_p}
@@ -200,145 +183,139 @@ $\mathbf{r_t} = (r_{1t}, r_{2t},...,r_{kt})' $ com $p>0$:
 \end{align}
 onde
 \begin{itemize}
-	\item[a)] $\phi_0$ é um vetor de dispersão $k$;
-	\item[b)] $\varPhi$ são matrizes $ k \times k$ para $j=1,...,p$; e
-	\item[c)] $a_t$ é um ruído branco formado por uma sequência de vetores aleatórios independentes, distribuídos de forma idêntica, com média 0 e matriz de covariância $\sum a$.
+	\item[a)] $\phi_0$ é um vetor de interceptos de dimensão $k$;
+	\item[b)] $\varPhi_j$ são matrizes de dimensão $k \times k$, para $j=1,\ldots,p$; e
+	\item[c)] $a_t$ é um ruído branco formado por uma sequência de vetores aleatórios independentes, distribuídos de forma idêntica, com média 0 e matriz de covariância $\Sigma_a$.
 \end{itemize}
 
-Com o contexto de surgimento do VAR e sua definição matemática, partiremos para a aplicação do VAR na literatura, ao contrário do que fizemos no ARIMA de analisar somente o \ac{pib}, referente ao Brasil, e o \ac{gdp} referente aos \ac{eua}. No modelo VAR buscaremos uma análise um pouco mais detalhada com diferentes variáveis em outros contextos.
+Após a definição do VAR, examinamos aplicações que incluem diferentes variáveis e contextos econômicos.
 
-Trataremos da relação entre variáveis reais, monetárias e da incerteza da com texto de \citeonline{fialho2024incerteza}. Observaremos o PIB per capita sob uma análise regional brasileira do ponto de vista de \citeonline{oliveira2024gastos}. 
+O estudo de \citeonline{fialho2024incerteza} aborda variáveis reais, monetárias e de incerteza. \citeonline{oliveira2024gastos} examinam o PIB \textit{per capita} em uma análise regional brasileira.
 %Notaremos o impacto internacional no PIB brasileiro através das medidas tarifárias pela perspectiva de \citeonline{domingues2025projeccoes}. 
-Por último recorreremos a literatura internacional, para observar como uma variação do modelo VAR é utilizada para estimar o crescimento do \ac{gdp} estadunidense proposto por \citeonline{koop2025monthlygdpgrowthestimates}.
+Por fim, \citeonline{koop2025monthlygdpgrowthestimates} apresentam uma variante do VAR para estimar o crescimento do \ac{gdp} dos estados norte-americanos.
 
-No primeiro trabalho abordado, a proposta dos autores é investigar "a causalidade de Granger entre incerteza, spread bancário e consumo das famílias no Brasil, utilizando um modelo VAR com dados mensais de janeiro de 2013 a janeiro de 2024" \citem[p. 1]{fialho2024incerteza}. Nesse trabalho foram selecionadas 6 séries de variáveis, dentre elas: Consumo Aparente - produção doméstica acrecida de importações e deduzido as exportações; Spread Médio para Pessoa Física - diferença entre a taxa média de juros de novas operações de crédito e o custo de captação referencial médio; Incerteza - índice de Incerteza da Política Econômica (EPU); Rendimento - rendimento bruto real médio, recebido no mês de referência, a série foi deflacionada usando o (IPCA); Concessão de Crédito pessoa física - valor das novas operações de crédito realizadas no período de referência; Taxa de desocupação - Percentual de pessoas economicamente ativas que estavam procurando trabalho, percentual de pessoas desocupadas em relação as pessoas na força de trabalho.
+O primeiro estudo investiga "a causalidade de Granger entre incerteza, spread bancário e consumo das famílias no Brasil, utilizando um modelo VAR com dados mensais de janeiro de 2013 a janeiro de 2024" \citem[p. 1]{fialho2024incerteza}. Os autores selecionaram seis séries: consumo aparente, calculado pela produção doméstica acrescida das importações e deduzida das exportações; spread médio para pessoa física, definido pela diferença entre a taxa média de juros das novas operações de crédito e o custo médio de captação; índice de incerteza da política econômica (EPU); rendimento bruto real médio, deflacionado pelo IPCA; concessão de crédito à pessoa física, correspondente ao valor das novas operações no período; e taxa de desocupação, proporção das pessoas desocupadas na força de trabalho.
 
-Segundo \citeonline{fialho2024incerteza} as variáveis foram submetidas ao modelo VAR devido a capacidade do modelo de lidar com múltiplas variáveis pertencentes a séries temporais, e considerando as mesmas como endógenas. Justamente vem de encontro com a proposta de \citeonline{sims1980macroeconomics}, confirmando a aplicação do modelo. A metodologia justifica-se pela possibilidade de modelar a interação entre variáveis reais e monetárias, não com uma teoria a \textit{priori}, mas sim buscando investir a interação entre as variáveis. 
-Para confirmar a adequação estatística dos dados, foram aplicados dois testes: Dickey-Fuller e Phillips-Perron para verificar a estacionariedade.
-
+Segundo \citeonline{fialho2024incerteza}, o VAR foi escolhido por permitir a análise conjunta de séries temporais, tratadas como endógenas no sistema. Essa aplicação dialoga com a proposta de \citeonline{sims1980macroeconomics} de examinar as interações dinâmicas entre variáveis reais e monetárias sem impor, de início, as restrições estruturais dos modelos criticados pelo autor.
 Para os autores
 
 \begin{citacao}
 	VAR é um modelo com n variáveis e n equações que expressa cada variável como uma função linear de seus próprios valores passados, dos valores defasados das demais variáveis empregadas e de um termo de erro serialmente não  correlacionado. \citem[p. 6]{fialho2024incerteza}.
 \end{citacao}
-O conceito exposto por \citeonline{fialho2024incerteza} segue a mesma equação \ref{eq:VAR} apresentada anteriormente.
+A definição apresentada por \citeonline{fialho2024incerteza} corresponde à estrutura da equação \ref{eq:VAR}, apresentada anteriormente.
 
-Para o prosseguimento da utilização do modelo VAR é necessário que as variáveis sejam estacionárias, o que foi testado utilizando a estatística Dickey-Fuller. A um nível de significância de 10\% quatro variáveis não são estacionárias: spred médio pessoa física  (p = 0.6054); incerteza ( p = 0.0844); concessão de crédito pessoa física (p=0.7486 e taxa de desocupação (p= 0.6635). Para testar a hipótese nula em que as séries possuem raízes unitárias, foi utilizado o teste Phillips-Perron, que apresentou spred médio pessoa física (p =0.4832); incerteza (p = 0.0583);  concessão de crédito pessoa física (p=0.9137) e taxa de desocupação (p=0.6320). Com esses resultados, o próximo passo foi realizar o mesmo teste com as variáveis defasadas\footnote{A fim de curiosidade todos os testes tiveram um p-valor de 0 ao utilizar as variáveis defasadas}, o que implicou no cumprimento da suposição de  estacionariedade e de inexistência de raiz unitária para as variáveis.
+Para verificar a estacionariedade das séries, os autores aplicaram os testes de Dickey-Fuller e Phillips-Perron. A um nível de significância de 10\%, quatro variáveis não eram estacionárias em nível: o spread médio para pessoa física ($p=0.6054$); a incerteza ($p=0.0844$); a concessão de crédito à pessoa física ($p=0.7486$); e a taxa de desocupação ($p=0.6635$). O teste de Phillips-Perron também não levou à rejeição da hipótese nula de raiz unitária para essas séries: os valores-p foram, respectivamente, 0.4832, 0.0583, 0.9137 e 0.6320. Após aplicar os testes às séries em primeira diferença, os autores reportaram resultados compatíveis com estacionariedade para essas quatro variáveis.
 
-Com o cumprimento das suposições estatísticas, seria necessário determinar o número de defasagens para o modelo, afinal se "forem muito pequenas o modelo terá problemas de sobrespecificação e, caso sejam muito grandes, perdem-se graus de liberdade"\citem[p. 7]{fialho2024incerteza}. Pelos critérios Akaike, Schwartz e Hannan-Quinn o número ideal de defasagens seria 2. Os resultados obtidos demonstram que que o modelo satisfaz a estabilidade do VAR, pois todas as raízes pertencem ao círculo unitário (são menores que 1). No diagnóstico dos resíduos, a partir do Multiplicador de Lagrange, com a hipótese nula de não autocorrelação, sendo comprovada a 1\% de significância. Os resíduos apresentados oscilam em torno de zero no tempo, indicando a inexistência de uma tendência sistemática nos resíduos. A partir desses expostos, foi confirmado que o modelo VAR estimado é adequado para a análise proposta.
+Após a análise de estacionariedade, os autores selecionaram o número de defasagens do modelo. A escolha equilibra a dinâmica representada e os graus de liberdade disponíveis \citem[p. 7]{fialho2024incerteza}. Os critérios de Akaike, Schwarz e Hannan-Quinn indicaram duas defasagens. Os autores também reportam que as raízes se situam dentro do círculo unitário, resultado compatível com a estabilidade do VAR. No diagnóstico dos resíduos, o teste do multiplicador de Lagrange não rejeitou a hipótese nula de ausência de autocorrelação ao nível de 1\%. Os resíduos oscilam em torno de zero, sem tendência sistemática aparente. Com base nesses resultados, os autores consideraram o modelo adequado à análise proposta.
 
-Os resultados obtidos apontam que 
+Os autores sintetizam os resultados da seguinte forma:
 
 \begin{citacao}
 	Os resultados obtidos demonstram que o rendimento, o crédito e o spread bancário têm um impacto com significância no consumo das famílias. Especificamente, as variáveis rendimento e crédito mostraram-se positivamente correlacionadas com o consumo, enquanto o spread bancário teve um efeito negativo. A incerteza, embora também afete o consumo, exerce uma influência menos pronunciada comparada às variáveis financeiras. Da mesma forma, a taxa de desocupação mostrou-se negativamente correlacionada com o consumo, embora de forma menos significativa. \citem[p. 11-12]{fialho2024incerteza}.
 \end{citacao}
 
-No sentido de utilização para o nosso trabalho já é possível obter-se uma ideia de como as variáveis devem se relacionar. Contudo o maior significado do estudo de \citeonline{fialho2024incerteza} certamente é a demonstração de como diferentes variáveis, sejam elas reais ou monetárias, interagem entre si. Essa relação é fundamental para entender a dinâmica econômica. A partir desses pressupostos, absorveremos esses resultados para nosso trabalho: a capacidade do VAR de tratar da interdependência de diversas variáveis. 
+Para este trabalho, o estudo de \citeonline{fialho2024incerteza} ilustra a aplicação do VAR à análise conjunta de variáveis reais e monetárias. Seu interesse aqui está na forma como o modelo representa interdependências dinâmicas entre as séries consideradas.
 
-Por outro lado, para avaliarmos o uso do VAR no contexto do PIB brasileiro, analisaremos o trabalho de \citeonline{oliveira2024gastos}, apesar dos autores não usarem o montante completo do PIB, mas sim a versão fracionada pela população, o PIB \textit{per capita}, este estudo trabalha com um outro cenário do que o visto até então, a relação dos investimentos públicos em infraestrutura e a renda da população. Outro diferencial desse trabalho é a análise de choques, para estimar o comportamento real de uma economia dinâmica.
+Outra aplicação do VAR ao contexto brasileiro é apresentada por \citeonline{oliveira2024gastos}. Em vez do PIB agregado, os autores analisam o PIB \textit{per capita} e sua relação com os gastos públicos em infraestrutura. O estudo também examina a resposta das variáveis a choques no sistema.
 
-O período de estudo de \citeonline{oliveira2024gastos} foi o recorte dos anos de 1994 a 2015, com preços atualizados ao ano de 2015. Esse estudo compreendeu duas regiões brasileiras distintas: Sul e Nordeste. As variáveis coletadas para estas regiões foram: o PIB extraído do \ac{ipea}; e a população do \ac{ibge}. Com ambas em mãos os autores calcularam o PIB \textit{per capita
-} para as duas regiões.
+\citeonline{oliveira2024gastos} analisam o período de 1994 a 2015, com valores a preços de 2015, para as regiões Sul e Nordeste. Os autores utilizaram dados do PIB extraídos do \ac{ipea} e dados populacionais do \ac{ibge} para calcular o PIB \textit{per capita} de cada região.
 
-No sentido do gasto com infraestrutura os autores coletaram três variáveis principais: gasto com comunicação, energia e transporte. Esses dados foram coletados de cada estado das regiões Sul e Nordeste, advindos da \ac{dca} ou do \ac{qdcc}. Além disso todas as séries foram transformadas em base logarítmica para interpretação natural da elasticidade.
+Para representar os gastos com infraestrutura, os autores reuniram dados de comunicação, energia e transporte dos estados das regiões Sul e Nordeste, obtidos na \ac{dca} ou no \ac{qdcc}. As séries foram transformadas em logaritmos para permitir a interpretação dos coeficientes como elasticidades.
 
 %\citeonline{oliveira2024gastos} como esperado optam por utilizar o \ac{var} como modelo. 
-Os autores apontam que a metodologia de \citeonline{sims1980macroeconomics} permite verificar "as causalidades de Granger entre as variáveis, decomposição da variância dos resíduos e a função impulso-resposta" \citem[p. 7]{oliveira2024gastos}. Sendo na visão deles um método que os auxiliará no entendimento das inter-relações das variáveis estudadas. Além disso, os autores ainda ressaltam que esse modelo lhes permitem avaliar como as variáveis reagem a inovações individuais no sistema, mas também como cada inovação passa a explicar os desvios sucessivos na série temporal das variáveis do modelo. 
+Os autores apontam que a metodologia de \citeonline{sims1980macroeconomics} permite verificar "as causalidades de Granger entre as variáveis, decomposição da variância dos resíduos e a função impulso-resposta" \citem[p. 7]{oliveira2024gastos}. Na interpretação deles, esses instrumentos ajudam a examinar as inter-relações entre as séries, suas respostas a inovações no sistema e a contribuição dessas inovações para a variância dos erros de previsão.
 
-Ao realizarem os testes \ac{adf} e \ac{pp} ao nível de significância de 5\%, todas variáveis apresentaram raízes unitárias, entretanto após a primeira diferenciação, com exceção da série dos gastos com infraestrutura de comunicação na região sul, todas as séries se comportaram como estacionárias. No caso da comunicação na região sul, mesmo na segunda diferença a série não se tornou estacionária, o que ocasionou na decisão dos pesquisadores em descartá-la desse modelo. 
+Nos testes \ac{adf} e \ac{pp}, ao nível de significância de 5\%, todas as variáveis apresentaram evidências de raiz unitária. Após a primeira diferença, as séries foram consideradas estacionárias, com exceção dos gastos com infraestrutura de comunicação na região Sul. Como essa série permaneceu não estacionária após a segunda diferença, os autores decidiram excluí-la do modelo.
 
-Já na determinação do número de defasagens do modelo, para a região nordeste todas os critérios apresentaram  uma defasagem ótima sendo igual a 1. No entanto na região, dois critérios apresentaram defasagem ótima igual a 1, dois critérios igual a 4. Os autores autores optaram pela utilização de ordem 1 de defasagem para região Sul, assim como na região Nordeste.
+Na seleção do número de defasagens, todos os critérios indicaram uma defasagem para a região Nordeste. Para a região Sul, dois critérios indicaram uma defasagem e outros dois, quatro defasagens. Os autores adotaram uma defasagem para ambas as regiões.
 
-Para a confirmação a ordem de defasagens os autores testaram a hipótese dos resíduos autocorrelacionados usando o critério dos Multiplicadores de Lagrange (Teste LM), o que confirmou a ordem de defasagens igual a 1 para ambas as regiões, já que o teste rejeitou a autocorrelação dos resíduos.
+Para verificar a ordem escolhida, os autores aplicaram o teste do multiplicador de Lagrange (LM) para autocorrelação dos resíduos. Segundo o estudo, o resultado sustentou a escolha de uma defasagem para ambas as regiões.
 
-Os autores utilizaram o método de Johansen para verificar relações de longo prazo entre as variáveis, e a um nível de 5\% de significância pela estatística traço, foi rejeitado a hipótese nula de inexistência de cointegração. A existência de um vetor cointegração implica na relação de longo prazo entre variáveis, portanto foi necessário a adição do \ac{vec} junto ao \ac{var}.
+Os autores utilizaram o método de Johansen para investigar relações de longo prazo entre as variáveis. Ao nível de significância de 5\%, a estatística do traço levou à rejeição da hipótese nula de ausência de cointegração. Diante da identificação de um vetor de cointegração, empregaram o \ac{vec} na modelagem.
 
-A estabilidade do modelo VAR/VEC é necessária, e para isso todas as raízes do polinômio devem estar dentro do círculo unitário, o que foi constatado nos testes, configurando assim a não existência de possíveis trajetórias explosivas.
+Os testes de estabilidade indicaram que as raízes do modelo VAR/VEC estavam dentro do círculo unitário, condição associada à ausência de trajetórias explosivas.
 
-Com esses testes o modelo foi estimado para as regiões Sul e Nordeste, de forma em que o PIB \textit{per capita} como endógeno ao modelo e as variáveis de gastos com infraestrutura como exógenas. Os resultados apontaram que para a região nordeste uma variação de 1\% do gasto com transporte pode ocasionar uma variação de 0.07\% do PIB \textit{per capita}. No caso da energia, com a mesma variação de 1\%, espera-se uma variação de 0.01\% do PIB \textit{per capita}. No caso da região Sul as mesmas variação de 1\% no gasto de transporte e energia espera-se ocasionar uma variação de 0.005\% e 0.007\% respectivamente.
+Após esses testes, o modelo foi estimado separadamente para as regiões Sul e Nordeste, com o PIB \textit{per capita} como variável endógena e os gastos com infraestrutura como variáveis exógenas. Para o Nordeste, os coeficientes estimados associam uma variação de 1\% nos gastos com transporte e energia a variações de 0,07\% e 0,01\% no PIB \textit{per capita}, respectivamente. Para a região Sul, as variações estimadas foram de 0,005\% para transporte e 0,007\% para energia.
 
-Contudo vale ressaltar que no coeficiente relacionado ao gasto com transporte e energia da região Sul apresentou um coeficiente com sinal positivo, indicando que um aumento no gasto com transporte ocasionaria em uma redução do PIB \textit{per capita}, porém a estatística não se apresenta como significativa.
+Na região Sul, o coeficiente de longo prazo do gasto com transporte não foi estatisticamente significativo; portanto, não permite concluir que esse gasto reduza o PIB \textit{per capita}.
 
-Para além disso, também foi testada a variação que ocorre no PIB \textit{per capita} quanto outras variáveis também flutuam. Na região Nordeste em um primeiro momento a variância do erro de previsão do PIB \textit{per capita} foi auto-explicada em cerca de 92\%, contudo ao longo do período, o erro auto-explicado se reduziu, com 12 meses a frente, somente 68\% da  variância do erro de previsão é explicada pelo PIB \textit{per capita}, enquanto os gastos de de transporte explicam 11\%, de energia 1,4\% e de comunicação 18\%. No caso da região Sul, a variância foi explicada em 98\% pelos seus próprios valores. Mas após os mesmos 12 meses, os gastos com energia passam a explicar 75\% da variância do erro e os gastos com transporte cerca de 2\%.
+Os autores também realizaram a decomposição da variância do erro de previsão do PIB \textit{per capita}. No Nordeste, os próprios choques do PIB explicavam inicialmente cerca de 92\% dessa variância; após 12 meses, essa participação caiu para 68\%, enquanto transporte, energia e comunicação explicavam 11\%, 1,4\% e 18\%, respectivamente. Na região Sul, os próprios choques do PIB respondiam inicialmente por 98\% da variância. Após 12 meses, os gastos com energia passaram a explicar 75\% e os gastos com transporte, cerca de 2\%.
 
-Com essas relações foi possível simular um choque nos gastos e observar o comportamento do PIB \textit{per capita}, a partir disso foi constatado que no caso do Nordeste gastos com transportes apresentaram efeitos positivos sobre o PIB \textit{per capita}. Para a região sul o gasto com energia que apresenta esses efeitos significativos, enquanto o transporte é pouco significativo.
+As funções impulso-resposta permitiram examinar o comportamento do PIB \textit{per capita} diante de choques nos gastos. No Nordeste, os gastos com transporte apresentaram resposta positiva do PIB \textit{per capita}. Na região Sul, a resposta esteve mais associada aos gastos com energia, enquanto o efeito do transporte foi pouco significativo.
 
-\citeonline{oliveira2024gastos} concluíram o trabalho levando a consideração da heterogeneidade das regiões brasileiras, trazendo como medidas em diferentes setores podem trazer impactos significantes, ou não, para a renda da região. A partir desse artigo e conectando com nosso objetivo da presente pesquisa notamos uma vantagem do VAR, e dos modelos tradicionais multivariados no geral, a explicabilidade, enquanto modelos como ARIMA conseguem identificar tendências e estimar o comportamento de uma única variável no futuro, modelo como o VAR conseguem estimar o impacto da dinâmica entre as variáveis, nesse caso sendo uma ferramenta poderosa para a tomada de decisão.
+\citeonline{oliveira2024gastos} concluem que os resultados diferem entre as regiões brasileiras, o que reforça a necessidade de considerar sua heterogeneidade. Para esta pesquisa, o estudo ilustra uma característica do VAR: além da previsão, sua estrutura permite examinar relações dinâmicas entre as variáveis do sistema. Essa possibilidade amplia a interpretação econômica em comparação com um modelo univariado como o ARIMA.
 
-Na mesma linha de \citeonline{oliveira2024gastos}, \citeonline{koop2025monthlygdpgrowthestimates} usaram o VAR para a estimar a renda, porém a renda estadunidense. Contudo o modelo proposto pelos autores é uma versão mais robusta do VAR, o chamado \textit{Bayesian Mixed-frequency} VAR \footnote{Vetor Autorregressivo de frequência misturada Bayesiano, trata-se de um modelo com capacidade de modelar diversas variáveis, com frequências de observações diferentes} ou MF-VAR. Não entraremos a fundo na metodologia de \citeonline{koop2025monthlygdpgrowthestimates}, apesar de mais complexa, ainda seguirá alguns pressupostos do modelo VAR vistos anteriormente.
+\citeonline{koop2025monthlygdpgrowthestimates} também utilizam uma variante do VAR, neste caso para estimar o crescimento do PIB dos estados norte-americanos. O modelo é um \textit{Bayesian Mixed-frequency} VAR\footnote{Vetor Autorregressivo de frequência misturada Bayesiano, trata-se de um modelo com capacidade de modelar diversas variáveis, com frequências de observações diferentes}, ou MF-VAR. A exposição a seguir se concentra nas características relevantes para a comparação com o VAR apresentado anteriormente.
 
-Contudo, em outros aspectos será completamente diferente, talvez o mais explicito deles seja o tamanho do modelo, enquanto um modelo VAR tradicional terá poucos parâmetros - tentando evitar a hiper-parametrização, perca de graus de liberdade e a possível multicolinearidade. O modelo proposto por \ac{eua} \citeonline{koop2025monthlygdpgrowthestimates} de predição em tempo real do PIB estadual tem 50 equações. Outro ponto relevante é a frequência dos dados, como no exemplo constatado pelos autores "O crescimento do PIB estadual (estadunidense) está disponível em frequência anual até 2004, antes do \ac{bea}\footnote{Departamento de Análise Econômica, trata-se do órgão que fornece indicadores macroeconômicos dos Estados Unidos} começar a produzir estimativas trimestrais a partir de 2005." \citem[p. 6, tradução nossa]{koop2025monthlygdpgrowthestimates}. Entretanto vale ressaltar que esse comportamento é recorrente. Tanto em variáveis de natureza distintas - como financeiras e reais - assim como variáveis que trocam de frequência com o decorrer da série temporal. Isso pode ser explicado por mudança metodológica na coleta de dados, ou pela simples melhoria na capacidade de coleta de dados pelos órgãos responsáveis, de uma frequência anual para trimestral, como a ocorrida.
+O modelo de \citeonline{koop2025monthlygdpgrowthestimates} difere também pela escala: trata-se de um MF-VAR com mais de 50 equações, estimado conjuntamente para os 50 estados norte-americanos e Washington, DC. Os autores observam que "O crescimento do PIB estadual (estadunidense) está disponível em frequência anual até 2004, antes do \ac{bea}\footnote{Departamento de Análise Econômica, trata-se do órgão que fornece indicadores macroeconômicos dos Estados Unidos} começar a produzir estimativas trimestrais a partir de 2005" \citem[p. 6, tradução nossa]{koop2025monthlygdpgrowthestimates}. O artigo, assim, ilustra uma situação em que a frequência de uma série muda ao longo do período observado.
 
-Isso conversa com ideia inicial de nosso trabalho, um modelo capaz de estimar o PIB brasileiro, contudo é importante compreender as limitações de coleta que existem, apesar de vivermos a era da \textit{big-data}, nem sempre foi assim. Portanto não se pode esperar séries históricas completas, sem erros de coleta, ou mudanças metodológicas. Isso é válido para economias desenvolvidas pelo mundo, como a estadunidense, ou para economias emergentes como a brasileira. 
+O exemplo de \citeonline{koop2025monthlygdpgrowthestimates} chama a atenção para a disponibilidade dos dados utilizados em modelos de previsão. Séries históricas podem ter lacunas e mudanças metodológicas, inclusive em economias com ampla produção estatística. Essas características também precisam ser consideradas na seleção das séries brasileiras deste trabalho.
 
-Outra ressalva no trabalho de \citeonline{koop2025monthlygdpgrowthestimates} é a mudança de paradigma, enquanto o trabalho original de  \citeonline{sims1980macroeconomics} e as aplicações de \citeonline{oliveira2024gastos} e \citeonline{fialho2024incerteza} são frequentistas, baseadas na estatística tradicional. \citeonline{koop2025monthlygdpgrowthestimates} precisaram utilizar uma abordagem Bayesiana, em que pressupostos a prior sobre a distribuição dos parâmetros antes dos dados são exigidos\footnote{Não discutiremos sobre qual abordagem é melhor, dentro da estatística e econometria do séc. XXI ambas abordagens são relevantes e se complementam na resolução de problemas quantitativos reais}. No trabalho de \citeonline{koop2025monthlygdpgrowthestimates} para conseguirem estimar um modelo VAR com essa quantidade de equações, chamados de grandes VAR, o poder computacional e o tempo de execução começam a se tornar um fator relevante na escolha de um modelo. Para a modelagem computacional, os autores utilizaram o \ac{mcmc}, que é frequentemente utilizada como algoritmo para modelos Bayesianos, contudo o \ac{mcmc} tradicional, com a quantidade de parâmetros e frequências distintas presentes, seria muito lento para a previsão do \ac{pib} em tempo real, os autores então adaptaram o algoritmo tradicional para a modelagem específica do VAR proposto.
+O trabalho de \citeonline{koop2025monthlygdpgrowthestimates} também difere pela abordagem de estimação. Enquanto \citeonline{sims1980macroeconomics}, \citeonline{oliveira2024gastos} e \citeonline{fialho2024incerteza} adotam procedimentos frequentistas, os autores utilizam uma abordagem bayesiana, na qual distribuições a priori são combinadas com os dados. Para estimar um VAR de grande dimensão, o poder computacional e o tempo de execução tornam-se relevantes. \citeonline{koop2025monthlygdpgrowthestimates} empregam \ac{mcmc}, mas adaptam o algoritmo à estrutura do modelo porque sua versão convencional seria lenta diante da quantidade de parâmetros e das frequências distintas.
 
-Entretanto, mesmo com todas essas restrições e adaptações, o modelo de \citeonline{koop2025monthlygdpgrowthestimates} conseguiu estimar o PIB mensal dos estados estadunidense, com um certo grau de precisão. Para avaliação do modelo, os autores utilizaram o \ac{rmse} dos valores estimados comparado aos valores medidos trimestralmente pelo próprio \ac{bea}. Vale ressaltar que para os erros dos três primeiros meses a média dos estados foi de m1 = 1.71, m2 =  1.71 e m3 = 1.48. Esse resultado indica uma boa capacidade de estimar o crescimento do PIB estadual dado as circunstâncias. Mas, a qualidade desse trabalho mais evidente é a capacidade interpretativa e possibilidade de estimar choques no espaço - devido a dinâmica estadual estar contida dentro do modelo. Esse grau de modelagem não seria possível em um modelo VAR tradicional.
+Os autores avaliam as previsões mensais do PIB estadual por meio do RMSE, comparando-as às estimativas trimestrais do \ac{bea}. Para os três primeiros meses do trimestre, o RMSE médio entre os estados foi de 1.71, 1.71 e 1.48, respectivamente. Esses valores descrevem o erro observado na aplicação; sua avaliação requer comparação com uma referência. A estimação conjunta também permite incorporar dependências entre os estados no sistema.
 
-Nesse contexto, nota-se que o modelo VAR pesquisado por \citeonline{koop2025monthlygdpgrowthestimates} tem qualidades evidentes. Tendo isso em mente, vale ressaltar que a utilização do VAR com uma abordagem Bayesiana não se restringe a economia americana. Na realidade muitos estudos já utilizaram essa abordagem para modelagem macroeconômica brasileira. Como os estudos de \citeonline{azevedo2020modelagem}, \citeonline{serrano2014impacto}, \citeonline{borges2018ensaios}, \citeonline{rosa2025efeito}.
+A aplicação bayesiana do VAR não se limita aos Estados Unidos. Estudos como os de \citeonline{azevedo2020modelagem}, \citeonline{serrano2014impacto}, \citeonline{borges2018ensaios} e \citeonline{rosa2025efeito} também utilizam essa abordagem na análise macroeconômica brasileira.
 
-Tal perspectiva reflete como o VAR e suas variações são modelos robustos para a predição de variáveis macroeconômicas, o modelo tradicional com suas limitações e suas vantagens de modelagem e rápida execução. E suas variações que suportam um maior número de variáveis e distintas frequências temporais.
+Essas aplicações mostram que o VAR pode ser adaptado a diferentes dimensões, frequências e procedimentos de estimação. Ao mesmo tempo, o aumento do número de variáveis e parâmetros amplia as exigências amostrais e computacionais, aspecto relevante para a comparação realizada neste trabalho.
 
-Todavia, para utilizar-se do VAR nesse contexto foi necessário adaptações no paradigma estatístico para a modelagem do problema, a seguir veremos dois modelos que lidam com isso naturalmente o DFM que foi idealizado para lidar com grande quantitativo de variáveis e o MIDAS que suporta diferentes frequências nas séries temporais, com isso concluiremos a sessão de modelos tradicionais e partiremos para os modelos baseados em \ac{ia}
+O exemplo anterior mostra uma solução para combinar séries com frequências diferentes em um VAR. A seguir, são apresentados o MIDAS, desenvolvido para regressões com dados de frequências distintas, e o DFM, que sintetiza informações de múltiplas séries por meio de fatores comuns. Essas subseções encerram a apresentação dos modelos econométricos tradicionais antes da discussão dos modelos baseados em \ac{ia}.
 
 %E de KOOP Monthly GDP Growth Estimates for the U.S.States
  
  
 % Tem o texto de Azevedo que da para olhar e ver se encaixa
 
-
 %
 %Em sua dissertação, \citeonline{azevedo2020modelagem} usou o modelo modelo de vetores auto-regressivos (VAR) para análise de séries temporais com variáveis macroeconômicas.
 %Já \citeonline{fialho2024incerteza} usaram o VAR para entender a dinâmica entre 
 %incerteza, spread bancário, crédito, consumo, rendimento e taxa de desocupação. 
 
-
 \subsubsection{MIDAS}
 
-Aplicar um modelo econométrico consiste em etapas, que vão desde a coleta, tratamento, testagem, aplicação, validação e predição. A maioria dessas etapas é administrada pelo pesquisador, se uma variável não passa nos testes, o estatístico pode simplesmente removê-la, ou tratá-la como exógena, se o modelo não tem uma boa acurácia, pode a sua vontade mudá-lo, e é assim para maioria das etapas. Contudo uma dessas etapas, apesar de muito importante, ela é suscetível a erros e variações que muitas vezes não podem ser controladas pelo pesquisador, estamos falando da coleta. Os dados disponíveis, mesmo aqueles de bases oficiais podem conter vícios de medições, dados faltantes e é claro diferentes frequências.
+A disponibilidade de dados condiciona a especificação dos modelos de previsão. Mesmo bases oficiais podem conter erros de mensuração, observações ausentes e séries observadas em frequências distintas.
 
-Como os estudiosos da área não podem simplesmente deixar de realizar a pesquisa, novas técnicas cada vez mais sofisticadas surgem para solucionar esse tipo de problema, como visto anteriormente no MF-VAR, existem maneiras de adaptar modelos existentes para as condições da realidade dos dados, mas também surgem modelos específicos para lidar com certas condições frequentes da economia real.
+Essas limitações motivam tanto adaptações de modelos existentes, como o MF-VAR apresentado anteriormente, quanto o desenvolvimento de métodos específicos para combinar informações disponíveis em diferentes frequências.
 
-Uma dessas condições, é ironicamente a frequência. Nesse sentido, em algumas bases, uma variável é semanal, naquela é mensal, em outra anual, e assim para qualquer regularidade imaginável. Por exemplo, o censo demográfico no Brasil só ocorre a cada 10 anos, os dados entre esses anos são estimativas. Outro exemplo, a taxa SELIC que é definida a cada 45 dias, muito mais frequente que um censo, mas parece ser uma eternidade comparada aos preços das ações que tem frequência praticamente imediata. Nesse sentido um modelo que consegue incorporar o comportamento econômico com diferentes frequências é algo relevante. Nesse contexto, surge o MIDAS.
+Uma dificuldade recorrente é combinar séries observadas em frequências diferentes: alguns indicadores são semanais, outros mensais ou anuais. Na análise econômica, essa diferença importa quando as observações de alta frequência contêm informação útil para prever uma variável de frequência mais baixa. O MIDAS foi desenvolvido para permitir essa combinação.
 
 \begin{citacao}
 	MIDAS envolve regressores com diferentes frequências de amostragem e, portanto, não são modelos autorregressivos, já que a noção de autorregressão pressupõe implicitamente que os dados são amostrados na mesma frequência no passado. \citem[p. 1]{Ghysels2004MIDAS}
 \end{citacao}
 
-Portanto, o MIDAS se difere dos modelos até agora estudados, tendo em vista que só analisemos modelos autorregressivos.
+O MIDAS amplia a discussão ao incorporar regressores observados em frequências diferentes da variável a prever.
 
-A responsabilidade sobre o início do desenvolvimento do modelo MIDAS recai justamente sobre os autores da citação anterior, no trabalho de \citeonline{Ghysels2004MIDAS}, com a obra intitulada de "\textit{The MIDAS Touch: Mixed Data Sampling Regression Models}\footnote{O nome faz referência a mitologia atrelada ao toque de Midas, associado a habilidade de transformar tudo em sucesso/riqueza}". O contexto do surgimento do MIDAS é justamente a necessidade de um modelo capaz de delinear as diferentes frequências na realidade. Os autores trazem como exemplo o mercado de ações, analise de risco e também a predição macroeconômica pensando na limitação dos dados, 
+O desenvolvimento das regressões MIDAS é apresentado por \citeonline{Ghysels2004MIDAS} no trabalho \textit{The MIDAS Touch: Mixed Data Sampling Regression Models}. Os autores discutem aplicações em mercados financeiros, análise de risco e previsão macroeconômica, nas quais as séries disponíveis podem ter frequências distintas:
 
 \begin{citacao}
-	 o interesse em regressões MIDAS também pode surgir por limitações na disponibilidade de dados. Por exemplo, alguns dados macroeconômicos são amostrados mensalmente, como séries de preços e agregados monetários, enquanto outras séries são amostradas trimestralmente ou anualmente, normalmente séries de atividade real como o PIB e seus componentes. \citem[p. 1]{Ghysels2004MIDAS}
+	O interesse em regressões MIDAS também pode surgir por limitações na disponibilidade de dados. Por exemplo, alguns dados macroeconômicos são amostrados mensalmente, como séries de preços e agregados monetários, enquanto outras séries são amostradas trimestralmente ou anualmente, normalmente séries de atividade real como o PIB e seus componentes. \citem[p. 1]{Ghysels2004MIDAS}
 \end{citacao}
 
-Tendo em vista que o objeto do presente trabalho são os diferentes sistemas de predição, e um modelo pensado para solucionar um problema real da predição com variáveis macroeconômicas é um forte candidato a observação. Mas o que de fato esse modelo faz? "As regressões MIDAS são basicamente regressões de forma reduzida e com parâmetros bem ajustados, que envolvem processos amostrados em diferentes frequências." \citem[p. 4]{Ghysels2004MIDAS}
+O MIDAS é pertinente à comparação deste trabalho por permitir o uso de informações observadas em frequências distintas. Na definição dos autores, "As regressões MIDAS são basicamente regressões de forma reduzida e com parâmetros bem ajustados, que envolvem processos amostrados em diferentes frequências." \citem[p. 4]{Ghysels2004MIDAS}
 
-Uma regressão linear simples MIDAS pode ser expressa na equação \ref{eq:MIDAS_linear_simples} proposta por \citeonline{Ghysels2004MIDAS}.
+Uma regressão MIDAS simples pode ser expressa pela equação \ref{eq:MIDAS_linear_simples}, apresentada por \citeonline{Ghysels2004MIDAS}.
 
 \begin{equation}
 	\label{eq:MIDAS_linear_simples}
-	Y_t = \beta_0 + \beta_1B(L^{\frac{1}{m}})X_{t-1}^{(m)} +  \epsilon_t^{(m)}
+	Y_t = \beta_0 + B(L^{\frac{1}{m}})X_t^{(m)} + \epsilon_t
 \end{equation}
 
 onde
 \begin{itemize}
 	\item[a)] $Y_t$  é a variável de baixa frequência a ser estimada;
 	\item[b)] $\beta_0$ é o intercepto;
-	\item[c)] $\beta_1$ é o coeficiente que mede a influência das variável explicativa sobre a variável dependente;
-	\item[d)] $B(L^{\frac{1}{m}}) = \sum_{j_0}^{j_{max}} B(j)L^{\frac{1}{m}}$ é um polinômio de comprimento $L^{\frac{1}{m}}$ no operador $L^{\frac{1}{m}}x_t = x_{t-\frac{j}{m}}$;
-	\item[e)] $X_{t-1}^{(m)}$ é a variável explicativa de alta frequência;
-	\item[f)] $ \epsilon_t^{(m)}$ é o termo do erro.
+	\item[c)] $B(L^{\frac{1}{m}}) = \sum_{j=0}^{j_{max}} B(j)L^{\frac{j}{m}}$ é um polinômio de defasagens no operador $L^{\frac{j}{m}}X_t^{(m)} = X_{t-\frac{j}{m}}^{(m)}$;
+	\item[d)] $X_t^{(m)}$ é a variável explicativa observada em frequência $m$ vezes maior que a de $Y_t$;
+	\item[e)] $\epsilon_t$ é o termo de erro.
 \end{itemize}
 
-Imaginemos modelar a o PIB trimestral utilizando o \ac{ipca} mensal, em uma regressão linear simples, cada mês do \ac{ipca} deveria ser modelado como uma variável independente a parte, o que a depender da frequência da variável, se tornaria inviável, com alto risco de sobreajuste. Outra solução seria simplesmente adaptar a frequência mais alta para a  mais baixa, por exemplo, calcular a média do IPCA para os meses de observação, porém fazer isso implicaria na perda de informações. O que modelos MIDAS fazem é incorporar as variáveis com frequências diversas em uma função de pesos parametrizados para as defasagens.
+Considere a previsão do PIB trimestral com o \ac{ipca} mensal. Uma possibilidade seria incluir as observações mensais como regressores separados, aumentando o número de parâmetros. Outra seria agregá-las na frequência trimestral, por exemplo, por uma média, deixando de distinguir a informação de cada mês. O MIDAS incorpora variáveis de frequências distintas por meio de pesos parametrizados para suas defasagens. Essa característica é pertinente a este estudo: embora os alvos sejam o crescimento e o nível anual do PIB real, algumas séries preditoras são observadas em outras frequências.
 
-Porém escalando o problema, para múltiplas variáveis, a modelagem da maneira tradicional se torna praticamente inviável. Isso vale também para o modelo MIDAS apresentado, o mesmo não foi feito para um conjunto de variáveis. Como pretendemos aplicar em dados reais, e como o modelo MIDAS foi criado justamente nesse contexto, devemos observar sua formulação. Sua forma geral, que representa toda família  de modelos MIDAS está representado na equação \ref{eq:MIDAS_forma_geral} também proposta por \citeonline{Ghysels2004MIDAS}.
+A formulação simples permite introduzir o mecanismo de defasagens de frequência mista. Para representar especificações com múltiplas variáveis e funções de ponderação, considera-se a forma geral da família MIDAS, apresentada na equação \ref{eq:MIDAS_forma_geral} por \citeonline{Ghysels2004MIDAS}.
 
 \begin{equation}
 	\label{eq:MIDAS_forma_geral}
-	Y_{t+1} = B_0 + f (\sum_{i=1}^{K}\sum_{j=1}^{L} B_{ij}(L^{\frac{1}{m_i}})      g (X_{t}^{(m_i)}, \beta), \beta )+  \epsilon_t+1
+	Y_{t+1} = B_0 + f (\sum_{i=1}^{K}\sum_{j=1}^{L} B_{ij}(L^{\frac{1}{m_i}})      g (X_{t}^{(m_i)}, \beta), \beta )+  \epsilon_{t+1}
 \end{equation}
 
 onde
@@ -347,25 +324,24 @@ onde
 	\item[b)] $B_0$ é o intercepto;
 	\item[c)] $X_{t}^{(m_i)}$ são as variáveis explicativas do modelo;
 	\item[d)] $L^{\frac{1}{m_i}}$ é o operador de defasagem fracionária;
-	\item[e)] $B_{ij}(L^{\frac{1}{m_i}})$ é um polinômio de defasagem que determina o impacto de lags específicos de $X$ sobre $Y$;
+	\item[e)] $B_{ij}(L^{\frac{1}{m_i}})$ é um polinômio de defasagem que determina o efeito de defasagens específicas de $X$ sobre $Y$;
 	\item[f)] $g(X_{t}^{(m_i)}, \beta)$ é a função de ponderação dos pesos;
-	\item[g)] $\sum_{i=1}^{K}\sum_{j=1}^{L}$ são os somatórios que acumulam a informação;
-	\item[h)] $f(\dots, \beta)$ é a função de ligação global\footnote{Normalmente $f$ é linear, mas na forma geral isso não é obrigatório, ou seja $f$ pode ser uma função não-linear, portanto podem haver modelos MIDAS aplicados a problemas não-lineares, essa possibilidade coloca em cheque a posição do MIDAS nesta sessão do presente trabalho, porém consideramos o MIDAS como um modelo tradicional pela sua ampla aplicação em problemas lineares};
+	\item[g)] $\sum_{i=1}^{K}\sum_{j=1}^{L}$ agrega as contribuições das variáveis e de suas defasagens;
+	\item[h)] $f(\dots, \beta)$ é a função de ligação global\footnote{A forma geral admite funções de ligação não lineares. Neste trabalho, o MIDAS é classificado entre os modelos tradicionais devido à especificação utilizada e à sua aplicação consolidada em previsão econométrica};
 	\item[i)] $\epsilon_{t+1}$ é o resíduo no período $t+1$.
 \end{itemize}
 
-
-A partir dessa forma geral podemos modelar uma variedade de problemas que envolvem variáveis de frequência mista, inclusive, e especialmente situações envolvendo variáveis macroeconômicas como o PIB. Portanto a partir desse momento veremos aplicações do modelo MIDAS para a predição macroeconômica.
+Essa formulação permite considerar variáveis observadas em frequências distintas, situação comum na análise macroeconômica. A seguir, são apresentadas aplicações do MIDAS à previsão do PIB.
 
 % Esse texto a seguir é uma lembrança
 
-\citeonline{castelli2022modelo} abordou o uso do modelo de amostragem de dados mistos (do inglês \textit{Mixed Data Sampling} - MIDAS) para predizer o \ac{pib} com a pesquisa industrial mensal. Assim como \citeonline{micheletti2024avaliaccao} usou modelos de \textit{ensemble stacking} \footnote{\textit{ensemble stacking}: modelos combinados} (dentre eles o MIDAS) para prever o \ac{pib}.
+\citeonline{castelli2022modelo} utiliza o MIDAS para prever o \ac{pib} com dados da pesquisa industrial mensal. \citeonline{micheletti2024avaliaccao} inclui o MIDAS em uma combinação de modelos por \textit{ensemble stacking}\footnote{\textit{ensemble stacking}: modelos combinados} para a previsão do \ac{pib}.
 
 \subsubsection{DFM}
 
-Pensando nos modelos até então apresentados, existe uma certa progressão em complexidade e capacidade do modelo, mas todos os apresentados tem um problema específico, a dificuldade em lidar com muitas variáveis. O modelo ARIMA é univariado, o VAR tradicional consegue lidar com uma dezena de variáveis diferentes, o modelo MIDAS até consegue trabalhar com algumas dezenas de variáveis, porém pode sofrer com a multicolinearidade e o custo computacional, nesse sentido um modelo capaz de incorporar dezenas ou até mesmo centenas de elementos diferentes em um mesmo sistema preditivo teria um apelo respeitável na economia real, é justamente nessa necessidade de modelos que comportam um grande número que variáveis que surge a família dos  \ac{dfm}.
+Os modelos apresentados até aqui diferem na quantidade e na frequência das séries que podem incorporar. Quando o conjunto de informações cresce, a estimação direta de muitos parâmetros pode se tornar limitada pelo tamanho da amostra e pela correlação entre os preditores. Os \ac{dfm} tratam esse problema ao sintetizar a variação comum de diversas séries em um número menor de fatores latentes.
 
-A noção de utilizar fatores dinâmicos para predição econômica é atribuída a \citeonline{geweke1977dynamic}\footnote{Se pensarmos em uma sequência histórica seria: ARIMA - 1970, DFM - 1977, VAR - 1980 e por último o MIDAS - 2004. No presente trabalho não optamos por apresentar modelos em uma sequência histórica, mas sim de forma didática, pensando justamente no nível de complexidade dos modelos, apesar de ser um critério subjetivo a depender do leitor, mas também podemos refletir que estamos apresentando os modelos em uma sequência de capacidades, em que cada modelo consegue fazer um pouco mais do que o anterior, mesmo cada um tendo seu melhor caso de uso. Contudo vale ressaltar a curiosidade, como um modelo mais complexo como o DFM surge antes de modelos mais "simples" comparativamente como o VAR ou o MIDAS.}. Os DFM surgem como modelos para abarcar a economia em expansão, e ser capaz de modelar dinâmicas que outros modelos falham na incorporação. Os DFM's se mostraram úteis para sintetizar informações de variáveis observadas em diferentes frequências, estimar o ciclo econômico latente, fazer previsões em tempo real e a longo prazo, e estimar probabilidades de recessão e pontos de virada." \citem[p. 2]{doz2019dynamic}.
+A utilização de fatores dinâmicos na previsão econômica é atribuída a \citeonline{geweke1977dynamic}. Segundo \citeonline{doz2019dynamic}, os DFM permitem sintetizar informações de séries observadas em diferentes frequências, estimar componentes latentes do ciclo econômico, produzir previsões e analisar probabilidades de recessão e pontos de inflexão.
 
 A forma geral de um modelo DFM pode ser vista na equação \ref{eq:forma_geral_DFM} apresentada por \citeonline{doz2019dynamic}.
 \begin{equation}
@@ -382,41 +358,35 @@ Em que
 	\item[a)] $x_t$ representa o vetor das N variáveis observadas no instante t;
 	\item[b)] $\mu$ é o vetor de interceptos das variáveis observadas;
 	\item[c)] $\Lambda (L)$ é a matriz de polinômios de defasagens;
-	\item[d)] $)F_t$ é o vetor dos $r$ fatores comuns latentes;
+	\item[d)] $F_t$ é o vetor dos $r$ fatores comuns latentes;
 	\item[e)] $e_t$ representa o vetor dos componentes idiossincráticos\footnote{Não chamamos $e_t$ de vetor de erros, pois no contexto do DFM não se trata só de erro de medição ou ruídos, mas sim a parte da variável que não é explicada por fatores comuns}.
 \end{itemize}
 
-Dentre os modelos apresentados, tanto em nível de complexidade computacional, assim como a interpretabilidade dos modelos, não no sentido de seus resultados, mas sim de sua construção o DFM é o modelo mais complexo dentre os modelos tradicionais estudados no presente trabalho, desse modo, e seguindo nossa proposta didática ele é o último modelo tradicional que abordaremos. Inclusive a escolha do DFM ser o último é que também o DFM consegue englobar outros modelos em sua composição, inclusive na subsecção \ref{subs:AI_models} trataremos de um modelo DFM que o autor usou modelos de IA em sua composição, deixando o limiar de tradicionais e de IA mais nebuloso, mas também apresentando um potencial, a combinação de modelos.
+Entre os modelos tradicionais apresentados até aqui, o DFM é mais complexo em sua estrutura, pois representa as séries observadas por meio de fatores comuns latentes e componentes idiossincráticos. Por esse motivo, ele encerra a exposição desses modelos. Sua estrutura também pode ser combinada com outras abordagens: na subseção \ref{subs:AI_models}, será discutido um estudo que integra DFM e métodos de IA.
 
 %Preciso deixar o DFM mais robusto
 
-\citeonline{alves2009nucleo} em sua dissertação de mestrado abordou modelos de fatores dinâmicos (do inglês  \textit{Dynamic Factor Models} - DFM) para entender o núcleo da inflação brasileira. Por outro lado \citeonline{moura2020fragilidade} avaliou os ciclos econômicos brasileiros usando uma combinação entre o DFM e o VAR.
+Em sua dissertação, \citeonline{alves2009nucleo} aplica um modelo de fatores dinâmicos generalizados aos componentes desagregados do IPCA para separar movimentos comuns de componentes idiossincráticos. O componente comum é interpretado como uma medida do núcleo da inflação e comparado ao núcleo por exclusão. Os testes de cointegração e o modelo de correção de erros indicam maior capacidade de antecedência do núcleo estimado pelo DFM no curto prazo. Por sua vez, \citeonline{moura2020fragilidade} combina DFM e VAR para investigar a fragilidade fiscal e os ciclos econômicos brasileiros. Esses estudos ilustram o uso dos fatores dinâmicos para sintetizar informações de diversas séries e incorporá-las à análise econômica.
 
-
-
-\subsection{Modelos de \ac{ia}: Uma explanação}
+\subsection{Modelos baseados em \ac{ia}}
 \label{subs:AI_models}
 
-Os modelos que chamamos de \ac{ia}, são na realidade modelos não-lineares modernos\footnote{Existem modelos considerados tradicionais não-lineares como as árvores de decisão, porém sua interpretabilidade é natural}, estes não assumem a linearidade nos parâmetros dos preditores do modelo, isso ocasiona implicações na interpretabilidade dos modelos \citem[p. 22]{vasconcelos2017poder}. Apesar do termo Inteligência Artificial ter seu uso mais evidente pelos algoritmos baseados em redes neurais e aprendizado profundo, ainda existem modelos que não tem a mesma notoriedade popular que tais algoritmos\footnote{O uso do termo  Inteligência Artificial se popularizou com os modelos grandes de linguagem - LLM (do inglês, \textit{Large Language Models}), mas os algoritmos de IA surgem anteriormente a esses modelos. O nome vem justamente da ideia que essa classe de algoritmos tenta simular o comportamento humano, porém seu funcionamento não poderia ser mais diferente, como veremos na presente sessão. Outro fator que influência o nome IA, é a representação visual do Percéptron, menor unidade das redes neurais, em que seu diagrama lembra a forma de um neurônio humano, que propriamente inspirou o nome redes neurais, e consequentemente, ajudou a popularizar o termo Inteligência Artificial}, mas que podem ser tratados como IA, por possuírem características de falta interpretabilidade natural e não linearidade nos preditores, como é o exemplo do Random Forest que trataremos nesse trabalho.
+Neste trabalho, a expressão "modelos baseados em IA" designa redes neurais e \textit{Random Forest}. Ambas as famílias podem representar relações não lineares e acomodar conjuntos amplos de preditores. Sua aplicação requer escolhas do pesquisador, como a seleção das variáveis, a configuração do modelo e a forma de avaliar os resultados.
 
-De uma maneira técnica os modelos de IA "utilizam funções específicas que permitem realizar previsões mediante a atribuição de pesos, que são medidos e alterados por uma função de ativação que busca diminuir o erro de um modelo, que tende a ser muito mais preditivo do que analítico." \citem[p.10]{carmo2023modelagem}. A partir da definição de \citeonline{carmo2023modelagem} e de \citeonline{vasconcelos2017poder} já entendemos o contexto onde esses modelos se encaixam, são modelos que buscam estimar a variável escolhida com maior precisão, mas para isso o pesquisador sacrifica a interpretabilidade natural do modelo, e de certa forma, também seu poder decisivo. 
+Na previsão do PIB, o interesse recai sobre o erro das previsões e sobre a possibilidade de interpretar os resultados para a análise econômica. Por isso, a comparação dessas abordagens considera o desempenho preditivo, o tempo de execução e a interpretabilidade qualitativa, em conformidade com os objetivos do trabalho.
 
-O poder preditivo de um modelo de IA permite que modelos possuam muitas variáveis, e capturem um comportamento dinâmico e entrelaçado das observações, algo que a simples análise humana e pressupostos lineares não seriam capazes de observar. Por outro lado, a decisão de utilizar ou não uma variável, dos pesos que cada valor possuí e da interpretação após treinamento foge do controle do pesquisador, sendo de certa forma, atribuído ao modelo essa tarefa. Assim fica evidente onde modelos de IA tem maior possibilidade: problemas complexos, com muitas variáveis, diversos fatores dinâmicos, com alto grau de correlação e que a interpretação é menos importante que a capacidade preditiva.
-
-Usando um exemplo prático, estimar o PIB é um ótimo candidato a modelos de IA, muitas variáveis podem ser usada como preditoras, dinamismo frequente e auto grau de correlação entre elas, se trata de um problema complexo, onde de certa forma pouco interessa a relação interna entre as variáveis, mas muito se interessa o desempenho do próprio PIB. Por outro lado, um modelo para estimar o grau de encadeamentos de uma economia, apesar de ter uma complexidade tremenda e uma grande quantidade de preditores, o que importa nesse tipo de modelo é sua interpretabilidade, e nesse sentido, modelos tradicionais no aspecto da interpretação, provavelmente atenderiam melhor os requisitos dado a natureza do problema. 
-
-\subsubsection{Redes Neurais}
+\subsubsection{Redes neurais}
 
 %As redes neurais tem a capacidade de estimar associações
 %não lineares em seu processo preditivo \citem{vasconcelos2017poder}. Esses modelos se baseiam no aprendizado por 
 
-Os modelos baseado em redes neurais são naturalmente complexos, mas tentaremos explicar de uma forma descomplicada como esses modelos surgiram, as inspirações, a aplicação teórica e aplicações práticas para a predição econômica.
+Esta subseção apresenta a origem das redes neurais, seus princípios de funcionamento e algumas aplicações à previsão econômica.
 
-Por definição rede neural trata-se de uma modelo baseado em rede composto por diversas camadas, cada camada é composta por nós, e cada nó é calculado usando os nós da camada anterior, e a saída é calculada usando os nós da última camada oculta. Não existe interpretação para esses nós, que são computados usando retropropagação \citem{ghosh2023machine}.
+Uma rede neural é composta por unidades organizadas em camadas. Durante a passagem dos dados pela rede, os valores de cada unidade são calculados a partir das saídas da camada anterior. No treinamento, a retropropagação é utilizada para ajustar os pesos da rede; portanto, ela participa do processo de aprendizagem, e não do cálculo de cada unidade em si \citem{ghosh2023machine}.
 
-Todavia, redes, nós e retropropagação são conceitos avançados para entender de fato que o são redes neurais. De uma maneira mais humana, redes neurais são utilizadas "para replicar o funcionamento do pensamento humano artificialmente e encontrar respostas ou hipóteses tal qual um humano faria, porém, evitando seus erros e agilizando processos que podem demorar muito tempo quando biologicamente realizados." \citem[p. 8]{carmo2023modelagem}. A replicação do pensamento humano não ocorre tentando simular as reações físico-químicas que acontecem em nossos cérebros, na realidade trata-se de uma abstração do pensamento humano através de funções matemáticas, uma sequência de combinações lineares que conseguem resolver problemas não-lineares.
+Em uma apresentação intuitiva, as redes neurais são descritas como métodos que procuram reproduzir artificialmente determinadas capacidades de reconhecimento e decisão associadas ao pensamento humano \citem[p. 8]{carmo2023modelagem}. Essa analogia não corresponde a uma reprodução dos processos físico-químicos do cérebro: trata-se de uma estrutura matemática que combina transformações lineares e funções de ativação não lineares.
 
-Dessa forma o objetivo desse tipo de modelo é justamente "extrair combinações lineares por meio das covariáveis e então modelar a variável que se deseja prever como uma função não linear destas covariáveis." \citem[p. 40-41]{kava2022alem}. Isso ocorre por meio da união de pequenos modelos preditivos simples. Esses modelos chamados de neurônios artificiais, são os responsáveis por essa predição. O primeiro neurônio artificial, ou também chamado de perceptron foi descrito inicialmente por \citeonline{rosenblatt1958perceptron}\footnote{Chamar o perceptron de \citeonline{rosenblatt1958perceptron} de primeira IA pode ser um eufemismo, até porque a ideia de IA é mais antiga remetendo as reflexões de Alan Turing, mas principalmente se comparamos aos modelos de redes neurais atuais que são muito mais complexos que o perceptron. Contudo a ideia estava lá, e ela realmente veio a se tornar os modelos computacionais sofisticados que temos no mundo contemporâneo. Mas pensando no perceptron estritamente como modelo matemático criado em 1958, ele surge antes do ARIMA, que é de 1970. Claro ambos tem propostas diferentes, o ARIMA é um modelo autorregressivo univariado, já o perceptron é um classificador linear simples, mas mesmo assim se ignorarmos esse fato por um momento, o modelo que é vendido como inovador, surge como ideia antes de muitos dos modelos tradicionais, mas isso é mais uma reflexão sobre a evolução das técnicas de modelagem do que propriamente uma discussão sobre predição econômica, mas fica a reflexão sobre os modelos vendidos como "inovadores".}. A representação visual pode ser verificada na figura \ref{fig:perceptron}. Esse modelo consistia em modelo que soma as entradas, obtendo um valor intermediário chamado de z, que passa por uma função de ativação, o perceptron utiliza uma função sinal como ativação, mas outros tipos de modelos utilizam outras funções de ativação \citem{ekman2021learning}.
+Dessa forma, o objetivo desse tipo de modelo é "extrair combinações lineares por meio das covariáveis e então modelar a variável que se deseja prever como uma função não linear destas covariáveis" \citem[p. 40-41]{kava2022alem}. Isso ocorre por meio da combinação de unidades preditivas denominadas neurônios artificiais. O perceptron foi descrito por \citeonline{rosenblatt1958perceptron} e sua representação visual pode ser observada na figura \ref{fig:perceptron}. O modelo soma as entradas ponderadas, obtém um valor intermediário e o submete a uma função de ativação. O perceptron utiliza uma função sinal, enquanto outras arquiteturas podem empregar funções de ativação distintas \citem{ekman2021learning}.
 
 A representação matemática de um perceptron é definida por:
 
@@ -446,13 +416,13 @@ com
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-Contudo um perceptron por si só, não consegue resolver problemas não-lineares, afinal a combinação de entradas e saídas realizando uma operação linear não pode ter uma resposta para um problema não-linear. Mas a verdadeira solução para problemas não-lineares começa a partir da combinação de dois perceptrons. Intuitivamente, um perceptron é um classificador linear simples, mas combinando os resultados das respostas de dois perceptrons, que são lineares, com um terceiro neurônio combinando essas respostas, consegue-se resolver problemas não-lineares. Nesse contexto surge a ideia de redes.
+Um perceptron linear isolado não representa relações não lineares. A combinação de unidades em camadas ocultas, com funções de ativação não lineares, permite às redes neurais representar relações que esse classificador não consegue capturar. Nesse contexto, desenvolve-se a arquitetura de redes com múltiplas unidades e camadas.
 
-Retomando o conceito de \citeonline{ghosh2023machine} entendemos o que são as redes, e o que são os nós, se tratam dos neurônios conectados e os pesos calculados de cada um. Contudo um conceito relevante que ainda não foi discutido, justamente esse conceito que permitiu a evolução do modelo de \citeonline{rosenblatt1958perceptron} para as redes multicamadas que existem hoje. O nome desse conceito é a retropropagação, conhecido também como \textit{backpropagation} que é justamente o que permite o aprendizado nessa arquitetura.
+Na descrição de \citeonline{ghosh2023machine}, a rede reúne unidades conectadas por pesos ajustáveis. Para compreender o treinamento de redes multicamadas, é necessário introduzir a retropropagação, também denominada \textit{backpropagation}.
 
-Após a invenção do perceptron havia ainda um espaço grande entre um único neurônio e as redes neurais multicamadas . O perceptron tem uma limitação relevante já citada, só consegue resolver problemas que são linearmente separáveis, isso acontece pela maneira como o aprendizado do modelo de \citeonline{rosenblatt1958perceptron} funciona. As entradas do perceptron eram multiplicadas com o peso e somadas com o viés, passada a uma função sinal ou degrau \footnote{A diferença dessas duas funções está na interpretação do 0, enquanto a função sinal tem a seguinte relação $sgn(x) \{-1\text{ se }x < 0; 0 \text{ se } x = 0; \text{ e } 1 \text{ se } x > 0$. Já a função degrau considera o 0 como um valor positivo $H(x) \{-1 \text{ se } x < 0; \text{ e } 1 se x >= 0$, ambas podem ser usadas no perceptron e ambas tem o mesmo problema que discutiremos no decorrer do texto} que resultava na saída. O aprendizado ocorria da seguinte forma: se a saída fosse igual a saída esperada, nenhum peso era alterado, se a saída fosse diferente da saída esperada os pesos eram modificados, até o modelo se ajustar a saída esperada.
+O perceptron de \citeonline{rosenblatt1958perceptron} classifica padrões linearmente separáveis. Suas entradas são multiplicadas pelos respectivos pesos, somadas ao viés e submetidas a uma função sinal ou degrau\footnote{As funções diferem no tratamento do ponto zero, mas ambas produzem uma decisão discreta e não são diferenciáveis nesse ponto.}. Durante o treinamento, os pesos são atualizados quando a saída prevista difere da saída esperada.
 
-Intuitivamente a limitação é explicita, mas para ficar mais evidente suponhamos o problema clássico das redes neurais, resolver o problema do ou-exclusivo, o XOR\footnote{O XOR parece ser um problemas simples, mas essa operação é fundamental dentro da computação, sendo utilizada em áreas fundamentais, como a criptografia, mascarás de bits, armazenamento digital, construção de processadores, construção de redundância,etc. Calcular o XOR significa perceber o comportamento computacional, mas para além disso o comportamento humano, que não é linear, assim como, o XOR também não é}. A característica do XOR é que quando as entradas binárias são diferentes o resultado é 1, e quando as entradas são iguais o resultado é 0, conforme a tabela verdade: 
+A limitação pode ser observada no problema do ou exclusivo (XOR), exemplo clássico de classificação não linearmente separável. Quando as entradas binárias são diferentes, o resultado é 1; quando são iguais, o resultado é 0, conforme a tabela verdade:
 
 \begin{table}[htb]
 	\centering
@@ -470,17 +440,16 @@ Intuitivamente a limitação é explicita, mas para ficar mais evidente suponham
 		\hline
 	\end{tabular}
 	\\[0.2cm]
-	\footnotesize Fonte: Elaboração própria.
+	\footnotesize Fonte: Elaborado pelo autor (2026).
 \end{table}
 
-\citeonline{minsky1969introduction} provaram que o perceptron de \citeonline{rosenblatt1958perceptron} não conseguiria resolver um problema que não fosse linearmente separável, como o do XOR, imaginemos o XOR como um problema gráfico, enquanto um problema linear precisa de apenas uma reta para classificar corretamente os valores, para solucionar o XOR seriam necessários duas retas ou mais para classificar corretamente. E é exatamente nesse ponto em que o perceptron falha. A partir da constatação de \citeonline{minsky1969introduction} o mundo viveu uma era conhecida como o "inverno da IA", onde o modelo mais elegante criado até então ficaria estagnado.
+\citeonline{minsky1969introduction} discutem a limitação do perceptron de \citeonline{rosenblatt1958perceptron} diante de problemas que não são linearmente separáveis, como o XOR. Em uma representação gráfica, uma única reta não separa corretamente suas classes. A repercussão dessa limitação é frequentemente associada ao período posteriormente denominado "inverno da IA".
 
-Mas essa configuração mudou com a adoção de um método de aprendizado que mudou totalmente a forma como a \ac{ia} era construída, a retropropagação. A popularização do seu uso é atribuída a \citeonline{rumelhart1986learning} que aplicaram o conceito de retropropagação em redes neurais. "O procedimento ajusta repetidamente os pesos das conexões na rede para minimizar uma medida da diferença entre o vetor de saída real da rede e o vetor de saída desejado." \citem[p. 533, tradução nossa]{rumelhart1986learning}.
+O desenvolvimento de redes multicamadas ganhou impulso com a difusão da retropropagação. \citeonline{rumelhart1986learning} descrevem sua aplicação ao ajuste dos pesos das conexões: "O procedimento ajusta repetidamente os pesos das conexões na rede para minimizar uma medida da diferença entre o vetor de saída real da rede e o vetor de saída desejado." \citem[p. 533, tradução nossa]{rumelhart1986learning}.
 
-Esse marco inicia a construção dos modelos mais avançados de \ac{ia}, os modelos criados por  \citeonline{rumelhart1986learning} são redes neurais totalmente conectadas, significa que todos os neurônios de uma camada se conectam com os da camada seguinte. E baseada na  arquitetura do \textit{feedforward} em que os dados fluem em uma única direção da entrada para a saída, sem loops, ou recursão.
+As redes apresentadas por \citeonline{rumelhart1986learning} empregam uma arquitetura \textit{feedforward}, na qual os dados fluem da entrada para a saída. Nas camadas totalmente conectadas, cada unidade de uma camada se liga às unidades da camada seguinte.
 
-A elegância dessa solução é impressionante, porém aplicar ela a perceptrons combinados não é tão simples, existem algumas alterações do modelo de \citeonline{rosenblatt1958perceptron}. A primeira alteração é a noção de função de ativação, enquanto o perceptron utiliza a função sinal/degrau, a retropropagação não permite o uso desse tipo de função, essas funções não são deriváveis por serem descontinuas em x=0, e o conceito que permite a retropropagação é justamente o uso de derivadas, portanto a primeira alteração é a troca por uma função continua e derivável, como por exemplo a função sigmoide \footnote{Existem outras funções que podem ser usadas como ativação, como a ReLU (Unidade Linear Retificada), a TanH (Tangente Hiperbólica), a Softmax, a linear, etc. Não entraremos em detalhes sobre cada uma das funções de ativação, mas elas são uma das decisões que o pesquisador deve tomar ao usar redes neurais, o tipo de função de ativação, o número de camadas, a taxa de aprendizado são o que chamamos de hiperparametros do modelo, e o ajuste deles permite um desempenho melhor ou pior a depender dos dados e do problema.} representada na equação \ref{eq:sigmoide} e na figura \ref{fig:sigmoide}.
-
+O treinamento por retropropagação exige funções de ativação que permitam o cálculo dos gradientes utilizados no ajuste dos pesos. A função sinal do perceptron de \citeonline{rosenblatt1958perceptron} não é diferenciável no ponto de descontinuidade e, por isso, é substituída no treinamento de redes multicamadas por funções adequadas à otimização por gradiente. Um exemplo é a função sigmoide\footnote{Outras funções de ativação incluem ReLU (unidade linear retificada), tangente hiperbólica, Softmax e função linear. A escolha da ativação, do número de camadas e da taxa de aprendizagem integra a definição dos hiperparâmetros do modelo e pode afetar seu desempenho.}, representada na equação \ref{eq:sigmoide} e na figura \ref{fig:sigmoide}.
 
 \begin{equation}
 	\label{eq:sigmoide}
@@ -510,12 +479,11 @@ A elegância dessa solução é impressionante, porém aplicar ela a perceptrons
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-A segunda alteração é a que permite a combinação dos neurônios, enquanto o perceptron usa o erro direto para recalcular os pesos, redes multicamadas essa noção não é direta. O erro da camada de saída deve ser utilizado para calcular os pesos da camada oculta anterior, com esses pesos calculados, calcular o erro da camada imediatamente precedente, e assim conseguinte até a primeira camada, esse processo é a retropropagação do erro, camada por camada. Esse processo é repetido inúmeras vezes até os pesos se ajustarem e o erro total for minimizado e é dessa maneira que a rede aprende.  
+Nas redes multicamadas, o erro observado na saída orienta o ajuste dos pesos das camadas anteriores. A retropropagação transmite a informação necessária ao ajuste de uma camada à anterior, sucessivamente. Esse procedimento é repetido durante o treinamento para reduzir a função de erro.
 
-Mas como esse erro é minimizado? É com essa pergunta que conectamos com a necessidade da função de ativação ser derivável. Retomamos o conceito do calculo: A derivada mede a taxa de variação instantânea de uma grandeza em relação a outra, de uma forma geométrica a derivada representa a inclinação da reta tangente ao gráfico função em um ponto específico do plano. 
+O ajuste dos pesos utiliza derivadas da função de erro. A derivada mede a variação local de uma função em relação a uma variável e, geometricamente, corresponde à inclinação da reta tangente à curva em um ponto.
 
-Nesse sentido o conceito de derivada para esse algoritmo funciona como uma bússola. Imaginemos que nossa função do erro é quadrática, como na equação \ref{eq:mse}, 
-
+Para ilustrar esse processo, considere a função de erro quadrático apresentada na equação \ref{eq:mse}:
 
 \begin{equation}
 	E = \frac{1}{2}(y-\hat{y})^2
@@ -529,12 +497,12 @@ Onde:
 	\item $E$ representa o erro quadrático.
 \end{itemize}
 
-A visualização dessa função pode ser verificado na figura \ref{fig:erroquadratico}.
+A função está representada na figura \ref{fig:erroquadratico}.
 
 \begin{figure}[htb]
 	\centering
 	\captionsetup{justification=centering}
-	\caption{Função de erro quadrático.}
+	\caption{Função de erro quadrático}
 	\vspace{5pt}
 	\label{fig:erroquadratico}
 	\begin{tikzpicture}
@@ -555,12 +523,12 @@ A visualização dessa função pode ser verificado na figura \ref{fig:erroquadr
 	\footnotesize Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-Podemos usar o conceito da derivada para encontramos os valores de $\hat{y}$ que minimizam o erro $E$. Ajustando os coeficientes utilizando a derivada como ponteiro, procurando o melhor valor para que o erro seja minimizado, conforme a figura \ref{fig:gradiente_descendente_erro}.
+A derivada indica a direção de variação local da função de erro. No treinamento, essa informação orienta o ajuste dos parâmetros do modelo para reduzir o erro, como ilustra a figura \ref{fig:gradiente_descendente_erro}.
 
 \begin{figure}[htb]
 	\centering
 	\captionsetup{justification=centering}
-	\caption{Função de erro quadrático e segmentos de retas tangentes representando a derivada em diferentes pontos.}
+	\caption{Função de erro quadrático e segmentos de retas tangentes representando a derivada em diferentes pontos}
 	\vspace{5pt}
 	\label{fig:gradiente_descendente_erro}
 	\begin{tikzpicture}
@@ -607,7 +575,7 @@ Podemos usar o conceito da derivada para encontramos os valores de $\hat{y}$ que
 	\footnotesize Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-Porém a função de erro de uma rede neural não é uma simples função quadrática, afinal se fosse a solução seria trivial, o gráfico seria algo mais parecido com o representado na figura \ref{fig:superficie_erro}, mas mesmo assim a representação é imprecisa, pois redes neurais profundas contam com muitas entradas e camadas, possuem n-dimensões e é praticamente impossível conceber uma representação visual do erro dessas redes. Porém, mesmo que imprecisas, essas representações nos permitem entender a ideia por trás da retropropagração, o chamado gradiente descendente.
+Em uma rede neural, a função de erro pode ter muitos parâmetros e uma superfície mais complexa do que a função quadrática usada no exemplo. A figura \ref{fig:superficie_erro} ilustra uma superfície em duas dimensões, suficiente para introduzir a ideia de gradiente descendente, embora não represente toda a complexidade de uma rede profunda.
 
 \begin{figure}[htb]
 	\centering
@@ -647,127 +615,105 @@ Porém a função de erro de uma rede neural não é uma simples função quadr�
 	
 \end{figure}
 
-O gradiente descendente "É um método iterativo no qual começamos com um palpite inicial da solução e depois refinamos gradualmente." \citem[p. 45, tradução nossa]{ekman2021learning}. Para funções simples de uma variável o gradiente descendente é o algoritmo que usa as derivadas das funções para minimizar o erro, por outro lado
+O gradiente descendente "É um método iterativo no qual começamos com um palpite inicial da solução e depois refinamos gradualmente." \citem[p. 45, tradução nossa]{ekman2021learning}. Em uma função de uma variável, a derivada orienta os ajustes sucessivos. Para funções de várias variáveis, utiliza-se o gradiente:
 
 \begin{citacao}
 	Se tivermos uma função de n variáveis, então nosso gradiente consistirá em n derivadas parciais, e podemos calcular o próximo passo como $x-\eta \nabla y$, onde tanto $x$ quanto $\nabla y$ são vetores com $n$ elementos.  \citem[p. 47, tradução nossa]{ekman2021learning}
 \end{citacao}
 
-Uma maneira mais intuitiva de se entender o gradiente descendente seria com uma analogia: O gradiente descendente é como um animal cego e com sede encima de um terreno acidentado, ele não sabe onde tem água, e não sabe onde está, porém ele sabe que a água fica nos vales, e pode usar suas patas para identificar a inclinação do terreno, ele procurará maneiras de sempre ir descendo, e quando chegar no vale encontrará água.
+Uma analogia ajuda a visualizar o gradiente descendente: um animal cego e com sede percorre um terreno acidentado em busca de água nos vales. Sem conhecer a posição da água, ele percebe a inclinação do solo e segue, a cada passo, a direção de descida.
 
-E com essa analogia já entendemos também um dos problemas dessa arquitetura, os mínimos locais. Se o animal encontra uma depressão na montanha, que não tem água, mas que para todos os lados é necessário subir primeiro para posteriormente descer o animal cego acaba morrendo de sede. De certa forma é assim que funciona o gradiente descendente, quando encontra mínimos locais, o algoritmo "pensa"\, estar na solução ótima, mas é apenas um mínimo local\footnote{Existem estudos dedicados a minimizar esses problemas, como encontrar uma taxa de aprendizado ótimo, para evitar mínimos locais e mesmo assim encontrar soluções adequadas, mas essas análises fogem do escopo de nosso trabalho, mas vale a leitura do livro de  \citeonline{ekman2021learning} para entender mais sobre redes neurais, funções de ativação, gradiente descendente e outros conteúdos sobre redes neurais na teoria e na prática}.
+A analogia também ilustra a possibilidade de convergência para mínimos locais: uma depressão do terreno pode parecer o ponto mais baixo em sua vizinhança, embora não corresponda ao mínimo global da superfície. De modo semelhante, o gradiente descendente pode alcançar uma solução local, dependendo da função de erro, da inicialização e dos parâmetros de treinamento\footnote{Para uma discussão mais ampla sobre funções de ativação, taxa de aprendizagem, gradiente descendente e estratégias de otimização, consulte \citeonline{ekman2021learning}.}.
 
 % Ainda estou pensando se coloco a parte de algebra linear no texto para falar sobre a formulação matemática, vou perguntar para o professor
 
-Com essa noção de como surgiram os modelos baseados em redes neurais, posteriormente com a evolução das técnicas de \ac{ia} surgem os algoritmos de \textit{deep learning} (aprendizado profundo), esses modelos não são diferentes das redes neurais estudadas no presente trabalho, a principal diferença é a escala. No \textit{deep learning} são muitas camadas, imagine da seguinte forma, com zero camadas ocultas temos uma regressão logística ou um perceptron, com uma camada oculta temos as redes neurais, com duas ou mais temos o que chamamos de \textit{deep neural networks} que são redes neurais com muitas camadas ocultas. Esses algoritmos que rodam as grandes tecnologias de \ac{ia} atualmente, como visão computacional, chatbots, carros autônomos, etc. Contudo também apresentam os mesmos problemas apresentados de uma forma geral, a interpretabilidade, mínimos locais, sobreajuste.
+O aprendizado profundo (\textit{deep learning}) utiliza redes neurais com múltiplas camadas de representação. A distinção em relação a redes menos profundas não decorre de um limite universal de camadas, mas da maior profundidade da arquitetura e de sua capacidade de representar padrões complexos. Essa ampliação também aumenta a importância de avaliar problemas como sobreajuste, otimização e interpretabilidade.
 
-Redes com arquiteturas gigantescas podem resolver problemas complexos, porém não tem a interpretabilidade que modelos simples possuem. Nesse ponto toma se a decisão, por exemplo, em um carro autônomo, importa se a IA decide trocar de pista pela proximidade com o retrovisor ou com a roda de outro carro? Se a resposta for não, não existe um problema, pois o resultado foi alcançado, o carro trocou de pista no momento certo e evitou um acidente, não importa se foi pelo retrovisor, pela roda, ou por qualquer outro fator. Nesse sentido a predição econômica caminha pela mesma estrada, e uma pergunta deve ser feita o processo de como eu cheguei no resultado importa? se a resposta for sim, talvez redes neurais não sejam o modelo mais adequado, mas se for não elas apresentam um grande potencial, conforme veremos a seguir.
+Na previsão econômica, a escolha de uma rede neural deve considerar simultaneamente o erro de previsão e a possibilidade de interpretar o resultado para a decisão em análise. A arquitetura mais adequada depende, portanto, dos objetivos da aplicação e do equilíbrio pretendido entre desempenho preditivo e interpretabilidade.
 
-A partir desse exposto vimos de uma forma simplificada\footnote{A formulação matemática dos modelos de IA existe, e vai muito além da forma geral do perceptron apresentada na equação \ref{eq:perceptron}, na realidade redes neurais profundas envolvem um conhecimento profundo sobre otimização e álgebra linear, que apesar de extremamente relevantes na compreensão do funcionamento das redes neurais, foge completamente do escopo de uma monografia de economia explicar algebricamente o funcionamento dessas redes. Dessa forma sugerimos novamente a leitura de \citeonline{ekman2021learning} que explica de forma mais detalhada, mais do que poderíamos no presente trabalho, o a lógica matemática das redes neurais.} como redes neurais surgiram e como elas funcionam por baixo dos panos, agora podemos ver as aplicações desses modelos para predição econômica.
+Após essa apresentação simplificada\footnote{A formulação completa das redes neurais envolve conceitos de otimização e álgebra linear que excedem o nível de detalhe adotado nesta monografia. Para uma exposição matemática mais aprofundada, consulte \citeonline{ekman2021learning}.} dos princípios das redes neurais, examinamos suas aplicações à previsão econômica.
 
-Começaremos por \citeonline{vasconcelos2017poder} que utilizou modelos de redes neurais em sua tese, diferente de nosso trabalho o autor realizou sua pesquisa em dados de 41 países de 2001 à 2015 (Segundo o autor em alguns casos a série pode até ser mais extensa devido a disponibilidade), essa escolha se deu principalmente por serem membros da \ac{ocde}, mais alguns países que apesar de não serem membros possuem relevância econômica e/ou tinham a disponibilidade de dados.
+\citeonline{vasconcelos2017poder} utiliza redes neurais em uma tese baseada em dados de 41 países, em geral de 2001 a 2015. A amostra reúne principalmente membros da \ac{ocde}, além de outros países escolhidos por sua relevância econômica ou pela disponibilidade de dados. Segundo o autor, algumas séries abrangem períodos mais longos.
 
-As variáveis selecionadas pelo autor são: pib, seus componentes, comércio internacional, preços, câmbio, juros, títulos públicos, câmbio, mercado futuro, índices de bolsa, demais indicadores de negócios público e privado, qualidade do crédito, operações de crédito do governo em detalhes, operações financeiras como BIS, reservas, balança comercial, fluxo de capitais, CDS\footnote{\textit{Credit Default Swap} que é um indicador de risco de crédito.}, VIX\footnote{Índice de volatilidade.}, preços de commodities. Essas variáveis\footnote{Para mais detalhes sobre as variáveis recomendamos a consulta do material original de \citeonline{vasconcelos2017poder}} são de frequência trimestral. Os dados foram coletados a partir de conjunto de bases (Banco Mundial, \ac{ocde}, BIS, Bloomberg)
+O autor reúne variáveis trimestrais relativas ao PIB e seus componentes, comércio internacional, preços, câmbio, juros, títulos públicos, mercados financeiros, crédito e preços de commodities. Entre os indicadores financeiros estão CDS\footnote{\textit{Credit Default Swap}, indicador associado ao risco de crédito.} e VIX\footnote{Índice de volatilidade.}. As séries\footnote{Para mais detalhes sobre as variáveis, consulte \citeonline{vasconcelos2017poder}.} foram obtidas em bases como Banco Mundial, \ac{ocde}, BIS e Bloomberg.
 
-O autor comparou diversos modelos nesse teste, modelos de equações individuais, Fatores comuns, modelos mistos de quadrados mínimos ordinários, Lasso e regressão em árvore e métodos de \textit{machine learning} como \textit{Suport Vector Machine}, \textit{Random Forest}  e \textit{deep learning}.
+O autor compara modelos de equações individuais, fatores comuns, modelos mistos estimados por mínimos quadrados ordinários, Lasso, regressão em árvore e métodos de \textit{machine learning}, como \textit{Support Vector Machine}, \textit{Random Forest} e \textit{deep learning}.
 
-O objetivo do autor era verificar as relações entre Política fiscal, mercado internacional e as flutuações do produto dos países, no sentido de desempenho o autor constatou que os modelos baseados em \textit{deep learning} conseguiram superar os modelos tradicionais de equações individuais e de fatores comuns, porém se saíram piores que os modelos mistos construídos, assim como teria se saído pior que os outros modelos de \textit{machine learning} analisados na tese.
+O autor investigou as relações entre política fiscal, mercado internacional e flutuações do produto. Em termos preditivos, os modelos de \textit{deep learning} superaram os modelos de equações individuais e de fatores comuns, mas tiveram desempenho inferior ao dos modelos mistos e de outros métodos de \textit{machine learning} analisados na tese.
 
-No sentido todos os modelos apontaram a interpretação de que o mercado internacional foi mais determinante do que a política fiscal. O autor aponta que redes neurais são sim métodos robustos para predição de modelos macroeconômicos. Porém conforme os resultados apontados fica evidente que redes neurais tem falhas estruturais como a interpretabilidade e não são necessariamente a melhor solução para todos os problemas.
+Na análise das relações econômicas, os modelos apontaram maior relevância do mercado internacional do que da política fiscal. O autor também destaca a utilidade das redes neurais para a previsão macroeconômica, embora os resultados indiquem que seu desempenho varia conforme o método de comparação e a aplicação considerada.
 
-\citeonline{carmo2023modelagem} também comparou modelos, eles os classificaram entre clássicos e contemporâneos. O trabalho examinou dois modelos: regressão linear simples; e redes neurais multicamadas. Assim aplicaram ambos modelos à predição da remuneração média mensal paga 
-aos empregados nas 27 unidades da federação brasileira. Para isso os dados foram extraídos do \ac{ibge} através do \ac{sidra}. O estudo aponta um desempenho superior das redes neurais em comparação a regressão linear no critério da precisão. Contudo, os autores levantaram o mesmo ponto de \citeonline{vasconcelos2017poder} que a interpretabilidade das redes neurais é limitada. 
+\citeonline{carmo2023modelagem} comparam regressão linear simples e redes neurais multicamadas, classificadas no estudo como métodos clássico e contemporâneo, respectivamente. Os modelos foram aplicados à previsão da remuneração média mensal dos empregados nas 27 unidades da federação, com dados do \ac{ibge} obtidos pelo \ac{sidra}. No critério de precisão utilizado pelos autores, as redes neurais tiveram melhor desempenho. O estudo também aponta limitações de interpretabilidade dessas redes, tema discutido por \citeonline{vasconcelos2017poder}.
 
 \begin{citacao}
 	Do ponto de vista analítico, a análise de regressão linear é mais dinâmica e informativa que a RNA MLP\footnote{Redes Neurais Artificiais \textit{Multilayer Perceptron}}. Pois, ao identificar os coeficientes do modelo de regressão e seus sinais, é possível compreender o impacto de cada variável independente significativa na explicação do comportamento da variável de estudo. Ao passo que, a RNA MLP somente permite avaliar qual o grau de importância das variáveis  explicativas do modelo. \citem[p. 17]{carmo2023modelagem}
 \end{citacao}
 
-\citeonline{carmo2023modelagem} demonstraram que as redes neurais possuem uma capacidade modelar todas as variáveis, enquanto outros métodos como a regressão linear só consideram as variáveis significantes para o modelo. Outro ponto elencado pelos autores é a capacidade de modelar problemas não lineares, sendo uma vantagem em relação so modelo tradicional da regressão linear.
+Nesse estudo, o desempenho das redes neurais variou conforme o método de comparação. A seleção de variáveis em uma regressão depende do procedimento adotado e não constitui uma limitação intrínseca dos modelos lineares. As redes neurais, por sua vez, permitem representar relações não lineares, característica relevante para a comparação realizada pelos autores.
 
-Os autores pontuam que ambos métodos tem vantagens e desvantagens, enquanto modelos tradicionais possuem rigor metodológico e capacidade interpretativa, modelos contemporâneos, como redes neurais podem ser considerada mais flexíveis, adaptando-se a tendências não-lineares, e até a dados incompletos, porém devido a sua complexidade arquitetural possuem baixa interpretabilidade.
+Os autores assinalam vantagens e limitações nas duas abordagens. A regressão linear favorece a interpretação dos coeficientes, enquanto as redes neurais oferecem maior flexibilidade para representar relações não lineares. Essa flexibilidade, entretanto, é acompanhada por maior complexidade arquitetural e menor interpretabilidade direta.
 
-\citeonline{amaral2023previsao} também realizaram testes de modelos baseados em redes neurais, porém ao invés de comparar a outras técnicas tradicionais, os autores testaram diferentes configurações de redes neurais. A principal diferença dos modelos até então apresentados é o métodos de treinamento, enquanto as redes neurais estudadas são do tipo totalmente conectada baseadas no \textit{feedfoward} as três redes testadas por \citeonline{amaral2023previsao} são do tipo \ac{rnn}\footnote{Redes Neurais Recorrentes}.
+\citeonline{amaral2023previsao} comparam diferentes configurações de redes neurais. Enquanto as arquiteturas apresentadas anteriormente são totalmente conectadas e do tipo \textit{feedforward}, os três modelos avaliados por \citeonline{amaral2023previsao} são baseados em \ac{rnn}.
 
 \begin{citacao}
 	As \ac{rnn} são um tipo de rede neural que foi 
 	desenvolvida para identificar padrões em um banco de dados. Através dos algoritmos da rede neural, ele é capaz de identificar, dentro de uma sequência de informações, similaridades de palavras, de texto, imagens e números, utilizando esses padrões para aprender e futuramente entender o que o está sendo “apresentado”. \citem[p. 11]{amaral2023previsao}
 \end{citacao}
 
-Para além disso os autores utilizaram um tipo de \ac{rnn} mais sofisticada, a chamada \ac{rnn} de Memória \ac{lts}, segundo os autores na arquitetura desse tipo de \ac{rnn} é possível armazenar memórias de longo e curto prazo. Sendo uma arquitetura adequada para séries temporais econômicas que sofrem influências de curto e longo prazo.
+Além disso, os autores utilizaram uma arquitetura de rede neural recorrente denominada \ac{lstm}, projetada para representar dependências em sequências. Essa característica a torna pertinente à análise de séries temporais, nas quais podem coexistir padrões de diferentes horizontes.
 
-No trabalho os autores testaram três modelos de redes neurais: univariado \textit{stacked}\footnote{Esse tipo de modelo "possui uma arquitetura de mais de uma camada de neurônio escondida, no qual cada camada contém múltiplas células de memória." \citem[p. 13]{amaral2023previsao}.}; multivariado; e univariado bidirecional\footnote{Em modelos Univariados bidirecionais, ao invés de um único modelo, existem dois. O primeiro aprende a sequência da entrada e o segundo o inverso, proporcionando um maior quantitativo de informações para o treinamento. \citem{amaral2023previsao}}. Os dados foram extraídos do banco central do Brasil e do \ac{ibge} no período de janeiro de 2002 até março de 2023. O conjunto de dados compreende: taxa SELIC\footnote{\ac{selic}}; IPCA; PIM\footnote{\ac{pim}}; e taxa de câmbio.
+Os autores testaram três configurações: univariada \textit{stacked}\footnote{Esse modelo "possui uma arquitetura de mais de uma camada de neurônio escondida, no qual cada camada contém múltiplas células de memória" \citem[p. 13]{amaral2023previsao}.}, multivariada e univariada bidirecional\footnote{Na configuração bidirecional, uma rede processa a sequência na ordem original e outra, na ordem inversa \citem{amaral2023previsao}.}. Os dados foram obtidos no Banco Central do Brasil e no \ac{ibge}, abrangendo o período de janeiro de 2002 a março de 2023. O conjunto inclui taxa \ac{selic}, \ac{ipca}, \ac{pim} e taxa de câmbio.
 
-Os resultados apontados pelos autores indicaram um desempenho relevante das \ac{rnn} \ac{lts}. O melhor dos três modelos foi o multivariado, que apresentou os menores indicadores de erros, possuindo um maior grau de explicabilidade. O segundo com melhor desempenho foi o modelo univariado \textit{stacked}, em que os modelos que usaram a taxa \ac{selic} como entrada, obtiveram os melhores resultados. E o pior dos modelos foi o univariado bidirecional, que não obteve resultados satisfatórios, não superando em nenhuma variável o modelo univariado \textit{stacked}.
+Entre as três configurações de redes \ac{lstm}, o modelo multivariado apresentou os menores erros; esse resultado, por si só, não permite concluir que tenha maior interpretabilidade. O segundo melhor desempenho foi obtido pelo modelo univariado \textit{stacked}, especialmente nas especificações que utilizaram a taxa \ac{selic} como entrada. O modelo univariado bidirecional não superou o modelo univariado \textit{stacked} em nenhuma das variáveis analisadas.
 
-A reflexão proposta pelo autor é que mesmo com uma quantidade limitada de dados o modelo baseado em \ac{rnn} \ac{lts} multivariado teve desempenho satisfatório para predição de variáveis econômicas. Mas que mesmo o modelo obtendo um resultado aceitável, ainda assim é necessário uma análise de indicadores históricos e fáticos por um profissional técnico da área.
+Os autores observam que o modelo multivariado teve desempenho satisfatório mesmo com uma quantidade limitada de dados. Ressaltam, contudo, a importância de que profissionais da área também considerem indicadores históricos e informações contextuais na análise.
 
-A partir do exposto de \citeonline{amaral2023previsao} foi possível notar outro tipo de arquitetura para redes neurais, essa com uma adequação relevante para séries históricas, porém ainda assim com as limitações inerentes a esse tipo de modelo, que apesar de terem uma explicabilidade alta dos fatores envolvidos no modelo e uma capacidade de captar relações quase que imperceptíveis nas variáveis econômicas, ainda se faz necessário o aval do técnico economista, implicando que a interpretabilidade de um modelo é algo importante.
+O estudo de \citeonline{amaral2023previsao} apresenta uma aplicação de redes recorrentes a séries econômicas e mostra que o desempenho varia entre configurações. A avaliação desses resultados também requer atenção à interpretabilidade e ao contexto econômico.
 
-Como nos outros modelos, é importante olhar como a literatura internacional utiliza os modelos. Entretanto, dessa vez, vamos utilizar o material de \citeonline{ghosh2023machine}, que realizaram um trabalho com redes neurais para predição do \ac{gdp} da Índia de janeiro de 2003 a dezembro de 2019. Esse material se assemelha com o que desejamos produzir com o presente trabalho, claro por tratarem de uma série histórica semelhante, mas especialmente, pois tanto o Brasil como a Índia são membros da lista de países emergentes, o que implica em economias complexas com características parecidas.
+Na literatura internacional, \citeonline{ghosh2023machine} examinam o uso de redes neurais para a previsão do \ac{gdp} da Índia com dados de janeiro de 2003 a dezembro de 2019. O estudo é pertinente aqui por aplicar modelos de previsão a uma variável macroeconômica, embora o país, a frequência dos dados e o desenho da pesquisa sejam distintos dos deste trabalho.
 
-Os dados do trabalho foram extraídos do Banco da Reserva da Índia ou da CEIC\footnote{Trata-se de uma base de dados de indicadores macroeconômicos globais}, foram analisadas 13 variáveis mais o \ac{gdp} como variável a ser predita. O modelo proposto pelos pesquisadores da Índia tratava-se de uma combinação de modelos para o \textit{nowcasting}\footnote{\textit{nowcasting} é uma técnica de predição de variáveis de alta frequência, no contexto do estudo predizer o \ac{gdp} usando variáveis diárias/semanais}, o modelo principal é um \ac{dfm}, como visto anteriormente, para estimar valores para cada indicador econômico com base nos valores históricos desses indicadores foram utilizados três varições de modelo: \textit{Random Forest}, ARIMA, Prophet\footnote{O modelo Random Forest ainda veremos mais sobre o mesmo no presente trabalho. O modelo Prophet não será contemplado profundamente, mas afim de curiosidade esse é um procedimento baseado em modelos aditivos com ampla capacidade para aplicação em \textit{nowcasting} por conseguir ajustar tendências não-lineares usando a sazonalidade \citem{ghosh2023machine}.}. E como modelo ponte, que conecta os fatores dinâmicos estimados com o \ac{gdp}, temos o AR(1) e as redes neurais.
+Os autores utilizaram 13 indicadores, além do \ac{gdp}, com dados do Banco da Reserva da Índia e da CEIC\footnote{Base de dados de indicadores macroeconômicos globais.}. A estrutura combina um \ac{dfm}, que sintetiza as informações dos indicadores, com modelos empregados para gerar previsões desses indicadores, entre eles \textit{Random Forest}, ARIMA e Prophet. Em seguida, uma equação-ponte relaciona os fatores estimados ao \ac{gdp}, utilizando especificações com AR(1) ou redes neurais. O estudo integra, portanto, componentes de previsão em frequências distintas no exercício de \textit{nowcasting}.
 
-Os resultados obtidos pelos pesquisadores apontam que o modelo Prophet se saiu melhor no \textit{nowcasting} do \ac{gdp}, e que para previsões a partir de um mês as redes neurais apresentaram uma melhoria significativa em relação ao modelo AR(1), mas que para longos períodos, mais de um ano, o erro só aumentou, indicando que esse tipo de modelo de \textit{nowcasting} não é o mais indicado para predição em longos períodos.
+Nos resultados reportados, a combinação do Prophet para a previsão dos indicadores com redes neurais na equação-ponte apresentou o melhor desempenho dentro da amostra. Para horizontes mais longos, o erro aumentou, o que limita a extrapolação dos resultados de \textit{nowcasting} para previsões de longo prazo.
 
-Apesar da semelhança dos dados e do contexto de aplicação, o trabalho de \citeonline{ghosh2023machine} busca um outra técnica de predição, buscando a alta frequência das variáveis e informações rápidas para tomadas de decisões fundamentadas. A partir do exposto dos autores é possível notar como diferentes modelos podem ser combinados para encontrar a melhor solução, nesse contexto as redes neurais foram usadas como modelo ponte, não como modelo principal, mas mesmo assim obtiveram resultados melhores que um modelo consolidado como o AR(1) para o \textit{nowcasting}.
+O estudo de \citeonline{ghosh2023machine} difere deste trabalho pelo foco em \textit{nowcasting} e pela combinação de séries de diferentes frequências. Sua contribuição para esta revisão está em ilustrar como redes neurais podem integrar uma estrutura composta por DFM, modelos de previsão dos indicadores e uma equação-ponte para o PIB.
 
-A partir dessa exposição de autores fica claro como métodos atuais como as redes neurais tem ganhado espaço dentro da predição econômica, não se tratam de modelos milagrosos que conseguem resolver todos os problemas do mundo. Esses modelos tem sim uma liberdade maior, não se restringindo a metodologias rígidas conforme \citeonline{carmo2023modelagem}, mas ainda assim dependem de um pesquisador o conduzindo e interpretando seus resultados \citem{amaral2023previsao}.
+Os estudos examinados mostram diferentes aplicações de redes neurais à previsão econômica. Sua flexibilidade permite representar relações não lineares, mas a especificação, o treinamento e a interpretação continuam dependendo das escolhas do pesquisador, como discutem \citeonline{carmo2023modelagem} e \citeonline{amaral2023previsao}.
 
-Vimos também que talvez sua maior potencialidade não seja como o perceptron de \citeonline{rosenblatt1958perceptron}, mas sim a combinação com outras técnicas e variações, criando modelos com alta capacidade preditiva e robustez conforme \citeonline{amaral2023previsao} e \citeonline{ghosh2023machine} demonstraram.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Em relação ao perceptron de \citeonline{rosenblatt1958perceptron}, as aplicações atuais utilizam arquiteturas mais amplas e podem combinar redes neurais com outros métodos. Os resultados de \citeonline{amaral2023previsao} e \citeonline{ghosh2023machine} mostram, contudo, que o desempenho depende da configuração e do horizonte de previsão, o que reforça a necessidade de avaliação empírica para cada problema.
 
  
 
-
-
-
-
-
 \subsubsection{Random Forest}
 
-Até o presente momento vimos diversos modelos, suas histórias e aplicações, desdes os ditos tradicionais, até modelos modernos baseados em IA, nesse sentido abordaremos mais um modelo atual as Florestas Aleatórias, ou mais conhecido como \textit{Random Forest} do inglês. 
+O último modelo examinado nesta revisão é o \textit{Random Forest}, ou floresta aleatória. Sua apresentação complementa a discussão dos métodos baseados em IA utilizados neste trabalho.
 
-A criação do \textit{Random Forest} é atribuída a \citeonline{breiman2001random}. Trata-se da designação de uma "combinação de preditores em forma de árvore, de modo que cada árvore depende dos valores de um vetor aleatório amostrado de forma independente e com a mesma distribuição para todas as árvores da floresta." \citem[p. 1, tradução nossa]{breiman2001random}. De uma forma mais simplificada, o \textit{Random Forest} é uma técnica que consiste em criar vários pequenos modelos com preditores escolhidos de forma aleatória, a resposta advém de uma combinação das respostas de todos os modelos, que no caso de modelos regressivos é dada pela média dos valores.
+\citeonline{breiman2001random} apresenta o \textit{Random Forest} como uma "combinação de preditores em forma de árvore, de modo que cada árvore depende dos valores de um vetor aleatório amostrado de forma independente e com a mesma distribuição para todas as árvores da floresta." \citem[p. 1, tradução nossa]{breiman2001random}. Na aplicação à regressão, o método combina as previsões das árvores pela média de seus resultados.
 
-De uma maneira técnica o \textit{Random Forest} 
+Para tarefas de classificação, \citeonline{breiman2001random} apresenta a seguinte definição:
 
 \begin{citacao}
 	É um classificador que consiste em uma coleção de classificadores em forma de árvore $\{h(\mathbf{x}, \theta_k), k=1, ... \}$, onde os $\{k\}$ são vetores aleatórios independentes e identicamente distribuídos, e cada árvore dá um voto unitário para a classe mais popular na entrada $\mathbf{x}$. \citem[p. 6, tradução nossa]{breiman2001random}
 \end{citacao}
 
-A força desse algoritmo é lidar com a grande quantidade de dados e capturar o comportamento de uma maneira que cada variável tem um pedaço da relevância. Nos modelos \textit{Random Forest} do tipo de regressão\footnote{Em classificações binárias no \textit{Random Forest}, existe um sistema de votação, onde a maioria vence, um modelo democrático, se a maior quantidade de árvores forem um tipo de resposta, a resposta do modelo como um todo é o resultado da maioria} o resultado final do modelo será a média do resultado de cada uma das árvores. Essa noção é confirmada por \citeonline{landowska2025gdpgfcfdynamicsglobaleconomies} onde o autor pontua como o algoritmo do  "constrói múltiplas árvores de decisão e agrega seus resultados, o que lhe permite lidar com conjuntos de dados de alta dimensão, reduzir o overfitting e fornecer insights valiosos sobre a importância das variáveis." \citem[p. 5]{landowska2025gdpgfcfdynamicsglobaleconomies}.
+Na regressão com \textit{Random Forest}\footnote{Em tarefas de classificação, as árvores votam nas classes possíveis, e a classe mais votada constitui a resposta da floresta.}, a previsão final corresponde à média das previsões das árvores. \citeonline{landowska2025gdpgfcfdynamicsglobaleconomies} descreve a agregação dos resultados e observa que o método "constrói múltiplas árvores de decisão e agrega seus resultados, o que lhe permite lidar com conjuntos de dados de alta dimensão, reduzir o overfitting e fornecer insights valiosos sobre a importância das variáveis." \citem[p. 5]{landowska2025gdpgfcfdynamicsglobaleconomies}.
 
-\citeonline{lemos2025atas} explica que o \textit{Random Forest} é um modelo baseado árvores de regressão, que são um tipo de árvores de decisão. Nesse tipo de modelo "cada nó representa uma condição de decisão baseada em uma variável preditora, fornecendo um valor numérico, que normalmente é a média dos valores observados nas amostras que atingem aquele nó." \citem[p. 8]{lemos2025atas}. Segundo \citeonline{landowska2025gdpgfcfdynamicsglobaleconomies} o \textit{Random Forest} leva vantagem em comparação a modelos econométricos tradicionais, pois conseguem lidar com relação não lineares e interações complexas entre as variáveis. 
+\citeonline{lemos2025atas} explica que o \textit{Random Forest} pode utilizar árvores de regressão, um tipo de árvore de decisão. Nesse caso, "cada nó representa uma condição de decisão baseada em uma variável preditora, fornecendo um valor numérico, que normalmente é a média dos valores observados nas amostras que atingem aquele nó." \citem[p. 8]{lemos2025atas}. \citeonline{landowska2025gdpgfcfdynamicsglobaleconomies} destaca a capacidade do método de representar relações não lineares e interações entre variáveis.
 
-A equação que representa o modelo preditivo do \textit{Random Forest} esta disposta na equação \ref{eq:random_forest} apresentada por \citeonline{vasconcelos2017poder}.
+A equação \ref{eq:random_forest} representa a previsão da floresta como a média das previsões de suas $B$ árvores, conforme a descrição de \citeonline{vasconcelos2017poder}.
 
 \begin{equation}
 	\label{eq:random_forest}
-	f(X) = \sum_{m=1}^{M}c_m\dot I(X \in \mathbb{R}_m)
+	\hat f_{\mathrm{floresta}}(X) = \frac{1}{B}\sum_{b=1}^{B} f_b(X)
 \end{equation}
 
 %oferece vantagens significativas em relação aos modelos econométricos tradicionais, principalmente na sua capacidade de lidar com relações não lineares e interações entre variáveis
 
-O random forest como modelo predito de variáveis macroeconômicas foi utilizado por \citeonline{landowska2025gdpgfcfdynamicsglobaleconomies} no contexto da predição do GDP, por  \citeonline{lemos2025atas} para uma abordagem utilizando as atas do COPOM e por \citeonline{kava2022alem} em sua dissertação como um dos modelos candidatos a predição de variáveis macroeconômicas brasileiras.
+O \textit{Random Forest} aparece em diferentes aplicações econômicas: \citeonline{landowska2025gdpgfcfdynamicsglobaleconomies} o emprega na previsão do \ac{gdp}; \citeonline{lemos2025atas} utiliza informações de atas do COPOM; e \citeonline{kava2022alem} o inclui entre os modelos candidatos à previsão de variáveis macroeconômicas brasileiras.
 
+Além da importância das variáveis, a interpretação do \textit{Random Forest} pode recorrer a funções de dependência parcial. Conforme \citeonline{rebelo2022interpretabilidade}, essas funções mostram o efeito marginal de um ou dois preditores sobre a previsão do modelo. Os gráficos descrevem como a previsão média varia ao longo dos valores do preditor analisado. Essa leitura é associativa: representa o comportamento estimado pelo modelo e, isoladamente, não demonstra uma relação causal entre a variável e o PIB.
 
-Existem centenas de outros modelos que seriam excelentes oportunidades de analises e comparações, porém como tudo na economia os recursos são finitos, e apesar das necessidades humanas ilimitadas, o \textit{Random Forest} será o último modelo a ser abordado no presente trabalho. A partir desse ponto não trataremos mais sobre a literatura produzida como um relato do que foi feito, mas sim nos utilizaremos dessa fundação teórica como alicerces para a construção, aplicação e comparação dos modelos nas sessões futuras. 
+O conjunto de modelos apresentado delimita as abordagens comparadas neste trabalho. As diferenças de estrutura, quantidade de variáveis, frequência dos dados e possibilidade de interpretação fornecem a base para a metodologia e para a análise dos resultados. Nos capítulos seguintes, a comparação considera o tempo de execução, a interpretabilidade qualitativa e o desempenho preditivo medido por RMSE e MAE, tendo como alvos o crescimento e o nível anual do PIB real brasileiro.
 
 %\citeonline{kava2022alem} e de \citeonline{rebelo2022interpretabilidade} que
 
@@ -777,18 +723,14 @@ Existem centenas de outros modelos que seriam excelentes oportunidades de analis
 
 %O ARIMA, ou em português, modelo auto-regressivo de médias móveis, é um modelo que utiliza da pr
 
-
-
 % EU QUERO COLOCAR OS TESTES, MAS SE NÃO DER TEMPO NÃO COLOCAREI NA QUALIFICAÇÃO
 
 %\section{Testes: Comprovar e comparar modelos}
 %\label{sec:testes}
 
-
 %	\citem{laudon2022sistemas} sistemas de informação são essenciais para alcançar objetivos estratégicos dos negócios. Na era digital, o grande volume de dados gerados pelos sistemas de informação pode ser usada como uma fonte, praticamente inesgotável de informações para tomadas de decisões. 
 %
 %	Rever trabalhos sobre uso dessas técnicas para predição
-
 
 % NÃO SEI SE IREI COLOCAR ESSA SESSÃO, MAS PENSO QUE SIM
 %\section{IA vs Tradicional: Uma perspectiva Acadêmica}

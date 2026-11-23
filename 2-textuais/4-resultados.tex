@@ -1,36 +1,34 @@
 \chapter{Resultados e Discussões}
 \label{chap:resultados}
 
-A análise dos resultados da nossa pesquisa não se trata de uma confirmação do melhor modelo possível para predição PIB. Muito menos uma avaliação sobre todas as variáveis macroeconômicas. Na realidade nosso ensaio tenta focar em um ponto focal. Se os modelos atuais, com técnicas sofisticadas e capacidade de modelar relações não lineares, conseguem estimar o comportamento econômico com precisão tão boa quanto, ou superior a dos modelos ditos tradicionais.
+Os resultados deste estudo não identificam o melhor modelo possível para prever o PIB nem avaliam todas as variáveis macroeconômicas. A análise compara os modelos selecionados neste trabalho e examina se as redes neurais e o Random Forest alcançam, neste recorte empírico, desempenho preditivo semelhante ou superior ao dos modelos econométricos tradicionais.
 
 
-Desse modo, a proposta didática iniciada no início de nossa discussão permanece. Não buscamos nesses resultados aprofundar na álgebra ou na programação envolvida no desenvolvimento desse trabalho. Na realidade buscamos uma interpretação econômica dos resultados apontados, compreendendo que o modelo é uma ferramenta para o economista. Já que o foco é comparar os modelos, em um cenário que o economista no exercício de sua profissão o encontrará.
+Mantemos a proposta didática apresentada anteriormente. A discussão privilegia a interpretação econômica dos resultados e o uso dos modelos como ferramentas de análise para o economista, sem aprofundar a álgebra ou a programação empregadas na implementação.
 
-Acreditamos que essa perspectiva não trará prejuízo ao leitor. Tendo em vista que nossa revisão de literatura atinge esse papel de fonte de conhecimento técnico, que permite o aprofundamento sobre os nuances matemáticos\footnote{Em relação ao código, atualmente com o uso de ferramentas de IA generativa, o economista que conhece o conceito, consegue aplicar o conhecimento em forma de código sem muita resistência, inclusive os testes e aplicações dos modelos em Python foram construídos com auxílio de ferramentas generativas de código, mais especificamente o Gemini e o ChatGPT, com suas ferramentas agênticas, a do Gemini aplicada  diretamente no Google Colab e a do ChatGPT por meio do Codex.} que fundamentam as ferramentas abordadas. 
+Os fundamentos dos modelos foram apresentados na revisão de literatura. Nesta etapa, acompanhamos sua aplicação e examinamos o que os resultados podem oferecer ao economista diante de decisões tomadas sob incerteza. Os testes e as aplicações dos modelos em Python foram desenvolvidos com auxílio de ferramentas de inteligência artificial generativa, especificamente Gemini e ChatGPT.\footnote{A ferramenta Gemini foi utilizada diretamente no Google Colab, e o ChatGPT, por meio do Codex.}
 
-Esse trabalho busca muito mais apresentar um uso real desses conceitos. Ou seja existe esse conhecimento no mundo das ideias, agora queremos trazê-lo para fora da caverna. Vamos iniciar a avaliação desses resultados, e entender como esse conhecimento pode ajudar um economista a reduzir o risco.
+O objetivo é mostrar a aplicação desses conceitos a um problema econômico concreto e discutir como a informação produzida pelos modelos pode subsidiar a análise e a tomada de decisão.
 
 
 \section{ARIMA}
 
-Para começarmos falaremos do modelo base de comparação. Conforme apontado em nossa revisão, o ARIMA é um modelo do tipo autorregressivo univariado, ou seja, usa a própria série histórica da variável para determinar qual será o seu possível valor futuro. É um modelo relativamente simples\footnote{Comparado aos outros modelos que serão nossos alvos de comparação}, tem um objetivo enxuto, estimar uma única variável. 
+Começamos pelo modelo de referência. Como discutido na revisão de literatura, o ARIMA é um modelo univariado que utiliza os valores passados da própria série para produzir previsões. Sua especificação é relativamente simples\footnote{Em comparação com os demais modelos avaliados neste trabalho.} e concentra-se na dinâmica de uma única variável.
 
-Os prós de modelos dessa natureza é justamente sua simplicidade. Pois além dos custos computacionais serem reduzidos. Esse tipo de modelo tem um custo de coleta de variáveis menor, afinal é apenas uma série, e está é justamente o alvo. A série é o PIB anual de 2002 à 2022, como teste e os anos de 2023 a 2025 como validação. Como apontado na metodologia a série é deflacionada com o ano de 2023 de base. Nos anos de 2024 e 2025 foram reconstruídos a partir da série trimestral do PIB e deflacionada usando uma metodologia de índices inspirada no deflator do PIB do IBGE.
+Entre as vantagens dessa especificação estão a simplicidade e o menor custo de coleta de dados, pois requer apenas a série da variável-alvo. A estimação utiliza o PIB anual de 2002 a 2022, e os anos de 2023 a 2025 são reservados à avaliação fora da amostra. Conforme descrito na metodologia, a série foi deflacionada a preços de 2023. Os valores de 2024 e 2025 foram reconstruídos a partir da série trimestral do PIB, utilizando uma metodologia de índices inspirada no deflator do PIB do IBGE.
 
-Contudo a implementação de um modelo, por mais simples que ele possa ser, exige fundamentação. Não é somente colocar a série e esperar o resultado de erro mínimo. O primeiro procedimento fundamental é a verificação de estacionariedade\footnote{Esse teste é recorrente em análise de séries temporais}. A justificativa para esse teste é lógica, entende-se que séries temporais tem uma tendencia natural relacionado ao tempo, ou seja, o próprio tempo é um componente do modelo. 
+Mesmo um modelo relativamente simples requer procedimentos de identificação e diagnóstico. No caso do ARIMA, examina-se a estacionariedade da série para determinar se é necessário aplicar diferenças antes da estimação. Essa etapa é particularmente relevante porque a presença de tendência ou raiz unitária pode afetar a adequação da especificação.
 
-Quando falamos de modelos multivariados, usamos séries estacionárias, para eliminar o tempo, e impedir erros do tipo I da estatística de correlação entre variáveis que na realidade se relacionam com o tempo. Mas no caso de modelos univariados, por que isso é importante?
+No ARIMA, a letra $I$ (	extit{Integrated}) indica que a especificação pode incluir diferenças da série. O parâmetro $d$ representa o número de diferenças aplicadas; $p$ indica a ordem autorregressiva, e $q$, a ordem de médias móveis\footnote{As interpretações dos parâmetros $p$ e $q$ serão retomadas adiante.}.
 
-Ai que entra o ARIMA, o I de \textit{Integrated} (integrado) é  justamente a ideia de usar a diferenciação dos dados, para obter séries estacionárias, ou seja o ARIMA incorpora a diferença em sua estrutura. Isso se deve justamente ao parâmetro $d$ de uma ARIMA($p$, $d$, $q$). Com d sendo o nível da diferença\footnote{$p$ e $q$ retomaremos a diante, mas relembrando, $p$ refere-se a parte autoregressiva (AR) e $q$ a parte referente a média-móvel(MA)}.
-
-É de se imaginar que o PIB seja uma série não estacionária, afinal ela tem uma forte relação com o tempo. Todavia achismos não são científicos, para comprovar devemos testar a série. Para isso utilizaremos o Teste de Dickey-Fuller aumentado (\ac{adf}). O teste ADF aplicado na série do PIB para as 22 observações a um nível de confiança de 5\%. 
+Como a série do PIB pode apresentar tendência, testamos sua estacionariedade por meio do teste aumentado de Dickey-Fuller (\ac{adf}). A amostra de estimação contém 21 observações anuais, de 2002 a 2022. Com a especificação do teste utilizada, foram reportadas 20 observações efetivas para a série em nível e 19 para a primeira diferença, ao nível de significância de 5\%.
 
 
-Nesse caso a estatística ADF foi de $-1.3615$. E para um nível de confiança de $5\%$: $-3.0054$, não há evidência estatística para rejeitar a raiz unitária. Desse modo precisamos diferenciar a série, e testaremos novamente.
+Na série em nível, a estatística ADF foi $-1.3615$, enquanto o valor crítico de 5\% foi $-3.0054$. Como a estatística não ultrapassa esse valor crítico, não rejeitamos a hipótese nula de raiz unitária. Aplicamos, então, uma diferença e repetimos o teste.
 
-Com a série do PIB diferenciada obtivemos que ADF $= -3.3254$, e com valor cítico de $5\%: -3.0131$, ou seja rejeita-se a hipótese de raiz unitária, levando a crer que a série na primeira diferença é estacionária. Essa evidência é suficientemente forte para usarmos o parâmetro $d = 1$, ou seja, primeira diferença\footnote{Ao invés de usarmos a diferença, poderíamos utilizar a variação do PIB em forma de crescimento, contudo como o ARIMA tem justamente essa ideia de acoplar a possibilidade de tratar séries não estacionárias, deixaremos o PIB em volume.}.
+Na primeira diferença, a estatística ADF foi $-3.3254$, inferior ao valor crítico de 5\% ($-3.0131$). Rejeitamos, portanto, a hipótese nula de raiz unitária para a série diferenciada. Esse resultado fundamenta o uso de $d=1$ nesta especificação. O modelo é estimado com o PIB em nível e incorpora a primeira diferença por meio desse parâmetro.
 
-Porém, tendo o $d$, ainda falta estimar os parâmetros $p$ e $q$. Esses valores podem ser entendidos como o fator autorregressivo, e o fator da média móvel. Para estimar o valor deles utilizaremos o Fator de autocorrelação (\ac{fac}) e o Fator de Autocorrelação Parcial (\ac{facp}) para identificar os cortes nos lags e tentar identificar os parâmetros faltantes do ARIMA.
+Definido $d$, ainda é necessário selecionar $p$ e $q$, associados às partes autorregressiva e de médias móveis. Para orientar essa identificação, examinamos a função de autocorrelação (\ac{fac}) e a função de autocorrelação parcial (\ac{facp}), considerando os padrões nos diferentes lags.
 
 
 \begin{figure}[h]
@@ -45,9 +43,9 @@ Porém, tendo o $d$, ainda falta estimar os parâmetros $p$ e $q$. Esses valores
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-A palavra "tentar" foi cuidadosamente escolhida, pis nem sempre tentar é conseguir e esse é um ponto que o economista se deparará. Como na imagem, em que parece não haver uma quebra significativa, na realidade ambos os teste se assemelham a um ruído branco. O mesmo comportamento pode ser verificado na tabela \ref{tab:FAC_FACP_ARIMA}.
+Os gráficos não indicam cortes nítidos nas funções FAC e FACP; seus padrões se assemelham aos de ruído branco. O mesmo pode ser observado na tabela \ref{tab:FAC_FACP_ARIMA}, o que torna a identificação visual de $p$ e $q$ inconclusiva.
 
-Todavia, apesar dos teste \ac{fac} e \ac{facp} serem úteis para estimação, eles não são determinantes dos parâmetros $p$ e $q$. Para além disso o ARIMA apresenta sua vantagem de ser uma modelo leve, podemos testar várias combinações de ARIMA, com valores variados de $p$ e $q$, e verificar o que se sai melhor\footnote{Apesar de falarmos isso sobre os modelos leves, essa metodologia de repetição e teste de força bruta, se repetiu até em modelos mais pesados, porém o teste desses parâmetros no ARIMA levou 323ms na máquina de testes}.
+Embora as funções FAC e FACP orientem a identificação, elas não determinam, por si sós, os parâmetros $p$ e $q$. A relativa simplicidade computacional do ARIMA permite comparar especificações alternativas e selecionar aquelas com melhor desempenho segundo os critérios adotados. Neste caso, a busca pelos parâmetros levou 323 ms na máquina de teste.
 
 \begin{table}[htbp]
 	\centering
@@ -155,7 +153,7 @@ Mas além do modelo se sair bem, uma boa prática é testar seus resíduos, util
 %Assimetria:  4.2367
 %Curtose:     19.7149
 
-A partir dos resultados de Ljung-Box, não há evidências estatísticas de autocorrelação nos resíduos até o lag $5$. E pela estatística Jarque-Bera, não há evidências estatísticas suficientes, para rejeitar a hipótese de normalidade dos resíduos ao nível de $5\%$. Ou seja o modelo ARIMA(1,1,1) parece ser um ótimo candidato. Nas tabelas \ref{tab:configuracoes_arima}, \ref{tab:componentes_ar_ma} e \ref{tab:residuos_arima} podemos ver respectivamente o resumo do modelo, os valores dos fatores de média móvel e autorregressivo, e por último, a análise dos resíduos.
+A partir dos resultados de Ljung-Box, não há evidências estatísticas de autocorrelação nos resíduos até o lag $5$. Os diagnósticos de normalidade, porém, não são conclusivos: o teste aplicado diretamente aos resíduos indica rejeição da hipótese de normalidade, enquanto o resumo do ajuste não a rejeita. Essa divergência limita a conclusão sobre a distribuição dos resíduos, mas não altera as previsões pontuais nem as métricas preditivas reportadas para o modelo. O ARIMA(1,1,1) é mantido como referência para as comparações seguintes. As tabelas \ref{tab:configuracoes_arima}, \ref{tab:componentes_ar_ma} e \ref{tab:residuos_arima} apresentam, respectivamente, o resumo do modelo, os coeficientes estimados e os diagnósticos dos resíduos.
 
 
 % Tabela 1
@@ -228,15 +226,15 @@ A partir dos resultados de Ljung-Box, não há evidências estatísticas de auto
 \end{table}
 
 
-Porém esse modelo ainda tem alguns problemas. Primeiramente realizamos esses testes com apenas 23 observações, isso reduz a confiabilidade do modelo. Porém isso é uma realidade econômica enfrentada pelos economistas. As agências de coleta de dados não tem séries contínuas em décadas\footnote{teremos um problema muito grande com isso em uma série específica, mas trataremos disso posteriormente} para ser possível ter uma modelo com uma margem considerável de observações nessa configuração de frequência.
+O modelo foi estimado com 21 observações anuais, referentes ao período de 2002 a 2022. Esse tamanho reduzido de amostra limita a precisão das estimativas e deve ser considerado na interpretação dos resultados. A disponibilidade de séries macroeconômicas anuais contínuas por períodos longos também representa uma restrição prática\footnote{Uma série específica apresenta uma limitação adicional de continuidade, discutida adiante.} para a aplicação dos modelos.
 
-Outro problema é o AR calculado, que é muito próximo de 1, isso implica que o fator autoregressivo é muito persistente. Em uma série como o PIB isso significa um choque ocorrido hoje tende a continuar influenciando a série por vários períodos. Mas por outro lado o MA quase anula o AR, ou seja, o fator MA ser $-0.9210$, está praticamente anulando o AR:$ 0.9541$, os choques tem um efeito contrário muito forte. Esse cancelamento de fatores leva uma matriz de covariância quase singular, indicando uma forte relação dos dois fatores.
+Os coeficientes estimados foram $0{,}9285$ para o componente autorregressivo e $-0{,}8896$ para o componente de médias móveis. Como o modelo inclui uma diferença, esses parâmetros descrevem a dinâmica estimada da série diferenciada. Embora tenham sinais opostos e magnitudes próximas, essa proximidade, por si só, não demonstra que um componente anule o outro nem explica o aviso de quase singularidade da matriz de covariância. Esse aviso recomenda cautela na interpretação da incerteza dos coeficientes.
 
 Esses problemas são reais, mas falam mais da natureza da série do que propriamente de uma falha do ARIMA, estamos falando de uma série anual do PIB que é tem uma frequência baixa naturalmente. E ainda optamos por trunca-la, pois haviam observações anteriores à 2002 do PIB anual. Porém para haver uma parcimônia entre modelos, no sentido tamanho da série, optamos por cortar esses anos. E mesmo assim encontramos um modelo relativamente bom, inclusive capturando um comportamento típico do PIB brasileiro. 
 
-A conclusão que pode ser obtida do ARIMA é: A série do PIB brasileiro tem uma forte tendência de manter o comportamento das séries anteriores apontado pelo AR, isso é explicado pelas tendências de crescimento e queda que existiram durante o período analisado, mas para além disso o MA tem um força puxando para equalizar, ou seja a tendência inercial é anulada por fator de média móvel. Veremos na série temporal isso mais de perto.
+Os coeficientes do ARIMA descrevem a dinâmica temporal estimada para a série diferenciada, mas não sustentam, isoladamente, uma interpretação econômica sobre a persistência de choques ou sobre a anulação entre os componentes AR e MA. Considerando também o aviso de quase singularidade da matriz de covariância e os diagnósticos residuais não conclusivos, a leitura desses parâmetros deve ser cautelosa. O desempenho preditivo do modelo é examinado nas previsões e métricas apresentadas a seguir.
 
-Com toda a análise do ARIMA, ainda não conhecemos a série, falamos do modelo, de sua aplicação mas não do seu foco. Entretanto agora podemos olhar a série na figura \ref{pib_volume_deflacionado}, não somente como um gráfico de linha do PIB, mas sim como uma economia real e a interpretação econométrica sobre essa série\footnote{A unidade do PIB nesse gráfico é em milhões de reais}.
+Até aqui, a discussão se concentrou na especificação e no diagnóstico do ARIMA. A figura \ref{fig:pib_volume_deflacionado} apresenta a série do PIB real utilizada na análise, em milhões de reais.
 
 \begin{figure}[h]
 	\centering
@@ -269,7 +267,7 @@ A interpretação econômica do ARIMA capta diretamente uma economia instável c
 
 Essa análise, em grande medida, apesar de necessitar de uma base econômica, histórica e política, aponta como o modelo consegue captar o comportamento da variável. E a conclusão é que mesmo não tendo um volume comparável ao \textit{big data}, um modelo com apenas uma variável ainda pode apontar para tendências e comportamentos de uma economia real.
 
-Por último, mas não reduzindo sua importância, podemos ver a extrapolação do PIB utilizando o ARIMA. Nessa previsão optamos por utilizar a chamada previsão um passo a frente, nela o modelo é usado para prever um único valor imediatamente. No método que utilizamos, após prever o ano de 2023, o valor real medido é introduzido na série e é realizado a previsão, do ano de 2024 e assim por diante\footnote{Esse método só foi escolhido pois iremos fazer algo parecido com modelos futuros, e estamos buscando parcimônia entre modelos}. Além disso apesar de no modelo internamente utilizar a primeira diferença conforme visto na figura \ref{fig:pib_primeira_diferenca}, para a visualização externa e interpretação econômica utilizaremos o crescimento percentual do PIB, isso inclusive permitirá a comparação direta entre os modelos.
+Por último, examinamos a previsão do PIB pelo ARIMA. Utilizamos a estratégia de previsão um passo à frente: após prever 2023, incorporamos o valor observado à série e estimamos a previsão de 2024, repetindo o procedimento para os anos seguintes. Essa atualização sequencial permite que cada previsão utilize a informação observada mais recente. Embora o modelo use internamente a primeira diferença, conforme mostrado na figura \ref{fig:pib_primeira_diferenca}, apresentamos os resultados em crescimento percentual do PIB para facilitar a interpretação econômica e a comparação entre modelos.
 
 \begin{figure}[h]
 	\centering
@@ -296,11 +294,11 @@ Por último, mas não reduzindo sua importância, podemos ver a extrapolação d
 \end{figure}
 
 
-Na figura \ref{fig:previsao_arima_crescimento} vemos justamente a previsão um passo a frente do ARIMA estimando para baixo, e o valor efetivamente medido pelo IBGE. Notamos que o ARIMA subestima o crescimento do PIB nos 3 anos, e tem uma estimativa praticamente igual para os 3 anos. Já na figura \ref{fig:previsao_arima_nivel} notamos a estimativa do PIB em nível, a estimativa em nível, apesar de não ser tão reveladora, ela fornece uma forma visual de compreender o acerto do modelo.
+Na figura \ref{fig:previsao_arima_crescimento}, as previsões de um passo à frente ficam abaixo dos valores observados pelo IBGE nos três anos e variam pouco entre si. A figura \ref{fig:previsao_arima_nivel} apresenta as previsões correspondentes do PIB em nível.
 
-Uma métrica importante que podemos analisar são os erros do modelo, na figura \ref{fig:erro_arima}. Esses erros são relativamente altos, porém fica evidente como, mesmo um modelo "simples", com acesso limitado a informações por ser univariado, ainda assim consegue ter uma qualidade, e estimar mesmo que subestimando o comportamento do PIB brasileiro.
+Os erros do modelo são apresentados na tabela \ref{tab:resultados_arima}. Apesar da simplicidade e do uso exclusivo da série do PIB, o ARIMA produz uma referência quantitativa para a comparação com as especificações multivariadas.
 
-O erro de previsão ficou com as métricas finais de MAE:  2.2296 e RMSE: 2.2876. A tabela de erro por ano previsto pode ser verificada em \ref{tab:resultados_arima}. Notemos uma previsão subestimada, e um erro percentual alto. 
+No período de avaliação, o MAE foi 2,2296 e o RMSE, 2,2876. A tabela \ref{tab:resultados_arima} apresenta os erros por ano; as previsões subestimaram o crescimento observado.
 
 
 \begin{table}[htbp]
@@ -324,26 +322,26 @@ O erro de previsão ficou com as métricas finais de MAE:  2.2296 e RMSE: 2.2876
 	\small Fonte: Elaborado pelo autor (2026).
 \end{table}
 
-Contudo, esse resultado confirma a hipótese levantada em nossa revisão de literatura. Usar o modelo ARIMA como um \textit{benchmark} para outros modelos, tendo em vista sua simplicidade e capacidade preditiva formidável. Um modelo mais complexo com resultado pior ou semelhante ao ARIMA não parece ser adequado a esse contexto, já modelos melhores deve-se analisar o ganho e os custos de análise.
+Os resultados justificam manter o ARIMA como referência para os demais modelos, em razão de sua estrutura univariada e simplicidade. Nesta amostra, porém, suas previsões subestimaram o crescimento nos três anos de avaliação, com MAE de 2,2296 e RMSE de 2,2876. Esse desempenho deve ser interpretado no contexto da especificação e dos dados utilizados; os estudos revisados também mostram que a posição do ARIMA depende dos modelos de comparação e do problema analisado \citeonline{li2024forecasting} e discutem suas limitações diante de choques econômicos \citeonline{Silva_Clericuzi_Carvalho_2025}.
 
-A partir dessa exposição, terminamos o primeiro modelo, o ARIMA. Muitas das etapas que foram um pouco mais detalhadas nesse  primeiro modelo, como o teste de estacionariedade, os fatores de autocorrelação serão utilizados nos próximos modelos, mas não daremos tanto detalhamento. Optaremos por detalhar mais os modelos do que propriamente os testes. Agora precisamos subir a escada dos modelos, se testamos com um, agora vamos com dois, ou mais.
+Com essa análise, concluímos a apresentação do ARIMA. Os procedimentos de estacionariedade e autocorrelação também serão utilizados nos modelos seguintes; a partir daqui, a discussão se concentra nas diferenças entre as especificações e nos resultados de cada aplicação.
 
 
 \section{VAR}
 
-O VAR diferentemente do ARIMA é multivariado, ou seja, dois ou mais, nele podemos utilizar várias variáveis para a predição econômica do PIB. Por isso um pensamento natural seria pegar todas as variáveis coletadas e colocá-las em um único modelo VAR. Contudo devido a limitação de disponibilidade dos dados para alguma das variáveis coletadas, as observações são reduzidas. Esse fato já constatado quando analisamos os resultados do ARIMA. Porém quando estamos falando do uso de diversas variáveis, os graus de liberdade são reduzidos conforme reduzimos as observações de cada variável, perdendo assim, a qualidade no resultado da estimação.
+Ao contrário do ARIMA, o VAR é multivariado e permite incluir mais de uma variável na previsão do PIB. Poderíamos, portanto, considerar todas as variáveis coletadas em um único sistema. No entanto, a disponibilidade desigual das séries reduz o número de observações utilizáveis. Com várias variáveis e poucas observações, também diminuem os graus de liberdade disponíveis para a estimação, o que pode comprometer a precisão dos parâmetros.
 
-Esse comportamento limitante leva-nos a escolher as "melhores" variáveis para o modelo. Mas o que seriam essas melhores variáveis? Primeiramente vamos verificar a nossa lista novamente, em nosso trabalho, conforme indicado na metodologia coletamos as seguintes variáveis: população (milhões),	taxa de desemprego,	IPCA,	PIB Real,	balança corrente (\% PIB),	investimento direto estrangeiro (\% PIB),	dívida pública (\% PIB),	índice de direitos de propriedade,	índice de integridade governamental,	índice de despesa governamental,	índice de carga fiscal,	índice de liberdade empresarial,	índice de liberdade monetária,	índice de liberdade comercia,l	índice de liberdade de investimento,	índice de liberdade financeira.
+Essa limitação exige selecionar variáveis para as especificações do VAR. Conforme descrito na metodologia, foram coletadas séries de população, taxa de desemprego, IPCA, PIB real, balança corrente, investimento direto estrangeiro, dívida pública e indicadores de direitos de propriedade, integridade governamental, despesa governamental, carga fiscal e liberdades empresarial, monetária, comercial, de investimento e financeira.
 
-Porém só de olhar nesses dados já encontramos 3 varáveis com potenciais problemas: a população, o IPCA e o PIB\footnote{Isso mesmo, a nossa variável alvo, é um potencialmente problemática.}. No caso da população estamos falando de um valor da contabilização dos brasileiros, além de ser um número fora da escala, é um valor que atrapalharia o modelo nesse formato. A segunda variável IPCA, que se trata de um fator acumulado, e dessa forma também não será útil nesse formato. E por último o PIB nossa variável alvo está em volume que pode não ser a melhor forma de utiliza-lo em um modelo econométrico. 
+Três séries requerem transformações antes da estimação: população, IPCA e PIB. A população está medida em nível e em escala distinta das demais variáveis; o IPCA é um índice acumulado; e o PIB real em nível pode não ser estacionário. Por isso, examinamos transformações que permitam utilizar essas séries no modelo e preservar uma interpretação econômica relevante.
 
-Uma solução simples seria remover essas variáveis do modelo. Todavia essa estratégia parece ser um pouco radical, afinal remover o nosso alvo de predição, não é uma decisão muito assertiva de uma perspectiva de cumprir nossos objetivos. Para além desse fator, o IPCA parece ser uma varável candidata muito interessante da perspectiva econômica. Afinal entender como a inflação afeta o PIB, para além do valor nominal, é um estudo relevante para os economistas. E pelo outro lado, apesar da população ser mais uma variável demográfica do que econômica, faz sentido de uma perspectiva humana, analisar se a população tem alguma relação para além do aumento de consumo e mão de obra no que tange ao PIB.
+Uma alternativa seria excluir essas séries, mas isso retiraria do modelo tanto o alvo quanto variáveis de interesse econômico. A inflação pode estar associada à dinâmica do PIB real, e a população representa uma dimensão demográfica relacionada à oferta de trabalho e à demanda agregada. Optamos, portanto, por transformar as séries em vez de descartá-las de imediato.
 
-Dessa forma decidimos por não descartá-las, pelo mínimo não nesse primeiro momento, e nem usando esse critério. Afinal existem maneiras de contornarmos esses problemas relatados. Relembremos o modelo ARIMA, nele não precisamos fazer um tratamento no PIB, usamos o valor em volume, mas se bem lembrarmos ele utiliza o fator $d$, para determinar a diferença da série. Essa seria uma solução utilizar a diferença na série, corrigiríamos os pontos apresentados como preocupantes. Porém para além de simplesmente solucionar os problemas, buscamos a interpretação econômica do problema. Por isso, ao invés de utilizarmos a diferença, podemos calcular o crescimento das séries, que recebem esse nome de crescimento no caso do PIB e da população, mas no caso do IPCA, quando falamos de crescimento do índice, na realidade estamos falando da famosa inflação\footnote{Pelo mínimo uma forma de medi-la.}.
+Dessa forma, substituímos as séries originais pelo crescimento do PIB, pelo crescimento populacional e pela inflação, calculada a partir da variação do IPCA. Para as demais variáveis, mantivemos as transformações descritas na metodologia.
 
-Dessa forma alteramos o estado inicial de 3 variáveis, excluindo suas versões originais e agora adotando o crescimento do PIB, crescimento Populacional e a inflação como as variáveis do nosso futuro modelo. Mas ainda assim temos um problema, que é a escala de variáveis. Nesse ensaio estamos falando de índices, valores de crescimento, indicadores baseados em percentuais do PIB, ou seja temos dados fora de escala. Portanto o próximo procedimento foi colocar todas as variáveis em escala\footnote{O procedimento de deixar todas as variáveis na mesma escala foi feito utilizando o StandardScaler() do scikit-learn, ele faz com que cada coluna da tabela de variáveis passe a ter média igual a 0 e desvio padrão igual a 1, esse procedimento trata-se de uma operação linear reversível, portanto não causa nenhuma perda na análise econométrica}, para podermos prosseguir com a nossa aplicação.
+Como as séries têm unidades e escalas distintas, padronizamos as variáveis utilizadas no VAR com o \textit{StandardScaler} do \textit{scikit-learn}. Esse procedimento transforma cada série para média zero e desvio padrão um, conforme descrito na metodologia.
 
-Realizados os devidos tratamentos nas séries, agora precisamos olhar para o modelo. O VAR assim como o ARIMA, por tratar de séries temporais pressupõe a ideia de estacionariedade. O ARIMA faz por meio de um parâmetro, todavia o var não tem essa possibilidade de usar a diferença como entrada no modelo. Na realidade o VAR espera como entrada as séries já estacionárias, então precisamos testar e descobrir quais séries são estacionárias, e para além disso decidiremos o que faremos com as que não são. 
+Após essas transformações, avaliamos a estacionariedade das séries. Diferentemente do ARIMA, que incorpora a ordem de diferenciação em sua especificação, o VAR estimado neste estudo requer séries estacionárias. Aplicamos, portanto, testes às variáveis e diferenciamos aquelas para as quais os resultados indicaram não estacionariedade.
 
 Para essa análise inicial Aplicamos o teste ADF em cada uma obtemos as seguintes séries estacionárias: crescimento\_pib, crescimento\_pop, taxa de desemprego, índice de carga fiscal, índice de direitos de propriedade, índice de integridade governamental. 
 
@@ -391,7 +389,7 @@ Para garantir a boa utilização dessas variáveis em nosso modelo VAR vamos tes
 \end{table}
 
 
-Não podemos utilizar todas essas variáveis, uma opção tomada para a análise é remover algumas dessas variáveis. O critério escolhido foi variáveis "diretas", os índices de liberdade financeira e de despesa governamental, apesar de relevantes, estão submetidos a metodologias específicas da fonte. Dessa forma vamos optar por testar novamente a cointegração somente com a balança corrente (\% PIB), investimento direto estrangeiro (\% PIB). Se ainda houver indícios de cointegração na tabela \ref{tab:cointegracao_johansen2} podemos remover mais uma variável.
+Não podemos utilizar todas essas variáveis. Uma opção é remover algumas delas; neste caso, selecionamos os índices de liberdade financeira e de despesa governamental por dependerem de metodologias específicas das fontes. Testaremos novamente a cointegração apenas entre a balança corrente e o investimento direto estrangeiro, ambos como proporção do PIB. Os resultados estão na tabela \ref{tab:cointegracao_johansen_2}.
 
 \begin{table}[htbp]
 	\centering
@@ -472,9 +470,9 @@ Entretanto a solução mais adequada é mais simples do que aparenta, basta test
 	\small Fonte: Elaborado pelo autor (2026).
 \end{table}
 
-Podemos notar que os melhores modelos tem como preditor a balança corrente, porém isso tem um sentido muito lógico, afinal balança corrente é definida como uma porcentagem do PIB. Mas para além disso o Brasil é uma economia que tem o setor primário-exportador um grande fator na composição do PIB, portanto faz muito sentido esperar que o crescimento do PIB seja explicado em medida pelo comportamento externo. porém para não ficarmos somente na especulação vamos ver o que os modelos tem a dizer.
+Entre os modelos selecionados pelos critérios de erro, a balança corrente aparece com frequência. Como essa variável é expressa em proporção do PIB, sua presença exige cautela na interpretação, pois parte de sua associação com o alvo pode decorrer da construção da própria medida. Ainda assim, o resultado permite examinar o papel preditivo das variáveis externas neste conjunto de dados. Um padrão semelhante de relevância do setor internacional é discutido por \citeonline{vasconcelos2017poder}, embora em uma aplicação e conjunto de variáveis distintos.
 
-Os 5 melhores modelos estão detalhados na tabela \ref{tab:avaliacao_vars}. 
+As especificações selecionadas e seus diagnósticos são apresentados na tabela \ref{tab:avaliacao_vars}.
 
 
 % Essa é a tabela original do python
@@ -583,13 +581,13 @@ Os 5 melhores modelos estão detalhados na tabela \ref{tab:avaliacao_vars}.
 
 
 
-O cinco melhores modelos tem características em comuns que contribuem para classificá-los como modelos adequados a predição do PIB. Os candidatos apresentam estabilidade em nenhum deles há evidência de autocorrelação dos resíduos, um deles apresenta resíduos compatíveis com a normalidade. Em quatro deles a balança corrente (\% PIB) é um componente do modelo. Em um desses casos no modelo com crescimento  do PIB, crescimento populacional e a balança corrente (\% PIB)\_diff. Essa última variável é identificada como uma causadora do PIB pela causalidade de Granger, porém o inverso não acontece, na realidade, nos cinco primeiros modelos ela é a única variável que o teste classifica como causa do crescimento do PIB. 
+As cinco especificações selecionadas apresentam estabilidade e, segundo os testes reportados, não há evidência de autocorrelação residual. Apenas uma delas apresenta resíduos compatíveis com a normalidade. A balança corrente como proporção do PIB aparece em quatro especificações, incluindo aquela que contém crescimento do PIB, crescimento populacional e a primeira diferença da balança corrente.
 
-A fim de curiosidade fizemos também o mesmo teste retirando a variável do balança corrente (\% PIB), nesse caso obtivemos modelos mais variados, com variáveis como investimento direto estrangeiro (\% PIB), taxa de desemprego, inflacao\_diff e índice de liberdade financeira. Porém naturalmente esses modelos tem um RMSE e um MAE ligeiramente maiores do que os modelos que contaram com a balança corrente (\% PIB) como um dos seus preditores, nesses modelos sem esta variável.
+Como análise adicional, repetimos a seleção sem a balança corrente. As especificações resultantes incluíram investimento direto estrangeiro, taxa de desemprego, inflação diferenciada e índice de liberdade financeira. Nesse exercício, os erros foram ligeiramente maiores que os das especificações que incluíam a balança corrente.
 
-A partir desses resultados notamos como o mercado externo parece ser um fator de influência no PIB brasileiro. Mas para além disso os 5 modelos que obtiveram melhores resultados ainda contaram perspectivas sobre o comportamento macroeconômico brasileiro. Especialmente a identificar a Balança Corrente (\% PIB) como uma variável recorrente nos melhores modelos. A interpretação econômica desse VAR é uma visualização do recorte histórico brasileiro dos anos 2000 e a integração do brasil nas Cadeias Globais de Valor com um país primário exportador.
+A recorrência da balança corrente entre as especificações com menores erros indica que, nesta amostra, as informações do setor externo contribuem para a previsão do crescimento do PIB. Essa leitura é compatível com a discussão de \citeonline{vasconcelos2017poder} sobre a relevância de variáveis internacionais em previsões macroeconômicas, mas não permite concluir que o setor externo determine causalmente o crescimento brasileiro.
 
-Porém, nosso interesse e objetivo do trabalho é a predição econômica do PIB, então para isso vamos utilizar o melhor modelo classificado nesses dados o VAR(1) com apenas a balança corrente (\% PIB) e crescimento do PIB. Nesse caso apontado pela tabela \ref{tab:avaliacao_vars}, a balança corrente (\% PIB) parece anteceder aumentos no crescimento econômico, porém o inverso não acontece. Entretanto essa relação não foi observada nesse modelo específico, além de pela tabela \ref{tab:avaliacao_vars} esse é o único modelo que pelos testes tem resíduos compatíveis com normalidade.
+Para a previsão, selecionamos o VAR(1) com crescimento do PIB e primeira diferença da balança corrente, que apresentou o menor erro entre as especificações examinadas. A tabela \ref{tab:avaliacao_vars} também indica que, entre esses modelos, essa especificação é a única cujos resíduos foram considerados compatíveis com a normalidade nos testes reportados.
 
 
 \begin{table}[htbp]
@@ -673,7 +671,7 @@ Podemos ver essa previsão em \ref{fig:previsao_var_crescimento}. Também o erro
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-Em sentido interpretativo esses gráficos permite mostrar como o VAR consegue estimar o valor do crescimento real do PIB com um certo grau de precisão, porém notamos como apesar de erros muito pequenos nos anos de 2023 e 2035, o ano de 2024, tem um erro maior, isso acaba causando uma falha em estimar o comportamento do PIB. A visualização da predição em volume, que apesar de não ter uma interpretação econômica tão presente, é mais entendível o poder de predição do VAR, conforme a figura \ref{fig:previsao_var_volume}, inclusive o erro parece não ficar tão evidente.
+Esses gráficos mostram que as previsões do VAR ficaram próximas dos valores observados em 2023 e 2025, enquanto o erro foi maior em 2024. Nesse ano, o modelo não acompanhou a direção da variação do PIB. A previsão em nível, apresentada na figura \ref{fig:previsao_var_volume}, oferece outra forma de visualizar os mesmos resultados, embora a escala do gráfico torne algumas diferenças menos evidentes.
 
 \begin{figure}[h]
 	\centering
@@ -715,7 +713,7 @@ Note a proximidade do valor em volume para o ano de 2025 e 2023 que não foram u
 	\small Fonte: Elaborado pelo autor (2026).
 \end{table}
 
-Poderíamos analisar cada um dos modelos apresentados, e utiliza-los para a predição do PIB, juntamente com cada interpretação de causalidade entre variáveis, porém para não estender nosso trabalho e fugir do escopo proposto. Vamos apresentar só mais um resultado que é o modelo VAR utilizando a previsão um passo a frente (\textit{One-step\_ahead}), semelhante a usada no ARIMA. É o exato mesmo modelo, só que com uma outra forma de realizar a predição.
+Poderíamos analisar cada um dos modelos apresentados e suas relações preditivas entre variáveis. Para manter o foco do trabalho, apresentamos também o VAR com previsão um passo à frente (\textit{one-step-ahead}), semelhante à estratégia usada no ARIMA. Trata-se do mesmo modelo, avaliado por outro procedimento de previsão.
 
 
 Indo diretamente na avaliação na tabela \ref{tab:resultado_um_passo} já observamos que o modelo que utiliza a previsão um passo a frente parece ser pior do que a previsão do VAR tradicional. Nas imagem vemos como o erro fica evidente nas figuras \ref{fig:previsao_var_crescimento_um_passo}, \ref{fig:erro_var_um_passo} e \ref{fig:previsao_var_volume_um_passo}. Dessa forma optamos por utilizar a previsão normal do VAR. Nos modelos seguintes vamos optar por apresentar somente a melhor previsão que conseguimos obter em nossos testes. Mas é importante ressaltar que existem várias formas de testar o desempenho de um modelo. E um economista deve testar as diferentes possibilidades, normalmente a previsão normal será a única disponível, pois ela não depende dos dados reais. Porém em um ambiente de testes, é importante utilizá-la, como uma ferramenta de métrica.
@@ -783,7 +781,7 @@ Indo diretamente na avaliação na tabela \ref{tab:resultado_um_passo} já obser
 \end{figure}
 
 
-Após esse tipo de previsão apresentaremos uma última funcionalidade de um modelo VAR que é simular choques em variáveis, e estimar o comportamento das variáveis componentes do modelo. Nesse caso vamos estimar o que um choque na variável balança corrente (\% PIB) faria com o PIB no anos seguintes. 
+O VAR também permite calcular funções de resposta a impulso, que descrevem a resposta dinâmica estimada do sistema a um choque ortogonalizado, condicionada à identificação adotada. A figura seguinte apresenta essa funcionalidade para a balança de transações correntes.
 
 
 \begin{figure}[h]
@@ -798,9 +796,9 @@ Após esse tipo de previsão apresentaremos uma última funcionalidade de um mod
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-A interpretação desse gráfico nos informa o que aconteceria com a economia brasileira se houvesse um choque de um desvio-padrão nas exportações brasileiras presentes na conta de transações correntes. Nesse caso estamos falando de um choque positivo, por exemplo a abertura comercial da China, que se tornou um grande importador de produtos primários brasileiros. Essa possibilidade do VAR abre uma ampla gama de oportunidades e interpretações. Desde por exemplo, simular o mesmo choque negativo, até testar diferentes variáveis e como elas influenciam na variável alvo, seja ela o PIB, ou qualquer outro componente do modelo. 
+O gráfico mostra a resposta estimada do crescimento do PIB a um choque ortogonalizado de um desvio-padrão na balança de transações correntes, segundo a especificação adotada. Esse resultado descreve o comportamento do sistema VAR sob tal identificação; não deve ser interpretado como efeito causal de uma mudança nas exportações ou como estimativa do impacto de um evento econômico específico. A ferramenta permite examinar respostas a diferentes choques e variáveis, respeitados os limites de identificação do modelo.
 
-Apesar desses testes terem uma interpretação econômica relevante, optaremos por apresentar um único choque. O fim era de demonstrar a possibilidade, afinal nosso objetivo é a predição do PIB, mas deixamos como uma possibilidade de aprofundamento da pesquisa.
+Embora a resposta estimada possa ser examinada economicamente sob as hipóteses do modelo, apresentamos apenas um choque para ilustrar essa funcionalidade. A análise não busca identificar efeitos causais, pois o objetivo do trabalho é comparar previsões do PIB.
 
 
 Com esses resultados notamos como o VAR tem uma gama de possibilidades muito superior ao ARIMA, a possibilidade de inserir outras variáveis não apenas melhora a predição, na realidade ela da um sentido macroeconômico a econometria aplicada. Enquanto o ARIMA consegue explicar o comportamento único da variável, o VAR consegue capitar as relações entre as variáveis, isso permite captar relações mais intrínsecas do comportamento da economia, não se restringindo a falar do comportamento de uma única variável, mas sim da sua relação concomitante.
@@ -812,14 +810,13 @@ Para resolver esse problema, ou pelo mínimo tentar, vamos nos debruçar sobre o
 
 \section{MIDAS}
 
-Para inciarmos a montagem do modelo MIDAS precisamos selecionar as variáveis, e dessa vez não podemos simplesmente pegar as mesmas variáveis do VAR. Isso acontece não por uma limitação do modelo, ou algo relacionado aos testes (pelo mínimo ainda não), na realidade estamos falando da eficiência estrutural do modelo. O MIDAS foi construído para estimar variáveis com frequências diferentes. E não faz sentido utilizar uma variável de coleta anual para prever um dado divulgado diariamente. Portanto temos a primeira noção do MIDAS, utilizaremos variáveis de alta frequência, para estimar uma variável de baixa frequência, como no nosso caso o PIB anual.
+Para especificar o MIDAS, selecionamos preditores observados em frequências superiores à frequência anual do PIB. O modelo permite relacionar observações de frequências distintas, característica que orienta a escolha das variáveis nesta aplicação e que foi destacada na revisão de literatura \citeonline{Ghysels2004MIDAS}.
 
-Outra noção é que por a nossa variável alvo, o PIB, ter frequência anual, não faz sentido usar variáveis com a mesma frequência do PIB. Pensemos na predição que realizamos com o VAR, teríamos que esperar a divulgação dos dados da próxima balança corrente (\%PIB) ser divulgada, para só depois realizarmos a predição do PIB. É uma noção contraproducente. A partir dessas duas noções e baseado na disponibilidade dos dados podemos selecionar as variáveis que utilizaremos.
+Como o alvo é anual, o uso de indicadores mensais ou trimestrais também permite incorporar informações que se tornam disponíveis antes da publicação do PIB anual. A seleção das séries considera essa possibilidade e a disponibilidade de dados no período analisado.
 
-Dentre o nosso conjunto de coleta exposto na metodologia apenas 3 variáveis tem uma frequência de divulgação maior do que a do PIB, são elas:
-a taxa de desocupação que é trimestral; a dívida publica (\% PIB) que é mensal; e o IPCA que também é divulgado a cada mês. Apesar de não intencional essas variáveis possuem um sentido econômico bastante presente. Afinal estamos falando de uma variável macroeconômica, o PIB, tentando ser predita por uma variável monetária, o IPCA que mede inflação, uma variável real, o desemprego que trata da ocupação da população, e uma variável do governo, a porcentagem da divida pública em relação ao PIB, vamos ver como essas variáveis se relacionam a partir do modelo MIDAS.
+Entre as séries coletadas, três têm frequência superior à anual: a taxa de desocupação trimestral, a dívida pública mensal como proporção do PIB e o IPCA mensal. Em conjunto, representam dimensões do mercado de trabalho, das finanças públicas e dos preços. A aplicação do MIDAS permite examinar seu conteúdo preditivo para o PIB anual.
 
-Entretanto, como exposto em nossa metodologia, uma dessas variáveis tem um problema grave em sua série, estamos falando da taxa de desemprego trimestral do IBGE. Infelizmente o IBGE descontinuou a pesquisa mensal de emprego em 2016, que foi substituída pela PNAD continua (Pesquisa Nacional por Amostra de Domicílios Contínua). Não entraremos em detalhes sobre as questões relacionadas a pesquisa e as metodologias de coleta e continuidade de pesquisa pelas entidades de coleta, mas infelizmente isso causa uma quebra em nossa série no ano de 2012. Afinal optamos por utilizar os dados da PNAD continua em seu primeiro ano de coleta, mesmo que pesquisa mensal de emprego continuasse até 2016, como pode ser observado na figura \ref{fig:taxa_desemprego_MIDAS}
+Como descrito na metodologia, a série trimestral de desemprego apresenta uma quebra metodológica associada à substituição da Pesquisa Mensal de Emprego pela PNAD Contínua. A mudança ocorreu em 2012 para a série utilizada neste estudo, embora a pesquisa anterior tenha sido encerrada posteriormente. A figura \ref{fig:taxa_desemprego_MIDAS} apresenta a descontinuidade observada.
 
 
 \begin{figure}[h]
@@ -834,11 +831,11 @@ Entretanto, como exposto em nossa metodologia, uma dessas variáveis tem um prob
 	\small Fonte: Dados do IBGE (2026) elaborado pelo autor (2026).
 \end{figure}
 
-Essa quebra em nossa série se dá, pois até 2012 o dado se tratava da taxa de desocupação na semana de referência, das pessoas de 10 anos ou mais de idade, principais responsáveis pela família. E quando adotamos a PNAD continua o dado passou a ser Taxa de desocupação, na semana de referência, das pessoas de 14 anos ou mais de idade. A alteração se dá tanto pela faixa etária, como pela população englobada, antes eram somente os responsáveis da família, agora todas as pessoas com 14 anos ou mais.
+Até 2012, a medida correspondia à taxa de desocupação, na semana de referência, entre pessoas de 10 anos ou mais que eram responsáveis pela família. Na série da PNAD Contínua, passou a corresponder à taxa entre pessoas de 14 anos ou mais. Portanto, a diferença envolve tanto a faixa etária quanto a população abrangida.
 
-Uma solução seria truncar a série e utilizar somente 2012 para frente. Porém esse procedimento reduziria os graus de liberdade do modelo, podendo ocasionar resultados com menos poder de explicação estatístico. Poderíamos fazer uma aproximação para os anos anteriores a 2012, utilizando os anos onde as duas pesquisas coexistiram como uma base, porém isso poderia enviesar nossos dados. Outra solução seria modelar com apenas o IPCA e a dívida pública. Porém decidimos, dentre essas, simplesmente colocar o modelo a prova, utilizar a série como está, e validar se mesmo com um erro de continuidade o modelo ainda consegue predizer o PIB.
+Truncar a série em 2012 reduziria a amostra; construir uma aproximação retrospectiva com os anos de sobreposição das pesquisas poderia introduzir erros adicionais. Também seria possível estimar o modelo apenas com IPCA e dívida pública. Neste exercício, mantivemos a série com a quebra e consideramos essa limitação na interpretação dos resultados.
 
-A fim de curiosidade podemos ver as demais séries: a do PIB\footnote{Notemos como ao utilizar o gráfico do PIB com o eixo y iniciando de 0, o PIB brasileiro parece ser muito mais estável com uma tendência de crescimento mais definida do que por exemplo o mesmo gráfico do PIB na figura \ref{fig:pib_volume_deflacionado}. Isso nos leva a um ponto importante, não precisamos mentir alterando os dados basta usar uma escala diferente e a percepção do leitor sobre uma mesma variável pode se alterar, deixaremos as duas formas como uma questão de reflexão, sobre como os gráficos são uma maneira excelente de se visualizar dados, porém podem causar vieses na percepção do leitor} na figura \ref{fig:pib_volume_MIDAS}; a do IPCA na figura \ref{fig:IPCA_MIDAS}; e da dívida pública (\% PIB) na figura \ref{fig:divida_publica_MIDAS}. Somente a partir da visualização das séries já é possível apontar uma possível relação com o tempo, isso pode indicar que as séries não são estacionárias\footnote{já fizemos estes testes antes, para essas variáveis, inclusive sabemos que o PIB em volume não é estacionário, mas testaremos novamente, pois dessa vez, além de serem séries com frequência maior, vamos utilizar outros testes além do ADF e PP.}
+As figuras \ref{fig:pib_volume_MIDAS}, \ref{fig:IPCA_MIDAS} e \ref{fig:divida_publica_MIDAS} apresentam, respectivamente, as séries do PIB, do IPCA e da dívida pública. A inspeção visual pode sugerir a presença de tendência, mas não é suficiente para determinar a estacionariedade. Reaplicamos os testes nesta especificação porque o MIDAS combina séries de frequências distintas e, além dos testes ADF e PP já apresentados, são considerados outros procedimentos de avaliação da estacionariedade.
 
 \begin{figure}[h]
 	\centering
@@ -878,9 +875,9 @@ A fim de curiosidade podemos ver as demais séries: a do PIB\footnote{Notemos co
 
 
 
-Nos testes ADF nenhuma das séries originais são estacionárias, dessa forma optamos por transformá-las. No caso do desemprego e da dívida aplicamos a primeira diferença, chamando as variáveis de delta da dívida e delta do desemprego. Para o caso do IPCA e do PIB, optamos por utilizar o crescimento do PIB e a inflação, dessa forma para o teste ADF todos as séries se comportaram como estacionárias. 
+Os testes ADF indicaram não estacionariedade nas séries originais. Aplicamos a primeira diferença ao desemprego e à dívida pública, obtendo as séries denominadas delta do desemprego e delta da dívida. Para o IPCA e o PIB, utilizamos, respectivamente, a inflação e o crescimento do PIB. Após essas transformações, o teste ADF indicou estacionariedade nas séries consideradas.
 
-Entretanto também aplicamos o teste KPSS, e nesse caso o delta da dívida apresenta evidências estatísticas de não estacionariedade ao nível de significância de 5\%, enquanto as demais variáveis confirma a estacionariedade apresentada no teste ADF. Para concluir se precisamos de mais uma diferença, ou talvez descartar o delta da dívida, aplicamos o teste PP, e nesse caso obtivemos um resultado a favor da estacionariedade. Como PP e ADF apontaram para uma série estacionária a um nível de 5\% de significância e KPSS apresenta também considera o delta da dívida como estacionária a 2,5\% de significância, optamos por manter a série dessa forma.
+Também aplicamos o teste KPSS. Para a primeira diferença da dívida pública, o resultado não rejeitou estacionariedade ao nível de 2,5\%, embora apontasse evidência de não estacionariedade ao nível de 5\%. O teste Phillips-Perron (PP) foi compatível com estacionariedade. Considerando os resultados conjuntos dos testes ADF, KPSS e PP, mantivemos a série em primeira diferença.
 
 O próximo passo é determinar os lags do modelo, para isso utilizaremos os testes FAC e FACP, conforme as figuras a seguir:
 
@@ -936,7 +933,7 @@ O próximo passo é determinar os lags do modelo, para isso utilizaremos os test
 \end{figure}
 
 
-Os resultados dos testes FAC e FACP não foram conclusivos, vamos testar todos os modelos com diferentes lags. Para isso dividimos nossos dados em treinamento e validação, de 2002 até 2022, será nosso treinamento, enquanto de 2023 até 2025 nossa validação. Dentro dos nossos dados de treinamento obtivemos um resultado curioso, a soma dos quadrados dos erros para 6 meses foi menor do que para 12. SSE dentro da amostra por horizonte está visível na tabela \ref{tab:SSE_amostra_midas}
+As funções FAC e FACP não indicaram uma especificação única. Por isso, comparamos modelos com diferentes defasagens. A amostra de treinamento abrange 2002 a 2022, e os anos de 2023 a 2025 são usados para avaliação fora da amostra. Na amostra de treinamento, a soma dos quadrados dos erros foi menor para o horizonte de seis meses do que para o de doze meses, conforme a tabela \ref{tab:SSE_amostra_midas}.
 
 \begin{table}[htbp]
 	\centering
@@ -965,7 +962,7 @@ Os resultados dos testes FAC e FACP não foram conclusivos, vamos testar todos o
 \end{table}
 
 
-Enquanto na validação o RSME e o MAE também foram menores para 6 meses, evidenciado na tabela \ref{tab:erros_valid_midas}. Também podemos ver o mesmo comportamento distinguido nos anos de validação, na tabela \ref{tab:erro_midas_tres_anos}.
+Nos anos de avaliação, o MIDAS com horizonte de seis meses também apresentou os menores RMSE e MAE entre os três horizontes considerados, como mostram as tabelas \ref{tab:erros_valid_midas} e \ref{tab:erro_midas_tres_anos}.
 
 \begin{table}[htbp]
 	\centering
@@ -1018,6 +1015,11 @@ Enquanto na validação o RSME e o MAE também foram menores para 6 meses, evide
 		12 & 2025 & 2.261166 & 3.604142 & 1.397829 & 1.206148 \\
 		\bottomrule
 	\end{tabular}
+
+	\par\smallskip
+	\begin{minipage}{\textwidth}
+	\footnotesize\textbf{Nota:} Nesta tabela, os valores de $y_{\text{obs}}$, $y_{\text{prev}}$ e as métricas por horizonte estão na escala logarítmica utilizada pelo MIDAS. Na comparação agregada, os valores observados e previstos do MIDAS foram convertidos para taxas percentuais convencionais por meio da transformação $100[\exp(y/100)-1]$.
+	\end{minipage}
 	
 	
 	\vspace{0.1cm}
@@ -1053,17 +1055,17 @@ Enquanto na validação o RSME e o MAE também foram menores para 6 meses, evide
 
 
 
-Notemos como essa figura \ref{fig:previsao_crescimento_pib_midas} e na figura \ref{fig:crescimento_pib_midas_completo} parece nos contar como as previsões com diferentes horizontes parecem ter uma previsão que identifica comportamos distintos. Enquanto para um horizonte de 0 meses, ou \textit{nowcasting}, o modelo erra o valor, mas de certa forma acerta o comportamento de crescimento e queda. Os resultados de 6 e 12 de horizonte são mais próximos do observado. enquanto o horizonte de 6 meses tem um erro menor de previsão, mas acaba errando o comportamento da variável,  já para o horizonte de 12 meses, acerta o comportamento o PIB porém tem um erro maior.
+As figuras \ref{fig:previsao_crescimento_pib_midas} e \ref{fig:crescimento_pib_midas_completo} mostram diferenças entre as previsões conforme o horizonte. No horizonte zero, o modelo não acompanha os valores observados, embora reproduza parte da direção das variações. O horizonte de seis meses apresenta o menor erro agregado, mas não acompanha a direção em todos os anos; o horizonte de doze meses acompanha melhor a direção em alguns pontos, com erro agregado maior.
 
-Essa previsão através do MIDAS tem uma caraterística, precisamos das variáveis que compõem o modelo para podermos estimar o PIB, de certa forma isso é muito útil para estimativas onde parte das informações já são dadas. Entretanto é visível, que nosso conjunto de dados, tendo a quebra da série do desemprego em seu interior, o \textit{nowcasting} que é um dos pontos fortes do MIDAS parece não ter desempenhado tão bem. quanto em outros horizontes de tempo. Porém fica evidente como o MIDAS consegue lidar bem, além de variáveis com frequência diferentes, e com uma quebra de metodologia em uma série o modelo ainda foi robusto na predição, com os horizonte de 6 e 12 com erros próximos de um ponto percentual.
+O exercício ilustra como o MIDAS pode incorporar preditores de frequências distintas, como nas aplicações de previsão do PIB discutidas por \citeonline{castelli2022modelo} e \citeonline{micheletti2024avaliaccao}. Nesta especificação, o horizonte zero apresentou erros maiores do que os horizontes de seis e doze meses. Como a série de desemprego contém uma quebra metodológica, os resultados devem ser interpretados considerando essa limitação; este exercício, isoladamente, não permite atribuir o desempenho observado à quebra.
 
 
-Na figura \ref{fig:pib_volume_previsao_midas} podemos notar como os horizontes de de 6 e 12 meses estão mais próximos da linha observada do PIB. Enquanto o de 0 meses até acerta o comportamento, mas a proximidade deixa a desejar..
+Na figura \ref{fig:pib_volume_previsao_midas}, as previsões dos horizontes de seis e doze meses estão mais próximas da série observada do que a previsão do horizonte zero.
 
 \begin{figure}[h]
 	\centering
 	\captionsetup{justification=centering}
-	\caption{Previsão do PIB em volume para o modelo modelo MIDAS}
+	\caption{Previsão do PIB em volume para o modelo MIDAS}
 	\label{fig:pib_volume_previsao_midas}
 	\includegraphics[width=1.0\textwidth]{images/pib_volume_previsao_midas.png}
 	
@@ -1072,12 +1074,12 @@ Na figura \ref{fig:pib_volume_previsao_midas} podemos notar como os horizontes d
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-Além da previsão podemos olhar também o erro do modelo, na figura \ref{fig:erro_previsao_midas}, que confirma a interpretação inicial, onde o erro de h=6 e h=12 são relativamente menores comparados a h=0. Além de h=0 e h=6 subestimarem o crescimento do PIB. Enquanto h = 12 parece ser uma modelo mais otimista, que superestima o PIB em 2025, e praticamente acerta o valor em 2024, apesar de como os outros subestimar o crescimento em 2023.
+Os erros apresentados na figura \ref{fig:erro_previsao_midas} confirmam que os horizontes de seis e doze meses tiveram menor erro do que o horizonte zero. Os horizontes zero e seis subestimaram o crescimento nos anos avaliados. O horizonte de doze meses superestimou o crescimento em 2025, aproximou-se do valor observado em 2024 e subestimou o crescimento em 2023.
 
 \begin{figure}[h]
 	\centering
 	\captionsetup{justification=centering}
-	\caption{Erro de previsão do PIB para o modelo modelo MIDAS}
+	\caption{Erro de previsão do PIB para o modelo MIDAS}
 	\label{fig:erro_previsao_midas}
 	\includegraphics[width=1.0\textwidth]{images/erro_previsao_midas.png}
 	
@@ -1091,29 +1093,29 @@ A tendência de subestimar o crescimento talvez não seja um erro dos modelos, m
 
 \section{DFM}
 
-Dentre os modelos que chamamos de tradicionais, o DFM é o último deles que analisaremos, mas é claro não menos importante. Na realidade dentre os modelos apresentados até então, o DFM é o modelo mais complexo. Ele possui como conceito fundamental a ideia extrair de um grande conjunto de variáveis distintas os fatores latentes que podem explicar a tendência de um determinado grupo de variáveis. O DFM pode ser tanto aplicado para \textit{nowcasting} como no midas ou \textit{forecasting} como feito com o ARIMA e VAR, nesse caso de aplicação utilizaremos ele para \textit{forecasting}.
+Entre os modelos tradicionais, o DFM é o mais complexo dos métodos apresentados até aqui. Ele representa a covariação de um conjunto de séries por meio de fatores latentes e componentes idiossincráticos. Como discutido na revisão de literatura, os DFM podem ser aplicados a tarefas de \textit{nowcasting} e de previsão; neste estudo, avaliamos sua capacidade de prever o crescimento do PIB \citeonline{doz2019dynamic}.
 
-A principal vantagem do DFM em comparação a outros modelos é a capacidade de lidar com um conjunto de variáveis mais volumoso. Comparemos com outro modelo multivariado. Enquanto no VAR precisamos limitar a quantidade de variáveis pela restrição dos graus de liberdade modelo. O DFM lida com isso criando índices compostos internos, que podem ser usados para fazer a predição da variável alvo.
+Em comparação com o VAR, uma vantagem potencial do DFM é resumir a informação de várias séries em um número menor de fatores latentes. Essa redução de dimensão pode ser útil quando há muitos indicadores, embora o desempenho dependa da amostra, da seleção das séries e da especificação do modelo.
 
-Porém o DFM continua sendo um modelo tradicional, ou seja as regras continuam, devemos testar a estacionariedade das séries e selecionar somente aquelas que consideramos estacionárias. Entretanto já fizemos isso com o VAR, e diferentemente do MIDAS, utilizaremos as mesmas séries com a mesma frequência, nesse sentido podemos utilizar as mesmas variáveis já testadas: crescimento\_pib, crescimento\_pop, taxa de desemprego, índice de carga fiscal, índice de direitos de propriedade, índice de integridade governamental. E as variáveis estacionárias na primeira diferença balança corrente (\% PIB); investimento direto estrangeiro (\% PIB); índice de despesa governamental; e índice de liberdade financeira. 
+Para esta aplicação, utilizamos as séries já transformadas e avaliadas nos testes de estacionariedade apresentados na seção do VAR. Como o DFM foi estimado com dados de mesma frequência, as variáveis selecionadas foram crescimento do PIB, crescimento populacional, taxa de desemprego e indicadores fiscais, institucionais e externos em nível ou primeira diferença, conforme os resultados desses testes.
 
-Nesse momento estaríamos escolhendo os parâmetros do modelo, para ai tentarmos aplicar para essas variáveis, porém chegamos a primeira barreira quando começamos a apelar para modelos mais robustos, o tempo.
+Na seleção dos parâmetros, o tempo de execução tornou-se uma restrição prática.
 
-Nas primeiras execuções em testes realizados, utilizamos a mesma técnica utilizada pelo VAR para encontrarmos o melhor resultado, testar todos os modelos possíveis, com distintas quantidades de variáveis e parâmetros. Porém, testar isso levou cerca de 2 horas, para rodar o modelo. Não que esse tempo seja um real limitador, pois bastaria uma máquina um pouco mais potente, um paralelismo maior, e o tempo se reduziria muito, mas para fazer pequenos ajustes e testar os melhores resultados nesse primeiro momento isso se torna uma barreira.
+Nas primeiras execuções, testamos combinações de variáveis e parâmetros seguindo procedimento semelhante ao utilizado no VAR. A busca completa levou cerca de duas horas. Embora esse tempo não impeça a estimação, ele dificulta iterar rapidamente entre especificações durante a análise.
 
-Porém o real motivo, acaba se tornando muito mais metodológico do que o tempo de execução, estamos falando da interpretação econômica de um modelo. Suponhamos que por um acaso estatístico, as variáveis de população, e índice de liberdade empresarial fossem disparado, para esse conjunto de dados, os melhores preditores do crescimento do PIB. E o DFM capturasse o fator latente, o RSME e MAE fossem muito próximo de 0. E depois de alguns anos outros pesquisadores resolvessem testar novamente o modelo com mais 5 anos de dados. A partir disso se constatasse uma grande variação no índice de liberdade empresarial e as previsões do modelo DFM simplesmente não correspondessem as expectativas. 
+Além do custo computacional, a seleção de variáveis precisa considerar sua justificativa econômica. Uma associação preditiva muito forte em uma amostra pequena pode não se manter quando novos anos são incluídos ou quando as condições econômicas mudam. Por isso, RMSE e MAE baixos não dispensam o exame da estabilidade e da plausibilidade econômica das variáveis escolhidas.
 
-Na realidade isso não é um problema só do DFM, isso é um problema estatístico. Primeiro um conjunto pequeno de dados, eles podem não ter observações o suficiente para descrever a realidade. E segundo acreditar que a relação entre variáveis são funcionais, em que uma alteração em uma, necessariamente irá causar um perturbação em outra. E que ainda pode ser descrita por uma curva determinística. Isso não se confirma na realidade.
+Essa ressalva não é exclusiva do DFM. Amostras pequenas podem representar de forma incompleta a dinâmica econômica, e associações entre variáveis não implicam que mudanças em uma delas causem alterações em outra.
 
-Voltando ao DFM, faz pouco ou nenhum sentido testar todas as combinações possíveis, e mesmo que encontremos uma relação que tenha um erro pequeno, pode ser que aquelas variáveis não tenham um sentido econômico relevante. Uma análise fundada na realidade precisa conversar entre a matemática e estatística do modelo e a teoria econômica.
+Assim, não basta selecionar mecanicamente a combinação com menor erro. A interpretação dos resultados deve articular o desempenho estatístico do modelo com a justificativa econômica para os preditores incluídos.
 
-Tomemos como um exemplo fictício absurdo: Um determinado econometrista estava fazendo suas analises e observou que uma fábrica de pelúcias produzia determinada quantidade $x$ de ursos. O econometrista observou por um modelo, que a relação entre quantidade de ursinhos e o PIB da cidade pareciam ter uma forte relação entre elas. O pesquisador observou em medida que a quantidade de ursos aumentava, o PIB também crescia. Um político observando a situação ficou maravilhado e determinou via decreto que se abrissem outras 10 fábricas de ursos prometendo que o PIB da cidade iria se multiplicar por um fator de 10. O que aconteceu é que todas as fábricas faliram pois ninguém mais queria comprar ursinhos e o PIB da cidade caiu tendo em vista a crise.
+Uma associação entre duas séries também pode refletir coincidência ou fatores comuns não observados. Por exemplo, a correlação entre a produção de um bem específico e o PIB de uma cidade não demonstra, por si só, que expandir sua produção causará crescimento econômico. Uma recomendação desse tipo exigiria evidência de identificação causal e consideração de outros fatores relevantes.
 
-O erro dessa história é primeiro acreditar que existe uma relação de causa e efeito entre variáveis, segundo é a lógica determinista aplicada. Não se pode afirmar que uma variável é necessariamente causadora da outra, talvez as vendas de urso aumentassem o PIB, pois os pais tinham maiores condições de presentear seus filhos, ou talvez seja somente uma coincidência. A única coisa possível de se afirmar é, que para aquele recorte de tempo, com aquelas observações, parece que a venda de ursos parece caminhar junto ao PIB municipal.
+Portanto, a associação observada deve ser descrita nos limites dos dados e do modelo. Sem um desenho que identifique causalidade, é possível afirmar que duas séries caminham juntas na amostra, mas não que uma seja necessariamente responsável pela variação da outra.
 
-Essa história pode ser fantasiosa, porém quantas decisões empresarias e governamentais não são tomadas por gestores pensando em causa e efeito. Para isso o trabalho de um estatístico/econometrista é também determinar que variáveis utilizar, ou seja, será que se ao invés de utilizar a produção de ursos, o pesquisador utilizasse os salários dos funcionários das fábricas da cidade, será que o sentido econômico da análise não seria mais robusto e fundamentado?
+Na aplicação empírica, cabe ao pesquisador justificar a escolha das variáveis e distinguir padrões preditivos de relações causais. Essa avaliação também requer conhecimento do contexto econômico e das limitações dos dados.
 
-Todo esse contexto se deve a justificativa de porque escolher determinadas variáveis para o modelo, assim realizamos da seguinte forma, criamos algumas previsões separadas em grupos dispostos na tabela \ref{tab:grupos_dfm}.
+Com base nesses critérios, organizamos as especificações em grupos de variáveis com justificativas econômicas distintas, apresentados na tabela \ref{tab:grupos_dfm}.
 
 \begin{table}[htbp]
 	\centering
@@ -1147,11 +1149,11 @@ Todo esse contexto se deve a justificativa de porque escolher determinadas vari�
 	\small Fonte: Elaborado pelo autor (2026).
 \end{table}
 
-Optamos dessa forma para segregar as variáveis em determinados campos de estudo da economia. Como range de treino utilizamos o inicio da série em 2001, até 2022, como validação utilizamos de 2014 até 2022, e para avaliação de 2023 até 2025. Como número máximo de iterações utilizados 300, com até 3 fatores, e até de segunda ordem, pensando em simplificar o modelo ao máximo, para não correr o risco de sobreajuste.
+Organizamos as variáveis em grupos associados a diferentes áreas da economia. O período de treinamento começa em 2001 e termina em 2022; a validação expansiva abrange 2014 a 2022; e os anos de 2023 a 2025 são reservados à avaliação. Limitamos o algoritmo a 300 iterações, três fatores e ordem máxima dois, buscando restringir a complexidade das especificações.
 
-Os fatores são as variáveis "virtuais" que o modelo cria. São como um indicador que representa um determinado conjunto de variáveis com uma tendência. Já as ordens no contexto do DFM são as defasagens dos fatores, seriam o equivalente as LAGs de um modelo VAR.
+Os fatores são variáveis latentes que resumem a covariação de um conjunto de séries observadas. A ordem do modelo indica as defasagens consideradas para a dinâmica dos fatores, em sentido semelhante às defasagens empregadas em um VAR.
 
-E no geral modelos com mais de 2 fatores para essa quantidade de observações foram inadequados, quase que em sua maioria não convergiram para um resultado. Esse resultado é esperado, mas como o DFM já realiza esse procedimento de unir o comportamento das variáveis, isso não será um problema. Na tabela \ref{tab:melhores_dfm}, notamos como os melhores modelos validos todos tem apenas um fator, alguns tem uma ordem de 2. Entretanto é possível notar como o erro é de uma magnitude um pouco maior, mas vamos testar a predição para os anos fora do treinamento e avaliar esse modelo.
+Na maioria das especificações testadas com mais de dois fatores, o algoritmo não convergiu. Entre as especificações válidas, apresentadas na tabela \ref{tab:melhores_dfm}, os melhores resultados utilizaram um fator; algumas também incluíram defasagem de ordem dois. Em seguida, avaliamos a previsão nos anos reservados para teste fora da amostra.
 
 \begin{table}[htbp]
 	\centering
@@ -1191,7 +1193,7 @@ E no geral modelos com mais de 2 fatores para essa quantidade de observações f
 
 
 
-Notemos que o modelo com o menor RSME é o PIB\_populacao, tendo como componentes o crescimento do PIB e o crescimento populacional, com um fator de ordem dois. Esse modelos obteve um RSME de 3.628274 no treinamento, o que é razoável para um modelo nesse sentido. Nos anos de validação obtivemos os seguintes resultados na tabela \ref{tab:previsao_melhor_dfm}.
+O menor RMSE entre as especificações reportadas foi obtido pelo grupo PIB\_populacao, composto pelo crescimento do PIB e pelo crescimento populacional, com um fator e ordem dois. Seu RMSE na etapa de seleção foi 3,628274. As previsões para os anos de avaliação são apresentadas na tabela \ref{tab:previsao_melhor_dfm}.
 
 \begin{table}[htbp]
 	\centering
@@ -1220,7 +1222,7 @@ Notemos que o modelo com o menor RSME é o PIB\_populacao, tendo como componente
 \end{table}
 
 
-Em todos os anos o DFM subestimou o crescimento do PIB, porém notamos que houve um erro maior nos anos de 2023 e 2024, já o ano de 2025 teve um erro relativamente menor. Para testarmos a autocorrelação dos resíduos desse modelo utilizamos Ljung–Box. Conforme aponta a tabela \ref{tab:autocorrelacao_dfm}.
+O DFM subestimou o crescimento do PIB nos três anos de avaliação. Os erros foram maiores em 2023 e 2024 e menores em 2025. Para examinar a autocorrelação residual, aplicamos o teste de Ljung–Box, cujos resultados estão na tabela \ref{tab:autocorrelacao_dfm}.
 
 \begin{table}[htbp]
 	\centering
@@ -1248,11 +1250,11 @@ Em todos os anos o DFM subestimou o crescimento do PIB, porém notamos que houve
 \end{table}
 
 
-A partir desses testes a um nível de significância de 5\% não foi detectada dependência linear temporal significativa nos erros até a segunda defasagem. Vejamos esse modelo em forma gráfica. Primeiramente notamos um comportamento relativamente estável do modelo ao tentar estimar as variações do PIB, podemos notar tanto na figura \ref{fig:crescimento_dfm_treinamento} quanto na \ref{fig:ajuste_dfm_treinamento} se comportou praticamente como uma média móvel.
+Ao nível de significância de 5\%, os testes não indicaram autocorrelação residual até a segunda defasagem. Nas figuras \ref{fig:crescimento_dfm_treinamento} e \ref{fig:ajuste_dfm_treinamento}, o ajuste do modelo apresenta pouca variação e se aproxima de um comportamento médio.
 
-Se olharmos diretamente para o resultado o modelo parece subestimar o crescimento do PIB, figura \ref{fig:previsao_dfm_crescimento}, assim como os erros do 2023 e 2024, foram maiores do que os de 2025, mas mesmo assim o DFM parece não conseguir capturar o comportamento do PIB, nem mesmo no sentido de erro, como no próprio comportamento da série.
+Na figura \ref{fig:previsao_dfm_crescimento}, observa-se a subestimação do crescimento do PIB. Os erros de 2023 e 2024 foram maiores que o de 2025, e as previsões não acompanharam de forma próxima as variações observadas.
 
-Nesse sentido testamos os demais modelos DFM que tiveram solução, e nenhum deles obteve um resultado evidentemente superior do que o modelo com menor RSME no treinamento. Alguns dos modelos tem uma interpretação econômica mais evidente do que a população. A interpretação desse modelo aponta para que a defasagem de 2 anos parece ter um componente mais importante que apenas 1 ano, tanto o crescimento populacional como o crescimento do PIB parecem caminhar do mesmo sentido do fator latente identificado. Contudo fica evidente como o DFM parece não se ajustar bem para nossa coleção de variáveis.
+As demais especificações que convergiram não apresentaram desempenho claramente superior nos anos de avaliação. Embora alguns grupos de variáveis admitam uma interpretação econômica mais direta, o DFM com menor RMSE na etapa de seleção não reproduziu de perto o comportamento do PIB nesta amostra.
 
 \begin{figure}[h]
 	\centering
@@ -1269,7 +1271,7 @@ Nesse sentido testamos os demais modelos DFM que tiveram solução, e nenhum del
 \begin{figure}[h]
 	\centering
 	\captionsetup{justification=centering}
-	\caption{Previsão crescimento do PIB fora do treino}
+	\caption{Previsão do crescimento do PIB fora do treinamento}
 	\label{fig:previsao_dfm_crescimento}
 	\includegraphics[width=1.0\textwidth]{images/previsao_dfm_crescimento.png}
 	
@@ -1326,7 +1328,7 @@ Nesse sentido testamos os demais modelos DFM que tiveram solução, e nenhum del
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-Por fim temos a figura \ref{fig:previsao_nivel_dfm} que mostra o a previsão do PIB em nível, que como ja esperado foi subestimada pelo modelo. A partir desses resultados podemos chegar a uma realidade dos modelos, nem todos serão adequados. Esse modelo apresentado teve todos os testes de estacionariedade, as variáveis foram selecionadas por um sentido econômico, o modelo é robusto, e tem uma aplicação direcionada para casos onde existem muitas variáveis, mas mesmo com esses pontos a favor, para esse conjunto de dados, o modelo DFM, obteve um resultado relativamente pior que o VAR um modelo muito mais simples.
+Por fim, a figura \ref{fig:previsao_nivel_dfm} apresenta a previsão do PIB em nível, também subestimada pelo modelo. Embora o DFM permita sintetizar informações de várias séries, seu desempenho nesta aplicação foi inferior ao do VAR, que possui estrutura mais simples.
 
 \begin{figure}[h]
 	\centering
@@ -1340,23 +1342,23 @@ Por fim temos a figura \ref{fig:previsao_nivel_dfm} que mostra o a previsão do 
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-Contudo, lembramos, que não podemos afirmar que o modelo DFM é ruim, isso seria juízo de valor, o que podemos afirmar é que pela própria limitações do modelo, mas também pela limitação dos dados, o número limitado de pouco mais de 20 observações, não permitiu um predição com um grau de acerto relevante.
+Esse resultado não permite classificar o DFM como inadequado em termos gerais. Ele indica que, para as variáveis, a amostra e as especificações consideradas neste estudo, o modelo não alcançou desempenho preditivo comparável ao do VAR.
 
 
 
 \section{Redes Neurais}
 
-Chegamos agora no primeiro modelo do que chamamos de modelos de IA, ou modelos modernos, o primeiro deles não poderia ser diferente, as redes neurais. Esse tipo de estrutura possibilitou avanços em muitas áreas das ciências, desde a medicina, engenharias, etc. E durante esse trabalho, pegaremos um tipo restrito de rede neural, e aplicaremos a um tipo restrito de problema, e tentaremos verificar se esse tipo de modelo consegue ser tão bom quanto modelos robustos e tradicionais como os até então estudados. 
+Passamos agora às redes neurais, o primeiro dos modelos baseados em IA avaliados neste estudo. A análise se concentra em uma arquitetura específica aplicada à previsão do PIB anual e examina seu desempenho em comparação com os modelos tradicionais apresentados anteriormente.
 
-Antes de inciarmos com a discussão sobre como utilizaremos as redes neurais, vale a pena ressaltar que o método que aplicamos para esse modelo, talvez não tenha obtido os melhores resultados possíveis para esse tipo de modelagem. Pois decidimos testar o limite da proposição do modelo. Enquanto ARIMA, possui simplicidade, o VAR a capacidade de modelar choques, o MIDAS de trabalhar com frequências mistas, e o DFM de modelar um conjunto massivo de variáveis, a rede neural tem uma característica que por uma lado pode ser muito boa, por outro pode ser limitante, estamos falando do poder de decisão do modelo.
+O procedimento adotado não pretende esgotar as possibilidades de especificação das redes neurais. Enquanto o ARIMA resume a dinâmica da série, o VAR representa relações entre variáveis, o MIDAS combina frequências e o DFM resume a informação em fatores latentes, a rede neural ajusta seus parâmetros a partir dos dados de treinamento.
 
-Não decisão no sentido humano, de avaliar hipóteses e decidir por caminhos, mas sim uma decisão no sentido matemático, quem avalia quais variáveis utilizar é a própria rede. É durante o processo de treinamento que a rede decide qual peso atribuir para cada neurônio isso é a conhecida "aprendizagem" desse tipo de modelo. Isso é bom por uma lado, pois podemos simplesmente inserir todas as variáveis e esperar que a rede decida o que fazer com elas. Contudo isso também é limitante, primeiro pela questão da interpretabilidade\footnote{Falaremos disso mais adiante}, mas além disso, a falta de controle, não podemos forçar a rede a usar determinada variável, para estimarmos o comportamento daqueles alvos.
+Esse ajuste não corresponde a uma decisão no sentido humano. Durante o treinamento, a rede atualiza os pesos das conexões para reduzir o erro segundo a função objetivo definida. Essa flexibilidade permite combinar preditores, mas dificulta identificar diretamente a contribuição econômica de cada variável e não substitui a escolha fundamentada das entradas pelo pesquisador.
 
-Outro limitante das redes neurais é o tempo, assim como o DFM, as redes neurais são modelos que exigem muito poder computacional, inclusive os primeiros testes giravam em torno de cerca de 1 hora para rodar por completo. Dessa forma chegamos aquele mesmo impasse, testar todos modelos e decidir quais são os conjuntos de variáveis com os melhores resultados, ou podemos testar modelos com um certo sentido econômico, optamos novamente pela segunda opção.
+O tempo de execução também influenciou o desenho dos testes. As primeiras buscas completas levaram cerca de uma hora. Por isso, em vez de testar todas as combinações de variáveis, definimos grupos com justificativas econômicas e comparamos as configurações dentro desses grupos.
 
-Porém, durante a aplicação não simplesmente aplicamos as variáveis no modelo, fizemos transformações em 3 séries originais, utilizando as variações, já realizamos isso anteriormente, e seguimos com: crescimento\_pib, crescimento\_pop, inflacao. Assim optamos por remover da rede as variáveis originais (PIB, população e IPCA). 
+Antes do treinamento, transformamos três séries: o PIB e a população em taxas de crescimento, e o IPCA em inflação. As variáveis originais foram substituídas por crescimento\_pib, crescimento\_pop e inflacao.
 
-Os períodos utilizados pela rede são de 2001 a 2013 como treinamento inicial, de 2014 à 2022 como a validação expansiva, e por último 2023 à 2025 a avaliação do modelo. Testamos 6 modelos distintos, com determinada interpretação econômica. Eles estão presentes na tabela \ref{tab:grupos_rn}.
+O treinamento inicial abrange 2001 a 2013, a validação expansiva cobre 2014 a 2022 e os anos de 2023 a 2025 são reservados à avaliação. Testamos grupos de variáveis com diferentes justificativas econômicas, apresentados na tabela \ref{tab:grupos_rn}.
 
 \begin{table}[htbp]
 	\centering
@@ -1388,9 +1390,9 @@ Os períodos utilizados pela rede são de 2001 a 2013 como treinamento inicial, 
 	\small Fonte: Elaborado pelo autor (2026).
 \end{table}
 
-Separamos dessa forma, pois apesar de não existir controle sobre os pesos do modelo, podemos ainda assim escolher quais variáveis seriam modeladas. Além dos grupos de variáveis precisamos selecionar os hiperparâmetros, eles são configurações do modelo, no nosso teste realizamos o treinamento com algumas configurações. Para as arquiteturas, optamos por redes simples, com apenas uma camada, e redes um pouco mais complexas, são elas: [(1,), (2,), (3,), (3, 2), (5, 3, 2)]. Para arquiteturas utilizamos 5 configurações diferentes, cada uma dessa configurações refere-se a estrutura da rede, como visto na revisão de literatura, esse tipo de hiperparâmetro se refere a quantidade de neurônios e camadas ocultas na rede, o modelo (1,) possui apenas uma camada com apenas um neurônio na camada oculta, enquanto o modelo (5, 3, 2) possuí três camadas ocultas com cinco neurônios na primeira, 3 na segunda, e 2 na terceira. Um modelo simples tem menos chance de sobreajuste, porém pode não conseguir captar todas as dinâmica da realidade, enquanto modelos maiores conseguem captar relações mais diversas, contudo com grande risco de sobreajuste.
+Embora não controlemos diretamente os pesos ajustados no treinamento, definimos os grupos de variáveis e os hiperparâmetros avaliados. As arquiteturas testadas foram (1,), (2,), (3,), (3, 2) e (5, 3, 2), com uma a três camadas ocultas. Por exemplo, (5, 3, 2) indica três camadas com cinco, três e dois neurônios, respectivamente. Arquiteturas maiores aumentam a flexibilidade do modelo, mas também podem elevar o risco de sobreajuste.
 
-Para as funções de ativação optamos por testar com a tanh e relu. Tanh refere-se a função tangente hiperbólica ela pode ser visualizada na figura \ref{fig:tanh}. E ReLU é a Unidade Linear Retificada que pode ser visualizada na figura \ref{fig:ReLU}. Ambas são funções de ativação dos neurônios, no contexto de aplicação da predição econômica optamos por testar apenas essas duas, pois tanh permite representar respostas não lineares suaves, já a ReLU permite a rede representar mudanças de comportamento em determinados cortes.
+Testamos as funções de ativação tangente hiperbólica (\textit{tanh}) e unidade linear retificada (ReLU), apresentadas nas figuras \ref{fig:tanh} e \ref{fig:ReLU}. A primeira produz respostas não lineares suaves, enquanto a segunda permite representar mudanças de inclinação na função estimada.
 
 \begin{figure}[h]
 	\centering
@@ -1417,10 +1419,10 @@ Para as funções de ativação optamos por testar com a tanh e relu. Tanh refer
 \end{figure}
 
 
-Em relação aos alphas optamos por valores da seguinte lista: 0.1, 1.0 e 10.0. Os alphas seriam os passos da rede, ou seja, o quão largo é o ajuste dos pesos, existem diferenças, um alpha pequeno é favorável ao sobreajuste e a armadilha do mínimos locais, enquanto um alpha grande demais, pode nunca convergir para um resultado.
+Testamos os valores 0,1, 1,0 e 10,0 para o hiperparâmetro \textit{alpha}. No \textit{MLPRegressor}, esse parâmetro controla a intensidade da regularização L2 aplicada aos pesos: valores maiores aumentam a penalização e podem reduzir o sobreajuste, enquanto uma penalização excessiva pode limitar o ajuste aos dados. Portanto, \textit{alpha} não representa o tamanho dos passos de atualização dos pesos nem determina, por si só, a convergência do algoritmo \citem{scikit-learn}.
 
 
-O estado inicial ou \textit{Random State} são hiperparâmetros uteis para replicabilidade e remoção da aleatoriedade inicial, nesse caso usamos 1, 42 e 123. Esses hiperparâmetros talvez sejam os mais subjetivos e tem um peso menor na qualidade do modelo, a ideia é que a rede precisa de uma valor inicial de pesos, para que no processo de treinamento eles possam ser ajustados conforme o algoritmo de \textit{backpropagation}. De toda forma, se a rede teve passos o suficiente a tendência é que os resultados convirjam independente do estado inicial, ou seja, cheguem ao mínimo global. De toda forma utilizamos nesse trabalho a média dos erros desses três estados.
+Utilizamos três valores de \textit{random state} — 1, 42 e 123 — para controlar a inicialização aleatória dos pesos e permitir a replicação dos testes. Como diferentes inicializações podem produzir resultados distintos, calculamos a média dos erros obtidos nessas três execuções; esse procedimento resume a variação entre as inicializações, mas não garante que a otimização alcance um mínimo global.
 
 Com essas configurações\footnote{Ainda existem outros hiperparâmetros da rede como o limite de iterações da otimização de 5000, o algoritmo de solução que é o L-BFGS (Limited-memory Broyden–Fletcher–Goldfarb–Shanno) e o limite de avaliações da função objetivo pelo L-BFGS que foi de 15000, que são hiperparâmetros, optamos por não tratar diretamente deles, pois são questões mais relacionadas aos algoritmos internos que a rede utiliza para encontrar o resultado, para o aprofundamento nesses parâmetros recomendamos a leitura da documentação da biblioteca do Python scikit-learn \citem{scikit-learn}, mais especificamente do módulo MLPRegressor que foi o utilizado durante esse trabalho} testamos cerca de 210 modelos, levando cerca de 4 minutos para rodar todos, número muito menor do que os primeiros testes com cerca de 1 hora de treinamento.
 
@@ -1458,7 +1460,7 @@ Dentre esses selecionamos os 5 melhores que podem ser verificados na tabela \ref
 
 
 
-Notemos que os melhores modelos em relação ao treinamento são todos modelos que utilizam as variáveis do grupo PIB\_externo. Podemos também ver na tabela \ref{tab:melhores_rn_grupo} os melhores modelos por grupos de variáveis, notem como os erros são maiores, isso demonstra que a escolha de quais variáveis pode pesar mais do os hiperparâmetros sozinhos.
+Entre as cinco configurações com menores erros reportados, todas utilizam o grupo PIB\_externo. A tabela \ref{tab:melhores_rn_grupo} compara a melhor configuração de cada grupo. Os resultados indicam que, nesta busca, a escolha do conjunto de preditores esteve associada a diferenças de erro pelo menos tão relevantes quanto as observadas entre algumas configurações de hiperparâmetros.
 
 
 
@@ -1496,7 +1498,7 @@ Notemos que os melhores modelos em relação ao treinamento são todos modelos q
 
 
 
-Porém vale ressaltar que se ajustar bem ao treino não significa necessariamente que o modelo é bom, para isso precisamos de validar fora da amostra. Vamos escolher o melhor dos modelos testados, as configurações desse modelo estão presentes na tabela \ref{tab:config_melhor}.
+Um ajuste adequado aos dados de treinamento não garante bom desempenho fora da amostra. Por isso, examinamos também os resultados no período reservado à avaliação. A configuração selecionada está descrita na tabela \ref{tab:config_melhor}.
 
 
 
@@ -1551,7 +1553,7 @@ Porém vale ressaltar que se ajustar bem ao treino não significa necessariament
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-Como podemos ver na figura \ref{fig:crescimento_pib_rn_treinamento} O ajuste parece formidável, não parece ter evidências de sobreajuste. Na figura \ref{fig:erro_validaca_rn} podemos ver os erros durante a validação.
+Na figura \ref{fig:crescimento_pib_rn_treinamento}, o ajuste acompanha as observações usadas no treinamento. A figura \ref{fig:erro_validaca_rn} apresenta os erros ao longo da validação; a avaliação fora da amostra será considerada separadamente.
 
 \begin{figure}[h]
 	\centering
@@ -1565,7 +1567,7 @@ Como podemos ver na figura \ref{fig:crescimento_pib_rn_treinamento} O ajuste par
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-Na tabela a \ref{tab:previsao_rn_fora_amostra} vemos a previsão fora da amostra para os anos de 2023, 2024 e 2025. Podemos notar como obtivemos um erro relativamente pequeno.
+A tabela \ref{tab:previsao_rn_fora_amostra} apresenta as previsões fora da amostra para 2023, 2024 e 2025. Os erros variam entre os anos e são menores em 2025.
 
 
 \begin{table}[htbp]
@@ -1648,22 +1650,22 @@ Na tabela a \ref{tab:previsao_rn_fora_amostra} vemos a previsão fora da amostra
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-A partir dessa avaliação fica evidente algumas observações, e também a maior limitação das redes neurais. Primeiramente em um sentido econômico, podemos notar como o modelo que utiliza as variáveis externas tem um bom poder preditivo para a série do PIB brasileiro.  Esse comportamento é recorrente e ja foi evidenciado em modelos testados anteriormente. Para além disso, notamos que o modelo que utiliza somente uma única variável o PIB, um modelo autorregressivo univariado baseado em redes neurais, se mostra como a pior opção, em comparação aos outros (dentre os melhores modelos). Portanto é uma evidência para esses dados, que a rede conseguiu obter resultados melhores com mais de uma variável, apontando que mais variáveis, em determinado grau, ajudam na melhora da previsão. 
+Entre as configurações avaliadas, o grupo PIB\_externo apresentou o menor erro, enquanto a configuração univariada baseada apenas no crescimento passado do PIB apresentou o maior erro entre as melhores configurações de cada grupo. Esse resultado vale para as variáveis e o período deste estudo; não permite concluir que a inclusão de mais preditores sempre melhora a previsão. A variação de desempenho entre configurações também é observada nas aplicações de redes neurais revisadas, como as de \citeonline{amaral2023previsao} e \citeonline{ghosh2023machine}.
 
 
-Outro ponto relevante é que para além de um erro de previsão pequeno, a rede consegue estimar o comportamento da variável, acertando quando a variável acelera ou desacelera o crescimento, apesar de errar no sentido numérico. Porém chegamos ao limite da interpretabilidade desse tipo de modelo, poderíamos ainda interpretar sobre os hiperparâmetros, e identificar sobre arquiteturas de rede, funções de ativação e alphas. Mas se partíssemos para essa análise, estriamos falando sobre a configuração do modelo, não sobre uma interpretação econômica.
+Além das métricas de erro, as previsões acompanham a direção das variações observadas em parte do período, embora não reproduzam seus valores exatos. A interpretação econômica direta das decisões internas da rede permanece limitada; a análise de hiperparâmetros descreve a configuração do modelo, mas não explica por si só suas relações econômicas.
 
-Esse problema é conhecido, é a chamada caixa preta da IA. A falta de interpretabilidade direta de um modelo de rede neural é um dos limitantes dessa arquitetura, porém é inegável que esse tipo de modelo consegue capturar comportamentos nas variáveis macroeconômicas. Para além disso, consegue acertar com um certo grau de precisão e extrapolar para fora do período de treinamento.
+Essa limitação de interpretabilidade direta é frequentemente associada ao caráter de "caixa-preta" das redes neurais, como discutido por \citeonline{carmo2023modelagem} e \citeonline{vasconcelos2017poder}. Neste exercício, a rede produziu previsões com erros menores que os do ARIMA no período avaliado, mas essa evidência se restringe à amostra e à configuração analisadas.
 
 \section{Random Forest}
 
-O último modelo de qual trataremos nesse trabalho, que também é um modelo que chamamos de IA, o Random Forest, ou floresta aleatória. Esse modelo tem algumas características em comum com outros modelos de IA, como a modelagem de relações não lineares, assim como consegue lidar com um volume massivo de variáveis, funcionalidades que caracterizam esse tipo de modelo. Mas além disso, esse modelo tem uma vantagem a mais, ele tem um sentido interpretativo, ou seja além da predição, esse modelo pode ter um sentido econômico extraído dos seus resultados.
+O último modelo avaliado é o Random Forest, ou floresta aleatória. Como outras abordagens de IA, pode representar relações não lineares. Além das previsões, examinamos a importância das variáveis e funções de dependência parcial para descrever aspectos do comportamento do modelo, conforme apresentado na revisão de literatura.
 
-Mas antes de fazermos essa análise propriamente dita, precisamos montar o modelo. O primeiro procedimento para ao Random forest, como nos outros modelos é transformar as variáveis IPCA, PIB e população em suas respectivas variações: crescimento\_pib, inflacao e crescimento\_pop. Nesse modelo assim como nas redes neurais, não faremos testes de estacionariedade, ou outros tratamentos, e observaremos como o modelo consegue acertar, utilizando o seu potencial. 
+Antes da análise, transformamos o IPCA, o PIB e a população em inflação, crescimento do PIB e crescimento populacional. Assim como nas redes neurais, não aplicamos testes de estacionariedade a essas séries. Avaliamos o desempenho da floresta com as transformações e os grupos de variáveis descritos a seguir.
 
-Utilizamos os anos de 2003 até 2022, como treinamento, e os anos de 2023 a 2025 como os anos de validação fora do treinamento. O motivo para o início em 2003 é a defasagem das variáveis, que acaba reduzindo o corte inicial do modelo, e como optamos por utilizar todas as variáveis, acaba ocasionando na data de corte ser reduzida.
+O treinamento utiliza os anos de 2003 a 2022, e 2023 a 2025 são reservados à avaliação fora da amostra. O início em 2003 decorre das defasagens aplicadas às variáveis e da disponibilidade conjunta das séries.
 
-O modelo Random Forest, assim como as redes neurais possui os chamados hiperparâmetros. No caso do Random Forest esses hiperparâmetros se referem por exemplo a quantidade de arvores de um modelo. A profundidade máxima da árvore, quantidade mínima de observações em cada folha, quantidade de variáveis consideradas em cada divisão. Os testes que realizamos estimaram com base nos seguintes hiperparâmetros, na tabela \ref{tab:configs_rf}, aqueles que possuem só um valor são comuns a todos os modelos, aqueles com mais de um valor separado por virgula criaram variações dos modelos.
+O Random Forest, assim como as redes neurais, possui hiperparâmetros que definem sua configuração. Testamos valores para a profundidade máxima das árvores, o número mínimo de observações por folha e a quantidade de variáveis consideradas em cada divisão. Os parâmetros mantidos fixos e as combinações avaliadas estão descritos na tabela \ref{tab:configs_rf}.
 
 
 
@@ -1698,7 +1700,7 @@ O modelo Random Forest, assim como as redes neurais possui os chamados hiperpar�
 
 
 
- Em relação as variáveis testadas no Random Forest optamos por fazer de forma semelhante a que testamos as próprias redes neurais. Conjuntos de variáveis, com um significado econômico.
+Para o Random Forest, assim como para as redes neurais, comparamos grupos de variáveis definidos por sua relação com diferentes dimensões econômicas.
 
 
 
@@ -1734,7 +1736,7 @@ O modelo Random Forest, assim como as redes neurais possui os chamados hiperpar�
 \end{table}
 
 
-Dentre essas o modelo que obteve o melhor resultado foi o PIB\_externo. O que não chega a ser uma surpresa, tendo em vista que em outros modelos também apontaram para essa qualidade do setor externo como preditor do PIB. Esse modelo em questão tem 150 árvores \footnote{todos os modelos testados tem esse número de árvores}, 3 variáveis, uma profundidade máxima de 2 e um número mínimo de observações por folha iguais a 3. Esse modelo obteve um RMSE 2.849158 e um MAE de 2.187947 na validação nos anos de treinamento. Podemos ver esse treinamento na forma gráfica na figura \ref{fig:ajuste_melhor_rf_treinamento} Já na validação fora do treinamento para esse modelo temos os erros apontados na tabela \ref{tab:resultado_melhor_rf}.
+Entre os grupos testados, PIB\_externo apresentou o menor erro na etapa de seleção. Essa configuração utiliza 150 árvores, três variáveis, profundidade máxima dois e mínimo de três observações por folha. Na etapa de seleção, o RMSE foi 2,849158 e o MAE, 2,187947. O ajuste é apresentado na figura \ref{fig:ajuste_melhor_rf_treinamento}; os resultados para 2023–2025 estão na tabela \ref{tab:resultado_melhor_rf}.
 
 \begin{figure}[h]
 	\centering
@@ -1777,7 +1779,7 @@ Dentre essas o modelo que obteve o melhor resultado foi o PIB\_externo. O que n�
 \end{table}
 
 
-Notemos como o modelo subestima o crescimento em todos os anos, porém possui um erro relativamente baixo. Notemos na imagem \ref{fig:crescimento_pib_rf} a subestimação nos anos de 2023 e 2025, e um resultado próximo no ano de 2024, essa mesma informação pode ser verificada na figura \ref{fig:erro_melhor_rf}. Também podemos notar a previsão em nível na figura \ref{fig:previsao_pib_rf_nivel}.
+O modelo subestimou o crescimento nos três anos de avaliação. A previsão de 2024 ficou mais próxima do valor observado do que as de 2023 e 2025, como mostram as figuras \ref{fig:crescimento_pib_rf} e \ref{fig:erro_melhor_rf}. A figura \ref{fig:previsao_pib_rf_nivel} apresenta também as previsões do PIB em nível.
 	
 	
 \begin{figure}[h]
@@ -1817,7 +1819,7 @@ Notemos como o modelo subestima o crescimento em todos os anos, porém possui um
 \end{figure}
 
 
-Contudo existe uma qualidade do Random Forest que permite avaliar o quanto as variáveis são importantes para as árvores, isso permite uma transparência que não existe nas redes neurais por exemplo. Na figura \ref{fig:importantica_rf_ext} notamos essa possibilidade. Nessa figura é possível observar que pra esse modelo, com esse conjunto de variáveis o componente de Investimento Direto Estrangeiro tem uma importância relativa maior que a balança corrente, que por sua vez tem uma importância maior do que o componente autorregressivo.
+As medidas de importância permitem comparar a contribuição preditiva relativa das variáveis nesta especificação, embora não tornem o modelo plenamente transparente. Na figura \ref{fig:importantica_rf_ext}, o investimento direto estrangeiro tem maior importância relativa que a balança corrente, seguida pelo componente autorregressivo.
 
 \begin{figure}[h]
 	\centering
@@ -1831,7 +1833,7 @@ Contudo existe uma qualidade do Random Forest que permite avaliar o quanto as va
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-Porém, apesar do modelo apresentado ter os menores erros na validação de treino, o Random Forest é um modelo de IA, e um dos pontos fortes desse modelo é justamente lidar com grandes volumes de variáveis. Para isso, vamos testar o melhor modelo com todas as variáveis. Esse modelo completo em questão possui 15 variáveis, uma profundidade máxima de 3 e um número mínimo de observações iguais a 3. O RMSE na validação do treino é de 2.974837 e é ligeiramente maior do que o do PIB externo, assim como o MAE de 2.230485. Na figura \ref{fig:ajuste_rf_treinamento} notamos como o modelo se ajustou as observações no período de treinamento.
+Embora o grupo PIB\_externo tenha apresentado menor erro na etapa de seleção, também avaliamos uma especificação com o conjunto completo de 15 variáveis. O modelo selecionado tem profundidade máxima três e mínimo de três observações por folha. Seu RMSE foi 2,974837 e o MAE, 2,230485, ambos ligeiramente maiores que os da especificação PIB\_externo nessa etapa. A figura \ref{fig:ajuste_rf_treinamento} apresenta o ajuste aos dados de treinamento.
 
 \begin{figure}[h]
 	\centering
@@ -1887,7 +1889,7 @@ Porém, apesar do modelo apresentado ter os menores erros na validação de trei
 \end{figure}
 
 
-Notemos tanto na tabela, como na figura \ref{fig:previsao_crescimento_rf_todas}, que esse modelo apesar de ter um erro maior na validação durante o treino, obteve um erro menor na validação fora do período de treinamento. Além disso notemos que a previsão apesar de também subestimar o crescimento do PIB parece captar o comportamento do PIB. Mesmo que no valor estimado erre em cerca de um ponto percentual em cada ano. A visualização do PIB em nível na figura \ref{fig:previsao_nivel_rf_todas} é formidável.
+Na avaliação fora da amostra, a configuração completa subestimou o crescimento nos três anos, com diferenças próximas de um ponto percentual. A figura \ref{fig:previsao_crescimento_rf_todas} mostra as previsões de crescimento, e a figura \ref{fig:previsao_nivel_rf_todas}, as previsões do PIB em nível.
 
 \begin{figure}[h]
 	\centering
@@ -1902,9 +1904,9 @@ Notemos tanto na tabela, como na figura \ref{fig:previsao_crescimento_rf_todas},
 \end{figure}
 
 
-Contudo vale ressaltar que o desempenho do modelo é condicionado as variáveis, o Random forest conseguiu erros pequenos, e uma capacidade de modelar o comportamento da variável alvo com um certo grau de precisão. Em outros modelos, como o DFM, não tiveram resultados tão relevantes, porém é necessário cautela, e testes em outros conjuntos para avaliar a eficácia desse tipo de modelo em outros cenários.
+O desempenho do Random Forest variou conforme o grupo de variáveis e a configuração. Os resultados são específicos a esta amostra e devem ser reavaliados com outros períodos e conjuntos de preditores antes de serem generalizados.
 
-Porém, como relatado anteriormente, uma das qualidades do Random forest é a avaliação da importância das variáveis 
+Uma das ferramentas examinadas para interpretar o Random Forest é a importância relativa das variáveis, apresentada na figura seguinte.
 
 \begin{figure}[h]
 	\centering
@@ -1918,22 +1920,22 @@ Porém, como relatado anteriormente, uma das qualidades do Random forest é a av
 	\small Fonte: Elaborado pelo autor (2026).
 \end{figure}
 
-A partir dessa perspectiva fornecida pelas análises das árvores do Random Forest. Podemos classificar as variáveis em nível de importância, temos um conjunto de 4 variáveis: Investimento Direto Estrangeiro (\% PIB), Balança corrente (\% PIB), Índice de Liberdade Monetária e o fator autorregressivo são as mais importantes para esse modelo. As duas ligadas ao setor externo tendo um peso maior, seguidas por um indicador de liberdade monetária e por último, dentre essas com um maior grau de importância, o próprio crescimento do PIB dos anos anteriores.
+Na especificação completa, as quatro variáveis com maior importância relativa foram investimento direto estrangeiro como proporção do PIB, balança corrente como proporção do PIB, índice de liberdade monetária e crescimento defasado do PIB. Os dois indicadores externos aparecem no topo dessa ordenação, seguidos pelo indicador de liberdade monetária e pelo componente autorregressivo.
 
-Além dessas variáveis, temos também um conjunto de variáveis que possuem uma importância relativa menor que 5\%. E duas variáveis, Índice de Direitos de Propriedade e o Índice de Liberdade de Investimento que tiveram um importância relativa praticamente nula nesse modelo.
+As demais variáveis apresentaram importância relativa inferior a 5\%. Os índices de direitos de propriedade e de liberdade de investimento tiveram importância próxima de zero nesta especificação.
 
-Contudo é importante relembrar que o estudo econométrico não estabelece uma relação causal determinística. Não se pode afirmar que esse conjunto de 3 variáveis no topo, são os melhores preditores do PIB, em todos os contextos, e todas as épocas. O que se pode afirmar é que para nosso conjunto de dados, essas variáveis foram a que tiveram maior importância na estimação do PIB utilizando o Random Forest.
+Essas medidas descrevem a importância preditiva das variáveis nesta especificação e não estabelecem relações causais. Tampouco indicam que as mesmas variáveis terão maior importância em outros períodos ou aplicações. A literatura sobre interpretabilidade também recomenda interpretar essas medidas conforme o método e os dados utilizados \citeonline{rebelo2022interpretabilidade}.
 
-Para buscarmos um sentido econômico nesses resultados podemos trazer a ideia novamente da importância relativa do mercado externo na economia brasileira. Como o setor exportador tem um papel na composição do PIB brasileiro.
+Uma leitura econômica possível é que os indicadores externos resumem informações relevantes para a previsão do PIB neste conjunto de dados. Essa associação também aparece na discussão dos resultados do VAR e encontra paralelo na aplicação de \citeonline{vasconcelos2017poder}, embora os estudos não sejam diretamente equivalentes.
 
-Já para o índice de liberdade monetária\footnote{Esse índice calculado pela \textit{The Heritage Foundation} trata-se de um índice que estipula o quanto atividades governamentais distorcem os preços, ele é calculado com base em uma taxa média ponderada de inflação dos últimos três anos e um fator qualitativo sobre como o governo intervem na moeda através de controles diretos e subsídios \citem{heritage2026about}. É fato que um destrinchamento de cada um dos indicadores seria um aspecto metodológico relevante sobre determinar o porquê daquele indicador ser um bom estimador do PIB, porém essa avaliação foge do escopo de nosso trabalho, se o leitor tiver curiosidade recomendamos o acesso as bases de dados, onde é detalhado o calculo e a definição de cada uma das variáveis escolhidas no \citeonline{bcb_dados_abertos}, \citeonline{ibge_api}, \citeonline{heritage2026about} e \citeonline{worldbankdata}.} aponta para um fator de influência da moeda, ou melhor, sobre o papel do governo nas ações sobre  moeda, que acabam afetando esse indicador. O modelo Random forest capitou que essas intervenções acompanharam o comportamento do PIB.
+O índice de liberdade monetária reúne informações sobre inflação e intervenções governamentais nos preços, conforme a definição da \textit{The Heritage Foundation} \citeonline{heritage2026about}. Sua importância no modelo indica que essa série contribuiu para as previsões do Random Forest, mas não identifica qual componente do índice explica essa contribuição nem demonstra um efeito causal sobre o PIB.
 
-Porém dizer que uma variável influencia não é a mesma coisa que dizer que a relação dessas variáveis com o PIB é positiva. O que essas informações nos trazem é que elas são boas estimadoras, mas não informam a direção. Nesse sentido podemos aplicar o teste \ac{pdp} que nos informa justamente essas relações. 
+As medidas de importância ordenam a contribuição preditiva das variáveis, mas não mostram, por si sós, a direção da associação. Para examinar como as previsões variam ao longo dos valores dos preditores, recorremos às funções de dependência parcial (PDP), discutidas na revisão de literatura \citeonline{rebelo2022interpretabilidade}.
 
-Notemos nas figuras \ref{fig:pdp_liberdade_monetaria}, \ref{fig:pdp_bc} e \ref{pdp_ied}, a partir delas fica evidente como a balança comercial e a liberdade monetária tem uma relação positiva com o crescimento do PIB, já o contrário acontece com o Investimento Estrangeiro Direto que tem uma relação oposta com o PIB. 
+Nas figuras \ref{fig:pdp_liberdade_monetaria}, \ref{fig:pdp_bc} e \ref{fig:pdp_ied}, as curvas de dependência parcial indicam associações positivas entre os valores previstos e a balança corrente e o índice de liberdade monetária, e uma associação negativa para o investimento direto estrangeiro. Essas curvas descrevem o comportamento do modelo e não devem ser interpretadas como efeitos causais.
 
 
-Essa relação apesar de contraintuitiva pode se justificar primeiramente pela falta de observações. Afinal independentemente da capacidade do modelo, são poucas observações para estabelecer um relação com confiança, podendo ocasionar em possíveis distorções, e esse pode ser uma caso. Outra possibilidade é que nem sempre um investimento direto significa a construção de um ativo, pode ser somente a troca de mãos, nesse caso além de não ter impacto direto, a renda futura possivelmente sairia do Brasil. Por último o investidor estrangeiro de perfil arrojado pode optar por investir no Brasil justamente em períodos de quedas, buscando uma maior valorização de seu capital e maiores lucros. Todas essas relações podem causar a percepção de relação negativa entre Investimento estrangeiro direto e o crescimento econômico.
+O sinal negativo observado para o investimento direto estrangeiro pode refletir, entre outras possibilidades, o pequeno número de observações ou a composição temporal da série. Os dados e o método utilizados não permitem distinguir entre essas explicações nem identificar o mecanismo econômico subjacente. A associação observada deve, portanto, ser tratada como uma característica das previsões deste modelo e desta amostra.
 
 \begin{figure}[h]
 	\centering
@@ -1962,7 +1964,7 @@ Essa relação apesar de contraintuitiva pode se justificar primeiramente pela f
 \begin{figure}[h]
 	\centering
 	\captionsetup{justification=centering}
-	\caption{Dependência parcial da Investimento Estrangeiro Direto (\% PIB)}
+	\caption{Dependência parcial do Investimento Estrangeiro Direto (\% PIB)}
 	\label{fig:pdp_ied}
 	\includegraphics[width=1.0\textwidth]{images/pdp_ied.png}
 	
@@ -1972,24 +1974,24 @@ Essa relação apesar de contraintuitiva pode se justificar primeiramente pela f
 \end{figure}
 
 
-Dessa forma apresentamos o último dos modelos de IA, e também o último modelo econométrico avaliado nesse trabalho. A partir desse ponto no texto, deixaremos de discutir sobre uma avaliação individual de cada modelo, e partiremos para uma conclusão agregada dos resultados, os objetivos concluídos desse trabalho e perspectivas futuras desse tema.
+Com o Random Forest, concluímos a apresentação das aplicações individuais. A seção seguinte reúne os resultados dos modelos e os compara segundo os critérios definidos no trabalho.
 
-\section{E qual é melhor?}
+\section{Comparação dos modelos}
 
-Se o leitor busca essa sessão para determinar qual é o melhor modelo absoluto que irá praticamente prever com precisão todos os casos e ser a solução para todos os problemas de predição econômica. Lamentamos informar mas esse texto não terá essa resposta. De toda forma seria decepcionante testar 6 modelos diferentes e não coloca-los lado a lado e apontar qual se saiu melhor.
+Esta comparação não identifica um modelo universalmente superior nem uma solução para todos os problemas de previsão econômica. Seu objetivo é comparar os modelos selecionados nas condições deste estudo e indicar quais apresentaram melhor desempenho para os dados e os alvos analisados.
 
-Na realidade comparar esses modelos em seus erros, seria propriamente um erro, afinal metodologias e objetivos diferentes foram aplicados, por exemplo enquanto o VAR é recursivo, o ARIMA tem previsão um passo a frente, enquanto o MIDAS tem frequências distintas, o DFM tem apenas um fator latente para representar um conjunto de variáveis. E enquanto as redes neurais tomam decisões as escuras o Random Forest apresenta qual variável tem uma maior importância.
+Os modelos diferem quanto à estrutura, às variáveis utilizadas e aos procedimentos de previsão. O ARIMA utiliza a própria série do PIB; VAR, DFM, MIDAS, redes neurais e Random Forest incorporam conjuntos distintos de preditores e tratamentos de dados. Assim, a comparação resume o desempenho observado neste desenho empírico, sem isolar o efeito de cada característica do modelo.
 
-Se fosse para analisar de uma forma justa, deveríamos testar todos os modelos com um conjunto fixo de variáveis. Apenas uma metodologia. Uma métrica, uma valor frio. Contudo isso limitaria a força dos modelos. Que no fechar das cortinas é o objetivo desse trabalho, não comparar modelos em uma laboratório. Mas tentar simular a realidade econômica, ou melhor, a realidade do economista que tentará descrever a realidade econômica. Assim apontaremos o melhor modelo de todos os tempos, mas sim qual modelo se saiu melhor no nosso contexto.
+Uma comparação controlada poderia manter constantes as variáveis, os períodos e os procedimentos de previsão. Neste trabalho, porém, a proposta é examinar as abordagens em configurações adequadas às suas características e aproximar a análise das escolhas que um economista enfrenta ao aplicar esses métodos. As conclusões, portanto, se restringem ao contexto avaliado.
 
-Dado esse pequeno adendo, agora vamos aos números na tabela \ref{tab:comparacao_modelos} podemos ver os crescimentos previstos e os erros de cada um dos modelos para os 3 anos de validação fora do treinamento. Notemos nas tabelas \ref{tab:comparacao_modelos} e \ref{tab:comparacao_modelos_final} e  na figura \ref{fig:erros_todos_modelos}. Notemos que para os nossos dados o pior modelo foi o MIDAS com um horizonte de 0 meses, ou \textit{nowcasting}. Notamos que as redes neurais e o Random Forest conseguiram performar entre os melhores modelos testados, ainda que se saíram ligeiramente piores que o VAR um modelo tradicional.
+As tabelas \ref{tab:comparacao_modelos} e \ref{tab:comparacao_modelos_final} e a figura \ref{fig:erros_todos_modelos} apresentam as previsões do crescimento do PIB e seus erros nos três anos de avaliação fora do treinamento. Nessa amostra, o VAR obteve os menores valores de RMSE e MAE. A rede neural MLP ficou em segundo lugar segundo ambas as métricas. O Random Forest e o MIDAS com horizonte de seis meses apresentaram resultados próximos, com a ordem entre eles variando conforme a métrica; a coluna "Posição" da tabela final está ordenada pelo RMSE. O MIDAS com horizonte zero apresentou os maiores erros. Essa variação entre modelos e horizontes deve ser lida como evidência específica desta aplicação; a literatura também registra que o desempenho depende da configuração e do horizonte de previsão, como mostram os estudos de \citeonline{amaral2023previsao} e \citeonline{ghosh2023machine}.
 
 
-Podemos notar entretanto que na figura \ref{fig:crescimento_todos}, alguns modelos apesar de errarem o valor propriamente o PIB, consegue acertar o comportamento, de crescimento e decrescimento. Algo que ocorreu por exemplo nas redes neurais e no Random Forest, porém não aconteceu com o VAR.
+Na figura \ref{fig:crescimento_todos}, as previsões da rede neural e do Random Forest acompanham a direção das variações observadas em parte do período, embora não reproduzam seus valores com a mesma precisão. O VAR, por sua vez, apresenta erros menores nas métricas agregadas, mas não acompanha a direção em todos os anos. A leitura do gráfico complementa RMSE e MAE; não substitui essas medidas.
 
-A partir desse desempenho notamos como a maioria dos modelos teve um desempenho formidável. Com exceção do MIDAS h=0, todos os modelos cumpriram a métrica de superar o ARIMA. Em sentido de interpretabilidade podemos pontuar que apesar da rede neural ser o segundo melhor modelo em nosso contexto, ainda tem a falta de interpretação de suas decisões. O mesmo não ocorre com o VAR que permite identificar a causalidade de Granger e modelar choques. Ou o Random Forest que permite identificar quais variáveis são mais relevantes no modelo. Ou até mesmo o DFM que permite a identificação dos componentes do fator latente. Ou a influência das frequências dos modelo MIDAS. Até mesmo o ARIMA permite uma interpretabilidade sobre o fator média móvel e autorregressivo.
+Com exceção do MIDAS com horizonte zero, os demais modelos apresentaram RMSE e MAE inferiores aos do ARIMA nesta avaliação. Quanto à interpretabilidade qualitativa, os modelos oferecem informações de naturezas distintas: o ARIMA descreve a dinâmica univariada; o VAR permite examinar relações preditivas e respostas a choques; o DFM resume a variação comum em fatores latentes; o MIDAS explicita a contribuição de preditores observados em frequências distintas; e o Random Forest permite examinar a importância das variáveis e gráficos de dependência parcial. A rede neural apresentou menor interpretabilidade direta. Essas possibilidades devem ser avaliadas à luz dos limites de cada método e do problema econômico considerado, conforme discutido na revisão de literatura.
 
-Em tempo de execução ficamos com 336ms para o treinamento do ARIMA, 2.14s para o VAR,  2.45s para o MIDAS, 15.86s para o DFM, 2m 26.61s para as redes neurais e por último o Random Forest com 13m 12.18s. Não intencionalmente a ordem de construção dos modelos foi a exata ordem de tempo de execução \footnote{Lembrando que a máquina utilizada é um computador com um xeon e5 2680 v4, com 32GB de RAM, rodando com o Jupyter labs.}.
+Nos tempos registrados para a execução, o ARIMA levou 336 ms; o VAR, 2,14 s; o MIDAS, 2,45 s; o DFM, 15,86 s; as redes neurais, 2 min 26,61 s; e o Random Forest, 13 min 12,18 s. As medições foram obtidas no mesmo computador, equipado com processador Xeon E5-2680 v4 e 32 GB de RAM. Elas descrevem o tempo observado nesta implementação e configuração de testes.\footnote{Os modelos foram executados no JupyterLab.}
 
 \begin{table}[htbp]
 	\centering
@@ -2049,18 +2051,18 @@ Em tempo de execução ficamos com 336ms para o treinamento do ARIMA, 2.14s para
 	\setlength{\tabcolsep}{2pt}
 	\renewcommand{\arraystretch}{1.3}
 	
-	\begin{tabular}{rrrrrrrr}
+	\begin{tabular}{rrrrrrrrr}
 		\toprule
-		Posição & n & vies\_medio & MAE & RMSE & Erro 2023 & Erro 2024 & Erro 2025 \\
+		Modelo & Posição & n & vies\_medio & MAE & RMSE & Erro 2023 & Erro 2024 & Erro 2025 \\
 		\midrule
-		1 & 3 & 0.372800 & 0.372800 & 0.538200 & 0.130900 & 0.920600 & 0.066900 \\
-		2 & 3 & 0.868600 & 0.868600 & 0.953400 & 1.221300 & 1.064400 & 0.320100 \\
-		3 & 3 & 1.025100 & 1.025100 & 1.193000 & 1.559900 & 0.170900 & 1.344400 \\
-		4 & 3 & 1.012000 & 1.012000 & 1.209100 & 0.734600 & 1.924600 & 0.376700 \\
-		5 & 3 & 0.121800 & 1.237600 & 1.432400 & 2.039100 & -0.290600 & -1.383000 \\
-		6 & 3 & 1.216500 & 1.216500 & 1.467300 & 1.161300 & 2.247700 & 0.240400 \\
-		7 & 3 & 2.229600 & 2.229600 & 2.287600 & 2.510100 & 2.667300 & 1.511500 \\
-		8 & 3 & 3.727600 & 3.727600 & 3.939900 & 5.502400 & 3.121900 & 2.558400 \\
+		VAR & 1 & 3 & 0.372800 & 0.372800 & 0.538200 & 0.130900 & 0.920600 & 0.066900 \\
+		MLP & 2 & 3 & 0.868600 & 0.868600 & 0.953400 & 1.221300 & 1.064400 & 0.320100 \\
+		Random Forest & 3 & 3 & 1.025100 & 1.025100 & 1.193000 & 1.559900 & 0.170900 & 1.344400 \\
+		MIDAS h=6 & 4 & 3 & 1.012000 & 1.012000 & 1.209100 & 0.734600 & 1.924600 & 0.376700 \\
+		MIDAS h=12 & 5 & 3 & 0.121800 & 1.237600 & 1.432400 & 2.039100 & -0.290600 & -1.383000 \\
+		DFM & 6 & 3 & 1.216500 & 1.216500 & 1.467300 & 1.161300 & 2.247700 & 0.240400 \\
+		ARIMA & 7 & 3 & 2.229600 & 2.229600 & 2.287600 & 2.510100 & 2.667300 & 1.511500 \\
+		MIDAS h=0 & 8 & 3 & 3.727600 & 3.727600 & 3.939900 & 5.502400 & 3.121900 & 2.558400 \\
 		\bottomrule
 	\end{tabular}
 	
@@ -2069,7 +2071,6 @@ Em tempo de execução ficamos com 336ms para o treinamento do ARIMA, 2.14s para
 	
 	\small Fonte: Elaborado pelo autor (2026).
 \end{table}
-
 
 
 \begin{figure}[h]
